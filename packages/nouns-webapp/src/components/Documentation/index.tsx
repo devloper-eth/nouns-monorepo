@@ -2,6 +2,7 @@ import Section from '../../layout/Section';
 import { Col } from 'react-bootstrap';
 import classes from './Documentation.module.css';
 import Link from '../Link';
+import noun13 from '../../assets/noun13.png';
 
 const Documentation = () => {
   const nounsLink = (
@@ -22,10 +23,19 @@ const Documentation = () => {
             Use cmd+/ to start typing! Chase your friends around! And generally enjoy the action!
           </p>
           <p>
-          There is much more to come for social nouns in the next few days! Stay tuned on twitter.
+            There is much more to come for social nouns in the next few days! Stay tuned on twitter.
           </p>
           <p>
-            Built with 🗑🔥 by Noun13 ({noun13Link})
+            Built with 🗑🔥 by
+            <img
+              style={{ marginTop: "-10px" }}
+              src={noun13}
+              width="35"
+              height="35"
+              className=""
+              alt="Noun 13"
+            />
+            Noun13 ({noun13Link})
           </p>
         </div>
       </Col>
