@@ -27,3 +27,7 @@
   font-size: 2.5rem;
   cursor: pointer;
 }
+
+.headerWrapper p {
+  margin: 0;
+}
