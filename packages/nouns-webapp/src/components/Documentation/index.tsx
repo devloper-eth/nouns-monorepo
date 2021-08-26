@@ -16,7 +16,7 @@ const Documentation = () => {
         <div className={classes.headerWrapper}>
           <h1>WTF?</h1>
           <p>
-            Nouns.party is a community hosted fork of {nounsLink} built to enable social experiences around the daily nouns auction. The underlying contracts are all the same, but we’ve layered on a fun social experience inspired by the partybid.app experience.
+            Nouns.party is a community hosted fork of {nounsLink} built to enable social experiences around the daily nouns auction. The underlying contracts are all the same, but we’ve layered on a fun social experience inspired by partybid.app.
           </p>
           <p>
             Use cmd+/ to start typing! Chase your friends around! And generally enjoy the action!
