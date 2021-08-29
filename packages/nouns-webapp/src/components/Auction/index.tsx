@@ -12,6 +12,14 @@ import { BigNumber } from 'ethers';
 import { INounSeed } from '../../wrappers/nounToken';
 import NounderNounContent from '../NounderNounContent';
 import { ApolloError } from '@apollo/client';
+import announcerLogo from '../../assets/announcer.png';
+import PartyBidsBox from '../PartyBidsBox';
+import BidHistory from '../BidHistory';
+import bidHistoryClasses from '../BidHistory/BidHistory.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import ShortAddress from '../ShortAddress';
+import moment from 'moment';
 
 const isNounderNoun = (nounId: BigNumber) => {
   return nounId.mod(10).eq(0) || nounId.eq(0);
@@ -146,10 +154,74 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
       />
     );
 
+    const placeholderBids = [
+      { bid: 'Ξ102.34', address: '0x969E52e0b130899ca2d601bd5366c33f1bf6e393' },
+      { bid: 'Ξ102.34', address: '0x969E52e0b130899ca2d601bd5366c33f1bf6e393' },
+      { bid: 'Ξ102.34', address: '0x969E52e0b130899ca2d601bd5366c33f1bf6e393' },
+      { bid: 'Ξ102.34', address: '0x969E52e0b130899ca2d601bd5366c33f1bf6e393' },
+      { bid: 'Ξ102.34', address: '0x969E52e0b130899ca2d601bd5366c33f1bf6e393' },
+      { bid: 'Ξ102.34', address: '0x969E52e0b130899ca2d601bd5366c33f1bf6e393' },
+    ];
+
     return (
-      <Container fluid="lg">
+      <Container className={classes.mainContainer} fluid>
         <Row>
-          <Col lg={{ span: 6 }} className={classes.nounContentCol}>
+          <Col xs={3}>
+            <div style={{ marginTop: '30px', marginBottom: '20px' }}>
+              <img style={{ maxWidth: '60%' }} src={announcerLogo} />
+            </div>
+
+            {/* {displayGraphDepComps && (
+              <BidHistory
+                auctionId={auction.nounId.toString()}
+                max={3}
+                classes={bidHistoryClasses}
+              />
+            )} */}
+            <ul className={classes.bidCollection}>
+              {placeholderBids.map((bid, index) => (
+                <li key={index} className={classes.bidRow}>
+                  <div className={classes.bidItem}>
+                    <div className={classes.leftSectionWrapper}>
+                      <div className={classes.bidder}>
+                        <div>
+                          <ShortAddress address={bid.address} />
+                        </div>
+                      </div>
+                      {/* <div className={classes.bidDate}>{`${moment().format(
+                        'MMM DD',
+                      )} at ${moment().format('hh:mm a')}`}</div> */}
+                    </div>
+                    <div className={classes.rightSectionWrapper}>
+                      <div className={classes.bidAmount}>{bid.bid}</div>
+                      <div className={classes.linkSymbol}>
+                        <a href="#" target="_blank" rel="noreferrer">
+                          <FontAwesomeIcon icon={faExternalLinkAlt} />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </Col>
+          <Col xs={3}>
+            <Row className="justify-content-center" style={{ marginBottom: '20px' }}>
+              {onDisplayNounId ? nounContent : loadingNoun}
+            </Row>
+            <Row>
+              {onDisplayNounId && isNounderNoun(onDisplayNounId)
+                ? nounderNounContent
+                : isLastAuction
+                ? currentAuctionActivityContent
+                : pastAuctionActivityContent}
+            </Row>
+          </Col>
+          <Col xs={6}>
+            <PartyBidsBox />
+          </Col>
+
+          {/* <Col lg={{ span: 6 }} className={classes.nounContentCol}>
             {onDisplayNounId ? nounContent : loadingNoun}
           </Col>
           <Col lg={{ span: 6 }} className={classes.auctionActivityCol}>
@@ -158,7 +230,7 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
               : isLastAuction
               ? currentAuctionActivityContent
               : pastAuctionActivityContent}
-          </Col>
+          </Col> */}
         </Row>
       </Container>
     );

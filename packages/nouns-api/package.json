@@ -21,6 +21,7 @@
     "build": "tsc -p ."
   },
   "devDependencies": {
+    "@types/cors": "^2.8.12",
     "@types/express": "^4.17.11",
     "@types/ioredis": "^4.26.4",
     "@types/sharp": "^0.28.3",
@@ -28,6 +29,7 @@
   },
   "dependencies": {
     "@nouns/contracts": "^0.1.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "ethers": "^5.4.0",
     "express": "^4.17.1",
@@ -35,6 +37,7 @@
     "ioredis": "^4.27.6",
     "nft.storage": "^2.1.1",
     "sharp": "^0.28.3",
+    "stream-chat": "^4.1.0",
     "ts-try": "^0.2.0"
   }
 }

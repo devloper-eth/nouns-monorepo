@@ -1,3 +1,10 @@
+.footerContainer {
+  position: fixed;
+  bottom: 0;
+  /* background-color: red; */
+  height: 50px;
+  width: 100vw;
+}
 .footerSignature {
   margin: 0 auto;
   font-family: 'Londrina Solid';
@@ -16,6 +23,43 @@
   width: 32px;
   height: 32px;
   margin: 0 8px;
+}
+
+.cursorInstructions {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  color: rgba(128, 128, 128, 0.75);
+}
+
+.cursorInstructions p {
+  margin: 0px;
+  padding: 2.5px;
+}
+
+.userIconsContainer {
+  justify-content: end;
+  margin: 10px;
+}
+.userIcons {
+  width: 32px;
+  height: 32px;
+  border: 2px solid #fff;
+  border-radius: 100%;
+}
+
+.codeText {
+  background-color: #b1b1b1;
+  padding: 4px 8px;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.codeText:hover {
+  background-color: #3f3f3f;
+  padding: 4px 8px;
+  border-radius: 8px;
+  color: #fff;
 }
 
 @keyframes slidein {

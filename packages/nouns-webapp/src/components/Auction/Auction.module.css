@@ -1,5 +1,9 @@
+.mainContainer {
+  height: calc(100vh - 100px);
+  overflow: hidden;
+}
+
 .nounWrapper {
-  align-self: flex-end;
   width: 100%;
 }
 .nounContentCol {
@@ -17,4 +21,59 @@
     border-bottom: 1px solid lightgray;
     padding-bottom: 2rem;
   }
+}
+
+/* THESE CLASSES ARE TEMPORARY FOR LAYOUT MOCKUP */
+
+.altWrapper {
+  text-align: center;
+}
+
+.bidCollection {
+  display: grid;
+  text-align: start;
+  list-style-type: none;
+  row-gap: 0.5rem;
+  padding: 0;
+}
+
+.bidRow {
+  padding: 0.5rem;
+  border-bottom: 1px solid rgba(211, 211, 211, 0.322);
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+.bidItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.leftSectionWrapper {
+  display: flex;
+  flex-direction: column;
+}
+.bidder {
+  font-weight: bold;
+  color: var(--brand-black);
+}
+.bidDate {
+  color: gray;
+}
+.rightSectionWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.bidAmount {
+  color: var(--brand-black);
+  margin-right: 1rem;
+  font-size: 1rem;
+}
+.linkSymbol,
+.linkSymbol a {
+  color: var(--brand-black);
+}
+.linkSymbol a:hover {
+  color: gray;
 }

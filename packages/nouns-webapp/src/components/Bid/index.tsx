@@ -236,13 +236,13 @@ const Bid: React.FC<{
             <span className={classes.customPlaceholder}>ETH</span>
           </>
         )}
-        <Button
+        {/* <Button
           className={auctionEnded ? classes.bidBtnAuctionEnded : classes.bidBtn}
           onClick={auctionEnded ? settleAuctionHandler : placeBidHandler}
           disabled={isDisabled}
         >
           {bidButtonContent.loading ? <Spinner animation="border" /> : bidButtonContent.content}
-        </Button>
+        </Button> */}
       </InputGroup>
     </>
   );

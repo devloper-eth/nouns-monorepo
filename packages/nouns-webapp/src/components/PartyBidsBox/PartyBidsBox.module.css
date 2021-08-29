@@ -1,0 +1,41 @@
+.partyBidContainer {
+  border-radius: 4px;
+  /* height: 75vh; */
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.25);
+  /* box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15); */
+  /* border: 1px solid rgba(0, 0, 0, 0.2); */
+  /* overflow-y: auto; */
+  padding: 20px;
+  margin: 10px;
+}
+
+.biddingPoolContainer {
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.45);
+
+  margin: 10px;
+  padding: 5px;
+  text-align: center;
+}
+
+.emoji {
+  margin: 0px !important;
+  display: inline !important;
+  height: auto;
+}
+
+.connectWalletButton {
+  width: 12em;
+  height: 40px;
+  border: none;
+  outline: none;
+  font-weight: bold;
+  color: #fff;
+  background: #d63c5e;
+  cursor: pointer;
+
+  z-index: 0;
+  border-radius: 10px;
+  font-size: 1em;
+}

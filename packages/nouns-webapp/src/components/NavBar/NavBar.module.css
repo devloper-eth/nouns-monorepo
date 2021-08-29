@@ -3,6 +3,21 @@
   z-index: 2;
 }
 
+.partyTitle {
+  font-family: 'Londrina Solid';
+  font-size: 4em;
+  color: rgb(33, 37, 41);
+}
+
+.rotateText {
+  transform: rotate(20deg);
+  font-family: 'Londrina Solid';
+  color: #d63c5e;
+  /* top right bottom left  */
+  margin: 10px 0px 0px -20px;
+  padding: 0px;
+}
+
 /* connect button displays differently to default NavBarItems, thus the !importants */
 .connectBtn {
   cursor: pointer;
@@ -44,4 +59,21 @@
 .testnetImg {
   width: auto;
   height: 45px;
+}
+
+.connectWalletButton {
+  width: 12em;
+  height: 40px;
+  border: none;
+  outline: none;
+  font-weight: bold;
+  color: #fff;
+  background: #d63c5e;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 0;
+  border-radius: 10px;
+  font-size: 1em;
 }

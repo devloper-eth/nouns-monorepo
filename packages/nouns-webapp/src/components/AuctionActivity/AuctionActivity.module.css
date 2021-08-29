@@ -5,13 +5,15 @@
 }
 .informationRow {
   margin-bottom: 2rem;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .activityRow {
   margin-bottom: 1rem;
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: 2rem;
 }
 
 h2 {
@@ -46,7 +48,7 @@ h4 {
   border-right: 1px solid var(--brand-black);
 }
 .auctionTimerCol {
-  padding-left: 3rem;
+  padding-left: 1rem;
 }
 
 @media (max-width: 992px) {
