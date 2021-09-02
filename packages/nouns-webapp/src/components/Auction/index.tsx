@@ -10,12 +10,13 @@ import { useQuery } from '@apollo/client';
 import { auctionQuery } from '../../wrappers/subgraph';
 import { BigNumber } from 'ethers';
 import { INounSeed } from '../../wrappers/nounToken';
-import NounderNounContent from '../NounderNounContent';
 import { ApolloError } from '@apollo/client';
+import PartyActivity from '../PartyActivity';
+// import NounderNounContent from '../NounderNounContent';
 
-const isNounderNoun = (nounId: BigNumber) => {
-  return nounId.mod(10).eq(0) || nounId.eq(0);
-};
+// const isNounderNoun = (nounId: BigNumber) => {
+//   return nounId.mod(10).eq(0) || nounId.eq(0);
+// };
 
 const prevAuctionsAvailable = (
   loadingPrev: boolean,
@@ -52,9 +53,9 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
       auctionQuery(onDisplayNounId && onDisplayNounId.toNumber()),
     );
     // Query onDisplayNounId auction plus one. Used to determine nounder noun timestamp.
-    const { data: dataNext } = useQuery(
-      auctionQuery(onDisplayNounId && onDisplayNounId.add(1).toNumber()),
-    );
+    // const { data: dataNext } = useQuery(
+    //   auctionQuery(onDisplayNounId && onDisplayNounId.add(1).toNumber()),
+    // );
 
     // Query onDisplayNounId auction minus one. Used to cache prev auction + check if The Graph queries are functional.
     const {
@@ -72,7 +73,7 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
     /**
      * Auction derived from `onDisplayNounId.add(1)` query
      */
-    const nextAuction: IAuction = dataNext && dataNext.auction && createAuctionObj(dataNext);
+    // const nextAuction: IAuction = dataNext && dataNext.auction && createAuctionObj(dataNext);
     /**
      * Auction derived from `onDisplayNounId.sub(1)` query
      */
@@ -135,21 +136,33 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
       auction &&
       auctionActivityContent(auction, prevAuctionsAvailable(loadingPrev, errorPrev, prevAuction));
 
-    const nounderNounContent = nextAuction && (
-      <NounderNounContent
-        mintTimestamp={nextAuction.startTime}
-        nounId={onDisplayNounId}
-        isFirstAuction={isFirstAuction}
-        isLastAuction={isLastAuction}
-        onPrevAuctionClick={prevAuctionHandler}
-        onNextAuctionClick={nextAuctionHandler}
-      />
-    );
+    // FLAGGED FOR DELETION - Will we ever need to show nounder's nouns?
+    // const nounderNounContent = nextAuction && (
+    //   <NounderNounContent
+    //     mintTimestamp={nextAuction.startTime}
+    //     nounId={onDisplayNounId}
+    //     isFirstAuction={isFirstAuction}
+    //     isLastAuction={isLastAuction}
+    //     onPrevAuctionClick={prevAuctionHandler}
+    //     onNextAuctionClick={nextAuctionHandler}
+    //   />
+    // );
 
     return (
-      <Container fluid="lg">
+      <Container fluid={true} className={classes.pageContentWrapper}>
         <Row>
-          <Col lg={{ span: 6 }} className={classes.nounContentCol}>
+          <Col xs={12} lg={4} className={classes.auctionActivityTopSpacer}>
+            {onDisplayNounId ? currentAuctionActivityContent : pastAuctionActivityContent}
+          </Col>
+          <Col xs={12} lg={4} className={`align-self-end ${classes.noPaddingMargin}`}>
+            {onDisplayNounId ? nounContent : loadingNoun}
+          </Col>
+          <Col xs={12} lg={4} className={classes.partyActivityTopSpacer}>
+            <PartyActivity />
+          </Col>
+
+          {/* FLAGGED FOR DELETION  */}
+          {/* <Col lg={{ span: 6 }} className={classes.nounContentCol}>
             {onDisplayNounId ? nounContent : loadingNoun}
           </Col>
           <Col lg={{ span: 6 }} className={classes.auctionActivityCol}>
@@ -158,7 +171,7 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
               : isLastAuction
               ? currentAuctionActivityContent
               : pastAuctionActivityContent}
-          </Col>
+          </Col> */}
         </Row>
       </Container>
     );

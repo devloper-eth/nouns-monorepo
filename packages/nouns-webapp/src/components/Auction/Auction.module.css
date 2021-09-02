@@ -1,3 +1,8 @@
+.pageContentWrapper {
+  padding-left: 5vw;
+  padding-right: 5vw;
+}
+
 .nounWrapper {
   align-self: flex-end;
   width: 100%;
@@ -17,4 +22,17 @@
     border-bottom: 1px solid lightgray;
     padding-bottom: 2rem;
   }
+}
+
+.auctionActivityTopSpacer {
+  padding-top: 5vh;
+}
+
+.partyActivityTopSpacer {
+  padding-top: 5vh;
+}
+
+.noPaddingMargin {
+  padding: 0px;
+  margin: 0px;
 }

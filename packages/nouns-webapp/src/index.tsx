@@ -16,6 +16,7 @@ import { clientFactory } from './wrappers/subgraph';
 import LogsUpdater from './state/updaters/logs';
 import config, { CHAIN_ID, LOCAL_CHAIN_ID } from './config';
 import dotenv from 'dotenv';
+import 'normalize.css'; // Consistent cross browser styling
 
 dotenv.config();
 

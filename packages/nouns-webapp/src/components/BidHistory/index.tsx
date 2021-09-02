@@ -5,7 +5,6 @@ import ShortAddress from '../ShortAddress';
 import _classes from './BidHistory.module.css';
 import { compareBids } from '../../utils/compareBids';
 import * as R from 'ramda';
-import { Spinner } from 'react-bootstrap';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
@@ -14,6 +13,7 @@ import TruncatedAmount from '../TruncatedAmount';
 import BigNumber from 'bignumber.js';
 import { CHAIN_ID } from '../../config';
 import { IBid } from '../../wrappers/subgraph';
+import { Spinner } from 'react-bootstrap';
 
 const bidItem = (bid: IBid, index: number, classes: any) => {
   const bidAmount = <TruncatedAmount amount={new BigNumber(bid.amount)} />;
@@ -58,6 +58,20 @@ const BidHistory: React.FC<{ auctionId: string; max: number; classes?: any }> = 
 
   const bids = data && R.sort(compareBids, data.bids).reverse().slice(0, max);
 
+  // // dummy bids for initial design placeholders
+  // const bids = Array(3).fill({
+  //   amount: new BigNumber(5).plus(97).minus(53).plus(434),
+  //   bidder: {
+  //     id: '0x969E52e0b130899ca2d601bd5366c33f1bf6e393',
+  //   },
+  //   blockNumber: 32734753,
+  //   blockTimestamp: 32734753,
+  //   id: '0x969E52e0b130899ca2d601bd5366c33f1bf6e393',
+  //   noun: {
+  //     id: 21,
+  //   },
+  // })
+
   const bidContent =
     bids &&
     bids.map((bid: IBid, i: number) => {
@@ -76,7 +90,11 @@ const BidHistory: React.FC<{ auctionId: string; max: number; classes?: any }> = 
           <div>Error loading bid history</div>
         </div>
       )}
+
       {!loading && !error && <ul className={classes.bidCollection}>{bidContent}</ul>}
+
+      {/* Placeholder list for design styling */}
+      {/* {<ul className={_classes.bidCollection}>{bidContent}</ul>} */}
     </>
   );
 };

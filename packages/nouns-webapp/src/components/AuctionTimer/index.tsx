@@ -2,6 +2,7 @@ import moment from 'moment';
 import { Auction } from '../../wrappers/nounsAuction';
 import classes from './AuctionTimer.module.css';
 import { useState, useEffect, useRef } from 'react';
+import { Col, Row } from 'react-bootstrap';
 
 const AuctionTimer: React.FC<{
   auction: Auction;
@@ -43,7 +44,37 @@ const AuctionTimer: React.FC<{
 
   return (
     <>
-      <h4 className={classes.title}>{auctionContent}</h4>
+      <Row>
+        <Col>
+          <p className={classes.centerText}>{auctionContent}</p>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <h3 className={classes.timerWrapper}>
+            <div className={classes.timerSection}>
+              <span>
+                {`${Math.floor(timerDuration.hours())}`}
+                <span className={classes.small}>h</span>
+              </span>
+            </div>
+            <div className={classes.timerSection}>
+              <span>
+                {`${flooredMinutes}`}
+                <span className={classes.small}>m</span>
+              </span>
+            </div>
+            <div className={classes.timerSection}>
+              <span>
+                {`${flooredSeconds}`}
+                <span className={classes.small}>s</span>
+              </span>
+            </div>
+          </h3>
+        </Col>
+      </Row>
+      {/* OLD TIMER STYLE - FLAGGED FOR REMOVAL */}
+      {/* <h4 className={classes.title}>{auctionContent}</h4>
       <h2 className={classes.timerWrapper}>
         <div className={classes.timerSection}>
           <span>
@@ -63,7 +94,7 @@ const AuctionTimer: React.FC<{
             <span className={classes.small}>s</span>
           </span>
         </div>
-      </h2>
+      </h2> */}
     </>
   );
 };

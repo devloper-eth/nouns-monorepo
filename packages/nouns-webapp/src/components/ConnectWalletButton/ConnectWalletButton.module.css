@@ -1,0 +1,13 @@
+.connectWalletButton {
+  height: 3em;
+  width: 100%;
+  border: none;
+  outline: none;
+  font-weight: bold;
+  color: #fff;
+  background: #3210ff;
+  cursor: pointer;
+  z-index: 0;
+  border-radius: 10px;
+  font-size: 1em;
+}

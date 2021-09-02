@@ -4,6 +4,8 @@
 
 .timerWrapper {
   display: flex;
+  text-align: center;
+  margin: 0px !important;
 }
 
 .timerSection {

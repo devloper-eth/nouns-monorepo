@@ -65,3 +65,32 @@ h4 {
     align-items: center;
   }
 }
+
+/* Vertical Divider */
+.verticalLine {
+  content: '';
+}
+.verticalLine:before {
+  padding: 0;
+  margin: 0;
+  display: block;
+  content: '';
+  width: 1px;
+  height: 66%;
+  background-color: rgba(200, 200, 200, 0.5);
+  position: absolute;
+  right: 0;
+  top: 33%;
+}
+.verticalLine:after {
+  padding: 0;
+  margin: 0;
+  display: block;
+  content: '';
+  width: 1px;
+  height: 66%;
+  background-color: rgba(200, 200, 200, 0.5);
+  position: absolute;
+  right: 0;
+  bottom: 33%;
+}
