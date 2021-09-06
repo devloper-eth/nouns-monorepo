@@ -9,6 +9,7 @@ interface Config {
   jsonRpcUri: string;
   wsRpcUri: string;
   enableHistory: boolean;
+  nounsPartyAddress: string;
 }
 
 type SupportedChains = ChainId.Rinkeby | ChainId.Mainnet | typeof LOCAL_CHAIN_ID;
@@ -33,6 +34,7 @@ const config: Record<SupportedChains, Config> = {
     nounsDaoExecutorAddress: '0xd1C753D9A23eb5c57e0d023e993B9bd4F5086b04',
     subgraphApiUri: 'https://api.thegraph.com/subgraphs/name/nounsdao/nouns-subgraph-rinkeby-v4',
     enableHistory: process.env.REACT_APP_ENABLE_HISTORY === 'true' || false,
+    nounsPartyAddress: 'TODO',
   },
   [ChainId.Mainnet]: {
     auctionProxyAddress: '0x830BD73E4184ceF73443C15111a1DF14e495C706',
@@ -47,6 +49,7 @@ const config: Record<SupportedChains, Config> = {
       process.env.REACT_APP_MAINNET_WSRPC ||
       `wss://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_PROJECT_ID}`,
     enableHistory: process.env.REACT_APP_ENABLE_HISTORY === 'true' || false,
+    nounsPartyAddress: 'TODO',
   },
   [LOCAL_CHAIN_ID]: {
     auctionProxyAddress: '0xa513E6E4b8f2a923D98304ec87F64353C4D5C853',
@@ -58,6 +61,7 @@ const config: Record<SupportedChains, Config> = {
     jsonRpcUri: 'http://localhost:8545',
     enableHistory: false,
     wsRpcUri: 'ws://localhost:8545',
+    nounsPartyAddress: 'TODO',
   },
 };
 
