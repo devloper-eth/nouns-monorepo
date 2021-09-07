@@ -20,9 +20,9 @@ import Winner from '../Winner';
 // import bidHistoryClasses from './BidHistory.module.css';
 // import BidHistory from '../BidHistory';
 // import AuctionActivityWrapper from '../AuctionActivityWrapper';
-// import WhaleInfo from '../WhaleInfo';
+// import config from '../../config';
+// import { buildEtherscanAddressLink } from '../../utils/etherscan';
 
-// FLAGGED FOR REMOVAL
 // const openEtherscanBidHistory = () => {
 //   const url = buildEtherscanAddressLink(
 //     config.auctionProxyAddress,

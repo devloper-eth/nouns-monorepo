@@ -25,7 +25,7 @@ const createAuctionObj = (data: any): IAuction => {
     bidder: data.auction?.bidder?.id,
     endTime: data.auction.endTime,
     startTime: data.auction.startTime,
-    length: data.auction.endTime - data.auction.startTime,
+    // length: (data.auction.endTime - data.auction.startTime),
     nounId: data.auction.id,
     settled: data.auction.settled,
   };

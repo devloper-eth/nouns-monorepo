@@ -6,22 +6,20 @@ import testnetNoun from '../../assets/testnet-noun.png';
 import clsx from 'clsx';
 import config, { CHAIN_ID } from '../../config';
 import { utils } from 'ethers';
-import { buildEtherscanAddressLink, Network } from '../../utils/buildEtherscanLink';
 import { useAppSelector } from '../../hooks';
 import ShortAddress from '../ShortAddress';
 import { useState } from 'react';
 import { useEtherBalance, useEthers } from '@usedapp/core';
 import WalletConnectModal from '../WalletConnectModal';
+import { buildEtherscanAddressLink } from '../../utils/etherscan';
+import { ExternalURL, externalURL } from '../../utils/externalURL';
 
 const NavBar = () => {
   const activeAccount = useAppSelector(state => state.account.activeAccount);
   const { deactivate } = useEthers();
 
   const treasuryBalance = useEtherBalance(config.nounsDaoExecutorAddress);
-  const daoEtherscanLink = buildEtherscanAddressLink(
-    config.nounsDaoExecutorAddress,
-    Network.mainnet,
-  );
+  const daoEtherscanLink = buildEtherscanAddressLink(config.nounsDaoExecutorAddress);
 
   const [showConnectModal, setShowConnectModal] = useState(false);
 
@@ -95,7 +93,7 @@ const NavBar = () => {
             <Nav.Item>
               {treasuryBalance && (
                 <Nav.Link
-                  href={daoEtherscanLink.toString()}
+                  href={daoEtherscanLink}
                   className={classes.nounsNavLink}
                   target="_blank"
                   rel="noreferrer"
@@ -106,10 +104,18 @@ const NavBar = () => {
               )}
             </Nav.Item>
             <Nav.Link as={Link} to="/vote" className={classes.nounsNavLink}>
-              GOVERN
+              DAO
+            </Nav.Link>
+            <Nav.Link
+              href={externalURL(ExternalURL.notion)}
+              className={classes.nounsNavLink}
+              target="_blank"
+              rel="noreferrer"
+            >
+              DOCS
             </Nav.Link>
             <Nav.Link href="/playground" className={classes.nounsNavLink} target="_blank">
-              EXPLORE
+              PLAYGROUND
             </Nav.Link>
             {activeAccount ? connectedContent : disconnectedContent}
           </Navbar.Collapse>
