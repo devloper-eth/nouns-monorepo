@@ -1,0 +1,29 @@
+.partyInviteButton {
+  border-radius: 24px;
+  background-image: linear-gradient(90.72deg, #00ffa3 -33.78%, #57cdff 35.54%, #f68eff 118.48%),
+    linear-gradient(90.72deg, #00ffa3 -33.78%, #57cdff 35.54%, #f68eff 118.48%);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  box-shadow: 2px 1000px 1px #fff inset;
+  border: solid 3px transparent;
+  width: 100%;
+  padding: 4px 12px;
+}
+
+.partyInviteButtonText {
+  background: -webkit-linear-gradient(90.72deg, #00ffa3 -33.78%, #57cdff 35.54%, #f68eff 118.48%);
+  -webkit-background-clip: text;
+  font-family: 'Londrina Solid';
+  -webkit-text-fill-color: transparent;
+  font-size: 0.9rem;
+}
+
+.noPaddingMargin {
+  padding: 0px;
+  margin: 0px;
+}
+
+.popoverContainer {
+  background: white;
+  padding: 10px;
+}

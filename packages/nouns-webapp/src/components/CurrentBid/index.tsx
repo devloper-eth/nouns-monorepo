@@ -12,7 +12,7 @@ const CurrentBid: React.FC<{ currentBid: BigNumber; auctionEnded: boolean }> = p
     <>
       <Row>
         <Col>
-          <p className={classes.centerText}>{titleContent}</p>
+          <p className={`${classes.noMarginPadding} ${classes.bidText}`}>{titleContent}</p>
         </Col>
       </Row>
       <Row>

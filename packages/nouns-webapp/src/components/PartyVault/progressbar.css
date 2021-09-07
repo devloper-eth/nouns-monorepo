@@ -1,0 +1,9 @@
+.progress {
+  border-radius: 50px;
+}
+
+/* Need this seperate file to override default bootstrap file as you can't target prorgress part in module.css */
+.progress-bar {
+  background-image: linear-gradient(90.72deg, #00ffa3 -33.78%, #57cdff 35.54%, #f68eff 118.48%);
+  border-radius: 50px;
+}

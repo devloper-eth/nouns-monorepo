@@ -9,7 +9,7 @@ const Winner: React.FC<{ winner: string }> = props => {
     <>
       <Row>
         <Col>
-          <p>Winner</p>
+          <p className={`${classes.noMarginPadding} ${classes.bidText}`}>Winner</p>
         </Col>
       </Row>
       <Row>

@@ -3,13 +3,9 @@ import { useState, useEffect } from 'react';
 import BigNumber from 'bignumber.js';
 import { Row, Col } from 'react-bootstrap';
 import classes from './AuctionActivity.module.css';
-import bidHistoryClasses from './BidHistory.module.css';
 import AuctionTimer from '../AuctionTimer';
 import CurrentBid from '../CurrentBid';
 import Winner from '../Winner';
-import BidHistory from '../BidHistory';
-import AuctionActivityWrapper from '../AuctionActivityWrapper';
-import WhaleInfo from '../WhaleInfo';
 
 /*  Currently unused packages but may need if commented components are brought back in  */
 // import config, { CHAIN_ID } from '../../config';
@@ -21,6 +17,10 @@ import WhaleInfo from '../WhaleInfo';
 // import { Modal } from 'react-bootstrap';
 // import AuctionNavigation from '../AuctionNavigation';
 // import Bid from '../Bid';
+// import bidHistoryClasses from './BidHistory.module.css';
+// import BidHistory from '../BidHistory';
+// import AuctionActivityWrapper from '../AuctionActivityWrapper';
+// import WhaleInfo from '../WhaleInfo';
 
 // FLAGGED FOR REMOVAL
 // const openEtherscanBidHistory = () => {
@@ -111,33 +111,28 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
         </Modal>
       )} */}
 
-      <AuctionActivityWrapper>
-        <Col className={`${classes.verticalLine} justify-content-center`}>
+      <Row className={classes.auctionActivityContainer}>
+        <Col lg={5}>
           <CurrentBid
             currentBid={new BigNumber(auction.amount.toString())}
             auctionEnded={auctionEnded}
           />
         </Col>
-        <Col>
+        <Col lg={7}>
           {auctionEnded ? (
             <Winner winner={auction.bidder} />
           ) : (
             <AuctionTimer auction={auction} auctionEnded={auctionEnded} />
           )}
         </Col>
-        <Row className="justify-content-left">
-          <Col>
-            <WhaleInfo />
-          </Col>
-        </Row>
+      </Row>
 
-        {/* {displayGraphDepComps && (
+      {/* {displayGraphDepComps && (
           <BidHistory auctionId={auction.nounId.toString()} max={3} classes={bidHistoryClasses} />
         )} */}
 
-        {/* TODO - will need displayGraphDepComps boolean but remove to make initial design easier  */}
-        <BidHistory auctionId={auction.nounId.toString()} max={3} classes={bidHistoryClasses} />
-      </AuctionActivityWrapper>
+      {/* TODO - will need displayGraphDepComps boolean but remove to make initial design easier  */}
+      {/* <BidHistory auctionId={auction.nounId.toString()} max={3} classes={bidHistoryClasses} /> */}
 
       {/* FLAGGED FOR REMOVAL - Will cherrypick components and change style when needed */}
       {/* <AuctionActivityWrapper>

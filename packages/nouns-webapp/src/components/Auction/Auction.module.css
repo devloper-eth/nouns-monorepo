@@ -1,6 +1,15 @@
 .pageContentWrapper {
   padding-left: 5vw;
   padding-right: 5vw;
+  margin-top: 0vh;
+}
+
+@media (min-width: 992px) {
+  .pageContentWrapper {
+    padding-left: 5vw;
+    padding-right: 5vw;
+    margin-top: 5vh;
+  }
 }
 
 .nounWrapper {
@@ -22,14 +31,6 @@
     border-bottom: 1px solid lightgray;
     padding-bottom: 2rem;
   }
-}
-
-.auctionActivityTopSpacer {
-  padding-top: 5vh;
-}
-
-.partyActivityTopSpacer {
-  padding-top: 5vh;
 }
 
 .noPaddingMargin {

@@ -1,10 +1,11 @@
 import React from 'react';
+import { Col, Row } from 'react-bootstrap';
+import PartyInvite from '../PartyInvite';
 import ShortAddress from '../ShortAddress';
 import classes from './PartyGuestList.module.css';
 
 // TODO
 // This component is a placeholder to be refactored when logic and data become available
-
 const PartyGuestList = () => {
   const placeholderBids = Array(30).fill({
     bid: '111.34 ETH',
@@ -13,10 +14,21 @@ const PartyGuestList = () => {
 
   return (
     <div className={classes.guestListContainer}>
-      <h3>
-        Guest List <sup>(35)</sup>
-      </h3>
-      <p className={classes.contributionsBlurb}>Contributions used for the last successful bid</p>
+      <Row className={classes.partyMembersHeadingContainer}>
+        <Col
+          xs={{ span: 12, order: 12 }}
+          lg={{ span: 7, order: 1 }}
+          className={classes.noPaddingMargin}
+        >
+          <p className={`${classes.partyMembersHeadingText} ${classes.noPaddingMargin}`}>
+            Party Members
+            {/* <sup>(35)</sup> */}
+          </p>
+        </Col>
+        <PartyInvite />
+      </Row>
+
+      {/* <p className={classes.contributionsBlurb}>Contributions used for the last successful bid</p> */}
       <div className={`${classes.guestListBidsContainer} ${classes.fadeGradient}`}>
         <ul className={classes.bidCollection}>
           {placeholderBids.map((bid, index) => (

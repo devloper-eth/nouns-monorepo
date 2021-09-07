@@ -4,6 +4,7 @@ import { setUseGreyBackground } from '../../state/slices/application';
 import { useAppDispatch } from '../../hooks';
 import config from '../../config';
 import SocialCursorCollection from '../../components/SocialCursorCollection';
+import PageConfetti from '../../components/Confetti';
 
 /* Currently unused packages flagged for removal */
 // import Documentation from '../../components/Documentation';
@@ -19,6 +20,7 @@ const AuctionPage = () => {
   return (
     <>
       <SocialCursorCollection />
+      <PageConfetti />
       <Auction
         auction={auction}
         bgColorHandler={useGrey => dispatch(setUseGreyBackground(useGrey))}

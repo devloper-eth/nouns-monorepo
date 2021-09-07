@@ -18,11 +18,6 @@ const PartyBid = () => {
             <h3 className={`${classes.noMarginPadding} ${classes.h3TextResize}`}>777.46 ETH</h3>
           </Col>
         </Row>
-        <Row>
-          <Col className={classes.noMarginPadding}>
-            <p className={classes.dollarValueText}>{`$1,888,888`}</p>
-          </Col>
-        </Row>
       </Col>
       <Col className={classes.ethRequiredPadding}>
         <Row>
@@ -33,11 +28,6 @@ const PartyBid = () => {
         <Row>
           <Col className={classes.ethRequiredPadding}>
             <h3 className={`${classes.noMarginPadding}`}>526.04 ETH</h3>
-          </Col>
-        </Row>
-        <Row>
-          <Col className={classes.ethRequiredPadding}>
-            <p className={classes.dollarValueText}>{`$1,888,888`}</p>
           </Col>
         </Row>
       </Col>

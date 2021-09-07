@@ -1,8 +1,8 @@
-.wrapper {
-  padding: 1rem 2rem;
-  color: var(--brand-black);
-  align-self: flex-start !important;
+.auctionActivityContainer {
+  padding: 0px;
+  margin: 10px;
 }
+
 .informationRow {
   margin-bottom: 2rem;
 }

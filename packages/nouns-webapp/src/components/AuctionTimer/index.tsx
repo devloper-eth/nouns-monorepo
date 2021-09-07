@@ -35,7 +35,7 @@ const AuctionTimer: React.FC<{
     }
   }, [auction, auctionTimer]);
 
-  const auctionContent = auctionEnded ? 'Auction ended' : 'Ends in';
+  const auctionContent = auctionEnded ? 'Auction Ended' : 'Time Remaining';
 
   const flooredMinutes = Math.floor(timerDuration.minutes());
   const flooredSeconds = Math.floor(timerDuration.seconds());
@@ -46,12 +46,12 @@ const AuctionTimer: React.FC<{
     <>
       <Row>
         <Col>
-          <p className={classes.centerText}>{auctionContent}</p>
+          <p className={`${classes.timerText} ${classes.noPaddingMargin}`}>{auctionContent}</p>
         </Col>
       </Row>
       <Row>
         <Col>
-          <h3 className={classes.timerWrapper}>
+          <h3 className={`${classes.timerWrapper} ${classes.noPaddingMargin}`}>
             <div className={classes.timerSection}>
               <span>
                 {`${Math.floor(timerDuration.hours())}`}

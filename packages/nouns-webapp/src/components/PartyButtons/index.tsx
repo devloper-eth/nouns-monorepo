@@ -8,12 +8,12 @@ import classes from './PartyButtons.module.css';
 const PartyButtons = () => {
   return (
     <Row className={classes.buttonsWrapper}>
-      <Col className={classes.noLeftPadding}>
+      <Col>
         <ConnectWalletButton />
       </Col>
-      <Col className={classes.noRightPadding}>
+      {/* <Col className={classes.noRightPadding}>
         <button className={classes.invitePartyButton}>Send Party Invite!</button>
-      </Col>
+      </Col> */}
     </Row>
   );
 };

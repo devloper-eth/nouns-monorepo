@@ -1,19 +1,35 @@
 .guestListContainer {
-  margin: 20px 10px 10px 10px;
+  margin: 10px 10px 10px 10px;
   overflow: hidden;
+  padding: 15px;
 }
 
 .guestListBidsContainer {
-  height: 20vh;
+  height: 15vh;
   overflow-x: hidden;
   overflow-y: auto;
-  -webkit-mask-image: linear-gradient(to bottom, black 10%, transparent 70%);
-  mask-image: linear-gradient(to bottom, black 10%, transparent 70%);
+  -webkit-mask-image: linear-gradient(to bottom, black 10%, transparent 90%);
+  mask-image: linear-gradient(to bottom, black 10%, transparent 90%);
 }
 
 .contributionsBlurb {
   font-size: 0.8em;
-  margin-bottom: 10px;
+}
+
+.partyMembersHeadingContainer {
+  padding: 0px;
+  margin: 0px 0px 20px 0px;
+}
+
+.partyMembersHeadingText {
+  vertical-align: middle;
+  display: inline-block;
+  font-weight: bold;
+}
+
+.noPaddingMargin {
+  padding: 0px;
+  margin: 0px;
 }
 
 /* User Bids classes */
@@ -34,13 +50,13 @@
   display: grid;
   text-align: start;
   list-style-type: none;
-  row-gap: 0.25rem;
+  row-gap: 0.5rem;
   padding: 0;
 }
 
 .bidRow {
   /* padding: 0.5rem; */
-  border-bottom: 1px solid rgba(211, 211, 211, 0.322);
+  /* border-bottom: 1px solid rgba(211, 211, 211, 0.322); */
   border-radius: 4px;
 }
 .bidItem {
