@@ -64,3 +64,15 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.disconnectButton {
+  cursor: pointer;
+}
+.disconnectButton:hover {
+  cursor: pointer;
+  cursor: pointer;
+
+  background: -webkit-linear-gradient(90.72deg, #00ffa3 -33.78%, #57cdff 35.54%, #f68eff 118.48%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

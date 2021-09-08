@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { Spinner, InputGroup, FormControl, Button, Row, Col, Form } from 'react-bootstrap';
 import Modal from '../Modal';
-import { utils, BigNumber as EthersBN } from 'ethers';
+import { utils } from 'ethers';
 import { connectContractToSigner, useEthers } from '@usedapp/core';
 import config from '../../config';
 import classes from './AddFundsModal.module.css';

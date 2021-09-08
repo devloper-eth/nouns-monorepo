@@ -4,28 +4,27 @@ import { Link } from 'react-router-dom';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import testnetNoun from '../../assets/testnet-noun.png';
 import clsx from 'clsx';
-import config, { CHAIN_ID } from '../../config';
-import { utils } from 'ethers';
+import { CHAIN_ID } from '../../config';
 import { useAppSelector } from '../../hooks';
 import ShortAddress from '../ShortAddress';
 import { useState } from 'react';
-import { useEtherBalance, useEthers } from '@usedapp/core';
+import { useEthers } from '@usedapp/core';
 import WalletConnectModal from '../WalletConnectModal';
-import { buildEtherscanAddressLink } from '../../utils/etherscan';
-import { ExternalURL, externalURL } from '../../utils/externalURL';
 import PartyInvite from '../PartyInvite';
 import WithdrawModal from '../WithdrawModal';
+// import SettleAuction from '../SettleAuction';
 
 const NavBar = () => {
   const activeAccount = useAppSelector(state => state.account.activeAccount);
   const { deactivate } = useEthers();
 
-  const treasuryBalance = useEtherBalance(config.nounsDaoExecutorAddress);
-  const daoEtherscanLink = buildEtherscanAddressLink(config.nounsDaoExecutorAddress);
+  // const treasuryBalance = useEtherBalance(config.nounsDaoExecutorAddress);
+  // const daoEtherscanLink = buildEtherscanAddressLink(config.nounsDaoExecutorAddress);
 
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
 
+  // Wallet Connect Modal
   const showModalHandler = () => {
     setShowConnectModal(true);
   };
@@ -33,6 +32,7 @@ const NavBar = () => {
     setShowConnectModal(false);
   };
 
+  // Withdraw Modal
   const showWithdrawModalHandler = () => {
     setShowWithdrawModal(true);
   };
@@ -51,7 +51,7 @@ const NavBar = () => {
       </Nav.Item>
       <Nav.Item>
         <Nav.Link
-          className={clsx(classes.nounsNavLink, classes.menuItem)}
+          className={clsx(classes.nounsNavLink, classes.disconnectButton)}
           onClick={() => {
             setShowConnectModal(false);
             deactivate();
@@ -117,7 +117,8 @@ const NavBar = () => {
               Withdraw
             </Nav.Item>
             <Nav.Item className={classes.menuItem}>Claim</Nav.Item>
-            <Nav.Item>Place Bid</Nav.Item>
+            <Nav.Item className={classes.menuItem}>Place Bid</Nav.Item>
+            {/* <SettleAuction /> */}
             {activeAccount ? connectedContent : disconnectedContent}
             <PartyInvite />
           </Navbar.Collapse>

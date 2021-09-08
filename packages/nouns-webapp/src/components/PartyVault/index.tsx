@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Col, ProgressBar, Row } from 'react-bootstrap';
 import { useNounsPartyDepositBalance } from '../../wrappers/nounsParty';
 import classes from './PartyVault.module.css';
-import config from '../../config';
 import { Auction as IAuction } from '../../wrappers/nounsAuction';
-import { BigNumber } from 'ethers';
 import './progressbar.css';
+// import { BigNumber } from 'ethers';
+// import config from '../../config';
 
 import { utils } from 'ethers';
 
