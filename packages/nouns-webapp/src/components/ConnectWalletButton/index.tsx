@@ -6,6 +6,7 @@ import WalletConnectModal from '../WalletConnectModal';
 import clsx from 'clsx';
 import { useEthers } from '@usedapp/core';
 import { Nav } from 'react-bootstrap';
+import AddFundsModal from '../AddFundsModal';
 
 /*  Currently unused packages FLAGGED FOR DELETION */
 // import logo from '../../assets/logo.svg';
@@ -20,6 +21,7 @@ const ConnectWalletButton = () => {
   const activeAccount = useAppSelector(state => state.account.activeAccount);
   const { deactivate } = useEthers();
   const [showConnectModal, setShowConnectModal] = useState(false);
+  const [showFundsModal, setShowFundsModal] = useState(false);
 
   const showModalHandler = () => {
     setShowConnectModal(true);
@@ -28,10 +30,20 @@ const ConnectWalletButton = () => {
     setShowConnectModal(false);
   };
 
+  const showFundsModalHandler = () => {
+    setShowFundsModal(true);
+  };
+  const hideFundsModalHandler = () => {
+    setShowFundsModal(false);
+  };
+
   // TO DO - Style disconnect area
   const connectedContent = (
     <>
-      <Nav.Item>
+      <button onClick={showFundsModalHandler} className={classes.connectWalletButton}>
+        Add funds to the vault
+      </button>
+      {/* <Nav.Item>
         <Nav.Link className={classes.nounsNavLink} disabled>
           <span className={classes.greenStatusCircle} />
           <span>{activeAccount && <ShortAddress address={activeAccount} />}</span>
@@ -48,7 +60,7 @@ const ConnectWalletButton = () => {
         >
           DISCONNECT
         </Nav.Link>
-      </Nav.Item>
+      </Nav.Item> */}
     </>
   );
 
@@ -64,6 +76,9 @@ const ConnectWalletButton = () => {
     <>
       {showConnectModal && activeAccount === undefined && (
         <WalletConnectModal onDismiss={hideModalHandler} />
+      )}
+      {showFundsModal && activeAccount && (
+        <AddFundsModal onDismiss={hideFundsModalHandler} activeAccount={activeAccount} />
       )}
       {activeAccount ? connectedContent : disconnectedContent}
     </>
