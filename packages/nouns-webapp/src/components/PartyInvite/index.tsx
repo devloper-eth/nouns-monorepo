@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, OverlayTrigger, Popover } from 'react-bootstrap';
+import { OverlayTrigger, Popover } from 'react-bootstrap';
 import classes from './PartyInvite.module.css';
 import './partyinvite.css';
 

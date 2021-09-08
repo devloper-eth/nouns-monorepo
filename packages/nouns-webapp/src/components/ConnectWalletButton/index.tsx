@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { useAppSelector } from '../../hooks';
-import ShortAddress from '../ShortAddress';
 import classes from './ConnectWalletButton.module.css';
 import WalletConnectModal from '../WalletConnectModal';
-import clsx from 'clsx';
-import { useEthers } from '@usedapp/core';
-import { Nav } from 'react-bootstrap';
 import AddFundsModal from '../AddFundsModal';
 
 /*  Currently unused packages FLAGGED FOR DELETION */
@@ -19,7 +15,6 @@ import AddFundsModal from '../AddFundsModal';
 
 const ConnectWalletButton = () => {
   const activeAccount = useAppSelector(state => state.account.activeAccount);
-  const { deactivate } = useEthers();
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [showFundsModal, setShowFundsModal] = useState(false);
 

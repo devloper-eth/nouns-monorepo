@@ -2,7 +2,6 @@ import { utils } from 'ethers';
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { useNounsPartyDeposits } from '../../wrappers/nounsParty';
-import PartyInvite from '../PartyInvite';
 import ShortAddress from '../ShortAddress';
 import classes from './PartyGuestList.module.css';
 
