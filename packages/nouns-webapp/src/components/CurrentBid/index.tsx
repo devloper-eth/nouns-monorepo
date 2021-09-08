@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
 import classes from './CurrentBid.module.css';
 import TruncatedAmount from '../TruncatedAmount';
+import { Col, Row } from 'react-bootstrap';
 
 /**
  * Passible to CurrentBid as `currentBid` prop to indicate that
@@ -19,12 +20,31 @@ const CurrentBid: React.FC<{ currentBid: BigNumber | BidNa; auctionEnded: boolea
   const titleContent = auctionEnded ? 'Winning bid' : 'Current bid';
 
   return (
-    <div className={classes.section}>
-      <h4>{titleContent}</h4>
-      <h2>
-        {currentBid === BID_N_A ? BID_N_A : <TruncatedAmount amount={currentBid && currentBid} />}
-      </h2>
-    </div>
+    <>
+      <Row>
+        <Col>
+          <p className={`${classes.noMarginPadding} ${classes.bidText}`}>{titleContent}</p>
+        </Col>
+      </Row>
+      <Row>
+        <Col className={classes.ethAddressPadding}>
+          <h3 className={`${classes.noMarginPadding}`}>
+            {currentBid === BID_N_A ? (
+              BID_N_A
+            ) : (
+              <TruncatedAmount amount={currentBid && currentBid} />
+            )}
+          </h3>
+        </Col>
+      </Row>
+    </>
+    // OLD STYLING - FLAGGED FOR REMOVAL
+    // <div className={classes.section}>
+    //   <h4>{titleContent}</h4>
+    //   <h2>
+    //     <TruncatedAmount amount={currentBid && currentBid} />
+    //   </h2>
+    // </div>
   );
 };
 

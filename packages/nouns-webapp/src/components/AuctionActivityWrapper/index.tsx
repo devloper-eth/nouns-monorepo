@@ -1,6 +1,7 @@
+import { Row } from 'react-bootstrap';
 import classes from './AuctionActivityWrapper.module.css';
 
 const AuctionActivityWrapper: React.FC<{}> = props => {
-  return <div className={classes.wrapper}>{props.children}</div>;
+  return <Row className={classes.wrapper}>{props.children}</Row>;
 };
 export default AuctionActivityWrapper;

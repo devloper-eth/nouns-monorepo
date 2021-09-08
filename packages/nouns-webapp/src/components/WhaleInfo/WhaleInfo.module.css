@@ -1,0 +1,9 @@
+.whaleWalletText {
+  font-size: 0.9em;
+  margin: 15px 0px 15px 30px;
+}
+
+.noPaddingMargin {
+  padding: 0px;
+  margin: 0px;
+}

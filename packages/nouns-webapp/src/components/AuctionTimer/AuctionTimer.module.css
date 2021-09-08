@@ -4,6 +4,8 @@
 
 .timerWrapper {
   display: flex;
+  text-align: center;
+  margin: 0px !important;
 }
 
 .timerSection {
@@ -17,4 +19,13 @@
 
 .timeSubtitle {
   font-size: medium;
+}
+
+.noPaddingMargin {
+  padding: 0px;
+  margin: 0px;
+}
+
+.timerText {
+  color: rgba(33, 37, 41, 0.2);
 }

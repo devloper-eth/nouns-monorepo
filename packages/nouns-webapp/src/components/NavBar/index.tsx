@@ -1,18 +1,20 @@
-import { useAppSelector } from '../../hooks';
-import ShortAddress from '../ShortAddress';
 import classes from './NavBar.module.css';
 import logo from '../../assets/logo.svg';
-import { useState } from 'react';
-import { useEtherBalance, useEthers } from '@usedapp/core';
-import WalletConnectModal from '../WalletConnectModal';
 import { Link } from 'react-router-dom';
-import { Nav, Navbar, Container } from 'react-bootstrap';
+import { Navbar, Container, Nav } from 'react-bootstrap';
 import testnetNoun from '../../assets/testnet-noun.png';
 import clsx from 'clsx';
 import config, { CHAIN_ID } from '../../config';
 import { utils } from 'ethers';
+import { useAppSelector } from '../../hooks';
+import ShortAddress from '../ShortAddress';
+import { useState } from 'react';
+import { useEtherBalance, useEthers } from '@usedapp/core';
+import WalletConnectModal from '../WalletConnectModal';
 import { buildEtherscanAddressLink } from '../../utils/etherscan';
 import { ExternalURL, externalURL } from '../../utils/externalURL';
+import PartyInvite from '../PartyInvite';
+import WithdrawModal from '../WithdrawModal';
 
 const NavBar = () => {
   const activeAccount = useAppSelector(state => state.account.activeAccount);
@@ -22,6 +24,7 @@ const NavBar = () => {
   const daoEtherscanLink = buildEtherscanAddressLink(config.nounsDaoExecutorAddress);
 
   const [showConnectModal, setShowConnectModal] = useState(false);
+  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
 
   const showModalHandler = () => {
     setShowConnectModal(true);
@@ -30,6 +33,14 @@ const NavBar = () => {
     setShowConnectModal(false);
   };
 
+  const showWithdrawModalHandler = () => {
+    setShowWithdrawModal(true);
+  };
+  const hideWithdrawModalHandler = () => {
+    setShowWithdrawModal(false);
+  };
+
+  /* FLAGGED FOR REMOVAL - this has been moved to WalletConnectButton */
   const connectedContent = (
     <>
       <Nav.Item>
@@ -40,7 +51,7 @@ const NavBar = () => {
       </Nav.Item>
       <Nav.Item>
         <Nav.Link
-          className={clsx(classes.nounsNavLink, classes.disconnectBtn)}
+          className={clsx(classes.nounsNavLink, classes.menuItem)}
           onClick={() => {
             setShowConnectModal(false);
             deactivate();
@@ -55,10 +66,7 @@ const NavBar = () => {
 
   const disconnectedContent = (
     <>
-      <Nav.Link
-        className={clsx(classes.nounsNavLink, classes.connectBtn)}
-        onClick={showModalHandler}
-      >
+      <Nav.Link className={clsx(classes.nounsNavLink, classes.menuItem)} onClick={showModalHandler}>
         CONNECT WALLET
       </Nav.Link>
     </>
@@ -69,15 +77,19 @@ const NavBar = () => {
       {showConnectModal && activeAccount === undefined && (
         <WalletConnectModal onDismiss={hideModalHandler} />
       )}
+      {showWithdrawModal && activeAccount && (
+        <WithdrawModal hideWithdrawModalHandler={hideWithdrawModalHandler} />
+      )}
       <Navbar expand="lg">
-        <Container>
+        <Container fluid>
           <Navbar.Brand as={Link} to="/" className={classes.navBarBrand}>
             <img
               src={logo}
-              width="85"
-              height="85"
+              width="65"
+              height="65"
               className="d-inline-block align-middle"
               alt="Nouns DAO logo"
+              style={{ margin: '0px', padding: '0px' }}
             />
           </Navbar.Brand>
           {Number(CHAIN_ID) !== 1 && (
@@ -88,7 +100,7 @@ const NavBar = () => {
           )}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-end">
-            <Nav.Item>
+            {/* <Nav.Item>
               {treasuryBalance && (
                 <Nav.Link
                   href={daoEtherscanLink}
@@ -96,25 +108,18 @@ const NavBar = () => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  TREASURY Ξ {utils.formatEther(treasuryBalance.toString())}
+                  TREASURY <span className={classes.ethXiFont}>{`Ξ  `}</span>
+                  {utils.formatEther(treasuryBalance.toString())}
                 </Nav.Link>
               )}
+            </Nav.Item> */}
+            <Nav.Item className={classes.menuItem} onClick={() => showWithdrawModalHandler()}>
+              Withdraw
             </Nav.Item>
-            <Nav.Link as={Link} to="/vote" className={classes.nounsNavLink}>
-              DAO
-            </Nav.Link>
-            <Nav.Link
-              href={externalURL(ExternalURL.notion)}
-              className={classes.nounsNavLink}
-              target="_blank"
-              rel="noreferrer"
-            >
-              DOCS
-            </Nav.Link>
-            <Nav.Link href="/playground" className={classes.nounsNavLink} target="_blank">
-              PLAYGROUND
-            </Nav.Link>
+            <Nav.Item className={classes.menuItem}>Claim</Nav.Item>
+            <Nav.Item>Place Bid</Nav.Item>
             {activeAccount ? connectedContent : disconnectedContent}
+            <PartyInvite />
           </Navbar.Collapse>
         </Container>
       </Navbar>
