@@ -13,9 +13,14 @@ import BigNumber from 'bignumber.js';
 import classes from './Bid.module.css';
 import { Spinner, InputGroup, FormControl, Button } from 'react-bootstrap';
 import { useAuctionMinBidIncPercentage } from '../../wrappers/nounsAuction';
-import { nounsPartyContractFactory, NounsPartyContractFunction, useNounsPartyDepositBalance, useNounsPartyDeposits } from '../../wrappers/nounsParty';
 import { useAppDispatch } from '../../hooks';
 import { AlertModal, setAlertModal } from '../../state/slices/application';
+// import {
+//   nounsPartyContractFactory,
+//   NounsPartyContractFunction,
+//   useNounsPartyDepositBalance,
+//   useNounsPartyDeposits,
+// } from '../../wrappers/nounsParty';
 
 const computeMinimumNextBid = (
   currentBid: BigNumber,
@@ -52,7 +57,7 @@ const Bid: React.FC<{
   const { library } = useEthers();
   const { auction, auctionEnded } = props;
   const auctionHouseContract = auctionHouseContractFactory(config.auctionProxyAddress);
-  const nounsPartyContract = nounsPartyContractFactory(config.nounsPartyAddress);
+  // const nounsPartyContract = nounsPartyContractFactory(config.nounsPartyAddress);
 
   const account = useAppSelector(state => state.account.activeAccount);
 
@@ -73,8 +78,8 @@ const Bid: React.FC<{
     minBidIncPercentage,
   );
 
-  const depositBalance = useNounsPartyDepositBalance();
-  const deposits = useNounsPartyDeposits();
+  // const depositBalance = useNounsPartyDepositBalance();
+  // const deposits = useNounsPartyDeposits();
 
   const { send: placeBid, state: placeBidState } = useContractFunction__fix(
     auctionHouseContract,
@@ -85,26 +90,10 @@ const Bid: React.FC<{
     AuctionHouseContractFunction.settleCurrentAndCreateNewAuction,
   );
 
-  const { send: deposit, state: depositState } = useContractFunction__fix(
-    nounsPartyContract,
-    NounsPartyContractFunction.deposit,
-  );
-
-  useEffect(() => {
-    async function depositFn() {
-      const value = utils.parseEther("0.001");
-      const contract = connectContractToSigner(nounsPartyContract, undefined, library);
-      const gasLimit = await contract.estimateGas.deposit({
-        value,
-      });
-      deposit({
-        value,
-        gasLimit: gasLimit.add(10_000), // A 10,000 gas pad is used to avoid 'Out of gas' errors
-      });
-    }
-
-    // depositFn();
-  })
+  // const { send: deposit, state: depositState } = useContractFunction__fix(
+  //   nounsPartyContract,
+  //   NounsPartyContractFunction.deposit,
+  // );
 
   const bidInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value;
@@ -259,8 +248,6 @@ const Bid: React.FC<{
       {!auctionEnded && (
         <p className={classes.minBidCopy}>{`Minimum bid: ${minBidEth(minBid)} ETH`}</p>
       )}
-
-      <p>Deposit Balance: {utils.formatEther(depositBalance)}</p>
 
       <InputGroup>
         {!auctionEnded && (

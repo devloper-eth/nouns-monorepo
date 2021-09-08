@@ -1,11 +1,15 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
-    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face {
+  font-family: 'GT Maru';
+  src: url('./fonts/GT-Maru-Regular-Trial.woff2') format('woff2');
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+/*  Global Defaults */
+* {
+  font-family: 'GT Maru';
+  font-size: 1em;
+}
+
+p {
+  padding: 0px;
+  margin: 0px;
 }

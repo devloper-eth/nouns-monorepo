@@ -3,26 +3,33 @@ import { useState, useEffect } from 'react';
 import BigNumber from 'bignumber.js';
 import { Row, Col } from 'react-bootstrap';
 import classes from './AuctionActivity.module.css';
-import bidHistoryClasses from './BidHistory.module.css';
-import Bid from '../Bid';
 import AuctionTimer from '../AuctionTimer';
 import CurrentBid from '../CurrentBid';
 import Winner from '../Winner';
-import BidHistory from '../BidHistory';
-import { Modal } from 'react-bootstrap';
-import AuctionNavigation from '../AuctionNavigation';
-import AuctionActivityWrapper from '../AuctionActivityWrapper';
-import AuctionActivityNounTitle from '../AuctionActivityNounTitle';
-import AuctionActivityDateHeadline from '../AuctionActivityDateHeadline';
-import BidHistoryBtn from '../BidHistoryBtn';
-import StandaloneNoun from '../StandaloneNoun';
-import config from '../../config';
-import { buildEtherscanAddressLink } from '../../utils/etherscan';
 
-const openEtherscanBidHistory = () => {
-  const url = buildEtherscanAddressLink(config.auctionProxyAddress);
-  window.open(url);
-};
+/*  Currently unused packages but may need if commented components are brought back in  */
+// import config, { CHAIN_ID } from '../../config';
+// import { buildEtherscanAddressLink, Network } from '../../utils/buildEtherscanLink';
+// import AuctionActivityNounTitle from '../AuctionActivityNounTitle';
+// import AuctionActivityDateHeadline from '../AuctionActivityDateHeadline';
+// import BidHistoryBtn from '../BidHistoryBtn';
+// import StandaloneNoun from '../StandaloneNoun';
+// import { Modal } from 'react-bootstrap';
+// import AuctionNavigation from '../AuctionNavigation';
+// import Bid from '../Bid';
+// import bidHistoryClasses from './BidHistory.module.css';
+// import BidHistory from '../BidHistory';
+// import AuctionActivityWrapper from '../AuctionActivityWrapper';
+// import config from '../../config';
+// import { buildEtherscanAddressLink } from '../../utils/etherscan';
+
+// const openEtherscanBidHistory = () => {
+//   const url = buildEtherscanAddressLink(
+//     config.auctionProxyAddress,
+//     CHAIN_ID === 1 ? Network.mainnet : Network.rinkeby,
+//   );
+//   window.open(url.toString());
+// };
 
 interface AuctionActivityProps {
   auction: Auction;
@@ -36,30 +43,30 @@ interface AuctionActivityProps {
 const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityProps) => {
   const {
     auction,
-    isFirstAuction,
-    isLastAuction,
-    onPrevAuctionClick,
-    onNextAuctionClick,
-    displayGraphDepComps,
+    // isFirstAuction,
+    // isLastAuction,
+    // onPrevAuctionClick,
+    // onNextAuctionClick,
+    // displayGraphDepComps,
   } = props;
 
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
 
-  const [showBidHistoryModal, setShowBidHistoryModal] = useState(false);
-  const showBidModalHandler = () => {
-    setShowBidHistoryModal(true);
-  };
-  const dismissBidModalHanlder = () => {
-    setShowBidHistoryModal(false);
-  };
+  // const [showBidHistoryModal, setShowBidHistoryModal] = useState(false);
+  // const showBidModalHandler = () => {
+  //   setShowBidHistoryModal(true);
+  // };
+  // const dismissBidModalHanlder = () => {
+  //   setShowBidHistoryModal(false);
+  // };
 
-  const bidHistoryTitle = (
-    <h1>
-      Noun {auction && auction.nounId.toString()}
-      <br /> Bid History
-    </h1>
-  );
+  // const bidHistoryTitle = (
+  //   <h1>
+  //     Noun {auction && auction.nounId.toString()}
+  //     <br /> Bid History
+  //   </h1>
+  // );
 
   // timer logic
   useEffect(() => {
@@ -85,7 +92,8 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
 
   return (
     <>
-      {showBidHistoryModal && (
+      {/* FLAGGED FOR REMOVAL - No popup modal option shown in design */}
+      {/* {showBidHistoryModal && (
         <Modal
           show={showBidHistoryModal}
           onHide={dismissBidModalHanlder}
@@ -101,9 +109,33 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
             <BidHistory auctionId={auction.nounId.toString()} max={9999} />
           </Modal.Body>
         </Modal>
-      )}
+      )} */}
 
-      <AuctionActivityWrapper>
+      <Row className={classes.auctionActivityContainer}>
+        <Col lg={5}>
+          <CurrentBid
+            currentBid={new BigNumber(auction.amount.toString())}
+            auctionEnded={auctionEnded}
+          />
+        </Col>
+        <Col lg={7}>
+          {auctionEnded ? (
+            <Winner winner={auction.bidder} />
+          ) : (
+            <AuctionTimer auction={auction} auctionEnded={auctionEnded} />
+          )}
+        </Col>
+      </Row>
+
+      {/* {displayGraphDepComps && (
+          <BidHistory auctionId={auction.nounId.toString()} max={3} classes={bidHistoryClasses} />
+        )} */}
+
+      {/* TODO - will need displayGraphDepComps boolean but remove to make initial design easier  */}
+      {/* <BidHistory auctionId={auction.nounId.toString()} max={3} classes={bidHistoryClasses} /> */}
+
+      {/* FLAGGED FOR REMOVAL - Will cherrypick components and change style when needed */}
+      {/* <AuctionActivityWrapper>
         <div className={classes.informationRow}>
           <Row className={classes.activityRow}>
             <Col lg={12}>
@@ -153,8 +185,10 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
                 classes={bidHistoryClasses}
               />
             )}
-            {/* If no bids, show nothing. If bids avail:graph is stable? show bid history modal,
-            else show etherscan contract link */}
+
+            If no bids, show nothing. If bids avail:graph is stable? show bid history modal,
+            else show etherscan contract link
+
             {!auction.amount.eq(0) &&
               (displayGraphDepComps ? (
                 <BidHistoryBtn onClick={showBidModalHandler} />
@@ -163,7 +197,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
               ))}
           </Col>
         </Row>
-      </AuctionActivityWrapper>
+      </AuctionActivityWrapper> */}
     </>
   );
 };

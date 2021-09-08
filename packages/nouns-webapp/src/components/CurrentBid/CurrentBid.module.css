@@ -3,3 +3,18 @@
   font-weight: bold;
   font-family: 'Londrina Solid';
 }
+
+/* Help prevent overflow */
+.ethAddressPadding {
+  padding-left: 1em;
+  padding-right: 0px;
+}
+
+.noMarginPadding {
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.bidText {
+  color: rgba(33, 37, 41, 0.2);
+}

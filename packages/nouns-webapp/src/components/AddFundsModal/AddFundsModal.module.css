@@ -1,0 +1,55 @@
+.infoText {
+  text-align: justify;
+  font-size: 0.8em;
+}
+
+.warningText {
+  text-align: justify;
+  font-size: 0.8em;
+}
+
+.depositText {
+  padding: 0px;
+  margin: 0px;
+  text-align: left;
+}
+
+.bidInput {
+  border-radius: 25px !important;
+  width: 50%;
+  padding: 20px;
+  width: 200px;
+  height: 15px;
+}
+
+.customPlaceholder {
+  position: absolute;
+  top: 25%;
+  left: 80%;
+  font-weight: bold;
+  color: #aaa;
+  z-index: 3;
+}
+
+.inputContainer {
+  margin: 10px 0px 10px 0px;
+}
+
+.addFundsButton {
+  height: 3em;
+  width: 100%;
+  /* padding: 10.5px 50px; */
+  border: none;
+  outline: none;
+  font-weight: bold;
+  color: #fff;
+  align-items: center;
+  cursor: pointer;
+  z-index: 0;
+  text-align: center;
+  font-size: 1em;
+  background: linear-gradient(90.72deg, #00ffa3 -33.78%, #57cdff 35.54%, #f68eff 118.48%);
+  /* filter: blur(12px); */
+  border-radius: 24px;
+  margin: 0px 0px 10px 0px;
+}
