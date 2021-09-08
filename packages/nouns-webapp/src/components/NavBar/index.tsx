@@ -13,6 +13,8 @@ import { useEtherBalance, useEthers } from '@usedapp/core';
 import WalletConnectModal from '../WalletConnectModal';
 import { buildEtherscanAddressLink } from '../../utils/etherscan';
 import { ExternalURL, externalURL } from '../../utils/externalURL';
+import PartyInvite from '../PartyInvite';
+import WithdrawModal from '../WithdrawModal';
 
 const NavBar = () => {
   const activeAccount = useAppSelector(state => state.account.activeAccount);
@@ -22,12 +24,20 @@ const NavBar = () => {
   const daoEtherscanLink = buildEtherscanAddressLink(config.nounsDaoExecutorAddress);
 
   const [showConnectModal, setShowConnectModal] = useState(false);
+  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
 
   const showModalHandler = () => {
     setShowConnectModal(true);
   };
   const hideModalHandler = () => {
     setShowConnectModal(false);
+  };
+
+  const showWithdrawModalHandler = () => {
+    setShowWithdrawModal(true);
+  };
+  const hideWithdrawModalHandler = () => {
+    setShowWithdrawModal(false);
   };
 
   /* FLAGGED FOR REMOVAL - this has been moved to WalletConnectButton */
@@ -41,7 +51,7 @@ const NavBar = () => {
       </Nav.Item>
       <Nav.Item>
         <Nav.Link
-          className={clsx(classes.nounsNavLink, classes.disconnectBtn)}
+          className={clsx(classes.nounsNavLink, classes.menuItem)}
           onClick={() => {
             setShowConnectModal(false);
             deactivate();
@@ -56,10 +66,7 @@ const NavBar = () => {
 
   const disconnectedContent = (
     <>
-      <Nav.Link
-        className={clsx(classes.nounsNavLink, classes.connectBtn)}
-        onClick={showModalHandler}
-      >
+      <Nav.Link className={clsx(classes.nounsNavLink, classes.menuItem)} onClick={showModalHandler}>
         CONNECT WALLET
       </Nav.Link>
     </>
@@ -69,6 +76,9 @@ const NavBar = () => {
     <>
       {showConnectModal && activeAccount === undefined && (
         <WalletConnectModal onDismiss={hideModalHandler} />
+      )}
+      {showWithdrawModal && activeAccount && (
+        <WithdrawModal hideWithdrawModalHandler={hideWithdrawModalHandler} />
       )}
       <Navbar expand="lg">
         <Container fluid>
@@ -90,7 +100,7 @@ const NavBar = () => {
           )}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-end">
-            <Nav.Item>
+            {/* <Nav.Item>
               {treasuryBalance && (
                 <Nav.Link
                   href={daoEtherscanLink}
@@ -102,22 +112,14 @@ const NavBar = () => {
                   {utils.formatEther(treasuryBalance.toString())}
                 </Nav.Link>
               )}
+            </Nav.Item> */}
+            <Nav.Item className={classes.menuItem} onClick={() => showWithdrawModalHandler()}>
+              Withdraw
             </Nav.Item>
-            <Nav.Link as={Link} to="/vote" className={classes.nounsNavLink}>
-              DAO
-            </Nav.Link>
-            <Nav.Link
-              href={externalURL(ExternalURL.notion)}
-              className={classes.nounsNavLink}
-              target="_blank"
-              rel="noreferrer"
-            >
-              DOCS
-            </Nav.Link>
-            <Nav.Link href="/playground" className={classes.nounsNavLink} target="_blank">
-              PLAYGROUND
-            </Nav.Link>
+            <Nav.Item className={classes.menuItem}>Claim</Nav.Item>
+            <Nav.Item>Place Bid</Nav.Item>
             {activeAccount ? connectedContent : disconnectedContent}
+            <PartyInvite />
           </Navbar.Collapse>
         </Container>
       </Navbar>

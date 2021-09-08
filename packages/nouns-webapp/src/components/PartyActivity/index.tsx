@@ -126,7 +126,7 @@ const PartyActivity: React.FC<{
     <div className={classes.partyPaperContainer}>
       <CurrentNounId />
       {onDisplayNounId ? currentAuctionActivityContent : pastAuctionActivityContent}
-      <PartyVault />
+      <PartyVault auction={currentAuction} />
       <PartyButtons />
       <PartyGuestList />
     </div>

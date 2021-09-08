@@ -50,3 +50,17 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
     'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
+
+.menuItem {
+  cursor: pointer;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+.menuItem:hover {
+  cursor: pointer;
+  margin-right: 10px;
+  margin-left: 10px;
+  background: -webkit-linear-gradient(90.72deg, #00ffa3 -33.78%, #57cdff 35.54%, #f68eff 118.48%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

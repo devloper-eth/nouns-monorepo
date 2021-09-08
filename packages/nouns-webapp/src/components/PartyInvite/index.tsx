@@ -28,21 +28,15 @@ const PartyInvite = () => {
     }, 3000);
   };
   return (
-    <Col
-      xs={{ span: 12, order: 1 }}
-      lg={{ span: 5, order: 12 }}
-      className={classes.noPaddingMargin}
+    <OverlayTrigger
+      trigger="click"
+      placement="bottom"
+      overlay={showPopover ? popover : renderNothing}
     >
-      <OverlayTrigger
-        trigger="click"
-        placement="top"
-        overlay={showPopover ? popover : renderNothing}
-      >
-        <button onClick={() => triggerPartyClick()} className={classes.partyInviteButton}>
-          <span className={classes.partyInviteButtonText}>Send Party Invite!</span>
-        </button>
-      </OverlayTrigger>
-    </Col>
+      <button onClick={() => triggerPartyClick()} className={classes.partyInviteButton}>
+        <span className={classes.partyInviteButtonText}>Send Party Invite!</span>
+      </button>
+    </OverlayTrigger>
   );
 };
 

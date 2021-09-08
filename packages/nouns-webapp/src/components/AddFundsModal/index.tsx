@@ -50,23 +50,26 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
       }
 
       setDepositButtonContent({ loading: true, content: 'Depositing eth...' });
-
-      const value = utils.parseEther(bidInputRef.current.value.toString());
-      const contract = connectContractToSigner(nounsPartyContract, undefined, library);
-      // const gasLimit = await contract.estimateGas.createBid(auction.nounId, {
-      //   value,
-      // });
-      deposit(activeAccount, value);
-      // Do this instead
-
-      // setTimeout(() => {
-      //   onDismiss();
-      //   setModal({
-      //     title: 'Success',
-      //     message: `Bid was placed successfully!`,
-      //     show: true,
-      //   });
-      // }, 2000);
+      try {
+        const value = utils.parseEther(bidInputRef.current.value.toString());
+        const contract = connectContractToSigner(nounsPartyContract, undefined, library);
+        const gasLimit = await contract.estimateGas.deposit({
+          value,
+        });
+        deposit({
+          value,
+          gasLimit: gasLimit.add(10_000), // A 10,000 gas pad is used to avoid 'Out of gas' errors
+        });
+      } catch {
+        onDismiss();
+        setModal({
+          title: 'Error',
+          message: depositState.errorMessage
+            ? depositState.errorMessage
+            : 'Deposit failed. Please try again.',
+          show: true,
+        });
+      }
     };
 
     const clearBidInput = () => {
@@ -88,7 +91,7 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
         onDismiss();
         setModal({
           title: 'Success',
-          message: `Bid was placed successfully!`,
+          message: `Eth was deposited successfully!`,
           show: true,
         });
         setDepositButtonContent({ loading: false, content: 'Bid' });

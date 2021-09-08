@@ -1,54 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import { Col, ProgressBar, Row } from 'react-bootstrap';
-import { nounsPartyContractFactory, NounsPartyContractFunction } from '../../wrappers/nounsParty';
+import { useNounsPartyDepositBalance } from '../../wrappers/nounsParty';
 import classes from './PartyVault.module.css';
 import config from '../../config';
+import { Auction as IAuction } from '../../wrappers/nounsAuction';
+import { BigNumber } from 'ethers';
 import './progressbar.css';
-import { useContractFunction__fix } from '../../hooks/useContractFunction__fix';
-import { connectContractToSigner, useEthers } from '@usedapp/core';
 
-const PartyVault = () => {
-  const [vaultAmount, setVaultAmount] = useState<any>(null);
+import { utils } from 'ethers';
 
-  const { library } = useEthers();
-  const nounsPartyContract = nounsPartyContractFactory(config.nounsPartyAddress);
-  // const contract = connectContractToSigner(nounsPartyContract, undefined, library);
+const PartyVault: React.FC<{
+  auction: IAuction;
+}> = props => {
+  const { auction: currentAuction } = props;
+  const depositBalance = useNounsPartyDepositBalance();
 
-  // const { send: depositBalance, state: depositState } = useContractFunction__fix(
-  //   nounsPartyContract,
-  //   NounsPartyContractFunction.depositBalance,
-  // );
-
-  // should just be able to call the contract function? See below:
-  // packages/nouns-webapp/src/components/Bid/index.tsx --> L:116 'placebid()' called from destructured L:74 'placeBid'
-  const getVaultAmount = async () => {
-    // const currentAmount = await depositBalance();
-    // setVaultAmount(currentAmount);
-  };
-
-  useEffect(() => {
-    if (!vaultAmount) {
-      getVaultAmount();
-    }
-  }, []);
+  let formattedDepositBalance = Number(utils.formatEther(depositBalance));
+  let formattedBid = Number(currentAuction?.amount?.toString());
 
   return (
     <div className={classes.partyVaultWrapper}>
       <Row>
-        <Col xs={12} lg={7}>
+        <Col xs={12} lg={9}>
           <p className={`${classes.partyVaultText} ${classes.noPaddingMargin}`}>
-            Nouns Party Vault <span className={classes.ethXiFont}>{`Ξ ${vaultAmount}`}</span>
+            {`Nouns Party Vault `}
+            <span className={classes.ethXiFont}>{`Ξ${utils.formatEther(depositBalance)}`}</span>
           </p>
         </Col>
-        <Col xs={12} lg={5}>
+        {/* <Col xs={12} lg={5}>
           <p className={`${classes.ethNeededText} ${classes.noPaddingMargin}`}>
             Eth Needed <span className={classes.ethXiFont}>{`Ξ `}</span>
           </p>
-        </Col>
+        </Col> */}
       </Row>
       <Row>
         <Col className={classes.progressBarContainer}>
-          <ProgressBar now={45} />
+          <ProgressBar
+            now={
+              checkNulls(formattedDepositBalance, formattedBid)
+                ? formattedDepositBalance / formattedBid
+                : 100
+            }
+          />
         </Col>
       </Row>
     </div>
@@ -56,3 +49,11 @@ const PartyVault = () => {
 };
 
 export default PartyVault;
+
+const checkNulls = (formattedDepositBalance: number, formattedBid: number) => {
+  if (formattedDepositBalance && formattedBid && formattedBid > 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
