@@ -2,12 +2,14 @@ import { connectContractToSigner, useEthers } from '@usedapp/core';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Col, Row, Spinner } from 'react-bootstrap';
 import { useContractFunction__fix } from '../../hooks/useContractFunction__fix';
-import { nounsPartyContractFactory, NounsPartyContractFunction } from '../../wrappers/nounsParty';
+import { nounsPartyContractFactory, NounsPartyContractFunction, useNounsPartyAuctionIsHot, useNounsPartyDeposits, useNounsPartyPendingSettledCount } from '../../wrappers/nounsParty';
 import config from '../../config';
 import Modal from '../Modal';
 import { AlertModal, setAlertModal } from '../../state/slices/application';
 import classes from './WithdrawModal.module.css';
 import { useAppDispatch } from '../../hooks';
+import { BigNumber } from 'ethers';
+import { formatEther, getAddress } from 'ethers/lib/utils';
 
 const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props => {
   // state
@@ -28,6 +30,11 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
     nounsPartyContract,
     NounsPartyContractFunction.withdraw,
   );
+
+  const pendingSettledCount = useNounsPartyPendingSettledCount();
+  const auctionIsHot = useNounsPartyAuctionIsHot();
+  const deposits = useNounsPartyDeposits();
+  const { account } = useEthers();
 
   // withdraw funds
   const withdrawFundsHandler = async () => {
@@ -105,11 +112,36 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
     }
   }, [withdrawState, setModal, hideWithdrawModalHandler]);
 
-  const withdrawContent = (
+
+  const withdrawDisabledContent = (
     <>
       <Row className="justify-content-center">
         <Col>
-          <p className={classes.confirmText}>Are you sure you want to withdraw your funds?</p>
+          <p className={classes.confirmText}>Withdrawals are currently disabled</p>
+        </Col>
+      </Row>
+      <Col>
+        <ul>
+          {auctionIsHot ? <li>The auction is about to end or just ended</li> : null}
+          {pendingSettledCount.gt(0) ? <li>Some auctions still need to be settled</li> : null}
+        </ul>
+      </Col>
+    </>
+  );
+  // ethers.utils.getAddress(a1) === ethers.utils.getAddress(a2)
+  const withdrawFormContent = (
+    <>
+      <Row className="justify-content-center">
+        <Col>
+          <p className={classes.confirmText}>Are you sure you want to withdraw all your deposits?
+
+            ({deposits && deposits.length > 0 ? (
+              formatEther(deposits.reduce((prev, curr) => {
+                return account && getAddress(account) == getAddress(curr.owner) ? prev.add(curr.amount) : prev;
+              }, BigNumber.from(0)))
+            ) : 0} ETH)
+
+          </p>
         </Col>
       </Row>
       <Col>
@@ -118,6 +150,12 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
           {withdrawButtonContent.content}
         </Button>
       </Col>
+    </>
+  );
+
+  const withdrawContent = (
+    <>
+      {auctionIsHot || pendingSettledCount.gt(0) ? withdrawDisabledContent : withdrawFormContent}
     </>
   );
 
