@@ -129,12 +129,10 @@ const Bid: React.FC<{
 
     const value = utils.parseEther(bidInputRef.current.value.toString());
     const contract = connectContractToSigner(nounsPartyContract, undefined, library);
-    const gasLimit = await contract.estimateGas.bid(auction.nounId, {
-      value,
-    });
-    bid(auction.nounId, {
-      value,
-      gasLimit: gasLimit.add(10_000), // A 10,000 gas pad is used to avoid 'Out of gas' errors
+    const gasLimit = await contract.estimateGas.bid(auction.nounId, value, {value: value});
+    bid(auction.nounId, value, {
+      value: value,
+      gasLimit: gasLimit.add(10000), // A 10,000 gas pad is used to avoid 'Out of gas' errors
     });
   };
 
