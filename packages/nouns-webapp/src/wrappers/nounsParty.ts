@@ -58,6 +58,32 @@ export const useNounsPartyDeposits = () => {
 	return deposits[0];
 }
 
+export const useNounsPartyPendingSettledCount = () => {
+	const count = useContractCall<[EthersBN]>({
+		abi,
+		address: config.nounsPartyAddress,
+		method: "pendingSettledCount",
+		args: [],
+	})
+	if(!count) {
+		return EthersBN.from(0)
+	};
+	return count[0];
+}
+
+export const useNounsPartyAuctionIsHot = () => {
+	const hot = useContractCall<[Boolean]>({
+		abi,
+		address: config.nounsPartyAddress,
+		method: "auctionIsHot",
+		args: [],
+	})
+	if (!hot) {
+		return false;
+	}
+	return hot[0];
+}
+
 // interface INounsParty {
 // 	struct Deposit {
 // 		address owner;

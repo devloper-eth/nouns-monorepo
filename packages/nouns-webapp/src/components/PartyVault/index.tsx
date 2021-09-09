@@ -4,7 +4,7 @@ import { useNounsPartyDepositBalance } from '../../wrappers/nounsParty';
 import classes from './PartyVault.module.css';
 import { Auction as IAuction } from '../../wrappers/nounsAuction';
 import './progressbar.css';
-// import { BigNumber } from 'ethers';
+import { BigNumber } from 'ethers';
 // import config from '../../config';
 
 import { utils } from 'ethers';
@@ -13,10 +13,9 @@ const PartyVault: React.FC<{
   auction: IAuction;
 }> = props => {
   const { auction: currentAuction } = props;
-  const depositBalance = useNounsPartyDepositBalance();
 
-  let formattedDepositBalance = Number(utils.formatEther(depositBalance));
-  let formattedBid = Number(currentAuction?.amount?.toString());
+  let depositBalance = useNounsPartyDepositBalance() || BigNumber.from(0);
+  let auctionBid = currentAuction?.amount || BigNumber.from(0);
 
   return (
     <div className={classes.partyVaultWrapper}>
@@ -37,8 +36,8 @@ const PartyVault: React.FC<{
         <Col className={classes.progressBarContainer}>
           <ProgressBar
             now={
-              checkNulls(formattedDepositBalance, formattedBid)
-                ? formattedDepositBalance / formattedBid
+              auctionBid.gt(0)
+                ? depositBalance.div(auctionBid)
                 : 100
             }
           />
@@ -49,11 +48,3 @@ const PartyVault: React.FC<{
 };
 
 export default PartyVault;
-
-const checkNulls = (formattedDepositBalance: number, formattedBid: number) => {
-  if (formattedDepositBalance && formattedBid && formattedBid > 0) {
-    return true;
-  } else {
-    return false;
-  }
-};
