@@ -15,6 +15,7 @@ import CreateProposalPage from './pages/CreateProposal';
 import VotePage from './pages/Vote';
 import NoundersPage from './pages/Nounders';
 import { CHAIN_ID } from './config';
+import Footer from './components/Footer';
 // import Footer from './components/Footer';
 
 function App() {
@@ -53,7 +54,7 @@ function App() {
           <Route exact path="/vote" component={GovernancePage} />
           <Route exact path="/vote/:id" component={VotePage} />
         </Switch>
-        {/* <Footer /> */}
+        <Footer />
       </BrowserRouter>
     </div>
   );

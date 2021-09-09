@@ -27,7 +27,7 @@ const NavBar = () => {
 
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
-  const [showClaimTokensModal, setShowClaimTokensModal] = useState(false);
+  // const [showClaimTokensModal, setShowClaimTokensModal] = useState(false);
   const [showPlaceBidModal, setShowPlaceBidModal] = useState(false);
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
@@ -48,13 +48,14 @@ const NavBar = () => {
     setShowWithdrawModal(false);
   };
 
-  // Claim Tokens Modal
-  const showClaimTokensModalHandler = () => {
-    setShowClaimTokensModal(true);
-  };
-  const hideClaimTokensModalHandler = () => {
-    setShowClaimTokensModal(false);
-  };
+  // TO DO
+  // // Claim Tokens Modal
+  // const showClaimTokensModalHandler = () => {
+  //   setShowClaimTokensModal(true);
+  // };
+  // const hideClaimTokensModalHandler = () => {
+  //   setShowClaimTokensModal(false);
+  // };
 
   // Place Bid Modal
   const showPlaceBodModalHandler = () => {
@@ -64,8 +65,8 @@ const NavBar = () => {
     setShowPlaceBidModal(false);
   };
 
-   // timer logic
-   useEffect(() => {
+  // timer logic
+  useEffect(() => {
     if (!auction) return;
 
     const timeLeft = Number(auction.endTime) - Math.floor(Date.now() / 1000);
@@ -83,7 +84,6 @@ const NavBar = () => {
       };
     }
   }, [auctionTimer, auction]);
-
 
   const connectedContent = (
     <>
@@ -124,8 +124,19 @@ const NavBar = () => {
       {showWithdrawModal && activeAccount && (
         <WithdrawModal hideWithdrawModalHandler={hideWithdrawModalHandler} />
       )}
-{/* {showClaimTokensModal && activeAccount && (<ClaimTokensModal hideClaimTokensModalHandler={hideClaimTokensModalHandler}/>)} */}
-      {auction && lastNounId && auction?.nounId?.eq(lastNounId) && showPlaceBidModal && activeAccount && !auctionEnded && (<Bid auction={auction} auctionEnded={auctionEnded} hidePlaceBidModalHandler={hidePlaceBidModalHandler}/>)}
+      {/* {showClaimTokensModal && activeAccount && (<ClaimTokensModal hideClaimTokensModalHandler={hideClaimTokensModalHandler}/>)} */}
+      {auction &&
+        lastNounId &&
+        auction?.nounId?.eq(lastNounId) &&
+        showPlaceBidModal &&
+        activeAccount &&
+        !auctionEnded && (
+          <Bid
+            auction={auction}
+            auctionEnded={auctionEnded}
+            hidePlaceBidModalHandler={hidePlaceBidModalHandler}
+          />
+        )}
       <Navbar expand="lg">
         <Container fluid>
           <Navbar.Brand as={Link} to="/" className={classes.navBarBrand}>
@@ -159,13 +170,15 @@ const NavBar = () => {
                 </Nav.Link>
               )}
             </Nav.Item> */}
-          
+
             <Nav.Item className={classes.menuItem} onClick={() => showWithdrawModalHandler()}>
               Withdraw
             </Nav.Item>
             {/* <Nav.Item className={classes.menuItem} onClick={() => showClaimTokensModalHandler()}>Claim Tokens</Nav.Item> */}
-            <Nav.Item className={classes.menuItem} onClick={() => showPlaceBodModalHandler()}>Place Bid</Nav.Item>
-           
+            <Nav.Item className={classes.menuItem} onClick={() => showPlaceBodModalHandler()}>
+              Place Bid
+            </Nav.Item>
+
             {/* <SettleAuction /> */}
             {activeAccount ? connectedContent : disconnectedContent}
             <PartyInvite />

@@ -1,9 +1,4 @@
-import {
-  Auction,
-  auctionHouseContractFactory,
-  AuctionHouseContractFunction,
-  useAuction,
-} from '../../wrappers/nounsAuction';
+import { Auction } from '../../wrappers/nounsAuction';
 import config from '../../config';
 import { connectContractToSigner, useEthers } from '@usedapp/core';
 import { useContractFunction__fix } from '../../hooks/useContractFunction__fix';
@@ -12,17 +7,12 @@ import React, { useEffect, useState, useRef, ChangeEvent, useCallback } from 're
 import { utils, BigNumber as EthersBN } from 'ethers';
 import BigNumber from 'bignumber.js';
 import classes from './Bid.module.css';
-import { Spinner, InputGroup, FormControl, Button } from 'react-bootstrap';
+import { Spinner, InputGroup, FormControl, Button, Row, Col } from 'react-bootstrap';
 import { useAuctionMinBidIncPercentage } from '../../wrappers/nounsAuction';
 import { useAppDispatch } from '../../hooks';
 import { AlertModal, setAlertModal } from '../../state/slices/application';
 import Modal from '../Modal';
-import {
-  nounsPartyContractFactory,
-  NounsPartyContractFunction,
-  useNounsPartyDepositBalance,
-  useNounsPartyDeposits,
-} from '../../wrappers/nounsParty';
+import { nounsPartyContractFactory, NounsPartyContractFunction } from '../../wrappers/nounsParty';
 
 const computeMinimumNextBid = (
   currentBid: BigNumber,
@@ -67,10 +57,10 @@ const Bid: React.FC<{
   const bidInputRef = useRef<HTMLInputElement>(null);
 
   const [bidInput, setBidInput] = useState('');
-  
+
   const [bidButtonContent, setBidButtonContent] = useState({
     loading: false,
-    content: 'Place Bid'
+    content: 'Place Bid',
   });
 
   const dispatch = useAppDispatch();
@@ -152,19 +142,21 @@ const Bid: React.FC<{
     // tx state is mining
     const isMiningUserTx = bidState.status === 'Mining';
     // allows user to rebid against themselves so long as it is not the same tx
-    const isCorrectTx = currentBid(bidInputRef).isEqualTo(new BigNumber(auction.amount.toString()));
-    
-    if (isMiningUserTx && auction.bidder === account && isCorrectTx) {
+    // const isCorrectTx = currentBid(bidInputRef).isEqualTo(new BigNumber(auction.amount.toString()));
+
+    if (isMiningUserTx) {
+      // isCorrectTx
       bidState.status = 'Success';
+      hidePlaceBidModalHandler();
       setModal({
         title: 'Success',
-        message: `Bid was placed successfully!`,
+        message: `Bid for ${bidInputRef?.current?.value} Eth was placed successfully!`,
         show: true,
       });
       setBidButtonContent({ loading: false, content: 'Place Bid' });
       clearBidInput();
     }
-  }, [auction, bidState, account, setModal]);
+  }, [auction, bidState, account, setModal, hidePlaceBidModalHandler]);
 
   // placing bid transaction state hook
   useEffect(() => {
@@ -176,26 +168,32 @@ const Bid: React.FC<{
         });
         break;
       case 'Mining':
-        setBidButtonContent({ loading: true, content: '' });
+        setBidButtonContent({ loading: true, content: 'Placing bid...' });
         break;
       case 'Fail':
+        hidePlaceBidModalHandler();
         setModal({
           title: 'Transaction Failed',
-          message: bidState.errorMessage ? bidState.errorMessage : 'Place bid failed. Please try again.',
+          message: bidState.errorMessage
+            ? bidState.errorMessage
+            : 'Place bid failed. Please try again.',
           show: true,
         });
         setBidButtonContent({ loading: false, content: 'Place Bid' });
         break;
       case 'Exception':
+        hidePlaceBidModalHandler();
         setModal({
           title: 'Error',
-          message: bidState.errorMessage ? bidState.errorMessage : 'Place bid failed. Please try again.',
+          message: bidState.errorMessage
+            ? bidState.errorMessage
+            : 'Place bid failed. Please try again.',
           show: true,
         });
         setBidButtonContent({ loading: false, content: 'Place Bid' });
         break;
     }
-  }, [bidState, auctionEnded, setModal]);
+  }, [bidState, auctionEnded, setModal, hidePlaceBidModalHandler]);
 
   // // settle auction transaction state hook
   // useEffect(() => {
@@ -243,44 +241,46 @@ const Bid: React.FC<{
   if (!auction) return null;
 
   // || settleAuctionState.status === 'Mining'  if settling is included in this component
-  const isDisabled =
-  bidState.status === 'Mining' || !activeAccount;
+  const isDisabled = bidState.status === 'Mining' || !activeAccount;
 
-    const placeBidContent = (
-      <>
+  const placeBidContent = (
+    <>
       {!auctionEnded && (
         <p className={classes.minBidCopy}>{`Minimum bid: ${minBidEth(minBid)} ETH`}</p>
       )}
-
-      <InputGroup>
-        {!auctionEnded && (
-          <>
-            <FormControl
-              aria-label="Example text with button addon"
-              aria-describedby="basic-addon1"
-              className={classes.bidInput}
-              type="number"
-              min="0"
-              onChange={bidInputHandler}
-              ref={bidInputRef}
-              value={bidInput}
-            />
-            <span className={classes.customPlaceholder}>ETH</span>
-          </>
-        )}
-        <Button
-          className={classes.placePartyBidButton}
-          onClick={placeBidHandler}
-          disabled={isDisabled || auctionEnded}
-        >
-          {bidButtonContent.loading ? <Spinner animation="border" /> : null}
-          {bidButtonContent.content}
-        </Button>
-      </InputGroup>
+      <Row>
+        <InputGroup>
+          {!auctionEnded && (
+            <>
+              <FormControl
+                aria-label="Example text with button addon"
+                aria-describedby="basic-addon1"
+                className={classes.bidInput}
+                type="number"
+                min="0"
+                onChange={bidInputHandler}
+                ref={bidInputRef}
+                value={bidInput}
+              />
+              <span className={classes.customPlaceholder}>ETH</span>
+            </>
+          )}
+        </InputGroup>
+      </Row>
+      <Row>
+        <Col>
+          <Button
+            className={classes.placePartyBidButton}
+            onClick={placeBidHandler}
+            disabled={isDisabled || auctionEnded}
+          >
+            {bidButtonContent.loading ? <Spinner animation="border" /> : null}
+            {bidButtonContent.content}
+          </Button>
+        </Col>
+      </Row>
     </>
-    )
-  return (
-    <Modal title="Place Bid" content={placeBidContent} onDismiss={hidePlaceBidModalHandler} />
   );
+  return <Modal title="Place Bid" content={placeBidContent} onDismiss={hidePlaceBidModalHandler} />;
 };
 export default Bid;
