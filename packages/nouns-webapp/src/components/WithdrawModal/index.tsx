@@ -128,7 +128,7 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
       </Col>
     </>
   );
-  // ethers.utils.getAddress(a1) === ethers.utils.getAddress(a2)
+
   const withdrawFormContent = (
     <>
       <Row className="justify-content-center">
