@@ -137,7 +137,7 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
 
             ({deposits && deposits.length > 0 ? (
               formatEther(deposits.reduce((prev, curr) => {
-                return account && getAddress(account) == getAddress(curr.owner) ? prev.add(curr.amount) : prev;
+                return account && getAddress(account) === getAddress(curr.owner) ? prev.add(curr.amount) : prev;
               }, BigNumber.from(0)))
             ) : 0} ETH)
 
