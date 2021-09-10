@@ -14,7 +14,10 @@ export const BID_N_A = 'n/a';
  */
 type BidNa = typeof BID_N_A;
 
-const CurrentBid: React.FC<{ currentBid: BigNumber | BidNa; auctionEnded: boolean }> = props => {
+const CurrentBid: React.FC<{
+  currentBid: BigNumber | BidNa;
+  auctionEnded: boolean;
+}> = props => {
   const { currentBid, auctionEnded } = props;
 
   const titleContent = auctionEnded ? 'Winning bid' : 'Current bid';

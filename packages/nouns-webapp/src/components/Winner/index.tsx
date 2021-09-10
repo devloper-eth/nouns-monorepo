@@ -1,9 +1,12 @@
 import { Col, Row } from 'react-bootstrap';
+import { Auction } from '../../wrappers/nounsAuction';
 import classes from '../CurrentBid/CurrentBid.module.css';
 import ShortAddress from '../ShortAddress';
+import { isNounderNoun } from '../../utils/nounderNoun';
+import { BigNumber } from 'ethers';
 
-const Winner: React.FC<{ winner: string }> = props => {
-  const { winner } = props;
+const Winner: React.FC<{ winner: string; auction: Auction }> = props => {
+  const { winner, auction } = props;
 
   return (
     <>
@@ -15,7 +18,11 @@ const Winner: React.FC<{ winner: string }> = props => {
       <Row>
         <Col className={classes.ethAddressPadding}>
           <h3 className={classes.noMarginPadding}>
-            <ShortAddress address={winner} />
+            {auction && auction.nounId && isNounderNoun(BigNumber.from(auction.nounId)) ? (
+              'nounders.eth'
+            ) : (
+              <ShortAddress address={winner} />
+            )}
           </h3>
         </Col>
       </Row>

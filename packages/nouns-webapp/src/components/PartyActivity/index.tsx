@@ -8,6 +8,7 @@ import AuctionActivity from '../AuctionActivity';
 import { BigNumber } from 'ethers';
 import { ApolloError, useQuery } from '@apollo/client';
 import { auctionQuery } from '../../wrappers/subgraph';
+import AuctionNavigation from '../AuctionNavigation';
 // import { ProgressBar, Row } from 'react-bootstrap';
 // import PartyBid from '../PartyBid';
 
@@ -91,27 +92,27 @@ const PartyActivity: React.FC<{
   const prevAuctionHandler = auctionHandlerFactory((prev: BigNumber) => prev.sub(1));
   const nextAuctionHandler = auctionHandlerFactory((prev: BigNumber) => prev.add(1));
 
-  const auctionActivityContent = (auction: IAuction, displayGraphDepComps: boolean) => (
-    <AuctionActivity
-      auction={auction}
-      isFirstAuction={isFirstAuction}
-      isLastAuction={isLastAuction}
-      onPrevAuctionClick={prevAuctionHandler}
-      onNextAuctionClick={nextAuctionHandler}
-      displayGraphDepComps={displayGraphDepComps}
-    />
-  );
+  // const auctionActivityContent = (auction: IAuction, displayGraphDepComps: boolean) => (
+  //   <AuctionActivity
+  //     auction={auction}
+  //     isFirstAuction={isFirstAuction}
+  //     isLastAuction={isLastAuction}
+  //     onPrevAuctionClick={prevAuctionHandler}
+  //     onNextAuctionClick={nextAuctionHandler}
+  //     displayGraphDepComps={displayGraphDepComps}
+  //   />
+  // );
 
-  const currentAuctionActivityContent =
-    currentAuction &&
-    auctionActivityContent(
-      currentAuction,
-      onDisplayNounId && prevAuctionsAvailable(loadingPrev, errorPrev, prevAuction), // else check if prev auct is avail
-    );
+  // const currentAuctionActivityContent =
+  //   currentAuction &&
+  //   auctionActivityContent(
+  //     currentAuction,
+  //     onDisplayNounId && prevAuctionsAvailable(loadingPrev, errorPrev, prevAuction), // else check if prev auct is avail
+  //   );
 
-  const pastAuctionActivityContent =
-    auction &&
-    auctionActivityContent(auction, prevAuctionsAvailable(loadingPrev, errorPrev, prevAuction));
+  // const pastAuctionActivityContent =
+  //   auction &&
+  //   auctionActivityContent(auction, prevAuctionsAvailable(loadingPrev, errorPrev, prevAuction));
 
   // TO DO - Fallback if no noun ID? unlikely but
   const CurrentNounId = () => {
@@ -125,10 +126,22 @@ const PartyActivity: React.FC<{
   return (
     <div className={classes.partyPaperContainer}>
       <CurrentNounId />
-      {onDisplayNounId ? currentAuctionActivityContent : pastAuctionActivityContent}
-      <PartyVault auction={currentAuction} />
-      <PartyButtons />
-      <PartyGuestList />
+      {prevAuctionsAvailable(loadingPrev, errorPrev, prevAuction) && (
+        <AuctionNavigation
+          isFirstAuction={isFirstAuction}
+          isLastAuction={isLastAuction}
+          onNextAuctionClick={nextAuctionHandler}
+          onPrevAuctionClick={prevAuctionHandler}
+        />
+      )}
+      {/* {onDisplayNounId ? currentAuctionActivityContent : pastAuctionActivityContent} */}
+      {isLastAuction ? (
+        <>
+          <PartyVault auction={currentAuction} />
+          <PartyButtons />
+          <PartyGuestList />
+        </>
+      ) : null}
     </div>
   );
 };

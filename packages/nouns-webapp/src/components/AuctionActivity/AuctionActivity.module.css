@@ -1,3 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+.partyPaperContainer {
+  background-color: white;
+  padding: 5px;
+  border: 1px solid black;
+  border-bottom: none;
+  box-shadow: 0px 2px 38px rgba(0, 0, 0, 0.2);
+  height: 100%;
+}
+
+.floatingPaper {
+  background-color: white;
+  padding: 5px;
+  border: 1px solid black;
+  box-shadow: 0px 2px 38px rgba(0, 0, 0, 0.2);
+}
+
 .auctionActivityContainer {
   padding: 0px;
   margin: 10px;
@@ -93,4 +110,21 @@ h4 {
   position: absolute;
   right: 0;
   bottom: 33%;
+}
+
+.nounIdContainer {
+  margin: 10px;
+  font-family: 'Fredoka One';
+  padding-left: 15px;
+  display: flex;
+}
+
+.nounIdText {
+  background: -webkit-linear-gradient(90.72deg, #00ffa3 -33.78%, #57cdff 35.54%, #f68eff 118.48%);
+  -webkit-background-clip: text;
+  font-family: 'Londrina Solid';
+  -webkit-text-fill-color: transparent;
+  font-size: 4em;
+  padding: 0px;
+  margin: 0px;
 }

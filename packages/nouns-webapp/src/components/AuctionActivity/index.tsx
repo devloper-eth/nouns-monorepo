@@ -6,6 +6,10 @@ import classes from './AuctionActivity.module.css';
 import AuctionTimer from '../AuctionTimer';
 import CurrentBid from '../CurrentBid';
 import Winner from '../Winner';
+import PartyVault from '../PartyVault';
+import PartyButtons from '../PartyButtons';
+import PartyGuestList from '../PartyGuestList';
+import AuctionNavigation from '../AuctionNavigation';
 
 /*  Currently unused packages but may need if commented components are brought back in  */
 // import config, { CHAIN_ID } from '../../config';
@@ -22,6 +26,7 @@ import Winner from '../Winner';
 // import AuctionActivityWrapper from '../AuctionActivityWrapper';
 // import config from '../../config';
 // import { buildEtherscanAddressLink } from '../../utils/etherscan';
+// import StandaloneNoun from '../StandaloneNoun';
 
 // const openEtherscanBidHistory = () => {
 //   const url = buildEtherscanAddressLink(
@@ -43,13 +48,14 @@ interface AuctionActivityProps {
 const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityProps) => {
   const {
     auction,
-    // isFirstAuction,
-    // isLastAuction,
-    // onPrevAuctionClick,
-    // onNextAuctionClick,
-    // displayGraphDepComps,
+    isFirstAuction,
+    isLastAuction,
+    onPrevAuctionClick,
+    onNextAuctionClick,
+    displayGraphDepComps,
   } = props;
 
+  const { auction: currentAuction } = props;
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
 
@@ -110,22 +116,42 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
           </Modal.Body>
         </Modal>
       )} */}
-
-      <Row className={classes.auctionActivityContainer}>
-        <Col lg={5}>
-          <CurrentBid
-            currentBid={new BigNumber(auction.amount.toString())}
-            auctionEnded={auctionEnded}
-          />
-        </Col>
-        <Col lg={7}>
-          {auctionEnded ? (
-            <Winner winner={auction.bidder} />
-          ) : (
-            <AuctionTimer auction={auction} auctionEnded={auctionEnded} />
+      <div className={isLastAuction ? classes.partyPaperContainer : classes.floatingPaper}>
+        <div className={classes.nounIdContainer}>
+          <h1 className={classes.nounIdText}>{`Noun ${auction && auction.nounId}`}</h1>
+          {displayGraphDepComps && (
+            <AuctionNavigation
+              isFirstAuction={isFirstAuction}
+              isLastAuction={isLastAuction}
+              onNextAuctionClick={onNextAuctionClick}
+              onPrevAuctionClick={onPrevAuctionClick}
+            />
           )}
-        </Col>
-      </Row>
+        </div>
+
+        <Row className={classes.auctionActivityContainer}>
+          <Col lg={5}>
+            <CurrentBid
+              currentBid={new BigNumber(auction.amount.toString())}
+              auctionEnded={auctionEnded}
+            />
+          </Col>
+          <Col lg={7}>
+            {auctionEnded ? (
+              <Winner winner={auction.bidder} auction={auction} />
+            ) : (
+              <AuctionTimer auction={auction} auctionEnded={auctionEnded} />
+            )}
+          </Col>
+        </Row>
+        {isLastAuction ? (
+          <>
+            <PartyVault auction={currentAuction} />
+            <PartyButtons />
+            <PartyGuestList />
+          </>
+        ) : null}
+      </div>
 
       {/* {displayGraphDepComps && (
           <BidHistory auctionId={auction.nounId.toString()} max={3} classes={bidHistoryClasses} />
