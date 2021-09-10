@@ -12,7 +12,8 @@ import { useAuctionMinBidIncPercentage } from '../../wrappers/nounsAuction';
 import { useAppDispatch } from '../../hooks';
 import { AlertModal, setAlertModal } from '../../state/slices/application';
 import Modal from '../Modal';
-import { nounsPartyContractFactory, NounsPartyContractFunction } from '../../wrappers/nounsParty';
+import { nounsPartyContractFactory, NounsPartyContractFunction, useNounsPartyDepositBalance, useNounsPartyMaxBid } from '../../wrappers/nounsParty';
+import { formatEther } from '@ethersproject/units';
 
 const computeMinimumNextBid = (
   currentBid: BigNumber,
@@ -66,13 +67,15 @@ const Bid: React.FC<{
   const dispatch = useAppDispatch();
   const setModal = useCallback((modal: AlertModal) => dispatch(setAlertModal(modal)), [dispatch]);
 
+  const maxBid = useNounsPartyMaxBid();
+
   const minBidIncPercentage = useAuctionMinBidIncPercentage();
   const minBid = computeMinimumNextBid(
     auction && new BigNumber(auction.amount.toString()),
     minBidIncPercentage,
   );
 
-  // const depositBalance = useNounsPartyDepositBalance();
+  const depositBalance = useNounsPartyDepositBalance();
   // const deposits = useNounsPartyDeposits();
 
   const { send: bid, state: bidState } = useContractFunction__fix(
@@ -101,26 +104,25 @@ const Bid: React.FC<{
   };
 
   const placeBidHandler = async () => {
-    if (!auction || !bidInputRef.current || !bidInputRef.current.value) {
-      return;
-    }
+    // if (!auction || !bidInputRef.current || !bidInputRef.current.value) {
+    //   return;
+    // }
 
-    if (currentBid(bidInputRef).isLessThan(minBid)) {
-      setModal({
-        show: true,
-        title: 'Insufficient bid amount 🤏',
-        message: `Please place a bid higher than or equal to the minimum bid amount of ${minBidEth(
-          minBid,
-        )} ETH.`,
-      });
-      setBidInput(minBidEth(minBid));
-      return;
-    }
+    // if (currentBid(bidInputRef).isLessThan(minBid)) {
+    //   setModal({
+    //     show: true,
+    //     title: 'Insufficient bid amount 🤏',
+    //     message: `Please place a bid higher than or equal to the minimum bid amount of ${minBidEth(
+    //       minBid,
+    //     )} ETH.`,
+    //   });
+    //   setBidInput(minBidEth(minBid));
+    //   return;
+    // }
 
-    const value = utils.parseEther(bidInputRef.current.value.toString());
     const contract = connectContractToSigner(nounsPartyContract, undefined, library);
-    const gasLimit = await contract.estimateGas.bid(auction.nounId, value);
-    bid(auction.nounId, value, {
+    const gasLimit = await contract.estimateGas.bid(auction.nounId);
+    bid(auction.nounId, {
       gasLimit: gasLimit.add(10000), // A 10,000 gas pad is used to avoid 'Out of gas' errors
     });
   };
@@ -150,7 +152,7 @@ const Bid: React.FC<{
       hidePlaceBidModalHandler();
       setModal({
         title: 'Success',
-        message: `Bid for ${bidInputRef?.current?.value} Eth was placed successfully!`,
+        message: `Bid was placed successfully!`,
         show: true,
       });
       setBidButtonContent({ loading: false, content: 'Place Bid' });
@@ -243,30 +245,18 @@ const Bid: React.FC<{
   // || settleAuctionState.status === 'Mining'  if settling is included in this component
   const isDisabled = bidState.status === 'Mining' || !activeAccount;
 
+  const noPlaceBidContent = (
+    <>
+      Not enough funds to execute bid of {formatEther(maxBid)}&nbsp;ETH.
+    </>
+  );
+
   const placeBidContent = (
     <>
       {!auctionEnded && (
-        <p className={classes.minBidCopy}>{`Minimum bid: ${minBidEth(minBid)} ETH`}</p>
+      
+        <p className={classes.minBidCopy}>{`Bid amount: ${formatEther(maxBid)} ETH`}</p>
       )}
-      <Row>
-        <InputGroup>
-          {!auctionEnded && (
-            <>
-              <FormControl
-                aria-label="Example text with button addon"
-                aria-describedby="basic-addon1"
-                className={classes.bidInput}
-                type="number"
-                min="0"
-                onChange={bidInputHandler}
-                ref={bidInputRef}
-                value={bidInput}
-              />
-              <span className={classes.customPlaceholder}>ETH</span>
-            </>
-          )}
-        </InputGroup>
-      </Row>
       <Row>
         <Col>
           <Button
@@ -281,6 +271,6 @@ const Bid: React.FC<{
       </Row>
     </>
   );
-  return <Modal title="Place Bid" content={placeBidContent} onDismiss={hidePlaceBidModalHandler} />;
+  return <Modal title="Place Bid" content={depositBalance > maxBid ? placeBidContent : noPlaceBidContent} onDismiss={hidePlaceBidModalHandler} />;
 };
 export default Bid;
