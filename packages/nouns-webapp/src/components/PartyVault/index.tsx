@@ -17,6 +17,9 @@ const PartyVault: React.FC<{
   let depositBalance = useNounsPartyDepositBalance() || BigNumber.from(0);
   let auctionBid = currentAuction?.amount || BigNumber.from(0);
 
+  let depositBalanceEth = depositBalance.div(utils.parseEther("1")).toNumber();
+  let auctionBidEth = auctionBid.div(utils.parseEther("1")).toNumber();
+
   return (
     <div className={classes.partyVaultWrapper}>
       <Row>
@@ -34,7 +37,7 @@ const PartyVault: React.FC<{
       </Row>
       <Row>
         <Col className={classes.progressBarContainer}>
-          <ProgressBar now={auctionBid.gt(0) ? depositBalance.div(auctionBid) : 100} />
+          <ProgressBar now={auctionBidEth > 0 ? depositBalanceEth / auctionBidEth * 100 : depositBalanceEth > 0 ? 100 : 0 } />
         </Col>
       </Row>
     </div>
