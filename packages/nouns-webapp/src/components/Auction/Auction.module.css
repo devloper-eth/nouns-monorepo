@@ -2,13 +2,14 @@
   padding-left: 5vw;
   padding-right: 5vw;
   margin-top: 0vh;
+  /* height: 80vh; */
 }
 
 @media (min-width: 992px) {
   .pageContentWrapper {
     padding-left: 5vw;
     padding-right: 5vw;
-    margin-top: 5vh;
+    /* margin-top: 5vh; */
   }
 }
 
@@ -18,6 +19,26 @@
 }
 .nounContentCol {
   display: flex;
+}
+
+.currentAuctionActivityContainer {
+  margin-top: 10vh;
+}
+
+@media (max-width: 776px) {
+  .currentAuctionActivityContainer {
+    margin-top: 0;
+  }
+}
+
+.pastAuctionActivityContainer {
+  margin-top: 10vh;
+}
+
+@media (max-width: 776px) {
+  .pastAuctionActivityContainer {
+    margin-top: 0;
+  }
 }
 
 .auctionActivityCol {

@@ -5,11 +5,11 @@
 }
 
 .guestListBidsContainer {
-  height: 15vh;
+  max-height: 20vh;
   overflow-x: hidden;
   overflow-y: auto;
-  -webkit-mask-image: linear-gradient(to bottom, black 10%, transparent 90%);
-  mask-image: linear-gradient(to bottom, black 10%, transparent 90%);
+  -webkit-mask-image: linear-gradient(to bottom, black 10%, transparent 80%);
+  mask-image: linear-gradient(to bottom, black 10%, transparent 80%);
 }
 
 .contributionsBlurb {
