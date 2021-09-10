@@ -40,7 +40,7 @@ export const useNounsPartyDepositBalance = () => {
 		args: [],
 	})
 	if (!depositBalance) {
-		return 0;
+		return EthersBN.from(0);
 	}
 	return depositBalance[0];
 }

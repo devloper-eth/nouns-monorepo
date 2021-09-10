@@ -8,17 +8,30 @@ import { BigNumber } from 'ethers';
 // import config from '../../config';
 
 import { utils } from 'ethers';
+import { createNoSubstitutionTemplateLiteral } from 'typescript';
+import auction from '../../state/slices/auction';
 
 const PartyVault: React.FC<{
   auction: IAuction;
 }> = props => {
   const { auction: currentAuction } = props;
 
-  let depositBalance = useNounsPartyDepositBalance() || BigNumber.from(0);
-  let auctionBid = currentAuction?.amount || BigNumber.from(0);
+  const depositBalance = useNounsPartyDepositBalance();
+  const auctionBid = currentAuction?.amount;
 
-  let depositBalanceEth = depositBalance.div(utils.parseEther("1")).toNumber();
-  let auctionBidEth = auctionBid.div(utils.parseEther("1")).toNumber();
+  let ratio = 50;
+  if (depositBalance.eq(0)) {
+    ratio = 0;
+  } else if (auctionBid.eq(0)) {
+    ratio = 100;
+  } else {
+    let depositBalanceNumber = Number(utils.formatEther(depositBalance));
+    let auctionBidNumber = Number(utils.formatEther(auctionBid));
+    ratio = depositBalanceNumber / auctionBidNumber * 100;
+    if (ratio > 100) {
+      ratio = 100;
+    }
+  }
 
   return (
     <div className={classes.partyVaultWrapper}>
@@ -37,7 +50,7 @@ const PartyVault: React.FC<{
       </Row>
       <Row>
         <Col className={classes.progressBarContainer}>
-          <ProgressBar now={auctionBidEth > 0 ? depositBalanceEth / auctionBidEth * 100 : depositBalanceEth > 0 ? 100 : 0 } />
+          <ProgressBar now={ratio} />
         </Col>
       </Row>
     </div>
