@@ -4,18 +4,22 @@ import { Link } from 'react-router-dom';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import testnetNoun from '../../assets/testnet-noun.png';
 import clsx from 'clsx';
-import { CHAIN_ID } from '../../config';
+import config, { CHAIN_ID } from '../../config';
 import { useAppSelector } from '../../hooks';
 import ShortAddress from '../ShortAddress';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useEthers } from '@usedapp/core';
 import WalletConnectModal from '../WalletConnectModal';
 import PartyInvite from '../PartyInvite';
 import WithdrawModal from '../WithdrawModal';
-// import SettleAuction from '../SettleAuction';
+// import ClaimTokensModal from '../ClaimTokensModal';
+import { useAuction } from '../../wrappers/nounsAuction';
+import Bid from '../Bid';
 
 const NavBar = () => {
   const activeAccount = useAppSelector(state => state.account.activeAccount);
+  const lastNounId = useAppSelector(state => state.onDisplayAuction.lastAuctionNounId);
+  const auction = useAuction(config.auctionProxyAddress);
   const { deactivate } = useEthers();
 
   // const treasuryBalance = useEtherBalance(config.nounsDaoExecutorAddress);
@@ -23,6 +27,10 @@ const NavBar = () => {
 
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
+  // const [showClaimTokensModal, setShowClaimTokensModal] = useState(false);
+  const [showPlaceBidModal, setShowPlaceBidModal] = useState(false);
+  const [auctionEnded, setAuctionEnded] = useState(false);
+  const [auctionTimer, setAuctionTimer] = useState(false);
 
   // Wallet Connect Modal
   const showModalHandler = () => {
@@ -40,7 +48,43 @@ const NavBar = () => {
     setShowWithdrawModal(false);
   };
 
-  /* FLAGGED FOR REMOVAL - this has been moved to WalletConnectButton */
+  // TO DO
+  // // Claim Tokens Modal
+  // const showClaimTokensModalHandler = () => {
+  //   setShowClaimTokensModal(true);
+  // };
+  // const hideClaimTokensModalHandler = () => {
+  //   setShowClaimTokensModal(false);
+  // };
+
+  // Place Bid Modal
+  const showPlaceBodModalHandler = () => {
+    setShowPlaceBidModal(true);
+  };
+  const hidePlaceBidModalHandler = () => {
+    setShowPlaceBidModal(false);
+  };
+
+  // timer logic
+  useEffect(() => {
+    if (!auction) return;
+
+    const timeLeft = Number(auction.endTime) - Math.floor(Date.now() / 1000);
+
+    if (auction && timeLeft <= 0) {
+      setAuctionEnded(true);
+    } else {
+      setAuctionEnded(false);
+      const timer = setTimeout(() => {
+        setAuctionTimer(!auctionTimer);
+      }, 1000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [auctionTimer, auction]);
+
   const connectedContent = (
     <>
       <Nav.Item>
@@ -80,6 +124,19 @@ const NavBar = () => {
       {showWithdrawModal && activeAccount && (
         <WithdrawModal hideWithdrawModalHandler={hideWithdrawModalHandler} />
       )}
+      {/* {showClaimTokensModal && activeAccount && (<ClaimTokensModal hideClaimTokensModalHandler={hideClaimTokensModalHandler}/>)} */}
+      {auction &&
+        lastNounId &&
+        auction?.nounId?.eq(lastNounId) &&
+        showPlaceBidModal &&
+        activeAccount &&
+        !auctionEnded && (
+          <Bid
+            auction={auction}
+            auctionEnded={auctionEnded}
+            hidePlaceBidModalHandler={hidePlaceBidModalHandler}
+          />
+        )}
       <Navbar expand="lg">
         <Container fluid>
           <Navbar.Brand as={Link} to="/" className={classes.navBarBrand}>
@@ -113,11 +170,15 @@ const NavBar = () => {
                 </Nav.Link>
               )}
             </Nav.Item> */}
+
             <Nav.Item className={classes.menuItem} onClick={() => showWithdrawModalHandler()}>
               Withdraw
             </Nav.Item>
-            <Nav.Item className={classes.menuItem}>Claim</Nav.Item>
-            <Nav.Item className={classes.menuItem}>Place Bid</Nav.Item>
+            {/* <Nav.Item className={classes.menuItem} onClick={() => showClaimTokensModalHandler()}>Claim Tokens</Nav.Item> */}
+            <Nav.Item className={classes.menuItem} onClick={() => showPlaceBodModalHandler()}>
+              Place Bid
+            </Nav.Item>
+
             {/* <SettleAuction /> */}
             {activeAccount ? connectedContent : disconnectedContent}
             <PartyInvite />

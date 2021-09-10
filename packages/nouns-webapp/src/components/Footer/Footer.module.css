@@ -29,3 +29,38 @@
     width: 100%;
   }
 }
+
+.cursorInstructions {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  color: rgba(128, 128, 128, 0.75);
+}
+
+@media screen and (max-width: 600px) {
+  .cursorInstructions {
+    visibility: hidden;
+   
+    display: none;
+  }
+}
+
+.cursorInstructions p {
+  margin: 0px;
+  padding: 2.5px;
+  font-size: .7em;
+}
+
+.codeText {
+  background-color: #b1b1b1;
+  padding: 4px 8px;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.codeText:hover {
+  background-color: #3f3f3f;
+  padding: 4px 8px;
+  border-radius: 8px;
+  color: #fff;
+}

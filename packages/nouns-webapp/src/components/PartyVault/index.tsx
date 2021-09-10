@@ -34,13 +34,7 @@ const PartyVault: React.FC<{
       </Row>
       <Row>
         <Col className={classes.progressBarContainer}>
-          <ProgressBar
-            now={
-              auctionBid.gt(0)
-                ? depositBalance.div(auctionBid)
-                : 100
-            }
-          />
+          <ProgressBar now={auctionBid.gt(0) ? depositBalance.div(auctionBid) : 100} />
         </Col>
       </Row>
     </div>
