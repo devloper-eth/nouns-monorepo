@@ -14,7 +14,6 @@ interface HistoryCollectionProps {
 
 const HistoryCollection: React.FC<HistoryCollectionProps> = (props: HistoryCollectionProps) => {
   const { historyCount, latestNounId } = props;
-
   if (!latestNounId) return null;
 
   const startAtZero = BigNumber.from(latestNounId).sub(historyCount).lt(0);

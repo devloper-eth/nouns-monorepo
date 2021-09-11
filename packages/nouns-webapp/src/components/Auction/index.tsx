@@ -46,7 +46,6 @@ const createAuctionObj = (data: any): IAuction => {
 const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) => void }> =
   props => {
     const { auction: currentAuction, bgColorHandler } = props;
-
     const [onDisplayNounId, setOnDisplayNounId] = useState(currentAuction && currentAuction.nounId);
     const [lastAuctionId, setLastAuctionId] = useState(currentAuction && currentAuction.nounId);
     const [isLastAuction, setIsLastAuction] = useState(true);

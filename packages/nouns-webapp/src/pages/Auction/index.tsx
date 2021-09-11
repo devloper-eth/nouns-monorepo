@@ -12,10 +12,10 @@ import useOnDisplayAuction from '../../wrappers/onDisplayAuction';
 import { useEffect } from 'react';
 
 /* Currently unused packages flagged for removal */
-// import Documentation from '../../components/Documentation';
-// import HistoryCollection from '../../components/HistoryCollection';
-// import { BigNumber } from 'ethers';
-// import Banner from '../../components/Banner';
+import Documentation from '../../components/Documentation';
+import HistoryCollection from '../../components/HistoryCollection';
+import { BigNumber } from 'ethers';
+import Banner from '../../components/Banner';
 
 interface AuctionPageProps {
   initialAuctionId?: number;
@@ -59,12 +59,8 @@ const AuctionPage: React.FC<AuctionPageProps> = props => {
         auction={auction}
         bgColorHandler={(useGrey: boolean) => dispatch(setUseGreyBackground(useGrey))}
       />
-      {/* <Banner /> */}
-      {/* <HistoryCollection
-        latestNounId={auction && BigNumber.from(auction.nounId)}
-        historyCount={10}
-      /> */}
-      {/* <Documentation /> */}
+      <Banner />
+      <Documentation />
     </>
   );
 };

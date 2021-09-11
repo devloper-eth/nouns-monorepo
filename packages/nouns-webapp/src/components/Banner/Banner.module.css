@@ -1,6 +1,10 @@
 .wrapper h1 {
   font-family: 'Londrina Solid';
-  font-size: 5rem;
+  text-align: center;
+  font-size: 4rem;
+  background: -webkit-linear-gradient(0deg, #00ffa3, #57cdff, #f68eff 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .bannerSection {
@@ -15,6 +19,37 @@
 
 @media (min-width: 992px) {
   .wrapper h1 {
-    font-size: 7rem;
+    font-size: 6rem;
+  }
+}
+
+.instructionText {
+  display: grid;
+  grid-auto-flow: column dense;
+  column-gap: 32px;
+  width: 100%;
+  padding: 8px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  overflow: hidden;
+}
+
+.instructionText div {
+  display: grid;
+  grid-auto-flow: column dense;
+}
+
+.instructionText span {
+  margin-top: -6px;
+  margin-right: 8px;
+  font-size: 2rem;
+  background: -webkit-linear-gradient(330deg, #00ffa3, #57cdff, #f68eff 30%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media (max-width: 992px) {
+  .instructionText {
+    /* Todo:  Stack vertically */;
   }
 }
