@@ -117,40 +117,42 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
         </Modal>
       )} */}
       <div className={isLastAuction ? classes.partyPaperContainer : classes.floatingPaper}>
-        <div className={classes.nounIdContainer}>
-          <h1 className={classes.nounIdText}>{`Noun ${auction && auction.nounId}`}</h1>
-          {displayGraphDepComps && (
-            <AuctionNavigation
-              isFirstAuction={isFirstAuction}
-              isLastAuction={isLastAuction}
-              onNextAuctionClick={onNextAuctionClick}
-              onPrevAuctionClick={onPrevAuctionClick}
-            />
-          )}
-        </div>
-
-        <Row className={classes.auctionActivityContainer}>
-          <Col lg={5}>
-            <CurrentBid
-              currentBid={new BigNumber(auction.amount.toString())}
-              auctionEnded={auctionEnded}
-            />
-          </Col>
-          <Col lg={7}>
-            {auctionEnded ? (
-              <Winner winner={auction.bidder} auction={auction} />
-            ) : (
-              <AuctionTimer auction={auction} auctionEnded={auctionEnded} />
+        <div className={classes.paperWrapper}>
+          <div className={classes.nounIdContainer}>
+            <h1 className={classes.nounIdText}>{`Noun ${auction && auction.nounId}`}</h1>
+            {displayGraphDepComps && (
+              <AuctionNavigation
+                isFirstAuction={isFirstAuction}
+                isLastAuction={isLastAuction}
+                onNextAuctionClick={onNextAuctionClick}
+                onPrevAuctionClick={onPrevAuctionClick}
+              />
             )}
-          </Col>
-        </Row>
-        {isLastAuction ? (
-          <>
-            <PartyVault auction={currentAuction} />
-            <PartyButtons />
-            <PartyGuestList />
-          </>
-        ) : null}
+          </div>
+
+          <Row className={classes.auctionActivityContainer}>
+            <Col lg={5}>
+              <CurrentBid
+                currentBid={new BigNumber(auction.amount.toString())}
+                auctionEnded={auctionEnded}
+              />
+            </Col>
+            <Col lg={7}>
+              {auctionEnded ? (
+                <Winner winner={auction.bidder} auction={auction} />
+              ) : (
+                <AuctionTimer auction={auction} auctionEnded={auctionEnded} />
+              )}
+            </Col>
+          </Row>
+          {isLastAuction ? (
+            <>
+              <PartyVault auction={currentAuction} />
+              <PartyButtons />
+              <PartyGuestList />
+            </>
+          ) : null}
+        </div>
       </div>
 
       {/* {displayGraphDepComps && (

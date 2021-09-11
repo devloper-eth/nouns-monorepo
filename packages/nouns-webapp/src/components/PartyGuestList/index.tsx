@@ -30,6 +30,7 @@ const PartyGuestList = () => {
         <div className={`${classes.guestListBidsContainer} ${classes.fadeGradient}`}>
           <ul className={classes.bidCollection}>
             {deposits.map((bid, index) => (
+              <>
               <li key={index} className={classes.bidRow}>
                 <div className={classes.bidItem}>
                   <div className={classes.leftSectionWrapper}>
@@ -50,6 +51,107 @@ const PartyGuestList = () => {
                   </div>
                 </div>
               </li>
+              <li key={index} className={classes.bidRow}>
+                <div className={classes.bidItem}>
+                  <div className={classes.leftSectionWrapper}>
+                    <div className={classes.bidder}>
+                      <div className={classes.jazzicon}>
+                        <Jazzicon address={bid.owner} />
+                      </div>
+                      <ShortAddress address={null ?? bid.owner} />
+                    </div>
+                    {/* <div className={classes.bidDate}>{`${moment().format(
+            'MMM DD',
+          )} at ${moment().format('hh:mm a')}`}</div> */}
+                  </div>
+                  <div className={classes.rightSectionWrapper}>
+                    <div className={classes.bidAmount}>
+                      {null ?? `${utils.formatEther(bid.amount)} ETH`}
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li key={index} className={classes.bidRow}>
+                <div className={classes.bidItem}>
+                  <div className={classes.leftSectionWrapper}>
+                    <div className={classes.bidder}>
+                      <div className={classes.jazzicon}>
+                        <Jazzicon address={bid.owner} />
+                      </div>
+                      <ShortAddress address={null ?? bid.owner} />
+                    </div>
+                    {/* <div className={classes.bidDate}>{`${moment().format(
+            'MMM DD',
+          )} at ${moment().format('hh:mm a')}`}</div> */}
+                  </div>
+                  <div className={classes.rightSectionWrapper}>
+                    <div className={classes.bidAmount}>
+                      {null ?? `${utils.formatEther(bid.amount)} ETH`}
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li key={index} className={classes.bidRow}>
+                <div className={classes.bidItem}>
+                  <div className={classes.leftSectionWrapper}>
+                    <div className={classes.bidder}>
+                      <div className={classes.jazzicon}>
+                        <Jazzicon address={bid.owner} />
+                      </div>
+                      <ShortAddress address={null ?? bid.owner} />
+                    </div>
+                    {/* <div className={classes.bidDate}>{`${moment().format(
+            'MMM DD',
+          )} at ${moment().format('hh:mm a')}`}</div> */}
+                  </div>
+                  <div className={classes.rightSectionWrapper}>
+                    <div className={classes.bidAmount}>
+                      {null ?? `${utils.formatEther(bid.amount)} ETH`}
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li key={index} className={classes.bidRow}>
+                <div className={classes.bidItem}>
+                  <div className={classes.leftSectionWrapper}>
+                    <div className={classes.bidder}>
+                      <div className={classes.jazzicon}>
+                        <Jazzicon address={bid.owner} />
+                      </div>
+                      <ShortAddress address={null ?? bid.owner} />
+                    </div>
+                    {/* <div className={classes.bidDate}>{`${moment().format(
+            'MMM DD',
+          )} at ${moment().format('hh:mm a')}`}</div> */}
+                  </div>
+                  <div className={classes.rightSectionWrapper}>
+                    <div className={classes.bidAmount}>
+                      {null ?? `${utils.formatEther(bid.amount)} ETH`}
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li key={index} className={classes.bidRow}>
+                <div className={classes.bidItem}>
+                  <div className={classes.leftSectionWrapper}>
+                    <div className={classes.bidder}>
+                      <div className={classes.jazzicon}>
+                        <Jazzicon address={bid.owner} />
+                      </div>
+                      <ShortAddress address={null ?? bid.owner} />
+                    </div>
+                    {/* <div className={classes.bidDate}>{`${moment().format(
+            'MMM DD',
+          )} at ${moment().format('hh:mm a')}`}</div> */}
+                  </div>
+                  <div className={classes.rightSectionWrapper}>
+                    <div className={classes.bidAmount}>
+                      {null ?? `${utils.formatEther(bid.amount)} ETH`}
+                    </div>
+                  </div>
+                </div>
+              </li>
+              </>
             ))}
           </ul>
         </div>
