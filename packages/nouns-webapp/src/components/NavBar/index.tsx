@@ -10,7 +10,7 @@ import ShortAddress from '../ShortAddress';
 import { useEffect, useState } from 'react';
 import { useEthers } from '@usedapp/core';
 import WalletConnectModal from '../WalletConnectModal';
-import PartyInvite from '../PartyInvite';
+// import PartyInvite from '../PartyInvite';
 import WithdrawModal from '../WithdrawModal';
 // import ClaimTokensModal from '../ClaimTokensModal';
 import { useAuction } from '../../wrappers/nounsAuction';
@@ -181,7 +181,7 @@ const NavBar = () => {
 
             {/* <SettleAuction /> */}
             {activeAccount ? connectedContent : disconnectedContent}
-            <PartyInvite />
+            {/* <PartyInvite /> */}
           </Navbar.Collapse>
         </Container>
       </Navbar>
