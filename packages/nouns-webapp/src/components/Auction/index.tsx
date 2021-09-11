@@ -153,21 +153,13 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
     );
 
     return (
-      <Container fluid={true} className={classes.pageContentWrapper}>
+      <Container fluid="lg" className={classes.pageContentWrapper}>
         <Row>
-          {/* <Col xs={12} lg={4} className={classes.auctionActivityTopSpacer}>
-            {onDisplayNounId ? currentAuctionActivityContent : pastAuctionActivityContent}
-          </Col> */}
-          <Col lg={2} />
-          <Col xs={12} lg={5} className={`align-self-end ${classes.noPaddingMargin}`}>
+
+          <Col lg={{ span: 6 }} className={`align-self-end ${classes.noPaddingMargin}`}>
             {onDisplayNounId ? nounContent : loadingNoun}
-            {/* {onDisplayNounId ? currentAuctionActivityContent : pastAuctionActivityContent} */}
           </Col>
-          {/* align-self-end   */}
-          <Col
-            xs={12}
-            lg={4}
-            className={
+          <Col lg={{ span: 6 }} className={
               isLastAuction
                 ? classes.currentAuctionActivityContainer
                 : classes.pastAuctionActivityContainer
@@ -178,21 +170,8 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
               : isLastAuction
               ? currentAuctionActivityContent
               : pastAuctionActivityContent}
-            {/* {isLastAuction ? currentAuctionActivityContent : pastAuctionActivityContent} */}
           </Col>
           <Col lg={2} />
-
-          {/* FLAGGED FOR DELETION  */}
-          {/* <Col lg={{ span: 6 }} className={classes.nounContentCol}>
-            {onDisplayNounId ? nounContent : loadingNoun}
-          </Col>
-          <Col lg={{ span: 6 }} className={classes.auctionActivityCol}>
-            {onDisplayNounId && isNounderNoun(onDisplayNounId)
-              ? nounderNounContent
-              : isLastAuction
-              ? currentAuctionActivityContent
-              : pastAuctionActivityContent}
-          </Col> */}
         </Row>
       </Container>
     );

@@ -1,5 +1,5 @@
 import classes from './NavBar.module.css';
-import logo from '../../assets/logo.svg';
+import logo from '../../assets/nouns-party.svg';
 import { Link } from 'react-router-dom';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import testnetNoun from '../../assets/testnet-noun.png';
@@ -48,11 +48,11 @@ const NavBar = () => {
     setShowWithdrawModal(false);
   };
 
-  // TO DO
-  // // Claim Tokens Modal
-  // const showClaimTokensModalHandler = () => {
-  //   setShowClaimTokensModal(true);
-  // };
+  // Claim Tokens Modal
+  const showClaimTokensModalHandler = () => {
+    // setShowClaimTokensModal(true);
+  };
+
   // const hideClaimTokensModalHandler = () => {
   //   setShowClaimTokensModal(false);
   // };
@@ -138,12 +138,12 @@ const NavBar = () => {
           />
         )}
       <Navbar expand="lg">
-        <Container fluid>
+        <Container fluid="lg">
           <Navbar.Brand as={Link} to="/" className={classes.navBarBrand}>
             <img
               src={logo}
-              width="65"
-              height="65"
+              width="85"
+              height="85"
               className="d-inline-block align-middle"
               alt="Nouns DAO logo"
               style={{ margin: '0px', padding: '0px' }}
@@ -151,34 +151,17 @@ const NavBar = () => {
           </Navbar.Brand>
           {Number(CHAIN_ID) !== 1 && (
             <Nav.Item>
-              <img className={classes.testnetImg} src={testnetNoun} alt="testnet noun" />
               TESTNET
             </Nav.Item>
           )}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-end">
-            {/* <Nav.Item>
-              {treasuryBalance && (
-                <Nav.Link
-                  href={daoEtherscanLink}
-                  className={classes.nounsNavLink}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  TREASURY <span className={classes.ethXiFont}>{`Ξ  `}</span>
-                  {utils.formatEther(treasuryBalance.toString())}
-                </Nav.Link>
-              )}
-            </Nav.Item> */}
-
+            <Nav.Item className={classes.menuItem} onClick={() => showClaimTokensModalHandler()}>
+              Claim Tokens
+            </Nav.Item>
             <Nav.Item className={classes.menuItem} onClick={() => showWithdrawModalHandler()}>
-              Withdraw
+              Withdraw Funds
             </Nav.Item>
-            {/* <Nav.Item className={classes.menuItem} onClick={() => showClaimTokensModalHandler()}>Claim Tokens</Nav.Item> */}
-            <Nav.Item className={classes.menuItem} onClick={() => showPlaceBodModalHandler()}>
-              Place Bid
-            </Nav.Item>
-
             {/* <SettleAuction /> */}
             {activeAccount ? connectedContent : disconnectedContent}
             {/* <PartyInvite /> */}

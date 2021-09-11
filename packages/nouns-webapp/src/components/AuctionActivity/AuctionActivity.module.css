@@ -3,7 +3,7 @@
   background-color: white;
   border-bottom: none;
   padding-top: 20px;
-  box-shadow: 0px -19px 38px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px -8px 8px rgba(0, 0, 0, 0.2);
   height: 100%;
   -webkit-filter: drop-shadow(0px 0px 0px white);
   filter: drop-shadow(0px 0px 0px white);
@@ -14,26 +14,13 @@
   top: -20px;
   display: block;
   content: "";
-  background: radial-gradient(circle, transparent 15px, white 16px);
-  background-size: 50px 40px;
-  background-position: -20px -20px;
+  background: radial-gradient(circle, transparent 12px, white 12px);
+  background-size: 38px 40px;
+  background-position: 12px -22px;
   width: 100%;
   height: 40px;
   z-index: -1;
 }
-
-/* .partyPaperContainer:after {
-  position: absolute;
-  bottom: -20px;
-  content: "";
-  display: block;
-  background: radial-gradient(circle, transparent 15px, white 16px);
-  background-size: 50px 40px;
-  background-position: -20px -20px;
-  width: 100%;
-  height: 40px;
-  z-index: -1;
-} */
 
 .floatingPaper {
   background-color: white;
@@ -49,9 +36,9 @@
   top: -20px;
   display: block;
   content: "";
-  background: radial-gradient(circle, transparent 15px, white 16px);
-  background-size: 50px 40px;
-  background-position: -20px -20px;
+  background: radial-gradient(circle, transparent 12px, white 12px);
+  background-size: 38px 40px;
+  background-position: 12px -22px;
   width: 100%;
   height: 40px;
   z-index: -1;
@@ -62,9 +49,9 @@
   bottom: -20px;
   content: "";
   display: block;
-  background: radial-gradient(circle, transparent 15px, white 16px);
-  background-size: 50px 40px;
-  background-position: -20px -20px;
+  background: radial-gradient(circle, transparent 12px, white 12px);
+  background-size: 38px 42px;
+  background-position: 12px -22px;
   width: 100%;
   height: 40px;
   z-index: -1;
