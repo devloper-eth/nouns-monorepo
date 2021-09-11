@@ -1,8 +1,5 @@
 import classes from './Banner.module.css';
 import Section from '../../layout/Section';
-import { Col } from 'react-bootstrap';
-import calendar_noun from '../../assets/calendar_noun.png';
-import Noun from '../Noun';
 import { Container, Row } from 'react-bootstrap';
 import clsx from 'clsx';
 import Link from '../Link';

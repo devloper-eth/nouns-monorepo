@@ -2,7 +2,6 @@ import classes from './NavBar.module.css';
 import logo from '../../assets/nouns-party.svg';
 import { Link } from 'react-router-dom';
 import { Navbar, Container, Nav } from 'react-bootstrap';
-import testnetNoun from '../../assets/testnet-noun.png';
 import clsx from 'clsx';
 import config, { CHAIN_ID } from '../../config';
 import { useAppSelector } from '../../hooks';
@@ -58,9 +57,9 @@ const NavBar = () => {
   // };
 
   // Place Bid Modal
-  const showPlaceBodModalHandler = () => {
-    setShowPlaceBidModal(true);
-  };
+  // const showPlaceBodModalHandler = () => {
+  //   setShowPlaceBidModal(true);
+  // };
   const hidePlaceBidModalHandler = () => {
     setShowPlaceBidModal(false);
   };

@@ -13,8 +13,6 @@ import { useEffect } from 'react';
 
 /* Currently unused packages flagged for removal */
 import Documentation from '../../components/Documentation';
-import HistoryCollection from '../../components/HistoryCollection';
-import { BigNumber } from 'ethers';
 import Banner from '../../components/Banner';
 
 interface AuctionPageProps {

@@ -9,9 +9,9 @@ const Documentation = () => {
     <Link text="Nouns.wtf" url="https://nouns.wtf" leavesPage={true} />
   );
 
-  const fractionalizeLink = (
-    <Link text="Fractional.app" url="https://fractionalize.app" leavesPage={true} />
-  );
+  // const fractionalizeLink = (
+  //   <Link text="Fractional.app" url="https://fractionalize.app" leavesPage={true} />
+  // );
 
   return (
     <Section bgColor="white" fullWidth={false}>
