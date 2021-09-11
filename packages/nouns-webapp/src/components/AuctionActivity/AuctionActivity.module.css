@@ -3,7 +3,7 @@
   background-color: white;
   border-bottom: none;
   padding-top: 20px;
-  box-shadow: 0px 2px 38px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px -19px 38px rgba(0, 0, 0, 0.2);
   height: 100%;
   -webkit-filter: drop-shadow(0px 0px 0px white);
   filter: drop-shadow(0px 0px 0px white);
