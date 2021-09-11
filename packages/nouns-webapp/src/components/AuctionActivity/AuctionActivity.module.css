@@ -1,18 +1,73 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
 .partyPaperContainer {
   background-color: white;
-  padding: 5px;
-  border: 1px solid black;
   border-bottom: none;
+  padding-top: 10px;
   box-shadow: 0px 2px 38px rgba(0, 0, 0, 0.2);
   height: 100%;
+  -webkit-filter: drop-shadow(0px 0px 0px white);
+  filter: drop-shadow(0px 0px 0px white);
 }
+
+.partyPaperContainer:before {
+  position: absolute;
+  top: -20px;
+  display: block;
+  content: "";
+  background: radial-gradient(circle, transparent 15px, white 16px);
+  background-size: 50px 40px;
+  background-position: -20px -20px;
+  width: 100%;
+  height: 40px;
+  z-index: -1;
+}
+
+/* .partyPaperContainer:after {
+  position: absolute;
+  bottom: -20px;
+  content: "";
+  display: block;
+  background: radial-gradient(circle, transparent 15px, white 16px);
+  background-size: 50px 40px;
+  background-position: -20px -20px;
+  width: 100%;
+  height: 40px;
+  z-index: -1;
+} */
 
 .floatingPaper {
   background-color: white;
-  padding: 5px;
-  border: 1px solid black;
   box-shadow: 0px 2px 38px rgba(0, 0, 0, 0.2);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  -webkit-filter: drop-shadow(0px 0px 0px white);
+  filter: drop-shadow(0px 0px 0px white);
+}
+
+.floatingPaper:before {
+  position: absolute;
+  top: -20px;
+  display: block;
+  content: "";
+  background: radial-gradient(circle, transparent 15px, white 16px);
+  background-size: 50px 40px;
+  background-position: -20px -20px;
+  width: 100%;
+  height: 40px;
+  z-index: -1;
+}
+
+.floatingPaper:after {
+  position: absolute;
+  bottom: -20px;
+  content: "";
+  display: block;
+  background: radial-gradient(circle, transparent 15px, white 16px);
+  background-size: 50px 40px;
+  background-position: -20px -20px;
+  width: 100%;
+  height: 40px;
+  z-index: -1;
 }
 
 .auctionActivityContainer {
@@ -23,6 +78,7 @@
 .informationRow {
   margin-bottom: 2rem;
 }
+
 .activityRow {
   margin-bottom: 1rem;
 }
@@ -45,23 +101,29 @@ h4 {
   justify-content: flex-start;
   align-items: center;
 }
+
 .modalTitleWrapper {
   color: var(--brand-black);
 }
+
 .modalTitleWrapper h1 {
   font-size: xx-large;
   margin-left: 2rem;
 }
+
 .modalHeader button {
   align-self: flex-start;
 }
+
 .modalHeaderNounImgWrapper {
   width: 150px;
   height: 150px;
 }
+
 .currentBidCol {
   border-right: 1px solid var(--brand-black);
 }
+
 .auctionTimerCol {
   padding-left: 3rem;
 }
@@ -76,6 +138,7 @@ h4 {
 }
 
 /* Fix Firefox navigation arrow alignment issues */
+
 @-moz-document url-prefix() {
   .colAlignCenter {
     display: flex;
@@ -84,9 +147,11 @@ h4 {
 }
 
 /* Vertical Divider */
+
 .verticalLine {
   content: '';
 }
+
 .verticalLine:before {
   padding: 0;
   margin: 0;
@@ -99,6 +164,7 @@ h4 {
   right: 0;
   top: 33%;
 }
+
 .verticalLine:after {
   padding: 0;
   margin: 0;
