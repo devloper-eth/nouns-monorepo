@@ -122,6 +122,7 @@ const Bid: React.FC<{
     bid(auction.nounId, {
       gasLimit: gasLimit.add(10000), // A 10,000 gas pad is used to avoid 'Out of gas' errors
     });
+    setBidButtonContent({ loading: true, content: 'Placing bid...' });
   };
 
   // const settleAuctionHandler = () => {

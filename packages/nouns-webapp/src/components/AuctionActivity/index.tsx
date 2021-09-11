@@ -10,6 +10,7 @@ import PartyVault from '../PartyVault';
 import PartyButtons from '../PartyButtons';
 import PartyGuestList from '../PartyGuestList';
 import AuctionNavigation from '../AuctionNavigation';
+import SettleAuction from '../SettleAuction';
 
 /*  Currently unused packages but may need if commented components are brought back in  */
 // import config, { CHAIN_ID } from '../../config';
@@ -27,6 +28,9 @@ import AuctionNavigation from '../AuctionNavigation';
 // import config from '../../config';
 // import { buildEtherscanAddressLink } from '../../utils/etherscan';
 // import StandaloneNoun from '../StandaloneNoun';
+// import { useContractFunction__fix } from '../../hooks/useContractFunction__fix';
+// import { nounsPartyContractFactory, NounsPartyContractFunction, usePendingSettled } from '../../wrappers/nounsParty';
+// import config from '../../config';
 
 // const openEtherscanBidHistory = () => {
 //   const url = buildEtherscanAddressLink(
@@ -58,6 +62,8 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
   const { auction: currentAuction } = props;
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
+
+
 
   // const [showBidHistoryModal, setShowBidHistoryModal] = useState(false);
   // const showBidModalHandler = () => {
@@ -145,13 +151,21 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
               )}
             </Col>
           </Row>
-          {isLastAuction ? (
+          {/* TO DO - ADD IN LOGIC TO CHECK IF SETTLED ALREADY */}
+          {!isLastAuction && (
+            <Row className={classes.buttonsWrapper}>
+              <Col>
+                <SettleAuction auction={auction} />
+              </Col>
+            </Row>
+          )}
+          {isLastAuction && (
             <>
               <PartyVault auction={currentAuction} />
               <PartyButtons />
               <PartyGuestList />
             </>
-          ) : null}
+          )}
         </div>
       </div>
 

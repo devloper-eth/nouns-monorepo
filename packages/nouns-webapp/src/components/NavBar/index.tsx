@@ -3,23 +3,23 @@ import logo from '../../assets/nouns-party.svg';
 import { Link } from 'react-router-dom';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import clsx from 'clsx';
-import config, { CHAIN_ID } from '../../config';
+import  { CHAIN_ID } from '../../config';
 import { useAppSelector } from '../../hooks';
 import ShortAddress from '../ShortAddress';
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import { useEthers } from '@usedapp/core';
 import WalletConnectModal from '../WalletConnectModal';
 // import PartyInvite from '../PartyInvite';
 import WithdrawModal from '../WithdrawModal';
 import ClaimTokensModal from '../ClaimTokensModal';
-import { useAuction } from '../../wrappers/nounsAuction';
-import Bid from '../Bid';
-import SettleAuctionModal from '../SettleAuction';
+// import { useAuction } from '../../wrappers/nounsAuction';
+// import Bid from '../Bid';
+// import SettleAuctionModal from '../SettleAuction';
 
 const NavBar = () => {
   const activeAccount = useAppSelector(state => state.account.activeAccount);
-  const lastNounId = useAppSelector(state => state.onDisplayAuction.lastAuctionNounId);
-  const auction = useAuction(config.auctionProxyAddress);
+  // const lastNounId = useAppSelector(state => state.onDisplayAuction.lastAuctionNounId);
+  // const auction = useAuction(config.auctionProxyAddress);
   const { deactivate } = useEthers();
 
   // const treasuryBalance = useEtherBalance(config.nounsDaoExecutorAddress);
@@ -28,10 +28,10 @@ const NavBar = () => {
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [showClaimTokensModal, setShowClaimTokensModal] = useState(false);
-  const [showPlaceBidModal, setShowPlaceBidModal] = useState(false);
-  const [showSettleAuctionModal, setShowSettleAuctionModal] = useState(false);
-  const [auctionEnded, setAuctionEnded] = useState(false);
-  const [auctionTimer, setAuctionTimer] = useState(false);
+  // const [showPlaceBidModal, setShowPlaceBidModal] = useState(false);
+  // const [showSettleAuctionModal, setShowSettleAuctionModal] = useState(false);
+  // const [auctionEnded, setAuctionEnded] = useState(false);
+  // const [auctionTimer, setAuctionTimer] = useState(false);
 
   // Wallet Connect Modal
   const showModalHandler = () => {
@@ -51,7 +51,7 @@ const NavBar = () => {
 
   // Claim Tokens Modal
   const showClaimTokensModalHandler = () => {
-    // setShowClaimTokensModal(true);
+    setShowClaimTokensModal(true);
   };
 
   const hideClaimTokensModalHandler = () => {
@@ -62,37 +62,37 @@ const NavBar = () => {
   // const showPlaceBodModalHandler = () => {
   //   setShowPlaceBidModal(true);
   // };
-  const hidePlaceBidModalHandler = () => {
-    setShowPlaceBidModal(false);
-  };
+  // const hidePlaceBidModalHandler = () => {
+  //   setShowPlaceBidModal(false);
+  // };
 
   // Settle Auction Modal
-  const showSettleAuctionModalHandler = () => {
-    setShowSettleAuctionModal(true);
-  };
-  const hideSettleAuctionHandler = () => {
-    setShowSettleAuctionModal(false);
-  };
+  // const showSettleAuctionModalHandler = () => {
+  //   setShowSettleAuctionModal(true);
+  // };
+  // const hideSettleAuctionHandler = () => {
+  //   setShowSettleAuctionModal(false);
+  // };
 
-  // timer logic
-  useEffect(() => {
-    if (!auction) return;
+  // // timer logic
+  // useEffect(() => {
+  //   if (!auction) return;
 
-    const timeLeft = Number(auction.endTime) - Math.floor(Date.now() / 1000);
+  //   const timeLeft = Number(auction.endTime) - Math.floor(Date.now() / 1000);
 
-    if (auction && timeLeft <= 0) {
-      setAuctionEnded(true);
-    } else {
-      setAuctionEnded(false);
-      const timer = setTimeout(() => {
-        setAuctionTimer(!auctionTimer);
-      }, 1000);
+  //   if (auction && timeLeft <= 0) {
+  //     setAuctionEnded(true);
+  //   } else {
+  //     setAuctionEnded(false);
+  //     const timer = setTimeout(() => {
+  //       setAuctionTimer(!auctionTimer);
+  //     }, 1000);
 
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [auctionTimer, auction]);
+  //     return () => {
+  //       clearTimeout(timer);
+  //     };
+  //   }
+  // }, [auctionTimer, auction]);
 
   const connectedContent = (
     <>
@@ -139,10 +139,10 @@ const NavBar = () => {
           activeAccount={activeAccount}
         />
       )}
-      {showSettleAuctionModal && auction && (
+      {/* {showSettleAuctionModal && auction && (
         <SettleAuctionModal hideSettleAuctionHandler={hideSettleAuctionHandler} auction={auction} />
-      )}
-      {auction &&
+      )} */}
+      {/* {auction &&
         lastNounId &&
         auction?.nounId?.eq(lastNounId) &&
         showPlaceBidModal &&
@@ -153,7 +153,7 @@ const NavBar = () => {
             auctionEnded={auctionEnded}
             hidePlaceBidModalHandler={hidePlaceBidModalHandler}
           />
-        )}
+        )} */}
       <Navbar expand="lg">
         <Container fluid="lg">
           <Navbar.Brand as={Link} to="/" className={classes.navBarBrand}>
@@ -166,11 +166,7 @@ const NavBar = () => {
               style={{ margin: '0px', padding: '0px' }}
             />
           </Navbar.Brand>
-          {Number(CHAIN_ID) !== 1 && (
-            <Nav.Item>
-              TESTNET
-            </Nav.Item>
-          )}
+          {Number(CHAIN_ID) !== 1 && <Nav.Item>TESTNET</Nav.Item>}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-end">
             <Nav.Item className={classes.menuItem} onClick={() => showClaimTokensModalHandler()}>
@@ -183,9 +179,9 @@ const NavBar = () => {
             {/* <Nav.Item className={classes.menuItem} onClick={() => showPlaceBidModalHandler()}>
               Place Bid
             </Nav.Item> */}
-            <Nav.Item className={classes.menuItem} onClick={() => showSettleAuctionModalHandler()}>
+            {/* <Nav.Item className={classes.menuItem} onClick={() => showSettleAuctionModalHandler()}>
               Settle Auction
-            </Nav.Item>
+            </Nav.Item> */}
 
             {activeAccount ? connectedContent : disconnectedContent}
             {/* <PartyInvite /> */}

@@ -19,6 +19,8 @@ export enum NounsPartyContractFunction {
 	deposits = "deposits",
 	claimsCount = "claimsCount",
 	auctionIsHot = "auctionIsHot",
+	claims = "claims",
+	pendingSettled = "pendingSettled"
 }
 
 export interface Deposit {
@@ -96,6 +98,35 @@ export const useNounsPartyMaxBid = () => {
 	}
 	return maxBid[0];
 }
+
+export const useNounsPartyClaimsCount = () => {
+	const currentClaimsCount = useContractCall({
+		abi, 
+		address: config.nounsPartyAddress,
+		method: "claimsCount",
+		args: [],
+	})
+	if(!currentClaimsCount) {
+		return 0;
+	}
+	return currentClaimsCount[0];
+}
+
+// should this be nounsPartyAddress instead of auctionProxy? ask hans
+export const usePendingSettled = (nounId: EthersBN) => {
+  const settled = useContractCall({
+    abi,
+    address: config.auctionProxyAddress,
+    method: 'pendingSettled',
+    args: [nounId],
+  });
+
+  if (!settled) {
+    return false;
+  }
+
+  return settled[0];
+};
 
 // interface INounsParty {
 // 	struct Deposit {

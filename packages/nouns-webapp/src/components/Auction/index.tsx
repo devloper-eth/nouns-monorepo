@@ -13,6 +13,7 @@ import { useQuery } from '@apollo/client';
 import { auctionQuery } from '../../wrappers/subgraph';
 import { BigNumber } from 'ethers';
 import AuctionActivity from '../AuctionActivity';
+import { useHistory } from 'react-router-dom';
 /* OLD IMPORTS - FLAGGED FOR DELETION */
 // import {
 //   setNextOnDisplayAuctionNounId,
@@ -46,6 +47,7 @@ const createAuctionObj = (data: any): IAuction => {
 const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) => void }> =
   props => {
     const { auction: currentAuction, bgColorHandler } = props;
+    const history = useHistory();
     const [onDisplayNounId, setOnDisplayNounId] = useState(currentAuction && currentAuction.nounId);
     const [lastAuctionId, setLastAuctionId] = useState(currentAuction && currentAuction.nounId);
     const [isLastAuction, setIsLastAuction] = useState(true);
@@ -102,8 +104,14 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
       });
     };
 
-    const prevAuctionHandler = auctionHandlerFactory((prev: BigNumber) => prev.sub(1));
-    const nextAuctionHandler = auctionHandlerFactory((prev: BigNumber) => prev.add(1));
+    const prevAuctionHandler = auctionHandlerFactory((prev: BigNumber) => {
+      history.push(`/noun/${prev.sub(1)}`);
+      return prev.sub(1);
+    });
+    const nextAuctionHandler = auctionHandlerFactory((prev: BigNumber) => {
+      history.push(`/noun/${prev.add(1)}`);
+      return prev.add(1);
+    });
 
     const nounContent = (
       <div className={classes.nounWrapper}>
@@ -155,11 +163,12 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
     return (
       <Container fluid="lg" className={classes.pageContentWrapper}>
         <Row>
-
           <Col lg={{ span: 6 }} className={`align-self-end ${classes.noPaddingMargin}`}>
             {onDisplayNounId ? nounContent : loadingNoun}
           </Col>
-          <Col lg={{ span: 6 }} className={
+          <Col
+            lg={{ span: 6 }}
+            className={
               isLastAuction
                 ? classes.currentAuctionActivityContainer
                 : classes.pastAuctionActivityContainer

@@ -28,7 +28,7 @@
   position: absolute;
   top: -20px;
   display: block;
-  content: "";
+  content: '';
   background: radial-gradient(circle, transparent 12px, white 12px);
   background-size: 38px 40px;
   background-position: 12px -22px;
@@ -50,7 +50,7 @@
   position: absolute;
   top: -20px;
   display: block;
-  content: "";
+  content: '';
   background: radial-gradient(circle, transparent 12px, white 12px);
   background-size: 38px 40px;
   background-position: 12px -22px;
@@ -62,7 +62,7 @@
 .floatingPaper:after {
   position: absolute;
   bottom: -20px;
-  content: "";
+  content: '';
   display: block;
   background: radial-gradient(circle, transparent 12px, white 12px);
   background-size: 38px 42px;
@@ -195,4 +195,8 @@ h4 {
   font-size: 4em;
   padding: 0px;
   margin: 0px;
+}
+
+.buttonsWrapper {
+  margin: 10px;
 }
