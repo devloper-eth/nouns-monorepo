@@ -4,12 +4,9 @@ import { useNounsPartyDepositBalance } from '../../wrappers/nounsParty';
 import classes from './PartyVault.module.css';
 import { Auction as IAuction } from '../../wrappers/nounsAuction';
 import './progressbar.css';
-import { BigNumber } from 'ethers';
 // import config from '../../config';
 
 import { utils } from 'ethers';
-import { createNoSubstitutionTemplateLiteral } from 'typescript';
-import auction from '../../state/slices/auction';
 
 const PartyVault: React.FC<{
   auction: IAuction;

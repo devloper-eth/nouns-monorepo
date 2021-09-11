@@ -3,44 +3,41 @@ import config from '../../config';
 import { connectContractToSigner, useEthers } from '@usedapp/core';
 import { useContractFunction__fix } from '../../hooks/useContractFunction__fix';
 import { useAppSelector } from '../../hooks';
-import React, { useEffect, useState, useRef, ChangeEvent, useCallback } from 'react';
-import { utils, BigNumber as EthersBN } from 'ethers';
-import BigNumber from 'bignumber.js';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import classes from './Bid.module.css';
-import { Spinner, InputGroup, FormControl, Button, Row, Col } from 'react-bootstrap';
-import { useAuctionMinBidIncPercentage } from '../../wrappers/nounsAuction';
+import { Spinner, Button, Row, Col } from 'react-bootstrap';
 import { useAppDispatch } from '../../hooks';
 import { AlertModal, setAlertModal } from '../../state/slices/application';
 import Modal from '../Modal';
 import { nounsPartyContractFactory, NounsPartyContractFunction, useNounsPartyDepositBalance, useNounsPartyMaxBid } from '../../wrappers/nounsParty';
 import { formatEther } from '@ethersproject/units';
 
-const computeMinimumNextBid = (
-  currentBid: BigNumber,
-  minBidIncPercentage: BigNumber | undefined,
-): BigNumber => {
-  return !minBidIncPercentage
-    ? new BigNumber(0)
-    : currentBid.times(minBidIncPercentage.div(100).plus(1));
-};
+// const computeMinimumNextBid = (
+//   currentBid: BigNumber,
+//   minBidIncPercentage: BigNumber | undefined,
+// ): BigNumber => {
+//   return !minBidIncPercentage
+//     ? new BigNumber(0)
+//     : currentBid.times(minBidIncPercentage.div(100).plus(1));
+// };
 
-const minBidEth = (minBid: BigNumber): string => {
-  if (minBid.isZero()) {
-    return '0.01';
-  }
+// const minBidEth = (minBid: BigNumber): string => {
+//   if (minBid.isZero()) {
+//     return '0.01';
+//   }
 
-  const eth = Number(utils.formatEther(EthersBN.from(minBid.toString())));
-  const roundedEth = Math.ceil(eth * 100) / 100;
+//   const eth = Number(utils.formatEther(EthersBN.from(minBid.toString())));
+//   const roundedEth = Math.ceil(eth * 100) / 100;
 
-  return roundedEth.toString();
-};
+//   return roundedEth.toString();
+// };
 
-const currentBid = (bidInputRef: React.RefObject<HTMLInputElement>) => {
-  if (!bidInputRef.current || !bidInputRef.current.value) {
-    return new BigNumber(0);
-  }
-  return new BigNumber(utils.parseEther(bidInputRef.current.value).toString());
-};
+// const currentBid = (bidInputRef: React.RefObject<HTMLInputElement>) => {
+//   if (!bidInputRef.current || !bidInputRef.current.value) {
+//     return new BigNumber(0);
+//   }
+//   return new BigNumber(utils.parseEther(bidInputRef.current.value).toString());
+// };
 
 const Bid: React.FC<{
   auction: Auction;
@@ -57,7 +54,7 @@ const Bid: React.FC<{
 
   const bidInputRef = useRef<HTMLInputElement>(null);
 
-  const [bidInput, setBidInput] = useState('');
+  // const [bidInput, setBidInput] = useState('');
 
   const [bidButtonContent, setBidButtonContent] = useState({
     loading: false,
@@ -69,11 +66,11 @@ const Bid: React.FC<{
 
   const maxBid = useNounsPartyMaxBid();
 
-  const minBidIncPercentage = useAuctionMinBidIncPercentage();
-  const minBid = computeMinimumNextBid(
-    auction && new BigNumber(auction.amount.toString()),
-    minBidIncPercentage,
-  );
+  // const minBidIncPercentage = useAuctionMinBidIncPercentage();
+  // const minBid = computeMinimumNextBid(
+  //   auction && new BigNumber(auction.amount.toString()),
+  //   minBidIncPercentage,
+  // );
 
   const depositBalance = useNounsPartyDepositBalance();
   // const deposits = useNounsPartyDeposits();
@@ -92,16 +89,16 @@ const Bid: React.FC<{
   //   NounsPartyContractFunction.deposit,
   // );
 
-  const bidInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    const input = event.target.value;
+  // const bidInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  //   const input = event.target.value;
 
-    // disable more than 2 digits after decimal point
-    if (input.includes('.') && event.target.value.split('.')[1].length > 2) {
-      return;
-    }
+  //   // disable more than 2 digits after decimal point
+  //   if (input.includes('.') && event.target.value.split('.')[1].length > 2) {
+  //     return;
+  //   }
 
-    setBidInput(event.target.value);
-  };
+  //   setBidInput(event.target.value);
+  // };
 
   const placeBidHandler = async () => {
     // if (!auction || !bidInputRef.current || !bidInputRef.current.value) {
