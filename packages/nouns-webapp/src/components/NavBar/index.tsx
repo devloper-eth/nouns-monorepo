@@ -11,9 +11,10 @@ import { useEthers } from '@usedapp/core';
 import WalletConnectModal from '../WalletConnectModal';
 // import PartyInvite from '../PartyInvite';
 import WithdrawModal from '../WithdrawModal';
-// import ClaimTokensModal from '../ClaimTokensModal';
+import ClaimTokensModal from '../ClaimTokensModal';
 import { useAuction } from '../../wrappers/nounsAuction';
 import Bid from '../Bid';
+import SettleAuctionModal from '../SettleAuction';
 
 const NavBar = () => {
   const activeAccount = useAppSelector(state => state.account.activeAccount);
@@ -26,8 +27,9 @@ const NavBar = () => {
 
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
-  // const [showClaimTokensModal, setShowClaimTokensModal] = useState(false);
+  const [showClaimTokensModal, setShowClaimTokensModal] = useState(false);
   const [showPlaceBidModal, setShowPlaceBidModal] = useState(false);
+  const [showSettleAuctionModal, setShowSettleAuctionModal] = useState(false);
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
 
@@ -52,9 +54,9 @@ const NavBar = () => {
     // setShowClaimTokensModal(true);
   };
 
-  // const hideClaimTokensModalHandler = () => {
-  //   setShowClaimTokensModal(false);
-  // };
+  const hideClaimTokensModalHandler = () => {
+    setShowClaimTokensModal(false);
+  };
 
   // Place Bid Modal
   // const showPlaceBodModalHandler = () => {
@@ -62,6 +64,14 @@ const NavBar = () => {
   // };
   const hidePlaceBidModalHandler = () => {
     setShowPlaceBidModal(false);
+  };
+
+  // Settle Auction Modal
+  const showSettleAuctionModalHandler = () => {
+    setShowSettleAuctionModal(true);
+  };
+  const hideSettleAuctionHandler = () => {
+    setShowSettleAuctionModal(false);
   };
 
   // timer logic
@@ -123,7 +133,15 @@ const NavBar = () => {
       {showWithdrawModal && activeAccount && (
         <WithdrawModal hideWithdrawModalHandler={hideWithdrawModalHandler} />
       )}
-      {/* {showClaimTokensModal && activeAccount && (<ClaimTokensModal hideClaimTokensModalHandler={hideClaimTokensModalHandler}/>)} */}
+      {showClaimTokensModal && activeAccount && (
+        <ClaimTokensModal
+          hideClaimTokensModalHandler={hideClaimTokensModalHandler}
+          activeAccount={activeAccount}
+        />
+      )}
+      {showSettleAuctionModal && auction && (
+        <SettleAuctionModal hideSettleAuctionHandler={hideSettleAuctionHandler} auction={auction} />
+      )}
       {auction &&
         lastNounId &&
         auction?.nounId?.eq(lastNounId) &&
@@ -162,6 +180,13 @@ const NavBar = () => {
               Withdraw Funds
             </Nav.Item>
             {/* <SettleAuction /> */}
+            {/* <Nav.Item className={classes.menuItem} onClick={() => showPlaceBidModalHandler()}>
+              Place Bid
+            </Nav.Item> */}
+            <Nav.Item className={classes.menuItem} onClick={() => showSettleAuctionModalHandler()}>
+              Settle Auction
+            </Nav.Item>
+
             {activeAccount ? connectedContent : disconnectedContent}
             {/* <PartyInvite /> */}
           </Navbar.Collapse>
