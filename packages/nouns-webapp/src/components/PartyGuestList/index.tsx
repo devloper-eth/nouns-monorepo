@@ -4,6 +4,7 @@ import { Col, Row } from 'react-bootstrap';
 import { useNounsPartyDeposits } from '../../wrappers/nounsParty';
 import ShortAddress from '../ShortAddress';
 import classes from './PartyGuestList.module.css';
+import { Jazzicon } from '@ukstv/jazzicon-react';
 
 const PartyGuestList = () => {
   const deposits = useNounsPartyDeposits();
@@ -18,7 +19,7 @@ const PartyGuestList = () => {
         >
           <p className={`${classes.partyMembersHeadingText} ${classes.noPaddingMargin}`}>
             Party Members
-            {/* <sup>(35)</sup> */}
+            ({deposits && deposits.length})
           </p>
         </Col>
         {/* <PartyInvite /> */}
@@ -33,9 +34,10 @@ const PartyGuestList = () => {
                 <div className={classes.bidItem}>
                   <div className={classes.leftSectionWrapper}>
                     <div className={classes.bidder}>
-                      <div>
-                        <ShortAddress address={null ?? bid.owner} />
+                      <div className={classes.jazzicon}>
+                        <Jazzicon address={bid.owner} />
                       </div>
+                      <ShortAddress address={null ?? bid.owner} />
                     </div>
                     {/* <div className={classes.bidDate}>{`${moment().format(
             'MMM DD',

@@ -8,8 +8,9 @@
   max-height: 20vh;
   overflow-x: hidden;
   overflow-y: auto;
-  -webkit-mask-image: linear-gradient(to bottom, black 10%, transparent 80%);
-  mask-image: linear-gradient(to bottom, black 10%, transparent 80%);
+  padding-top: 10px;
+  /* -webkit-mask-image: linear-gradient(to bottom, black 10%, transparent 80%); */
+  /* mask-image: linear-gradient(to bottom, black 10%, transparent 80%); */
 }
 
 .contributionsBlurb {
@@ -30,6 +31,17 @@
 .noPaddingMargin {
   padding: 0px;
   margin: 0px;
+}
+
+.jazzicon {
+  height: 30px;
+  width: 30px;
+  border: 2px solid black;
+  padding: 0;
+  margin: 0;
+  border-radius: 30px;
+  margin-right: 10px;
+  margin-top: -3px;
 }
 
 /* User Bids classes */
@@ -70,6 +82,7 @@
 }
 .bidder {
   color: var(--brand-black);
+  display: flex;
 }
 .bidDate {
   color: gray;
