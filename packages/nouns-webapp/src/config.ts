@@ -33,7 +33,7 @@ const config: Record<SupportedChains, Config> = {
     nounsDaoProxyAddress: '0xd1C753D9A23eb5c57e0d023e993B9bd4F5086b04',
     nounsDaoExecutorAddress: '0xd1C753D9A23eb5c57e0d023e993B9bd4F5086b04',
     subgraphApiUri: 'https://api.thegraph.com/subgraphs/name/nounsdao/nouns-subgraph-rinkeby-v4',
-    enableHistory: process.env.REACT_APP_ENABLE_HISTORY === 'true' || false,
+    enableHistory: process.env.REACT_APP_ENABLE_HISTORY === 'true' || true,
     nounsPartyAddress: '0xd19b9Cfa463A729F6c3B6Df58D0c11DcFe72e63F',
   },
   [ChainId.Mainnet]: {
@@ -48,7 +48,7 @@ const config: Record<SupportedChains, Config> = {
     wsRpcUri:
       process.env.REACT_APP_MAINNET_WSRPC ||
       `wss://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_PROJECT_ID}`,
-    enableHistory: process.env.REACT_APP_ENABLE_HISTORY === 'true' || false,
+    enableHistory: process.env.REACT_APP_ENABLE_HISTORY === 'true' || true,
     nounsPartyAddress: 'TODO',
   },
   [LOCAL_CHAIN_ID]: {
@@ -59,7 +59,7 @@ const config: Record<SupportedChains, Config> = {
     nounsDaoProxyAddress: '0x610178dA211FEF7D417bC0e6FeD39F05609AD788',
     subgraphApiUri: '',
     jsonRpcUri: 'http://localhost:8545',
-    enableHistory: false,
+    enableHistory: true,
     wsRpcUri: 'ws://localhost:8545',
     nounsPartyAddress: 'TODO',
   },

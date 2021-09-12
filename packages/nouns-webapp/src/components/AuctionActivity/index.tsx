@@ -59,11 +59,8 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
     displayGraphDepComps,
   } = props;
 
-  const { auction: currentAuction } = props;
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
-
-
 
   // const [showBidHistoryModal, setShowBidHistoryModal] = useState(false);
   // const showBidModalHandler = () => {
@@ -151,8 +148,8 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
               )}
             </Col>
           </Row>
-          {/* TO DO - ADD IN LOGIC TO CHECK IF SETTLED ALREADY */}
-          {!isLastAuction && (
+
+          {!isLastAuction && auction && auction.nounId && (
             <Row className={classes.buttonsWrapper}>
               <Col>
                 <SettleAuction auction={auction} />
@@ -161,8 +158,8 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
           )}
           {isLastAuction && (
             <>
-              <PartyVault auction={currentAuction} />
-              <PartyButtons />
+              <PartyVault auction={auction} />
+              <PartyButtons auction={auction} />
               <PartyGuestList />
             </>
           )}

@@ -2,7 +2,11 @@ import { connectContractToSigner, useEthers } from '@usedapp/core';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Spinner } from 'react-bootstrap';
 import { useContractFunction__fix } from '../../hooks/useContractFunction__fix';
-import { nounsPartyContractFactory, NounsPartyContractFunction } from '../../wrappers/nounsParty';
+import {
+  nounsPartyContractFactory,
+  NounsPartyContractFunction,
+  usePendingSettled,
+} from '../../wrappers/nounsParty';
 import config from '../../config';
 import classes from './SettleAuction.module.css';
 import { AlertModal, setAlertModal } from '../../state/slices/application';
@@ -32,13 +36,14 @@ const SettleAuction: React.FC<{ auction: Auction }> = props => {
     NounsPartyContractFunction.settle,
   );
 
+  const auctionPendingSettled = usePendingSettled(auction.nounId);
+
   const settleAuction = async () => {
-    // TODO must be current's page nounId
     if (auction && auction.nounId) {
       try {
         const contract = connectContractToSigner(nounsPartyContract, undefined, library);
-        const gasLimit = await contract.estimateGas.settle(457);
-        settle(457, { gasLimit: gasLimit.add(15000000) });
+        const gasLimit = await contract.estimateGas.settle(auction.nounId);
+        settle(auction.nounId, { gasLimit: gasLimit.add(15000000) });
       } catch {
         // hideSettleAuctionHandler();
         setModal({
@@ -91,10 +96,14 @@ const SettleAuction: React.FC<{ auction: Auction }> = props => {
   // );
 
   return (
-    <Button className={classes.settleAuctionButton} onClick={() => settleAuction()}>
-      {settleAuctionButtonContent.loading ? <Spinner animation="border" /> : null}
-      {settleAuctionButtonContent.content}
-    </Button>
+    <>
+      {auctionPendingSettled && (
+        <Button className={classes.settleAuctionButton} onClick={() => settleAuction()}>
+          {settleAuctionButtonContent.loading ? <Spinner animation="border" /> : null}
+          {settleAuctionButtonContent.content}
+        </Button>
+      )}
+    </>
   );
 };
 

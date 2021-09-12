@@ -5,11 +5,12 @@ import WalletConnectModal from '../WalletConnectModal';
 import AddFundsModal from '../AddFundsModal';
 import { Col, Row } from 'react-bootstrap';
 import Bid from '../Bid';
-import { useAuction } from '../../wrappers/nounsAuction';
-import config from '../../config';
 import SettleAuction from '../SettleAuction';
-
+import { Auction } from '../../wrappers/nounsAuction';
 /*  Currently unused packages FLAGGED FOR DELETION */
+// import { usePendingSettled } from '../../wrappers/nounsParty';
+// import { useAuction } from '../../wrappers/nounsAuction';
+// import config from '../../config';
 // import logo from '../../assets/logo.svg';
 // import { useEtherBalance, useEthers } from '@usedapp/core';
 // import { Link } from 'react-router-dom';
@@ -18,7 +19,10 @@ import SettleAuction from '../SettleAuction';
 // import { utils } from 'ethers';
 // import { buildEtherscanAddressLink, Network } from '../../utils/buildEtherscanLink';
 
-const ConnectWalletButton = () => {
+const ConnectWalletButton: React.FC<{
+  auction: Auction;
+}> = props => {
+  const { auction: currentAuction } = props;
   const activeAccount = useAppSelector(state => state.account.activeAccount);
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [showFundsModal, setShowFundsModal] = useState(false);
@@ -26,7 +30,7 @@ const ConnectWalletButton = () => {
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
   const lastNounId = useAppSelector(state => state.onDisplayAuction.lastAuctionNounId);
-  const auction = useAuction(config.auctionProxyAddress);
+  // const auction = useAuction(config.auctionProxyAddress);
 
   const showModalHandler = () => {
     setShowConnectModal(true);
@@ -52,11 +56,11 @@ const ConnectWalletButton = () => {
 
   // timer logic
   useEffect(() => {
-    if (!auction) return;
+    if (!currentAuction) return;
 
-    const timeLeft = Number(auction.endTime) - Math.floor(Date.now() / 1000);
+    const timeLeft = Number(currentAuction.endTime) - Math.floor(Date.now() / 1000);
 
-    if (auction && timeLeft <= 0) {
+    if (currentAuction && timeLeft <= 0) {
       setAuctionEnded(true);
     } else {
       setAuctionEnded(false);
@@ -68,14 +72,13 @@ const ConnectWalletButton = () => {
         clearTimeout(timer);
       };
     }
-  }, [auctionTimer, auction]);
+  }, [auctionTimer, currentAuction]);
 
   const connectedContent = (
     <>
-    {/* TO DO - ADD IN LOGIC TO CHECK IF SETTLED ALREADY  */}
       {auctionEnded ? (
         <>
-          <SettleAuction auction={auction} />
+          <SettleAuction auction={currentAuction} />
         </>
       ) : (
         <Row>
@@ -129,14 +132,14 @@ const ConnectWalletButton = () => {
       {showFundsModal && activeAccount && (
         <AddFundsModal onDismiss={hideFundsModalHandler} activeAccount={activeAccount} />
       )}
-      {auction &&
+      {currentAuction &&
         lastNounId &&
-        auction?.nounId?.eq(lastNounId) &&
+        currentAuction?.nounId?.eq(lastNounId) &&
         showPlaceBidModal &&
         activeAccount &&
         !auctionEnded && (
           <Bid
-            auction={auction}
+            auction={currentAuction}
             auctionEnded={auctionEnded}
             hidePlaceBidModalHandler={hidePlaceBidModalHandler}
           />

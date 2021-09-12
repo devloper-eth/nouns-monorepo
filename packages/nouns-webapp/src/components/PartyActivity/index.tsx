@@ -63,7 +63,7 @@ const PartyActivity: React.FC<{
   /**
    * Auction derived from `onDisplayNounId` query
    */
-  const auction: IAuction = dataCurrent && dataCurrent.auction && createAuctionObj(dataCurrent);
+  // const auction: IAuction = dataCurrent && dataCurrent.auction && createAuctionObj(dataCurrent);
   /**
    * Auction derived from `onDisplayNounId.add(1)` query
    */
@@ -138,7 +138,7 @@ const PartyActivity: React.FC<{
       {isLastAuction ? (
         <>
           <PartyVault auction={currentAuction} />
-          <PartyButtons />
+          <PartyButtons auction={currentAuction} />
           <PartyGuestList />
         </>
       ) : null}
