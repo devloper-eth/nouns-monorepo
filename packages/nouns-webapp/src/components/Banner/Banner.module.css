@@ -1,3 +1,8 @@
+.wrapper {
+  margin-top: 8rem;
+  margin-bottom: 2rem;
+}
+
 .wrapper h1 {
   font-family: 'Fredoka One';
   text-align: center;
@@ -5,15 +10,22 @@
   background: -webkit-linear-gradient(6deg, #00ffa3 18%, #57cdff 40%, #f68eff 72%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-top: 3rem;
+  line-height: 1;
+}
+
+.instructionsRow {
+  margin-bottom: 3rem;
 }
 
 @media (max-width: 992px) {
   .wrapper {
     padding: 2rem;
+    margin-top: 0;
+    margin-bottom: 0;
   }
   .wrapper h1 {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 4rem;
   }
 }
 
@@ -40,12 +52,19 @@
 }
 
 .instructionText span {
+  font-family: 'Fredoka One';
   margin-top: -6px;
   margin-right: 8px;
-  font-size: 2rem;
-  background: -webkit-linear-gradient(330deg, #00ffa3, #57cdff, #f68eff 30%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-size: 1.75rem;
+  color: white;
+  text-align: center;
+  font-weight: 900;
+  border-radius: 50%;
+  text-align: center;
+  width: 45px;
+  height: 45px;
+  padding: 2px;
+  background: -webkit-linear-gradient(330deg, #00ffa3, #57cdff, #f68eff 90%);
 }
 
 @media (max-width: 992px) {
