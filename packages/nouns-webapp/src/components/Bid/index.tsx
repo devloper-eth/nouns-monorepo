@@ -9,7 +9,12 @@ import { Spinner, Button, Row, Col } from 'react-bootstrap';
 import { useAppDispatch } from '../../hooks';
 import { AlertModal, setAlertModal } from '../../state/slices/application';
 import Modal from '../Modal';
-import { nounsPartyContractFactory, NounsPartyContractFunction, useNounsPartyDepositBalance, useNounsPartyMaxBid } from '../../wrappers/nounsParty';
+import {
+  nounsPartyContractFactory,
+  NounsPartyContractFunction,
+  useNounsPartyDepositBalance,
+  useNounsPartyMaxBid,
+} from '../../wrappers/nounsParty';
 import { formatEther } from '@ethersproject/units';
 
 // const computeMinimumNextBid = (
@@ -195,64 +200,23 @@ const Bid: React.FC<{
     }
   }, [bidState, auctionEnded, setModal, hidePlaceBidModalHandler]);
 
-  // // settle auction transaction state hook
-  // useEffect(() => {
-  //   switch (auctionEnded && settleAuctionState.status) {
-  //     case 'None':
-  //       setBidButtonContent({
-  //         loading: false,
-  //         content: 'Settle Auction',
-  //       });
-  //       break;
-  //     case 'Mining':
-  //       setBidButtonContent({ loading: true, content: '' });
-  //       break;
-  //     case 'Success':
-  //       setModal({
-  //         title: 'Success',
-  //         message: `Settled auction successfully!`,
-  //         show: true,
-  //       });
-  //       setBidButtonContent({ loading: false, content: 'Settle Auction' });
-  //       break;
-  //     case 'Fail':
-  //       setModal({
-  //         title: 'Transaction Failed',
-  //         message: settleAuctionState.errorMessage
-  //           ? settleAuctionState.errorMessage
-  //           : 'Please try again.',
-  //         show: true,
-  //       });
-  //       setBidButtonContent({ loading: false, content: 'Settle Auction' });
-  //       break;
-  //     case 'Exception':
-  //       setModal({
-  //         title: 'Error',
-  //         message: settleAuctionState.errorMessage
-  //           ? settleAuctionState.errorMessage
-  //           : 'Please try again.',
-  //         show: true,
-  //       });
-  //       setBidButtonContent({ loading: false, content: 'Settle Auction' });
-  //       break;
-  //   }
-  // }, [settleAuctionState, auctionEnded, setModal]);
+  const checkIfPartyLeadingBidder =
+    auction &&
+    auction.bidder &&
+    auction.bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase();
 
   if (!auction) return null;
 
   // || settleAuctionState.status === 'Mining'  if settling is included in this component
   const isDisabled = bidState.status === 'Mining' || !activeAccount;
 
-  const noPlaceBidContent = (
-    <>
-      Not enough funds to execute bid of {formatEther(maxBid)}&nbsp;ETH.
-    </>
-  );
+  const noPlaceBidContent = <>Not enough funds to execute bid of {formatEther(maxBid)}&nbsp;ETH.</>;
+
+  const partyIsAlreadyWinning = <>The party is already the leading bidder.</>;
 
   const placeBidContent = (
     <>
       {!auctionEnded && (
-      
         <p className={classes.minBidCopy}>{`Bid amount: ${formatEther(maxBid)} ETH`}</p>
       )}
       <Row>
@@ -269,6 +233,18 @@ const Bid: React.FC<{
       </Row>
     </>
   );
-  return <Modal title="Submit Bid" content={depositBalance.gte(maxBid) ? placeBidContent : noPlaceBidContent} onDismiss={hidePlaceBidModalHandler} />;
+  return (
+    <Modal
+      title="Submit Bid"
+      content={
+        depositBalance.gte(maxBid)
+          ? checkIfPartyLeadingBidder
+            ? partyIsAlreadyWinning
+            : placeBidContent
+          : noPlaceBidContent
+      }
+      onDismiss={hidePlaceBidModalHandler}
+    />
+  );
 };
 export default Bid;

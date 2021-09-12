@@ -11,6 +11,7 @@ import PartyButtons from '../PartyButtons';
 import PartyGuestList from '../PartyGuestList';
 import AuctionNavigation from '../AuctionNavigation';
 import SettleAuction from '../SettleAuction';
+import stampLogo from '../../assets/nouns_stamp.svg';
 
 /*  Currently unused packages but may need if commented components are brought back in  */
 // import config, { CHAIN_ID } from '../../config';
@@ -119,8 +120,15 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
           </Modal.Body>
         </Modal>
       )} */}
-      <div className={isLastAuction ? classes.partyPaperContainer : classes.floatingPaper}>
+      <div className={classes.floatingPaper}>
         <div className={classes.paperWrapper}>
+          <img
+            src={stampLogo}
+            width="125"
+            height="125"
+            className={classes.nounsPartyStamp}
+            alt="Nouns party logo"
+          />
           <div className={classes.nounIdContainer}>
             <h1 className={classes.nounIdText}>{`Noun ${auction && auction.nounId}`}</h1>
             {displayGraphDepComps && (
