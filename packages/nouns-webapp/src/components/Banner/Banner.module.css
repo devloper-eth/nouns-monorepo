@@ -1,8 +1,8 @@
 .wrapper h1 {
-  font-family: 'Londrina Solid';
+  font-family: 'Fredoka One';
   text-align: center;
   font-size: 4rem;
-  background: -webkit-linear-gradient(0deg, #00ffa3, #57cdff, #f68eff 50%);
+  background: -webkit-linear-gradient(6deg, #00ffa3 18%, #57cdff 40%, #f68eff 72%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

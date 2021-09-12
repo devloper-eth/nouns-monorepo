@@ -188,9 +188,9 @@ h4 {
 }
 
 .nounIdText {
-  background: -webkit-linear-gradient(90.72deg, #00ffa3 -33.78%, #57cdff 35.54%, #f68eff 118.48%);
+  font-family: 'Fredoka One';
+  background: -webkit-linear-gradient(10deg, #00ffa3 0%, #57cdff 52%, #f68eff 91%);
   -webkit-background-clip: text;
-  font-family: 'Londrina Solid';
   -webkit-text-fill-color: transparent;
   font-size: 4em;
   padding: 0px;
