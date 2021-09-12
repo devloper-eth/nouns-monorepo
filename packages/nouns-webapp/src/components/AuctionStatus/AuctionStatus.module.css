@@ -9,6 +9,7 @@
     color:  #fd5858;
     box-shadow: 0px 0px 4px rgb(150 150 150 / 60%);
     margin-bottom: 6px;
+    font-weight: bold;
 }
 
 .failStatus {
@@ -22,6 +23,7 @@
     background-color:  white;
     font-weight: bold;
 }
+
 /*
 .hiddenStatus {
 	display: none;

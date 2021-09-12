@@ -1,6 +1,6 @@
 import { Auction } from '../../wrappers/nounsAuction';
 import classes from './AuctionStatus.module.css';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import config from '../../config';
 import { useNounsPartyDepositBalance } from '../../wrappers/nounsParty';
 

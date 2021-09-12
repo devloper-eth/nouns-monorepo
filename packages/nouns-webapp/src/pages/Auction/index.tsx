@@ -11,7 +11,6 @@ import { useEffect } from 'react';
 import Documentation from '../../components/Documentation';
 import Banner from '../../components/Banner';
 // import HistoryCollection from '../../components/HistoryCollection';
-import { BigNumber } from 'ethers';
 /* Currently unused packages flagged for removal */
 // import config from '../../config';
 // import { useAuction } from '../../wrappers/nounsAuction';
