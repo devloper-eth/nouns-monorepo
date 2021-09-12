@@ -12,9 +12,7 @@ import config from '../../config';
 import classes from './ClaimTokensModal.module.css';
 import { Button, Col, Row, Spinner } from 'react-bootstrap';
 import Modal from '../Modal';
-import { useEthers } from '@usedapp/core';
-// import BigNumber from 'bignumber.js';
-// import { formatEther } from 'ethers/lib/utils';
+import { formatEther } from 'ethers/lib/utils';
 // import { connectContractToSigner, useEthers } from '@usedapp/core';
 
 const ClaimTokensModal: React.FC<{
@@ -33,55 +31,21 @@ const ClaimTokensModal: React.FC<{
   const dispatch = useAppDispatch();
   const setModal = useCallback((modal: AlertModal) => dispatch(setAlertModal(modal)), [dispatch]);
 
-
   // party contract
   const nounsPartyContract = nounsPartyContractFactory(config.nounsPartyAddress);
 
-  const { account } = useEthers();
-  const currentClaimsCount = useNounsPartyClaimsCount(account);
-
-  // useNounsPartyClaims(account, 0)) // replace 0 by iterating over currentClaimsCount
-
-  // const { send: claims} = useContractFunction__fix(
-  //   nounsPartyContract,
-  //   NounsPartyContractFunction.claims,
-  // );
+  // active claims
+  const currentClaimsCount = useNounsPartyClaimsCount(activeAccount);
 
   const { send: claim, state: claimState } = useContractFunction__fix(
     nounsPartyContract,
     NounsPartyContractFunction.claim,
   );
 
-  // const fetchTokenClaimsCount = useCallback(async () => {
-  //   let claimCounter = 0;
-
-  //   if (currentClaimsCount && currentClaimsCount > claimCounter) {
-  //     while (currentClaimsCount > claimCounter) {
-  //       // const tokenClaimsResponse = await contract.estimateGas.claims(activeAccount, claimCounter);
-  //       claims(activeAccount, claimCounter);
-
-  //       // TO DO - store response
-  //       claimCounter++;
-  //     }
-  //   }
-  // }, [currentClaimsCount, activeAccount, claims]);
-
-  // useEffect(() => {
-  //   fetchTokenClaimsCount();
-  // }, [fetchTokenClaimsCount]);
-
   // claim tokens
   const claimTokensHandler = async () => {
-    setClaimTokensButtonContent({
-      loading: true,
-      content: 'Claiming Tokens...',
-    })
     try {
       claim();
-      setClaimTokensButtonContent({
-        loading: false,
-        content: 'Claim Tokens',
-      })
     } catch {
       hideClaimTokensModalHandler();
       setModal({
@@ -94,21 +58,78 @@ const ClaimTokensModal: React.FC<{
     }
   };
 
-  /* <p>{test ? new BigNumber(test) : 'no claims'}</p> */
+  // claiming tokens transaction state hook
+  useEffect(() => {
+    switch (claimState.status) {
+      case 'None':
+        setClaimTokensButtonContent({
+          loading: false,
+          content: 'Claim tokens',
+        });
+        break;
+      case 'Mining':
+        setClaimTokensButtonContent({ loading: true, content: 'Claiming tokens...' });
+        break;
+      case 'Fail':
+        hideClaimTokensModalHandler();
+        setModal({
+          title: 'Transaction Failed',
+          message: claimState.errorMessage ? claimState.errorMessage : 'Please try again.',
+          show: true,
+        });
+        setClaimTokensButtonContent({ loading: false, content: 'Claim tokens' });
+        break;
+      case 'Exception':
+        hideClaimTokensModalHandler();
+        setModal({
+          title: 'Error',
+          message: claimState.errorMessage ? claimState.errorMessage : 'Please try again.',
+          show: true,
+        });
+        setClaimTokensButtonContent({ loading: false, content: 'Claim tokens' });
+        break;
+    }
+  }, [claimState, setModal, hideClaimTokensModalHandler]);
+
+  // successful claim
+  useEffect(() => {
+    if (!activeAccount) return;
+
+    // tx state is mining
+    const isMiningUserTx = claimState.status === 'Mining';
+
+    if (isMiningUserTx) {
+      claimState.status = 'Success';
+      hideClaimTokensModalHandler();
+      setModal({
+        title: 'Success',
+        message: `Tokens claimed successfully!`,
+        show: true,
+      });
+      setClaimTokensButtonContent({ loading: false, content: 'Claim tokens' });
+    }
+  }, [claimState, activeAccount, setModal, hideClaimTokensModalHandler]);
 
   const claimTokensContent = (
     <>
-      <Row className="justify-content-center">
-        <Col>
-          <p className={classes.confirmText}>Ready to claim your tokens?</p>
-        </Col>
-      </Row>
-      <Col>
-        <Button className={classes.claimTokensButton} onClick={claimTokensHandler}>
-          {claimTokensButtonContent.loading ? <Spinner animation="border" /> : null}
-          {claimTokensButtonContent.content}
-        </Button>
-      </Col>
+      {activeAccount && currentClaimsCount && currentClaimsCount > 0 ? (
+        <>
+          {activeAccount && currentClaimsCount && currentClaimsCount > 0
+            ? [...Array(currentClaimsCount)].map((e, i) => (
+                <ClaimsComponent key={i} account={activeAccount} counter={i} />
+              ))
+            : null}
+
+          <Col>
+            <Button className={classes.claimTokensButton} onClick={claimTokensHandler}>
+              {claimTokensButtonContent.loading ? <Spinner animation="border" /> : null}
+              {claimTokensButtonContent.content}
+            </Button>
+          </Col>
+        </>
+      ) : (
+        <p>No tokens to claim</p>
+      )}
     </>
   );
 
@@ -122,3 +143,23 @@ const ClaimTokensModal: React.FC<{
 };
 
 export default ClaimTokensModal;
+
+const ClaimsComponent: React.FC<{
+  account: string;
+  counter: number;
+}> = props => {
+  const claimsResponse = useNounsPartyClaims(props.account, props.counter);
+
+  return (
+    <>
+      <Row>
+        <Col>
+          <p> {claimsResponse ? `Noun ${claimsResponse[0]?.toString()}` : null}</p>
+        </Col>
+        <Col>
+          <p> {claimsResponse ? formatEther(claimsResponse[1]) : null}</p>
+        </Col>
+      </Row>
+    </>
+  );
+};
