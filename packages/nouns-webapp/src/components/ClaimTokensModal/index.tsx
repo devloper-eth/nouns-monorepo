@@ -5,12 +5,14 @@ import { AlertModal, setAlertModal } from '../../state/slices/application';
 import {
   nounsPartyContractFactory,
   NounsPartyContractFunction,
+  useNounsPartyClaims,
   useNounsPartyClaimsCount,
 } from '../../wrappers/nounsParty';
 import config from '../../config';
 import classes from './ClaimTokensModal.module.css';
 import { Button, Col, Row, Spinner } from 'react-bootstrap';
 import Modal from '../Modal';
+import { useEthers } from '@usedapp/core';
 // import BigNumber from 'bignumber.js';
 // import { formatEther } from 'ethers/lib/utils';
 // import { connectContractToSigner, useEthers } from '@usedapp/core';
@@ -31,41 +33,42 @@ const ClaimTokensModal: React.FC<{
   const dispatch = useAppDispatch();
   const setModal = useCallback((modal: AlertModal) => dispatch(setAlertModal(modal)), [dispatch]);
 
+
   // party contract
   const nounsPartyContract = nounsPartyContractFactory(config.nounsPartyAddress);
 
-  const currentClaimsCount = useNounsPartyClaimsCount();
+  const { account } = useEthers();
+  const currentClaimsCount = useNounsPartyClaimsCount(account);
 
-  console.log('token claims response: ', currentClaimsCount ? currentClaimsCount.toNumber() : 'none');
+  // useNounsPartyClaims(account, 0)) // replace 0 by iterating over currentClaimsCount
 
-
-  const { send: claims} = useContractFunction__fix(
-    nounsPartyContract,
-    NounsPartyContractFunction.claims,
-  );
+  // const { send: claims} = useContractFunction__fix(
+  //   nounsPartyContract,
+  //   NounsPartyContractFunction.claims,
+  // );
 
   const { send: claim, state: claimState } = useContractFunction__fix(
     nounsPartyContract,
     NounsPartyContractFunction.claim,
   );
 
-  const fetchTokenClaimsCount = useCallback(async () => {
-    let claimCounter = 0;
+  // const fetchTokenClaimsCount = useCallback(async () => {
+  //   let claimCounter = 0;
 
-    if (currentClaimsCount && currentClaimsCount > claimCounter) {
-      while (currentClaimsCount > claimCounter) {
-        // const tokenClaimsResponse = await contract.estimateGas.claims(activeAccount, claimCounter);
-        claims(activeAccount, claimCounter);
+  //   if (currentClaimsCount && currentClaimsCount > claimCounter) {
+  //     while (currentClaimsCount > claimCounter) {
+  //       // const tokenClaimsResponse = await contract.estimateGas.claims(activeAccount, claimCounter);
+  //       claims(activeAccount, claimCounter);
 
-        // TO DO - store response
-        claimCounter++;
-      }
-    }
-  }, [currentClaimsCount, activeAccount, claims]);
+  //       // TO DO - store response
+  //       claimCounter++;
+  //     }
+  //   }
+  // }, [currentClaimsCount, activeAccount, claims]);
 
-  useEffect(() => {
-    fetchTokenClaimsCount();
-  }, [fetchTokenClaimsCount]);
+  // useEffect(() => {
+  //   fetchTokenClaimsCount();
+  // }, [fetchTokenClaimsCount]);
 
   // claim tokens
   const claimTokensHandler = async () => {

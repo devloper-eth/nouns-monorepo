@@ -33,11 +33,12 @@ const SettleAuction: React.FC<{ auction: Auction }> = props => {
   );
 
   const settleAuction = async () => {
+    // TODO must be current's page nounId
     if (auction && auction.nounId) {
       try {
         const contract = connectContractToSigner(nounsPartyContract, undefined, library);
-        const gasLimit = await contract.estimateGas.settle(auction.nounId);
-        settle(auction.nounId, { gasLimit: gasLimit.add(15000000) });
+        const gasLimit = await contract.estimateGas.settle(454);
+        settle(454, { gasLimit: gasLimit.add(15000000) });
       } catch {
         // hideSettleAuctionHandler();
         setModal({
