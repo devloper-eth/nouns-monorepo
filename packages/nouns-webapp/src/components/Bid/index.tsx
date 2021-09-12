@@ -237,7 +237,7 @@ const Bid: React.FC<{
     <Modal
       title="Submit Bid"
       content={
-        depositBalance.gte(maxBid)
+        depositBalance.gt(maxBid)
           ? checkIfPartyLeadingBidder
             ? partyIsAlreadyWinning
             : placeBidContent
