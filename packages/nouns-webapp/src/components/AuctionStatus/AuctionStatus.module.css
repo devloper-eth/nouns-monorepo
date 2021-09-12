@@ -1,0 +1,28 @@
+.statusIndicator {
+    text-align: center;
+    background: white;
+    border-radius: 50px;
+    align-items: center;
+    font-size: 16px;
+    padding: 4px 20px;
+    display: inline-block;
+    color:  #fd5858;
+    box-shadow: 0px 0px 4px rgb(150 150 150 / 60%);
+    margin-bottom: 6px;
+}
+
+.failStatus {
+	color: #fd5858;
+}
+
+.successStatus {
+	background: -webkit-linear-gradient(10deg, #00ffa3 -10%, #57cdff 20%, #f68eff 91%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-color:  white;
+    font-weight: bold;
+}
+/*
+.hiddenStatus {
+	display: none;
+}*/

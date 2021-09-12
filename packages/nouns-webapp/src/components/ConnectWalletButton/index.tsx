@@ -89,7 +89,7 @@ const ConnectWalletButton: React.FC<{
           </Col>
           <Col>
             <button onClick={showPlaceBidModalHandler} className={classes.connectWalletButton}>
-              Place bid
+              Submit bid
             </button>
           </Col>
         </Row>

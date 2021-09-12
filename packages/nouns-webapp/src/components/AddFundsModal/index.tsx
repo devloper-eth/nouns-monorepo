@@ -163,12 +163,6 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
               bid. If the party loses the auction, or if any of your ETH is in excess of the winning
               bid, you will be able to claim all unused funds from your contribution.
             </p>
-
-            <p className={classes.warningText}>
-              <b>Warning:</b> Your funds may be locked if this party cannot raise enough ETH to
-              cross the auction reserve price AND the auction is never started by another bidder or
-              the creator never de-lists it.
-            </p>
           </Col>
         </Row>
         <Row>
@@ -200,7 +194,7 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
       </>
     );
 
-    return <Modal title="Add Eth" content={fundsModal} onDismiss={onDismiss} />;
+    return <Modal title="Add Funds" content={fundsModal} onDismiss={onDismiss} />;
   };
 
 export default AddFundsModal;

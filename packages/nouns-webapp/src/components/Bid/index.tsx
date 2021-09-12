@@ -58,7 +58,7 @@ const Bid: React.FC<{
 
   const [bidButtonContent, setBidButtonContent] = useState({
     loading: false,
-    content: 'Place Bid',
+    content: 'Submit Bid',
   });
 
   const dispatch = useAppDispatch();
@@ -150,10 +150,10 @@ const Bid: React.FC<{
       hidePlaceBidModalHandler();
       setModal({
         title: 'Success',
-        message: `Bid was placed successfully!`,
+        message: `Bid was submitted successfully!`,
         show: true,
       });
-      setBidButtonContent({ loading: false, content: 'Place Bid' });
+      setBidButtonContent({ loading: false, content: 'Submit Bid' });
       clearBidInput();
     }
   }, [auction, bidState, account, setModal, hidePlaceBidModalHandler]);
@@ -164,11 +164,11 @@ const Bid: React.FC<{
       case 'None':
         setBidButtonContent({
           loading: false,
-          content: 'Place Bid',
+          content: 'Submit Bid',
         });
         break;
       case 'Mining':
-        setBidButtonContent({ loading: true, content: 'Placing bid...' });
+        setBidButtonContent({ loading: true, content: 'Submitting bid...' });
         break;
       case 'Fail':
         hidePlaceBidModalHandler();
@@ -176,10 +176,10 @@ const Bid: React.FC<{
           title: 'Transaction Failed',
           message: bidState.errorMessage
             ? bidState.errorMessage
-            : 'Place bid failed. Please try again.',
+            : 'Submit bid failed. Please try again.',
           show: true,
         });
-        setBidButtonContent({ loading: false, content: 'Place Bid' });
+        setBidButtonContent({ loading: false, content: 'Submit Bid' });
         break;
       case 'Exception':
         hidePlaceBidModalHandler();
@@ -187,10 +187,10 @@ const Bid: React.FC<{
           title: 'Error',
           message: bidState.errorMessage
             ? bidState.errorMessage
-            : 'Place bid failed. Please try again.',
+            : 'Submit bid failed. Please try again.',
           show: true,
         });
-        setBidButtonContent({ loading: false, content: 'Place Bid' });
+        setBidButtonContent({ loading: false, content: 'Submit Bid' });
         break;
     }
   }, [bidState, auctionEnded, setModal, hidePlaceBidModalHandler]);
@@ -269,6 +269,6 @@ const Bid: React.FC<{
       </Row>
     </>
   );
-  return <Modal title="Place Bid" content={depositBalance.gte(maxBid) ? placeBidContent : noPlaceBidContent} onDismiss={hidePlaceBidModalHandler} />;
+  return <Modal title="Submit Bid" content={depositBalance.gte(maxBid) ? placeBidContent : noPlaceBidContent} onDismiss={hidePlaceBidModalHandler} />;
 };
 export default Bid;

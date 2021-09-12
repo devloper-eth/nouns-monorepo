@@ -6,23 +6,31 @@
   display: flex;
 }
 
+.pageContentWrapper {
+  text-align: center;
+}
+
 .currentAuctionActivityContainer {
   margin-top: 10vh;
+  text-align: left;
 }
 
 @media (max-width: 776px) {
   .currentAuctionActivityContainer {
     margin-top: 0;
+    text-align: left;
   }
 }
 
 .pastAuctionActivityContainer {
   margin-top: 10vh;
+  text-align: left;
 }
 
 @media (max-width: 776px) {
   .pastAuctionActivityContainer {
     margin-top: 0;
+    text-align: left;
   }
 }
 
