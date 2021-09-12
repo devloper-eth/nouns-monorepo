@@ -28,7 +28,7 @@
   position: absolute;
   top: -20px;
   display: block;
-  content: "";
+  content: '';
   background: radial-gradient(circle, #ffffff00 12px, #ffffff 13px, white 5px);
   background-size: 44px 42px;
   background-position: 6px -22px;
@@ -50,7 +50,7 @@
   position: absolute;
   top: -20px;
   display: block;
-  content: "";
+  content: '';
   background: radial-gradient(circle, #ffffff00 12px, #ffffff 13px, white 5px);
   background-size: 44px 42px;
   background-position: 6px -22px;
@@ -199,4 +199,10 @@ h4 {
 
 .buttonsWrapper {
   margin: 10px;
+}
+
+.nounsPartyStamp {
+  position: fixed;
+  top: -20px;
+  right: 5px;
 }

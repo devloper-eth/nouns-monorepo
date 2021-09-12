@@ -49,6 +49,11 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
         return;
       }
 
+      // minimum deposit .1 eth
+      if (Number(bidInputRef.current.value) < 0.1) {
+        return;
+      }
+
       setDepositButtonContent({ loading: true, content: 'Depositing eth...' });
       try {
         const value = utils.parseEther(bidInputRef.current.value.toString());
@@ -137,6 +142,7 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
         <Row>
           <Col>
             <p className={classes.depositText}>Deposit</p>
+            <p className={classes.minimumDeposit}>Minimum deposit: 0.1 eth</p>
           </Col>
         </Row>
         <Row>

@@ -1,53 +1,183 @@
-/* .link,
-.link:visited,
-.link:active {
-  color: var(--brand-dark-green);
-  text-decoration: underline;
-}
-.link:hover {
-  color: var(--brand-dark-red);
-}
-
-.bidRow {
-  font-weight: normal !important;
-}
-
-.currentBidCol {
-  border-right: 0 !important;
-} */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
 .partyPaperContainer {
   background-color: white;
+  border-bottom: none;
   padding-top: 20px;
-  padding-bottom: 20px;
-  box-shadow: 0px 2px 38px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px -8px 8px rgb(0 0 0 / 20%);
   -webkit-filter: drop-shadow(0px 0px 0px white);
   filter: drop-shadow(0px 0px 0px white);
+}
+
+@media (min-width: 993px) {
+  .paperWrapper {
+    height: 460px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 992px) {
+  .paperWrapper {
+    height: 800px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 }
 
 .partyPaperContainer:before {
   position: absolute;
   top: -20px;
   display: block;
-  content: "";
-  background: radial-gradient(circle, transparent 12px, white 12px);
-  background-size: 38px 40px;
-  background-position: 12px -22px;
+  content: '';
+  background: radial-gradient(circle, #ffffff00 12px, #ffffff 13px, white 5px);
+  background-size: 44px 42px;
+  background-position: 6px -22px;
   width: 100%;
   height: 40px;
   z-index: -1;
 }
 
-.partyPaperContainer:after {
+.floatingPaper {
+  background-color: white;
+  box-shadow: 0px -8px 8px rgb(0 0 0 / 20%);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  -webkit-filter: drop-shadow(0px 0px 0px white);
+  filter: drop-shadow(0px 0px 0px white);
+}
+
+.floatingPaper:before {
   position: absolute;
-  bottom: -20px;
-  content: "";
+  top: -20px;
   display: block;
-  background: radial-gradient(circle, transparent 12px, white 12px);
-  background-size: 38px 40px;
-  background-position: 12px -22px;
+  content: '';
+  background: radial-gradient(circle, #ffffff00 12px, #ffffff 13px, white 5px);
+  background-size: 44px 42px;
+  background-position: 6px -22px;
   width: 100%;
   height: 40px;
   z-index: -1;
+}
+
+.floatingPaper:after {
+  position: absolute;
+  bottom: -20px;
+  content: '';
+  display: block;
+  background: radial-gradient(circle, #ffffff00 12px, #ffffff 13px, white 5px);
+  background-size: 44px 42px;
+  background-position: 6px -22px;
+  width: 100%;
+  height: 40px;
+  z-index: -1;
+}
+
+.auctionActivityContainer {
+  padding: 0px;
+  margin: 10px;
+}
+
+.informationRow {
+  margin-bottom: 2rem;
+}
+
+.activityRow {
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+}
+
+h4 {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.modalHeader {
+  border-bottom: none;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.modalTitleWrapper {
+  color: var(--brand-black);
+}
+
+.modalTitleWrapper h1 {
+  font-size: xx-large;
+  margin-left: 2rem;
+}
+
+.modalHeader button {
+  align-self: flex-start;
+}
+
+.modalHeaderNounImgWrapper {
+  width: 150px;
+  height: 150px;
+}
+
+.currentBidCol {
+  border-right: 1px solid var(--brand-black);
+}
+
+.auctionTimerCol {
+  padding-left: 3rem;
+}
+
+@media (max-width: 992px) {
+  .wrapper {
+    padding: 1rem;
+  }
+  .auctionTimerCol {
+    padding-left: 15px;
+  }
+}
+
+/* Fix Firefox navigation arrow alignment issues */
+
+@-moz-document url-prefix() {
+  .colAlignCenter {
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* Vertical Divider */
+
+.verticalLine {
+  content: '';
+}
+
+.verticalLine:before {
+  padding: 0;
+  margin: 0;
+  display: block;
+  content: '';
+  width: 1px;
+  height: 66%;
+  background-color: rgba(200, 200, 200, 0.5);
+  position: absolute;
+  right: 0;
+  top: 33%;
+}
+
+.verticalLine:after {
+  padding: 0;
+  margin: 0;
+  display: block;
+  content: '';
+  width: 1px;
+  height: 66%;
+  background-color: rgba(200, 200, 200, 0.5);
+  position: absolute;
+  right: 0;
+  bottom: 33%;
 }
 
 .nounIdContainer {
@@ -58,30 +188,15 @@
 }
 
 .nounIdText {
-  background: -webkit-linear-gradient(90.72deg, #00ffa3 -33.78%, #57cdff 35.54%, #f68eff 118.48%);
+  font-family: 'Fredoka One';
+  background: -webkit-linear-gradient(10deg, #00ffa3 0%, #57cdff 52%, #f68eff 91%);
   -webkit-background-clip: text;
-  font-family: 'Londrina Solid';
   -webkit-text-fill-color: transparent;
   font-size: 4em;
   padding: 0px;
   margin: 0px;
 }
 
-.auctionActivityContainer {
-  padding: 0px;
+.buttonsWrapper {
   margin: 10px;
-}
-
-.noMarginPadding {
-  padding: 0px;
-  margin: 0px;
-}
-
-.ethAddressPadding {
-  padding-left: 1em;
-  padding-right: 0px;
-}
-
-.bidText {
-  color: rgba(33, 37, 41, 0.2);
 }

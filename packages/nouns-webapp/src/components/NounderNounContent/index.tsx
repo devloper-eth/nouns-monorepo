@@ -33,45 +33,47 @@ const NounderNounContent: React.FC<{
 
   return (
     <>
-      <div className={classes.partyPaperContainer}>
-        <div className={classes.nounIdContainer}>
-          <h1 className={classes.nounIdText}>{`Noun ${nounId}`}</h1>
-          {displayGraphDepComps && (
-            <AuctionNavigation
-              isFirstAuction={isFirstAuction}
-              isLastAuction={isLastAuction}
-              onNextAuctionClick={onNextAuctionClick}
-              onPrevAuctionClick={onPrevAuctionClick}
-            />
-          )}
-        </div>
+      <div className={classes.floatingPaper}>
+        <div className={classes.paperWrapper}>
+          <div className={classes.nounIdContainer}>
+            <h1 className={classes.nounIdText}>{`Noun ${nounId}`}</h1>
+            {displayGraphDepComps && (
+              <AuctionNavigation
+                isFirstAuction={isFirstAuction}
+                isLastAuction={isLastAuction}
+                onNextAuctionClick={onNextAuctionClick}
+                onPrevAuctionClick={onPrevAuctionClick}
+              />
+            )}
+          </div>
 
-        <Row className={classes.auctionActivityContainer}>
-          <Col lg={5}>
-            <Row>
-              <Col>
-                <p className={`${classes.noMarginPadding} ${classes.bidText}`}>{`Winning bid`}</p>
-              </Col>
-            </Row>
-            <Row>
-              <Col className={classes.ethAddressPadding}>
-                <h3 className={`${classes.noMarginPadding}`}>{`N/ A`}</h3>
-              </Col>
-            </Row>
-          </Col>
-          <Col lg={7}>
-            <Row>
-              <Col>
-                <p className={`${classes.noMarginPadding} ${classes.bidText}`}>Winner</p>
-              </Col>
-            </Row>
-            <Row>
-              <Col className={classes.ethAddressPadding}>
-                <h3 className={classes.noMarginPadding}>nounders.eth</h3>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
+          <Row className={classes.auctionActivityContainer}>
+            <Col lg={5}>
+              <Row>
+                <Col>
+                  <p className={`${classes.noMarginPadding} ${classes.bidText}`}>{`Winning bid`}</p>
+                </Col>
+              </Row>
+              <Row>
+                <Col className={classes.ethAddressPadding}>
+                  <h3 className={`${classes.noMarginPadding}`}>{`N/A`}</h3>
+                </Col>
+              </Row>
+            </Col>
+            <Col lg={7}>
+              <Row>
+                <Col>
+                  <p className={`${classes.noMarginPadding} ${classes.bidText}`}>Winner</p>
+                </Col>
+              </Row>
+              <Row>
+                <Col className={classes.ethAddressPadding}>
+                  <h3 className={classes.noMarginPadding}>Nounders.eth</h3>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </div>
       </div>
     </>
     // <AuctionActivityWrapper>

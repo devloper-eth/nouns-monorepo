@@ -48,8 +48,15 @@
   z-index: 0;
   text-align: center;
   font-size: 1em;
-  background: linear-gradient(90.72deg, #00FFA3 -33.78%, #57CDFF 35.54%, #F68EFF 118.48%);
+  background: linear-gradient(90.72deg, #00ffa3 -33.78%, #57cdff 35.54%, #f68eff 118.48%);
   /* filter: blur(12px); */
   border-radius: 24px;
   margin: 0px 0px 10px 0px;
+}
+.minimumDeposit {
+  font-size: 0.8rem;
+  text-align: left;
+  color: rgba(33, 37, 41, 0.4);
+  padding: 0px;
+  margin: 0px;
 }
