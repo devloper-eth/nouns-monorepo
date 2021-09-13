@@ -1,5 +1,6 @@
 import { Auction } from '../../wrappers/nounsAuction';
 import config from '../../config';
+import { BigNumber } from 'ethers';
 import { connectContractToSigner, useEthers } from '@usedapp/core';
 import { useContractFunction__fix } from '../../hooks/useContractFunction__fix';
 import { useAppSelector } from '../../hooks';
@@ -207,18 +208,24 @@ const Bid: React.FC<{
 
   if (!auction) return null;
 
-  // || settleAuctionState.status === 'Mining'  if settling is included in this component
   const isDisabled = bidState.status === 'Mining' || !activeAccount;
-
   const noPlaceBidContent = <>Not enough funds to execute bid of {formatEther(maxBid)}&nbsp;ETH.</>;
-
   const partyIsAlreadyWinning = <>The party is already the leading bidder.</>;
 
   const placeBidContent = (
     <>
-      {!auctionEnded && (
-        <p className={classes.minBidCopy}>{`Bid amount: ${formatEther(maxBid)} ETH`}</p>
-      )}
+      <Row>
+        <Col>
+          <p className={classes.infoText}>
+            Submitting the bid will place a bid on the nouns auction using the vault's funds. The bid will be 5% higher than the current highest bid.
+            The bid can be submitted by any contributor.
+          </p>
+          <p className={classes.infoText}>
+            If the party goes on to win the auction, contributors can return after the auction to claim their tokens. 
+            Any unused funds can be withdrawn.
+          </p>
+        </Col>
+      </Row>
       <Row>
         <Col>
           <Button

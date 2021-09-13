@@ -61,7 +61,7 @@ const Documentation = () => {
           </Card>
           <Card className={classes.card}>
             <Accordion.Toggle as={Card.Header} eventKey="3" className={classes.cardHeader}>
-              <h2 className={classes.teamRewards}>Nouns party team rewards</h2>
+              <h2 className={classes.teamRewards}>Party team rewards</h2>
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="3">
               <Card.Body>

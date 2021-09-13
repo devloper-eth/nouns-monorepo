@@ -97,10 +97,14 @@
   }
 }
 
+.infoText {
+  text-align: justify;
+  font-size: 0.8em;
+}
+
 .placePartyBidButton {
   height: 3em;
-  width: 50%;
-  /* padding: 10.5px 50px; */
+  width: 100%;
   border: none;
   outline: none;
   font-weight: bold;
@@ -111,15 +115,6 @@
   text-align: center;
   font-size: 1em;
   background: linear-gradient(90.72deg, #00ffa3 -33.78%, #57cdff 35.54%, #f68eff 118.48%);
-  /* filter: blur(12px); */
   border-radius: 24px;
   margin: 20px 0px 10px 0px;
 }
-
-/* .bidInput {
-  border-radius: 25px !important;
-  width: 50%;
-  padding: 20px;
-  width: 200px;
-  height: 15px;
-} */

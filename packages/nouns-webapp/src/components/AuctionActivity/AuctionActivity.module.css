@@ -18,7 +18,6 @@
 
 @media (max-width: 992px) {
   .paperWrapper {
-    height: 800px;
     overflow-x: hidden;
     overflow-y: auto;
   }
@@ -49,31 +48,13 @@
   overflow: hidden;
 }
 
-/* .floatingPaper:before {
-  position: absolute;
-  top: -20px;
-  display: block;
-  content: '';
-  background: radial-gradient(circle, #ffffff00 12px, #ffffff 13px, white 5px);
-  background-size: 44px 42px;
-  background-position: 6px -22px;
-  width: 100%;
-  height: 40px;
-  z-index: -1;
-}
 
-.floatingPaper:after {
-  position: absolute;
-  bottom: -20px;
-  content: '';
-  display: block;
-  background: radial-gradient(circle, #ffffff00 12px, #ffffff 13px, white 5px);
-  background-size: 44px 42px;
-  background-position: 6px -22px;
-  width: 100%;
-  height: 40px;
-  z-index: -1;
-} */
+@media (max-width: 992px) {
+  .floatingPaper {
+    border-bottom-left-radius: 42px;
+    border-bottom-right-radius: 42px;
+  }
+}
 
 .auctionActivityContainer {
   padding: 0px;
