@@ -3,10 +3,10 @@ import logo from '../../assets/nouns-party.svg';
 import { Link } from 'react-router-dom';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import clsx from 'clsx';
-import  { CHAIN_ID } from '../../config';
+import { CHAIN_ID } from '../../config';
 import { useAppSelector } from '../../hooks';
 import ShortAddress from '../ShortAddress';
-import {  useState } from 'react';
+import { useState } from 'react';
 import { useEthers } from '@usedapp/core';
 import WalletConnectModal from '../WalletConnectModal';
 // import PartyInvite from '../PartyInvite';
@@ -169,10 +169,16 @@ const NavBar = () => {
           {Number(CHAIN_ID) !== 1 && <Nav.Item>TESTNET</Nav.Item>}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-end">
-            <Nav.Item className={classes.menuItem} onClick={() => showClaimTokensModalHandler()}>
+            <Nav.Item
+              className={classes.menuItem}
+              onClick={activeAccount ? showClaimTokensModalHandler : showModalHandler}
+            >
               Claim Tokens
             </Nav.Item>
-            <Nav.Item className={classes.menuItem} onClick={() => showWithdrawModalHandler()}>
+            <Nav.Item
+              className={classes.menuItem}
+              onClick={activeAccount ? showWithdrawModalHandler : showModalHandler}
+            >
               Withdraw Funds
             </Nav.Item>
             {/* <SettleAuction /> */}
