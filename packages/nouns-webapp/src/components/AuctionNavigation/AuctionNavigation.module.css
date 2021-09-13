@@ -8,6 +8,7 @@
   background-repeat: no-repeat;
   background-color: transparent;
   font-size: xx-large;
+  z-index: 3;
 }
 .rightArrow {
   margin-left: 1rem;
@@ -18,6 +19,7 @@
   background-repeat: no-repeat;
   background-color: transparent;
   font-size: xx-large;
+  z-index: 3;
 }
 .leftArrow:hover,
 .rightArrow:hover {

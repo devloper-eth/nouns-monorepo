@@ -2,6 +2,7 @@ import { Col, Row } from 'react-bootstrap';
 import { BigNumber } from 'ethers';
 import AuctionNavigation from '../AuctionNavigation';
 import classes from './NounderNounContent.module.css';
+import stampLogo from '../../assets/nouns_stamp.svg';
 // import AuctionActivityNounTitle from '../AuctionActivityNounTitle';
 // import AuctionActivityDateHeadline from '../AuctionActivityDateHeadline';
 // import { Link } from 'react-router-dom';
@@ -35,6 +36,7 @@ const NounderNounContent: React.FC<{
     <>
       <div className={classes.floatingPaper}>
         <div className={classes.paperWrapper}>
+          <img src={stampLogo} className={classes.nounsPartyStamp} alt="Nouns party logo" />
           <div className={classes.nounIdContainer}>
             <h1 className={classes.nounIdText}>{`Noun ${nounId}`}</h1>
             {displayGraphDepComps && (
