@@ -1,7 +1,6 @@
 import Auction from '../../components/Auction';
 import { setUseGreyBackground } from '../../state/slices/application';
 import SocialCursorCollection from '../../components/SocialCursorCollection';
-import PageConfetti from '../../components/Confetti';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setOnDisplayAuctionNounId } from '../../state/slices/onDisplayAuction';
 import { push } from 'connected-react-router';
@@ -51,7 +50,6 @@ const AuctionPage: React.FC<AuctionPageProps> = props => {
   return (
     <>
       <SocialCursorCollection />
-      <PageConfetti />
       {onDisplayAuction && (
         <Auction
           auction={onDisplayAuction}

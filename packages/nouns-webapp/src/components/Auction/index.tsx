@@ -15,6 +15,8 @@ import {
   setNextOnDisplayAuctionNounId,
   setPrevOnDisplayAuctionNounId,
 } from '../../state/slices/onDisplayAuction';
+import { useEffect, useRef, useState } from 'react';
+import Confetti from 'react-confetti';
 /* OLD IMPORTS - FLAGGED FOR DELETION */
 // import {
 //   setNextOnDisplayAuctionNounId,
@@ -56,6 +58,8 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
     const history = useHistory();
     const dispatch = useAppDispatch();
     const lastNounId = useAppSelector(state => state.onDisplayAuction.lastAuctionNounId);
+    const [confettiSize, setConfettiSize] = useState({ height: 0, width: 0 });
+    const confettiContainerRef = useRef<HTMLDivElement>(null);
 
     // const [onDisplayNounId, setOnDisplayNounId] = useState(currentAuction && currentAuction.nounId);
     // const [lastAuctionId, setLastAuctionId] = useState(currentAuction && currentAuction.nounId);
@@ -188,20 +192,50 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
       />
     );
 
+    useEffect(() => {
+      if (confettiContainerRef.current) {
+        let parentHeight = confettiContainerRef.current.offsetHeight;
+        let parentWidth = confettiContainerRef.current.offsetWidth;
+
+        // add navbar header height
+        setConfettiSize({ height: parentHeight + 110, width: parentWidth });
+      }
+    }, [confettiContainerRef]);
+
+    const confettiColors = [
+      '#2B83F6',
+      '#4BEA69',
+      '#5648ED',
+      '#F3322C',
+      '#F68EFF',
+      '#FF638D',
+      '#FFF449',
+    ];
+
     return (
-      <Container fluid="lg" className={classes.pageContentWrapper}>
-        <AuctionStatus auction={currentAuction} />
-        <Row>
-          <Col lg={{ span: 6 }} className={`align-self-end ${classes.noPaddingMargin}`}>
-            {currentAuction ? nounContent : loadingNoun}
-          </Col>
-          <Col lg={{ span: 6 }} className={classes.currentAuctionActivityContainer}>
-            {currentAuction.nounId && isNounderNoun(currentAuction.nounId)
-              ? nounderNounContent
-              : currentAuctionActivityContent}
-          </Col>
-          <Col lg={2} />
-        </Row>
+      <Container ref={confettiContainerRef} fluid>
+        <Container fluid="lg" className={classes.pageContentWrapper}>
+          <AuctionStatus auction={currentAuction} />
+          <Confetti
+            width={confettiSize.width}
+            height={confettiSize.height}
+            numberOfPieces={100}
+            gravity={0.02}
+            colors={confettiColors}
+            recycle={true}
+          />
+          <Row>
+            <Col lg={{ span: 6 }} className={`align-self-end ${classes.noPaddingMargin}`}>
+              {currentAuction ? nounContent : loadingNoun}
+            </Col>
+            <Col lg={{ span: 6 }} className={classes.currentAuctionActivityContainer}>
+              {currentAuction.nounId && isNounderNoun(currentAuction.nounId)
+                ? nounderNounContent
+                : currentAuctionActivityContent}
+            </Col>
+            <Col lg={2} />
+          </Row>
+        </Container>
       </Container>
     );
   };
