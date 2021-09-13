@@ -1,3 +1,7 @@
+.navBarHeight {
+  /* Fixed navbar height for confetti - due to nouns logo, navbar height is always close to 110px +/- 5 */
+  height: 110px;
+}
 .navBarBrand {
   position: relative;
   z-index: 2;
