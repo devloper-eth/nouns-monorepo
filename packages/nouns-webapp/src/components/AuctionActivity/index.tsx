@@ -122,13 +122,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
       )} */}
       <div className={classes.floatingPaper}>
         <div className={classes.paperWrapper}>
-          <img
-            src={stampLogo}
-            width="125"
-            height="125"
-            className={classes.nounsPartyStamp}
-            alt="Nouns party logo"
-          />
+          <img src={stampLogo} className={classes.nounsPartyStamp} alt="Nouns party logo" />
           <div className={classes.nounIdContainer}>
             <h1 className={classes.nounIdText}>{`Noun ${auction && auction.nounId}`}</h1>
             {displayGraphDepComps && (
