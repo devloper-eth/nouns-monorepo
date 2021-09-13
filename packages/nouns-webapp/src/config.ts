@@ -34,7 +34,7 @@ const config: Record<SupportedChains, Config> = {
     nounsDaoExecutorAddress: '0xd1C753D9A23eb5c57e0d023e993B9bd4F5086b04',
     subgraphApiUri: 'https://api.thegraph.com/subgraphs/name/nounsdao/nouns-subgraph-rinkeby-v4',
     enableHistory: process.env.REACT_APP_ENABLE_HISTORY === 'true' || true,
-    nounsPartyAddress: '0xdCFEd55072aB6bEe08b879295b2e8c93B96A3Ad0',
+    nounsPartyAddress: '0xEb523eBD2F1935b2efE6CBEc8FFD852cAE9cDF90',
   },
   [ChainId.Mainnet]: {
     auctionProxyAddress: '0x830BD73E4184ceF73443C15111a1DF14e495C706',

@@ -1,6 +1,5 @@
 import { Auction } from '../../wrappers/nounsAuction';
 import config from '../../config';
-import { BigNumber } from 'ethers';
 import { connectContractToSigner, useEthers } from '@usedapp/core';
 import { useContractFunction__fix } from '../../hooks/useContractFunction__fix';
 import { useAppSelector } from '../../hooks';
