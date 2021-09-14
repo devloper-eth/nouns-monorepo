@@ -70,7 +70,7 @@ const UpdatedConfetti: React.FC<{ height: number; width: number }> = props => {
 
   function particle(x: number, y: number, i: number, minv: number) {
     let angle = Math.random() * (Math.PI * 2);
-    let amount = Math.random() * 15.0 + minv;
+    let amount = Math.random() * 10.0 + minv;
     let vx = Math.sin(angle) * amount;
     let vy = Math.cos(angle) * amount;
 
@@ -85,7 +85,7 @@ const UpdatedConfetti: React.FC<{ height: number; width: number }> = props => {
       // circle: Math.random() > 0.8,
       rotate: Math.random() * 180,
       direction: Math.random() * 5 - 2.5,
-      fallSpeed: Math.random() / 10 + 0.1,
+      fallSpeed: Math.random() / 10 + 0.033,
     };
   }
 
