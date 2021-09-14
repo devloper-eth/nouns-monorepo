@@ -15,7 +15,7 @@ import {
   setPrevOnDisplayAuctionNounId,
 } from '../../state/slices/onDisplayAuction';
 import { useEffect, useRef, useState } from 'react';
-import Confetti from 'react-confetti';
+import UpdatedConfetti from '../UpdatedConfetti';
 /* OLD IMPORTS - FLAGGED FOR DELETION */
 // import {
 //   setNextOnDisplayAuctionNounId,
@@ -201,27 +201,18 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
       }
     }, [confettiContainerRef]);
 
-    const confettiColors = [
-      '#2B83F6',
-      '#4BEA69',
-      '#5648ED',
-      '#F3322C',
-      '#F68EFF',
-      '#FF638D',
-      '#FFF449',
-    ];
-
     return (
       <Container ref={confettiContainerRef} fluid>
         <Container fluid="lg" className={classes.pageContentWrapper}>
-          <Confetti
+          {/* <Confetti
             width={confettiSize.width}
             height={confettiSize.height}
             numberOfPieces={100}
             gravity={0.02}
             colors={confettiColors}
             recycle={true}
-          />
+          /> */}
+          <UpdatedConfetti width={confettiSize.width} height={confettiSize.height} />
           <Row>
             <Col lg={{ span: 6 }} className={`align-self-end ${classes.noPaddingMargin}`}>
               {currentAuction ? nounContent : loadingNoun}

@@ -32,8 +32,8 @@ const Banner = () => {
                   <span>2</span>
                   <p>
                     The nouns party vault will be used to bid on the daily {nounsLink}
-                    auction. If the community collects enough ethereum to outbid the largest bidder,
-                    they will win a noun!
+                    {` `}auction. If the community collects enough ethereum to outbid the largest
+                    bidder, they will win a noun!
                   </p>
                 </div>
               </Row>

@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { Spinner, InputGroup, FormControl, Button, Row, Col, Form } from 'react-bootstrap';
+import { Spinner, InputGroup, FormControl, Button, Row, Col } from 'react-bootstrap';
 import Modal from '../Modal';
 import { utils } from 'ethers';
 import { connectContractToSigner, useEthers } from '@usedapp/core';
@@ -14,6 +14,7 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
   props => {
     const { onDismiss, activeAccount } = props;
     const [bidInput, setBidInput] = useState('');
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [iUnderstand, setIunderstand] = useState(true);
     const [depositButtonContent, setDepositButtonContent] = useState({
       loading: false,
@@ -141,7 +142,9 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
       <>
         <Row>
           <Col>
-            <p className={classes.minimumDeposit}><strong>Minimum amount: 0.1 ETH</strong></p>
+            <p className={classes.minimumDeposit}>
+              <strong>Minimum amount: 0.1 ETH</strong>
+            </p>
           </Col>
         </Row>
         <Row>
