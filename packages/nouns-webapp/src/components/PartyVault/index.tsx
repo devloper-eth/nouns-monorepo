@@ -36,7 +36,7 @@ const PartyVault: React.FC<{
     <div className={classes.partyVaultWrapper}>
       <Row>
         <Col xs={12} lg={9}>
-          <p className={`${classes.partyVaultText} ${classes.noPaddingMargin}`}>
+          <p className={`${classes.partyVaultText}`}>
             {`Nouns Party Vault `}
             <span className={classes.ethXiFont}>{`Ξ${roundedEth}`}</span>
           </p>
@@ -44,7 +44,12 @@ const PartyVault: React.FC<{
       </Row>
       <Row>
         <Col className={classes.progressBarContainer}>
-          <ProgressBar now={ratio} />
+          <div className={`${classes.progressBar}`}>
+            <ProgressBar now={ratio} />
+          </div>
+          <div className={`${classes.progressBar} ${classes.blurProgressBar}`}>
+            <ProgressBar now={ratio} />
+          </div>
         </Col>
       </Row>
     </div>
