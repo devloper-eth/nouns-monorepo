@@ -8,7 +8,6 @@ import { INounSeed } from '../../wrappers/nounToken';
 import { isNounderNoun } from '../../utils/nounderNoun';
 import NounderNounContent from '../NounderNounContent';
 import AuctionActivity from '../AuctionActivity';
-import AuctionStatus from '../AuctionStatus';
 import { useHistory } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {

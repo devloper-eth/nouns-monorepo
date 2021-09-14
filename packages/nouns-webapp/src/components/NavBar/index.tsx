@@ -196,56 +196,6 @@ const NavBar = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-
-      {/* <Navbar expand="lg">
-        <Container>
-          <Navbar.Brand as={Link} to="/" className={classes.navBarBrand}>
-            <img
-              src={logo}
-              width="85"
-              height="85"
-              className="d-inline-block align-middle"
-              alt="Nouns DAO logo"
-            />
-          </Navbar.Brand>
-          {Number(CHAIN_ID) !== 1 && (
-            <Nav.Item>
-              <img className={classes.testnetImg} src={testnetNoun} alt="testnet noun" />
-              TESTNET
-            </Nav.Item>
-          )}
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse className="justify-content-end">
-            <Nav.Item>
-              {treasuryBalance && (
-                <Nav.Link
-                  href={daoEtherscanLink}
-                  className={classes.nounsNavLink}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  TREASURY Ξ {utils.formatEther(treasuryBalance.toString())}
-                </Nav.Link>
-              )}
-            </Nav.Item>
-            <Nav.Link as={Link} to="/vote" className={classes.nounsNavLink}>
-              DAO
-            </Nav.Link>
-            <Nav.Link
-              href={externalURL(ExternalURL.notion)}
-              className={classes.nounsNavLink}
-              target="_blank"
-              rel="noreferrer"
-            >
-              DOCS
-            </Nav.Link>
-            <Nav.Link href="/playground" className={classes.nounsNavLink} target="_blank">
-              PLAYGROUND
-            </Nav.Link>
-            {activeAccount ? connectedContent : disconnectedContent}
-          </Navbar.Collapse>
-        </Container>
-      </Navbar> */}
     </>
   );
 };

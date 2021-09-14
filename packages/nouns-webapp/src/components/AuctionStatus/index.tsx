@@ -59,6 +59,7 @@ const AuctionStatus: React.FC<{
     }
   } else {
     statusText = 'The nounders were rewarded this noun.';
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     status = 'success';
   }
 
