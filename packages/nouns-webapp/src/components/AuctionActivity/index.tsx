@@ -2,6 +2,7 @@ import { Auction } from '../../wrappers/nounsAuction';
 import { useState, useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import classes from './AuctionActivity.module.css';
+import BigNumber from 'bignumber.js';
 import AuctionTimer from '../AuctionTimer';
 import CurrentBid from '../CurrentBid';
 import Winner from '../Winner';
@@ -104,7 +105,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
           {!isNounderNoun(auction.nounId) && (
             <Row className={classes.auctionActivityContainer}>
               <Col lg={6}>
-                <CurrentBid/>
+                <CurrentBid currentBid={new BigNumber(auction.amount.toString())} auctionEnded={auctionEnded}/>
               </Col>
               <Col lg={6}>
                 {auctionEnded ? (
