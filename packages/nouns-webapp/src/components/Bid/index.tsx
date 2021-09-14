@@ -223,11 +223,7 @@ const Bid: React.FC<{
             Submitting a bid will place a bid on the nouns auction using the vault's funds. The bid will be 5% higher than the current highest bid.
           </p>
           <p className={classes.infoText}>
-            <strong>Insufficient funds</strong><br/>
-            Currently the party has not enough funds to execute a bid of <strong>{formatEther(maxBid)}&nbsp;ETH</strong>.
-          </p>
-          <p className={classes.infoText}>
-            Please add funds to the vault to execute this bid.
+            The vault does not have enough funds. Please add funds to the vault to execute this bid. <strong>A bid requires {formatEther(maxBid)}&nbsp;ETH</strong>.
           </p>
         </Col>
       </Row>

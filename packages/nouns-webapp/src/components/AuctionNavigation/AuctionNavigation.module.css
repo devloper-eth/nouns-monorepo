@@ -19,6 +19,10 @@
   margin-top: 10px;
 }
 
+.rightArrow img {
+  transform: rotate(180deg);
+}
+
 .leftArrow:hover,
 .rightArrow:hover {
   opacity: 0.9;
