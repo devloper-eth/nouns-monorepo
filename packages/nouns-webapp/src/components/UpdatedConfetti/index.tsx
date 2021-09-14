@@ -93,12 +93,12 @@ const UpdatedConfetti: React.FC<{ height: number; width: number }> = props => {
     items[i] = particle(width / 3, height / 2, i, 10);
   }
 
-  window.onclick = function (e) {
-    for (let i = 0; i < 150; i++) {
-      items[(index + 150 + i) % 300] = particle(e.clientX, e.clientY, i, 10);
-    }
-    index = (index + 150) % 300;
-  };
+  // window.onclick = function (e) {
+  //   for (let i = 0; i < 150; i++) {
+  //     items[(index + 150 + i) % 300] = particle(e.clientX, e.clientY, i, 10);
+  //   }
+  //   index = (index + 150) % 300;
+  // };
 
   // window.ontouchstart = function (e) {
   //   for (let d = 0; d < e.changedTouches.length; d++) {
