@@ -8,12 +8,14 @@ import { Col, Row } from 'react-bootstrap';
 const AuctionStatus: React.FC<{
   auction: Auction;
 }> = props => {
+
   const { auction: currentAuction } = props;
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
-  let maxBid = useNounsPartyMaxBid();
+  const maxBid = useNounsPartyMaxBid();
 
   useEffect(() => {
+
     if (!currentAuction) return;
 
     const timeLeft = Number(currentAuction.endTime) - Math.floor(Date.now() / 1000);
@@ -45,7 +47,7 @@ const AuctionStatus: React.FC<{
     } else if (targetBidAmount.gt(currentAuction.amount)) {
       statusText = 'The vault has enough funds! Submit the bid!';
       status = 'success';
-    } else if (currentAuction.amount.lt(maxBid)) {
+    } else if (currentAuction.amount.lt(maxBid || 0 )) {
       statusText = 'The vault requires more funds to bid.';
       status = 'fail';
     } else {

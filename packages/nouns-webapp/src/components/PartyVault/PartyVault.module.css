@@ -15,8 +15,9 @@
 }
 
 .partyVaultText {
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 600;
+  margin-bottom: 10px;
 }
 
 .ethXiFont {
@@ -27,7 +28,16 @@
     'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
-.noPaddingMargin {
-  padding: 0px;
-  margin: 0px;
+.progressBarContainer {
+  display: grid;
+}
+
+.progressBar {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.blurProgressBar {
+  filter: blur(3px);
+  z-index: -2;
 }
