@@ -1,3 +1,7 @@
+.navBarContainer {
+  z-index: 2;
+}
+
 .navBarBrand {
   position: relative;
   z-index: 2;
