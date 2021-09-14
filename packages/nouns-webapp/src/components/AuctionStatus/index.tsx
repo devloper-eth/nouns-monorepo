@@ -3,11 +3,12 @@ import classes from './AuctionStatus.module.css';
 import { useState, useEffect } from 'react';
 import config from '../../config';
 import { useNounsPartyDepositBalance } from '../../wrappers/nounsParty';
+import { Col, Row } from 'react-bootstrap';
 
 const AuctionStatus: React.FC<{
   auction: Auction;
 }> = props => {
-  const { auction: currentAuction} = props;
+  const { auction: currentAuction } = props;
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
 
@@ -30,40 +31,48 @@ const AuctionStatus: React.FC<{
     }
   }, [auctionTimer, currentAuction]);
 
-  let statusText = ""
-  let status = ""
+  let statusText = '';
+  let status = '';
   let depositBalance = useNounsPartyDepositBalance();
-  let targetBidAmount = depositBalance.mul(105).div(100)
+  let targetBidAmount = depositBalance.mul(105).div(100);
 
   if (currentAuction && !auctionEnded) {
-    let bidder = currentAuction.bidder
+    let bidder = currentAuction.bidder;
     if (bidder && bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
-      statusText = "The party is winning the auction!";
-      status = "success";
+      statusText = 'The party is winning the auction!';
+      status = 'success';
     } else if (targetBidAmount.gt(currentAuction.amount)) {
-      statusText = "The vault has enough funds! Submit the bid!";
-      status = "success";
+      statusText = 'The vault has enough funds! Submit the bid!';
+      status = 'success';
     } else {
-      statusText = "The party has been outbid."
-      status = "fail"
+      statusText = 'The party has been outbid.';
+      status = 'fail';
     }
   } else if (currentAuction) {
-    let bidder = currentAuction.bidder
+    let bidder = currentAuction.bidder;
     if (bidder && bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
-      statusText = "The party won the auction!"
-      status = "success";
+      statusText = 'The party won the auction!';
+      status = 'success';
     } else {
-      statusText = "The party lost the auction!"
-      status = "fail"
+      statusText = 'The party lost the auction!';
+      status = 'fail';
     }
   } else {
-    statusText = "The nounders were rewarded this noun."
-    status = "success"
+    statusText = 'The nounders were rewarded this noun.';
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    status = 'success';
   }
 
   return (
     <>
       {statusText && (
+        <Row>
+          <Col>
+            <p className={classes.statusText}>{statusText}</p>
+          </Col>
+        </Row>
+      )}
+      {/* {statusText && (
         <div className={classes.statusIndicator}>
           <span className={
             status === "success"
@@ -75,7 +84,7 @@ const AuctionStatus: React.FC<{
             {statusText}
           </span>
         </div>
-      )}
+      )} */}
     </>
   );
 };

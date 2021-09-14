@@ -27,5 +27,6 @@
 }
 
 .timerText {
-  color: rgba(33, 37, 41, 0.2);
+  font-weight: 500;
+  font-size: 1.25rem;
 }

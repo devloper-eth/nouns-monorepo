@@ -5,6 +5,9 @@ import { useNounsPartyDeposits } from '../../wrappers/nounsParty';
 import ShortAddress from '../ShortAddress';
 import classes from './PartyGuestList.module.css';
 import { Jazzicon } from '@ukstv/jazzicon-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import { buildEtherscanAddressLink } from '../../utils/etherscan';
 
 const PartyGuestList = () => {
   const deposits = useNounsPartyDeposits();
@@ -18,8 +21,7 @@ const PartyGuestList = () => {
           className={classes.noPaddingMargin}
         >
           <p className={`${classes.partyMembersHeadingText} ${classes.noPaddingMargin}`}>
-            Party Members
-            ({deposits && deposits.length})
+            Party Members ({deposits && deposits.length})
           </p>
         </Col>
         {/* <PartyInvite /> */}
@@ -46,6 +48,15 @@ const PartyGuestList = () => {
                   <div className={classes.rightSectionWrapper}>
                     <div className={classes.bidAmount}>
                       {null ?? `${utils.formatEther(bid.amount)} ETH`}
+                    </div>
+                    <div className={classes.linkSymbol}>
+                      <a
+                        href={buildEtherscanAddressLink(bid.owner)}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <FontAwesomeIcon icon={faExternalLinkAlt} />
+                      </a>
                     </div>
                   </div>
                 </div>

@@ -1,6 +1,9 @@
 .confirmText {
   text-align: center;
-  font-size: 0.9em;
+}
+
+.withdrawTextRow {
+  padding: 0px 20px 0px 20px;
 }
 
 .withdrawFundsButton {

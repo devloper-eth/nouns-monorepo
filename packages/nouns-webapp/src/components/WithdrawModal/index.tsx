@@ -2,7 +2,13 @@ import { connectContractToSigner, useEthers } from '@usedapp/core';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Col, Row, Spinner } from 'react-bootstrap';
 import { useContractFunction__fix } from '../../hooks/useContractFunction__fix';
-import { nounsPartyContractFactory, NounsPartyContractFunction, useNounsPartyAuctionIsHot, useNounsPartyDeposits, useNounsPartyPendingSettledCount } from '../../wrappers/nounsParty';
+import {
+  nounsPartyContractFactory,
+  NounsPartyContractFunction,
+  useNounsPartyAuctionIsHot,
+  useNounsPartyDeposits,
+  useNounsPartyPendingSettledCount,
+} from '../../wrappers/nounsParty';
 import config from '../../config';
 import Modal from '../Modal';
 import { AlertModal, setAlertModal } from '../../state/slices/application';
@@ -112,35 +118,36 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
     }
   }, [withdrawState, setModal, hideWithdrawModalHandler]);
 
-
   const withdrawDisabledContent = (
     <>
-      <Row className="justify-content-center">
+      <Row className={`justify-content-center ${classes.withdrawTextRow}`}>
         <Col>
-          <p className={classes.confirmText}>Withdrawals are currently disabled</p>
+          <p>
+            {`Withdrawals are currently disabled. ${
+              auctionIsHot ? `The auction is about to end or just ended. ` : ''
+            } ${pendingSettledCount.gt(0) ? `Some auctions still need to be settled.` : ''}`}
+          </p>
         </Col>
       </Row>
-      <Col>
-        <ul>
-          {auctionIsHot ? <li>The auction is about to end or just ended</li> : null}
-          {pendingSettledCount.gt(0) ? <li>Some auctions still need to be settled</li> : null}
-        </ul>
-      </Col>
     </>
   );
 
   const withdrawFormContent = (
     <>
-      <Row className="justify-content-center">
+      <Row className={`justify-content-center ${classes.withdrawTextRow}`}>
         <Col>
-          <p className={classes.confirmText}>Are you sure you want to withdraw all your deposits?
-
-            ({deposits && deposits.length > 0 ? (
-              formatEther(deposits.reduce((prev, curr) => {
-                return account && getAddress(account) === getAddress(curr.owner) ? prev.add(curr.amount) : prev;
-              }, BigNumber.from(0)))
-            ) : 0} ETH)
-
+          <p className={classes.confirmText}>
+            Are you sure you want to withdraw all your deposits? (
+            {deposits && deposits.length > 0
+              ? formatEther(
+                  deposits.reduce((prev, curr) => {
+                    return account && getAddress(account) === getAddress(curr.owner)
+                      ? prev.add(curr.amount)
+                      : prev;
+                  }, BigNumber.from(0)),
+                )
+              : 0}{' '}
+            ETH)
           </p>
         </Col>
       </Row>
@@ -154,9 +161,7 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
   );
 
   const withdrawContent = (
-    <>
-      {auctionIsHot || pendingSettledCount.gt(0) ? withdrawDisabledContent : withdrawFormContent}
-    </>
+    <>{auctionIsHot || pendingSettledCount.gt(0) ? withdrawDisabledContent : withdrawFormContent}</>
   );
 
   return (

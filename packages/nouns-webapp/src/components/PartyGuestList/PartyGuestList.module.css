@@ -15,13 +15,15 @@
 
 .partyMembersHeadingContainer {
   padding: 0px;
-  margin: 0px 0px 20px 0px;
+  margin: 0px 0px 5px 0px;
 }
 
 .partyMembersHeadingText {
   vertical-align: middle;
   display: inline-block;
-  font-weight: bold;
+  font-size: 1.1rem;
+
+  font-weight: 500;
 }
 
 .noPaddingMargin {
@@ -82,6 +84,8 @@
 .bidder {
   color: var(--brand-black);
   display: flex;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .bidDate {
@@ -97,11 +101,13 @@
 
 .bidAmount {
   color: var(--brand-black);
-  /* margin-right: 1rem; */
+  margin-right: 1rem;
   font-size: 1rem;
+  font-weight: 500;
 }
 
-.linkSymbol, .linkSymbol a {
+.linkSymbol,
+.linkSymbol a {
   color: var(--brand-black);
 }
 
@@ -114,4 +120,12 @@
   padding: 0px;
   font-size: 1.5rem;
   text-align: center;
+}
+
+.linkSymbol,
+.linkSymbol a {
+  color: var(--brand-black);
+}
+.linkSymbol a:hover {
+  color: gray;
 }

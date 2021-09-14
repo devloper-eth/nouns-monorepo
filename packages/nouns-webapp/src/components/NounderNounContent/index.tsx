@@ -3,6 +3,7 @@ import { BigNumber } from 'ethers';
 import AuctionNavigation from '../AuctionNavigation';
 import classes from './NounderNounContent.module.css';
 import stampLogo from '../../assets/nouns_stamp.svg';
+import AuctionActivityDateHeadline from '../AuctionActivityDateHeadline';
 // import AuctionActivityNounTitle from '../AuctionActivityNounTitle';
 // import AuctionActivityDateHeadline from '../AuctionActivityDateHeadline';
 // import { Link } from 'react-router-dom';
@@ -14,7 +15,7 @@ import stampLogo from '../../assets/nouns_stamp.svg';
 // import AuctionActivityWrapper from '../AuctionActivityWrapper';
 
 const NounderNounContent: React.FC<{
-  // mintTimestamp: BigNumber;
+  mintTimestamp: BigNumber;
   nounId: BigNumber;
   isFirstAuction: boolean;
   isLastAuction: boolean;
@@ -23,7 +24,7 @@ const NounderNounContent: React.FC<{
   displayGraphDepComps: boolean;
 }> = props => {
   const {
-    // mintTimestamp,
+    mintTimestamp,
     nounId,
     isFirstAuction,
     isLastAuction,
@@ -37,6 +38,7 @@ const NounderNounContent: React.FC<{
       <div className={classes.floatingPaper}>
         <div className={classes.paperWrapper}>
           <img src={stampLogo} className={classes.nounsPartyStamp} alt="Nouns party logo" />
+          <AuctionActivityDateHeadline startTime={mintTimestamp} />
           <div className={classes.nounIdContainer}>
             <h1 className={classes.nounIdText}>{`Noun ${nounId}`}</h1>
             {displayGraphDepComps && (
@@ -58,7 +60,7 @@ const NounderNounContent: React.FC<{
               </Row>
               <Row>
                 <Col className={classes.ethAddressPadding}>
-                  <h3 className={`${classes.noMarginPadding}`}>{`N/A`}</h3>
+                  <h3 className={`${classes.winningAmount}`}>{`N/A`}</h3>
                 </Col>
               </Row>
             </Col>
@@ -70,7 +72,7 @@ const NounderNounContent: React.FC<{
               </Row>
               <Row>
                 <Col className={classes.ethAddressPadding}>
-                  <h3 className={classes.noMarginPadding}>Nounders.eth</h3>
+                  <h3 className={classes.addressText}>Nounders.eth</h3>
                 </Col>
               </Row>
             </Col>
