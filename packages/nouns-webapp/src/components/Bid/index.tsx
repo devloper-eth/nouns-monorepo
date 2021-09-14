@@ -250,8 +250,8 @@ const Bid: React.FC<{
             onClick={placeBidHandler}
             disabled={isDisabled || auctionEnded}
           >
-            {bidButtonContent.loading ? <Spinner animation="border" /> : null}
-            {bidButtonContent.content}
+            {bidButtonContent.loading ? <Spinner animation="border" size="sm" /> : null}
+            &nbsp; {bidButtonContent.content}
           </Button>
         </Col>
       </Row>

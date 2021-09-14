@@ -122,8 +122,8 @@ const ClaimTokensModal: React.FC<{
 
           <Col>
             <Button className={classes.claimTokensButton} onClick={claimTokensHandler}>
-              {claimTokensButtonContent.loading ? <Spinner animation="border" /> : null}
-              {claimTokensButtonContent.content}
+              {claimTokensButtonContent.loading ? <Spinner animation="border" size="sm" /> : null}
+              &nbsp; {claimTokensButtonContent.content}
             </Button>
           </Col>
         </>

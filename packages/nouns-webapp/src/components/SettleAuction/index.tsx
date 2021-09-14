@@ -99,8 +99,8 @@ const SettleAuction: React.FC<{ auction: Auction }> = props => {
     <>
       {pendingSettledCount.gt(0) && (
         <Button className={classes.settleAuctionButton} onClick={() => settleAuction()}>
-          {settleAuctionButtonContent.loading ? <Spinner animation="border" /> : null}
-          {settleAuctionButtonContent.content}
+          {settleAuctionButtonContent.loading ? <Spinner animation="border" size="sm" /> : null}
+          &nbsp; {settleAuctionButtonContent.content}
         </Button>
       )}
     </>

@@ -8,6 +8,7 @@ import {
   useNounsPartyAuctionIsHot,
   useNounsPartyDeposits,
   useNounsPartyPendingSettledCount,
+  Deposit
 } from '../../wrappers/nounsParty';
 import config from '../../config';
 import Modal from '../Modal';
@@ -123,45 +124,61 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
       <Row className={`justify-content-center ${classes.withdrawTextRow}`}>
         <Col>
           <p>
-            {`Withdrawals are currently disabled. ${
-              auctionIsHot ? `The auction is about to end or just ended. ` : ''
-            } ${pendingSettledCount.gt(0) ? `Some auctions still need to be settled.` : ''}`}
+            {`Withdrawals are currently disabled. ${auctionIsHot ? `The auction is about to end or just ended. ` : ''
+              } ${pendingSettledCount.gt(0) ? `Some auctions still need to be settled.` : ''}`}
           </p>
         </Col>
       </Row>
     </>
   );
+
+  const withdrawAmount = (deposits: Deposit[] | undefined) => {
+    if (deposits === undefined || deposits.length == 0) {
+      return BigNumber.from(0);
+    }
+
+    return deposits.reduce((prev, curr) => {
+      return account && getAddress(account) === getAddress(curr.owner)
+        ? prev.add(curr.amount)
+        : prev;
+    }, BigNumber.from(0))
+  };
+
+  const withdrawNoFundsContent = (
+    <>
+      <Row className={`justify-content-center ${classes.withdrawTextRow}`}>
+        <Col>
+          <p className={classes.confirmText}>
+            You have no funds to withdraw.
+          </p>
+        </Col>
+      </Row>
+    </>
+  )
 
   const withdrawFormContent = (
     <>
       <Row className={`justify-content-center ${classes.withdrawTextRow}`}>
         <Col>
           <p className={classes.confirmText}>
-            Are you sure you want to withdraw all your deposits? (
-            {deposits && deposits.length > 0
-              ? formatEther(
-                  deposits.reduce((prev, curr) => {
-                    return account && getAddress(account) === getAddress(curr.owner)
-                      ? prev.add(curr.amount)
-                      : prev;
-                  }, BigNumber.from(0)),
-                )
-              : 0}{' '}
-            ETH)
+            Are you sure you want to withdraw all your funds?
+          </p>
+          <p>
+            You will withdraw <strong>{formatEther(withdrawAmount(deposits))}&nbsp;ETH</strong>.
           </p>
         </Col>
       </Row>
       <Col>
         <Button className={classes.withdrawFundsButton} onClick={withdrawFundsHandler}>
-          {withdrawButtonContent.loading ? <Spinner animation="border" /> : null}
-          {withdrawButtonContent.content}
+          {withdrawButtonContent.loading ? <Spinner animation="border" size="sm" /> : null}
+          &nbsp; {withdrawButtonContent.content}
         </Button>
       </Col>
     </>
   );
 
   const withdrawContent = (
-    <>{auctionIsHot || pendingSettledCount.gt(0) ? withdrawDisabledContent : withdrawFormContent}</>
+    <>{auctionIsHot || pendingSettledCount.gt(0) ? withdrawDisabledContent : withdrawAmount(deposits).gt(0) ? withdrawFormContent : withdrawNoFundsContent}</>
   );
 
   return (
