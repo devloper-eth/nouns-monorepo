@@ -19,9 +19,7 @@ const UpdatedConfetti: React.FC<{ height: number; width: number }> = props => {
       canvasRef.current.height = height;
       const ctx = canvasRef.current.getContext('2d');
       if (ctx) {
-        window.requestAnimationFrame(() => {
-          render(ctx);
-        });
+        render(ctx);
       }
     }
   });
