@@ -9,6 +9,8 @@ import useOnDisplayAuction from '../../wrappers/onDisplayAuction';
 import { useEffect } from 'react';
 import Documentation from '../../components/Documentation';
 import Banner from '../../components/Banner';
+import HistoryCollection from '../../components/HistoryCollection';
+import { BigNumber } from 'ethers';
 // import HistoryCollection from '../../components/HistoryCollection';
 /* Currently unused packages flagged for removal */
 // import config from '../../config';
@@ -57,9 +59,9 @@ const AuctionPage: React.FC<AuctionPageProps> = props => {
         />
       )}
       <Banner />
-      {/*{lastAuctionNounId && (
-        <HistoryCollection latestNounId={BigNumber.from(lastAuctionNounId)} historyCount={5} />
-      )}*/}
+      {/* {lastAuctionNounId && (
+        <HistoryCollection latestNounId={BigNumber.from(lastAuctionNounId)} historyCount={10} />
+      )} */}
       <Documentation />
     </>
   );

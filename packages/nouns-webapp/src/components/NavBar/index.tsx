@@ -104,7 +104,7 @@ const NavBar = () => {
       </Nav.Item>
       <Nav.Item>
         <Nav.Link
-          className={clsx(classes.nounsNavLink, classes.disconnectButton)}
+          className={clsx(classes.nounsNavLink, classes.disconnectBtn)}
           onClick={() => {
             setShowConnectModal(false);
             deactivate();
@@ -119,7 +119,10 @@ const NavBar = () => {
 
   const disconnectedContent = (
     <>
-      <Nav.Link className={clsx(classes.nounsNavLink, classes.menuItem)} onClick={showModalHandler}>
+      <Nav.Link
+        className={clsx(classes.nounsNavLink, classes.connectBtn)}
+        onClick={showModalHandler}
+      >
         CONNECT WALLET
       </Nav.Link>
     </>
@@ -154,8 +157,8 @@ const NavBar = () => {
             hidePlaceBidModalHandler={hidePlaceBidModalHandler}
           />
         )} */}
-      <Navbar expand="lg" className={classes.navBarHeight}>
-        <Container fluid="lg">
+      <Navbar expand="lg">
+        <Container>
           <Navbar.Brand as={Link} to="/" className={classes.navBarBrand}>
             <img
               src={logo}
@@ -163,24 +166,23 @@ const NavBar = () => {
               height="85"
               className="d-inline-block align-middle"
               alt="Nouns DAO logo"
-              style={{ margin: '0px', padding: '0px' }}
             />
           </Navbar.Brand>
           {Number(CHAIN_ID) !== 1 && <Nav.Item>TESTNET</Nav.Item>}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-end">
-            <Nav.Item
-              className={classes.menuItem}
+            <Nav.Link
+              className={classes.nounsNavLink}
               onClick={activeAccount ? showClaimTokensModalHandler : showModalHandler}
             >
-              Claim Tokens
-            </Nav.Item>
-            <Nav.Item
-              className={classes.menuItem}
+              CLAIM TOKENS
+            </Nav.Link>
+            <Nav.Link
+              className={classes.nounsNavLink}
               onClick={activeAccount ? showWithdrawModalHandler : showModalHandler}
             >
-              Withdraw Funds
-            </Nav.Item>
+              WITHDRAW FUNDS
+            </Nav.Link>
             {/* <SettleAuction /> */}
             {/* <Nav.Item className={classes.menuItem} onClick={() => showPlaceBidModalHandler()}>
               Place Bid
@@ -194,6 +196,56 @@ const NavBar = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+
+      {/* <Navbar expand="lg">
+        <Container>
+          <Navbar.Brand as={Link} to="/" className={classes.navBarBrand}>
+            <img
+              src={logo}
+              width="85"
+              height="85"
+              className="d-inline-block align-middle"
+              alt="Nouns DAO logo"
+            />
+          </Navbar.Brand>
+          {Number(CHAIN_ID) !== 1 && (
+            <Nav.Item>
+              <img className={classes.testnetImg} src={testnetNoun} alt="testnet noun" />
+              TESTNET
+            </Nav.Item>
+          )}
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse className="justify-content-end">
+            <Nav.Item>
+              {treasuryBalance && (
+                <Nav.Link
+                  href={daoEtherscanLink}
+                  className={classes.nounsNavLink}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  TREASURY Ξ {utils.formatEther(treasuryBalance.toString())}
+                </Nav.Link>
+              )}
+            </Nav.Item>
+            <Nav.Link as={Link} to="/vote" className={classes.nounsNavLink}>
+              DAO
+            </Nav.Link>
+            <Nav.Link
+              href={externalURL(ExternalURL.notion)}
+              className={classes.nounsNavLink}
+              target="_blank"
+              rel="noreferrer"
+            >
+              DOCS
+            </Nav.Link>
+            <Nav.Link href="/playground" className={classes.nounsNavLink} target="_blank">
+              PLAYGROUND
+            </Nav.Link>
+            {activeAccount ? connectedContent : disconnectedContent}
+          </Navbar.Collapse>
+        </Container>
+      </Navbar> */}
     </>
   );
 };

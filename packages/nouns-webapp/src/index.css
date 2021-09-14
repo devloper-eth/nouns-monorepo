@@ -1,12 +1,17 @@
-@font-face {
-  font-family: 'GT Maru';
-  src: url('./fonts/GT-Maru-Regular-Trial.woff2') format('woff2');
+body {
+  margin: 0;
+  font-family: -apple-system, system-ui, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /*  Global Defaults */
 * {
-  font-family: 'GT Maru';
-  font-size: 1em;
+  font-family: -apple-system, system-ui, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 p {

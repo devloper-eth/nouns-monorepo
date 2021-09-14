@@ -60,7 +60,13 @@ const OwnSocialCursor: React.FC<{
   );
 
   return (
-    <div className={classes.cursor} style={{ left: clientX, top: clientY, borderColor: color }}>
+    <div
+      className={classes.cursor}
+      style={{
+        left: clientX + 5,
+        top: clientY + 5,
+      }}
+    >
       <i>{emoji}</i>
       {writeable ? (
         <input

@@ -182,7 +182,7 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
 
     const nounderNounContent = lastNounId && (
       <NounderNounContent
-        // mintTimestamp={nextAuction.startTime}
+        mintTimestamp={currentAuction.startTime}
         nounId={currentAuction.nounId}
         isFirstAuction={currentAuction.nounId.eq(0)}
         isLastAuction={currentAuction.nounId.eq(lastNounId)}
@@ -215,7 +215,6 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
     return (
       <Container ref={confettiContainerRef} fluid>
         <Container fluid="lg" className={classes.pageContentWrapper}>
-          <AuctionStatus auction={currentAuction} />
           <Confetti
             width={confettiSize.width}
             height={confettiSize.height}

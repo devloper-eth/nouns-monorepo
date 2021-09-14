@@ -18,7 +18,6 @@
 
 @media (max-width: 992px) {
   .paperWrapper {
-    height: 800px;
     overflow-x: hidden;
     overflow-y: auto;
   }
@@ -194,7 +193,19 @@ h4 {
   margin: 0px !important;
   padding: 0px !important;
 }
-
 .bidText {
-  color: rgba(33, 37, 41, 0.2);
+  font-weight: 500;
+  font-size: 1.25rem;
+}
+
+.addressText {
+  margin: 0px !important;
+  padding: 0px !important;
+  font-size: 2rem;
+}
+
+.winningAmount {
+  margin: 0px !important;
+  padding: 0px !important;
+  font-size: 2rem;
 }

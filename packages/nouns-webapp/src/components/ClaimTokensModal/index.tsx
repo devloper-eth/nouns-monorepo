@@ -154,10 +154,14 @@ const ClaimsComponent: React.FC<{
     <>
       <Row>
         <Col>
-          <p> {claimsResponse ? `Noun ${claimsResponse[0]?.toString()}` : null}</p>
+          <p className={classes.tokenRowText}>
+            {claimsResponse ? `Noun ${claimsResponse[0]?.toString()}` : null}
+          </p>
         </Col>
         <Col>
-          <p> {claimsResponse ? formatEther(claimsResponse[1]) : null}</p>
+          <p className={classes.tokenRowText}>
+            {claimsResponse ? `${formatEther(claimsResponse[1])} tokens` : null}
+          </p>
         </Col>
       </Row>
     </>

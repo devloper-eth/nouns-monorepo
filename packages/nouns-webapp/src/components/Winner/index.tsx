@@ -17,7 +17,7 @@ const Winner: React.FC<{ winner: string; auction: Auction }> = props => {
       </Row>
       <Row>
         <Col className={classes.ethAddressPadding}>
-          <h3 className={classes.noMarginPadding}>
+          <h3 className={classes.addressText}>
             {auction && auction.nounId && isNounderNoun(BigNumber.from(auction.nounId)) ? (
               'nounders.eth'
             ) : (

@@ -31,7 +31,7 @@ const CurrentBid: React.FC<{
       </Row>
       <Row>
         <Col className={classes.ethAddressPadding}>
-          <h3 className={`${classes.noMarginPadding}`}>
+          <h3 className={`${classes.winningAmount}`}>
             {currentBid === BID_N_A ? (
               BID_N_A
             ) : (

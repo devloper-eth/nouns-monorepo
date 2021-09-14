@@ -1,0 +1,16 @@
+.dateWrapper {
+  margin: 10px;
+  padding-left: 15px;
+}
+
+.noPaddingMargin {
+  padding: 0px;
+  margin: 0px;
+}
+
+.dateText {
+  margin: 0px;
+  padding: 0px;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
