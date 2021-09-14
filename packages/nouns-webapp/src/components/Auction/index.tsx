@@ -94,6 +94,7 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
       />
     );
 
+    // set confetti container size
     useEffect(() => {
       if (confettiContainerRef.current) {
         let parentHeight = confettiContainerRef.current.offsetHeight;
@@ -104,17 +105,25 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
       }
     }, [confettiContainerRef]);
 
+    // resize confetti container on window resize
+    useEffect(() => {
+      function handleResize() {
+        if (confettiContainerRef.current) {
+          let parentHeight = confettiContainerRef.current.offsetHeight;
+          let parentWidth = confettiContainerRef.current.offsetWidth;
+
+          setConfettiSize({ height: parentHeight + 110, width: parentWidth });
+        }
+      }
+      window.addEventListener('resize', handleResize);
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
+
     return (
       <Container ref={confettiContainerRef} fluid>
         <Container fluid="lg" className={classes.pageContentWrapper}>
-          {/* <Confetti
-            width={confettiSize.width}
-            height={confettiSize.height}
-            numberOfPieces={100}
-            gravity={0.02}
-            colors={confettiColors}
-            recycle={true}
-          /> */}
           <UpdatedConfetti width={confettiSize.width} height={confettiSize.height} />
           <Row>
             <Col lg={{ span: 6 }} className={`align-self-end ${classes.noPaddingMargin}`}>
