@@ -5,7 +5,7 @@ import { useContractFunction__fix } from '../../hooks/useContractFunction__fix';
 import {
   nounsPartyContractFactory,
   NounsPartyContractFunction,
-  usePendingSettled,
+  useNounsPartyPendingSettledCount,
 } from '../../wrappers/nounsParty';
 import config from '../../config';
 import classes from './SettleAuction.module.css';
@@ -24,6 +24,8 @@ const SettleAuction: React.FC<{ auction: Auction }> = props => {
     content: 'Settle Auction',
   });
 
+  const pendingSettledCount = useNounsPartyPendingSettledCount();
+
   // Redux
   const dispatch = useAppDispatch();
   const setModal = useCallback((modal: AlertModal) => dispatch(setAlertModal(modal)), [dispatch]);
@@ -35,8 +37,6 @@ const SettleAuction: React.FC<{ auction: Auction }> = props => {
     nounsPartyContract,
     NounsPartyContractFunction.settle,
   );
-
-  const auctionPendingSettled = usePendingSettled(auction.nounId);
 
   const settleAuction = async () => {
     if (auction && auction.nounId) {
@@ -97,7 +97,7 @@ const SettleAuction: React.FC<{ auction: Auction }> = props => {
 
   return (
     <>
-      {auctionPendingSettled && (
+      {pendingSettledCount.gt(0) && (
         <Button className={classes.settleAuctionButton} onClick={() => settleAuction()}>
           {settleAuctionButtonContent.loading ? <Spinner animation="border" /> : null}
           {settleAuctionButtonContent.content}

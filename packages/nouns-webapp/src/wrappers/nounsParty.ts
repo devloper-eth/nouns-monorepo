@@ -127,18 +127,3 @@ export const useNounsPartyClaims = (address: string | null | undefined, index: N
 	}
 	return claim;
 }
-
-export const usePendingSettled = (nounId: EthersBN) => {
-	const settled = useContractCall({
-		abi,
-		address: config.nounsPartyAddress,
-		method: 'pendingSettled',
-		args: [nounId],
-	});
-
-	if (!settled) {
-		return false;
-	}
-
-	return settled[0];
-};
