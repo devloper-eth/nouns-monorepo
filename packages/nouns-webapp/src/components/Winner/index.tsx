@@ -27,12 +27,6 @@ const Winner: React.FC<{ winner: string; auction: Auction }> = props => {
         </Col>
       </Row>
     </>
-    // <div className={classes.section}>
-    //   <h4>Winner</h4>
-    //   <h2>
-    //     <ShortAddress address={winner} />
-    //   </h2>
-    // </div>
   );
 };
 

@@ -116,6 +116,10 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
             </Row>
           )}
 
+          {!isLastAuction && (
+            <AuctionStatus auction={auction} />
+          )}
+
           {!isLastAuction && auction && auction.nounId && (
             <Row className={classes.buttonsWrapper}>
               <Col>
@@ -128,9 +132,6 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
             <>
               <Row>
                 <Col className={classes.fracVaultContainer}>
-                  <p>
-                    Noun {auction.nounId.toNumber()} has been fractionalized into ERC20 tokens.
-                  </p>
                   <button
                     className={classes.fracVaultButton}
                     type="button"

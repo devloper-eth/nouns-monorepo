@@ -55,7 +55,7 @@ const AuctionStatus: React.FC<{
   } else if (currentAuction) {
     let bidder = currentAuction.bidder;
     if (bidder && bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
-      statusText = 'The party won the auction!';
+      statusText = 'The party won the auction! The noun has been fractionalized into ERC20 tokens.';
       status = 'success';
     } else {
       statusText = 'The party lost the auction!';
