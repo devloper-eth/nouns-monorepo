@@ -11,7 +11,7 @@ const UpdatedConfetti: React.FC<{ height: number; width: number }> = props => {
   let items: any[] = [];
   const colors = ['#2B83F6', '#4BEA69', '#5648ED', '#F3322C', '#F68EFF', '#FF638D', '#FFF449'];
 
-  let index = 150;
+  let index = 0;
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -79,8 +79,8 @@ const UpdatedConfetti: React.FC<{ height: number; width: number }> = props => {
       y: y,
       vx: vx,
       vy: vy,
-      width: Math.random() * 8 + 8,
-      height: Math.random() * 10 + 8,
+      width: Math.random() * 6 + 3,
+      height: Math.random() * 7.5 + 3,
       color: colors[i % colors.length],
       // circle: Math.random() > 0.8,
       rotate: Math.random() * 180,
