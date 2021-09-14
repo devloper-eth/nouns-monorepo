@@ -89,31 +89,6 @@ const UpdatedConfetti: React.FC<{ height: number; width: number }> = props => {
     };
   }
 
-  for (let i = 0; i < index; i++) {
-    items[i] = particle(width / 3, height / 2, i, 10);
-  }
-
-  // window.onclick = function (e) {
-  //   for (let i = 0; i < 150; i++) {
-  //     items[(index + 150 + i) % 300] = particle(e.clientX, e.clientY, i, 10);
-  //   }
-  //   index = (index + 150) % 300;
-  // };
-
-  // window.ontouchstart = function (e) {
-  //   for (let d = 0; d < e.changedTouches.length; d++) {
-  //     for (let i = 0; i < 150; i++) {
-  //       items[(index + 150 + i) % 600] = particle(
-  //         e.changedTouches[d].pageX,
-  //         e.changedTouches[d].pageY,
-  //         i,
-  //         10,
-  //       );
-  //     }
-  //     index = (index + 150) % 600;
-  //   }
-  // };
-
   return <canvas className={classes.confettiContainer} ref={canvasRef} id="confetti" />;
 };
 
