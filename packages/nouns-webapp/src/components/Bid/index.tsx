@@ -123,8 +123,8 @@ const Bid: React.FC<{
     // }
 
     const contract = connectContractToSigner(nounsPartyContract, undefined, library);
-    const gasLimit = await contract.estimateGas.bid(auction.nounId);
-    bid(auction.nounId, {
+    const gasLimit = await contract.estimateGas.bid();
+    bid({
       gasLimit: gasLimit.add(10000), // A 10,000 gas pad is used to avoid 'Out of gas' errors
     });
     setBidButtonContent({ loading: true, content: 'Placing bid...' });
@@ -169,7 +169,7 @@ const Bid: React.FC<{
       case 'None':
         setBidButtonContent({
           loading: false,
-          content: 'Submit Bid',
+          content: 'Submit bid',
         });
         break;
       case 'Mining':
@@ -184,7 +184,7 @@ const Bid: React.FC<{
             : 'Submit bid failed. Please try again.',
           show: true,
         });
-        setBidButtonContent({ loading: false, content: 'Submit Bid' });
+        setBidButtonContent({ loading: false, content: 'Submit bid' });
         break;
       case 'Exception':
         hidePlaceBidModalHandler();
@@ -195,7 +195,7 @@ const Bid: React.FC<{
             : 'Submit bid failed. Please try again.',
           show: true,
         });
-        setBidButtonContent({ loading: false, content: 'Submit Bid' });
+        setBidButtonContent({ loading: false, content: 'Submit bid' });
         break;
     }
   }, [bidState, auctionEnded, setModal, hidePlaceBidModalHandler]);
@@ -208,7 +208,26 @@ const Bid: React.FC<{
   if (!auction) return null;
 
   const isDisabled = bidState.status === 'Mining' || !activeAccount;
-  const noPlaceBidContent = <>Not enough funds to execute bid of {formatEther(maxBid)}&nbsp;ETH.</>;
+
+  const noPlaceBidContent = (
+    <>
+      <Row>
+        <Col>
+          <p className={classes.infoText}>
+            Submitting a bid will place a bid on the nouns auction using the vault's funds. The bid will be 5% higher than the current highest bid.
+          </p>
+          <p className={classes.infoText}>
+            <strong>Insufficient funds</strong><br/>
+            Currently the party has not enough funds to execute a bid of <strong>{formatEther(maxBid)}&nbsp;ETH</strong>.
+          </p>
+          <p className={classes.infoText}>
+            Please add funds to the vault to execute this bid.
+          </p>
+        </Col>
+      </Row>
+    </>
+  );
+
   const partyIsAlreadyWinning = <>The party is already the leading bidder.</>;
 
   const placeBidContent = (
@@ -216,11 +235,10 @@ const Bid: React.FC<{
       <Row>
         <Col>
           <p className={classes.infoText}>
-            Submitting the bid will place a bid on the nouns auction using the vault's funds. The bid will be 5% higher than the current highest bid.
-            The bid can be submitted by any contributor.
+            Submitting this bid will place a bid on the nouns auction using the vault's funds. The bid will be 5% higher than the current highest bid.
           </p>
           <p className={classes.infoText}>
-            If the party goes on to win the auction, contributors can return after the auction to claim their tokens. 
+            If the party goes on to win the auction, contributors can return after the auction to claim their tokens.
             Any unused funds can be withdrawn.
           </p>
         </Col>
@@ -241,9 +259,9 @@ const Bid: React.FC<{
   );
   return (
     <Modal
-      title="Submit Bid"
+      title="Submit bid"
       content={
-        depositBalance.gt(maxBid)
+        depositBalance.gte(maxBid)
           ? checkIfPartyLeadingBidder
             ? partyIsAlreadyWinning
             : placeBidContent

@@ -90,7 +90,7 @@ export const useNounsPartyAuctionIsHot = () => {
 }
 
 export const useNounsPartyMaxBid = () => {
-	const maxBid = useContractCall<[EthersBN]>({
+	const maxBid = useContractCall({
 		abi,
 		address: config.nounsPartyAddress,
 		method: "maxBid",
@@ -99,7 +99,7 @@ export const useNounsPartyMaxBid = () => {
 	if (!maxBid) {
 		return EthersBN.from(0);
 	}
-	return maxBid[0];
+	return maxBid[1];
 }
 
 export const useNounsPartyClaimsCount = (address: string | null | undefined) => {
