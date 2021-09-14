@@ -235,11 +235,14 @@ const Bid: React.FC<{
       <Row>
         <Col>
           <p className={classes.infoText}>
-            Submitting this bid will place a bid on the nouns auction using the vault's funds. The bid will be 5% higher than the current highest bid.
+            Submitting this bid will place a bid on the nouns auction using the vault's funds. The bid will be 7% higher than the current highest bid.
           </p>
           <p className={classes.infoText}>
             If the party goes on to win the auction, contributors can return after the auction to claim their tokens.
             Any unused funds can be withdrawn.
+          </p>
+          <p className={classes.infoText}>
+            Bid amount: <strong>{formatEther(maxBid)}&nbsp;ETH</strong>
           </p>
         </Col>
       </Row>

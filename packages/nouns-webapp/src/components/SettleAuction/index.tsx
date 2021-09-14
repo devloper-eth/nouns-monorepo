@@ -42,8 +42,8 @@ const SettleAuction: React.FC<{ auction: Auction }> = props => {
     if (auction && auction.nounId) {
       try {
         const contract = connectContractToSigner(nounsPartyContract, undefined, library);
-        const gasLimit = await contract.estimateGas.settle(auction.nounId);
-        settle(auction.nounId, { gasLimit: gasLimit.add(15000000) });
+        const gasLimit = await contract.estimateGas.settle();
+        settle({ gasLimit: gasLimit.add(15000000) });
       } catch {
         // hideSettleAuctionHandler();
         setModal({

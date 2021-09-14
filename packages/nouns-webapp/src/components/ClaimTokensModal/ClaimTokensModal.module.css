@@ -21,3 +21,8 @@
   margin: 0px;
   padding: 0px;
 }
+
+.infoText {
+  text-align: left;
+  font-size: 0.9em;
+}
