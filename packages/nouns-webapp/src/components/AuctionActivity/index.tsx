@@ -13,6 +13,7 @@ import SettleAuction from '../SettleAuction';
 import stampLogo from '../../assets/nouns_stamp.svg';
 import AuctionActivityDateHeadline from '../AuctionActivityDateHeadline';
 import AuctionStatus from '../AuctionStatus';
+import { useFracTokenVaults } from '../../wrappers/nounsParty';
 
 /*  Currently unused packages but may need if commented components are brought back in  */
 // import config, { CHAIN_ID } from '../../config';
@@ -99,6 +100,8 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
     }
   }, [auctionTimer, auction]);
 
+  const fracVault = useFracTokenVaults(auction.nounId);
+
   if (!auction) return null;
 
   return (
@@ -139,7 +142,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
 
           <Row className={classes.auctionActivityContainer}>
             <Col lg={6}>
-              <CurrentBid/>
+              <CurrentBid />
             </Col>
             <Col lg={6}>
               {auctionEnded ? (
@@ -157,6 +160,27 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
               </Col>
             </Row>
           )}
+
+          {fracVault && (
+            <>
+              <Row>
+                <Col className={classes.fracVaultContainer}>
+                  <p>
+                    Noun {auction.nounId.toNumber()} has been fractionalized into ERC20 tokens which have a new home at {fracVault.substr(0, 4)}...{fracVault.substr(38, 4)}.
+                  </p>
+                  <button
+                    className={classes.fracVaultButton}
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.open("https://fractional.art/vaults/" + fracVault, "_blank");
+                    }}
+                  >Go to token vault</button>
+                </Col>
+              </Row>
+            </>
+          )}
+
           {isLastAuction && (
             <>
               <PartyVault auction={auction} />

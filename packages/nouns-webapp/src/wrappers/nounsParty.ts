@@ -127,3 +127,22 @@ export const useNounsPartyClaims = (address: string | null | undefined, index: N
 	}
 	return claim;
 }
+
+export const useFracTokenVaults = (nounId: EthersBN) => {
+	const vault = useContractCall({
+		abi,
+		address: config.nounsPartyAddress,
+		method: 'fracTokenVaults',
+		args: [nounId],
+	});
+
+	if (!vault) {
+		return "";
+	}
+
+	if(vault[0] === "0x0000000000000000000000000000000000000000") {
+		return "";
+	}
+
+	return vault[0];
+};
