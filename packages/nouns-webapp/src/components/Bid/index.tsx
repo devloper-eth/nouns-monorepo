@@ -1,5 +1,6 @@
 import { Auction } from '../../wrappers/nounsAuction';
 import config from '../../config';
+import { BigNumber } from 'ethers';
 import { connectContractToSigner, useEthers } from '@usedapp/core';
 import { useContractFunction__fix } from '../../hooks/useContractFunction__fix';
 import { useAppSelector } from '../../hooks';
@@ -84,6 +85,8 @@ const Bid: React.FC<{
     nounsPartyContract,
     NounsPartyContractFunction.bid,
   );
+
+
   // const { send: settleAuction, state: settleAuctionState } = useContractFunction__fix(
   //   auctionHouseContract,
   //   AuctionHouseContractFunction.settleCurrentAndCreateNewAuction,
@@ -123,16 +126,19 @@ const Bid: React.FC<{
     // }
 
     const contract = connectContractToSigner(nounsPartyContract, undefined, library);
-    const gasLimit = await contract.estimateGas.bid();
-    bid({
-      gasLimit: gasLimit.add(10000), // A 10,000 gas pad is used to avoid 'Out of gas' errors
+    let gasLimit = BigNumber.from(500000)
+    try {
+      gasLimit = await contract.estimateGas.bid();
+      gasLimit.add(10000) // A 10,000 gas pad is used to avoid 'Out of gas' errors
+    } catch(e) {
+      console.log("Failed to guess gas.", e);
+    }
+
+    bid(auction.nounId, {
+      gasLimit: gasLimit, 
     });
     setBidButtonContent({ loading: true, content: 'Placing bid...' });
   };
-
-  // const settleAuctionHandler = () => {
-  //   settleAuction();
-  // };
 
   const clearBidInput = () => {
     if (bidInputRef.current) {

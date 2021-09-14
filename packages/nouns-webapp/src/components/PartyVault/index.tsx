@@ -30,17 +30,8 @@ const PartyVault: React.FC<{
     }
   }
 
-  let roundedEth = Math.ceil(Number(utils.formatEther(depositBalance)) * 100) / 100;
   return (
     <div className={classes.partyVaultWrapper}>
-      <Row>
-        <Col xs={12} lg={9}>
-          <p className={`${classes.partyVaultText} ${classes.noPaddingMargin}`}>
-            {`Nouns Party Vault `}
-            <span className={classes.ethXiFont}>{`Ξ${roundedEth}`}</span>
-          </p>
-        </Col>
-      </Row>
       <Row>
         <Col className={classes.progressBarContainer}>
           <ProgressBar now={ratio} />

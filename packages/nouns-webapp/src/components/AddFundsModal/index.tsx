@@ -14,7 +14,6 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
   props => {
     const { onDismiss, activeAccount } = props;
     const [bidInput, setBidInput] = useState('');
-    const [iUnderstand] = useState(true);
     const [depositButtonContent, setDepositButtonContent] = useState({
       loading: false,
       content: 'Add funds to vault',
@@ -178,7 +177,6 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
             <Button
               className={classes.addFundsButton}
               onClick={placeBidHandler}
-              disabled={!iUnderstand}
             >
               {depositButtonContent.loading ? <Spinner animation="border" size="sm" /> : null}
               &nbsp; {depositButtonContent.content}

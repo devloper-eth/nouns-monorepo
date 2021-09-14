@@ -13,6 +13,7 @@
     height: 460px;
     overflow-x: hidden;
     overflow-y: auto;
+    padding: 0px 10px;
   }
 }
 
@@ -20,6 +21,7 @@
   .paperWrapper {
     overflow-x: hidden;
     overflow-y: auto;
+    padding: 0px 10px; 
   }
 }
 
@@ -103,14 +105,6 @@ h4 {
 .modalHeaderNounImgWrapper {
   width: 150px;
   height: 150px;
-}
-
-.currentBidCol {
-  border-right: 1px solid var(--brand-black);
-}
-
-.auctionTimerCol {
-  padding-left: 3rem;
 }
 
 .nounsPartyStamp {

@@ -11,7 +11,6 @@ import AuctionActivityDateHeadline from '../AuctionActivityDateHeadline';
 // import auctionBidClasses from '../AuctionActivity/BidHistory.module.css';
 // import bidBtnClasses from '../BidHistoryBtn//BidHistoryBtn.module.css';
 // import auctionActivityClasses from '../AuctionActivity/AuctionActivity.module.css';
-// import CurrentBid, { BID_N_A } from '../CurrentBid';
 // import AuctionActivityWrapper from '../AuctionActivityWrapper';
 
 const NounderNounContent: React.FC<{
