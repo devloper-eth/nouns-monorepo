@@ -8,20 +8,16 @@ import { Col, Row } from 'react-bootstrap';
  * the bid amount is not applicable to this auction. (Nounder Noun)
  */
 export const BID_N_A = 'n/a';
-
 /**
  * Special Bid type for not applicable auctions (Nounder Nouns)
  */
 type BidNa = typeof BID_N_A;
-
 const CurrentBid: React.FC<{
   currentBid: BigNumber | BidNa;
   auctionEnded: boolean;
 }> = props => {
   const { currentBid, auctionEnded } = props;
-
   const titleContent = auctionEnded ? 'Winning bid' : 'Current bid';
-
   return (
     <>
       <Row>
@@ -41,13 +37,6 @@ const CurrentBid: React.FC<{
         </Col>
       </Row>
     </>
-    // OLD STYLING - FLAGGED FOR REMOVAL
-    // <div className={classes.section}>
-    //   <h4>{titleContent}</h4>
-    //   <h2>
-    //     <TruncatedAmount amount={currentBid && currentBid} />
-    //   </h2>
-    // </div>
   );
 };
 

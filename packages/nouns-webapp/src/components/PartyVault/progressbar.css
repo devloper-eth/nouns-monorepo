@@ -1,6 +1,7 @@
 .progress {
   border-radius: 50px;
   overflow: visible;
+  height: 24px;
   background: linear-gradient(180deg, #ffffff7d 22.22%, #ffffff00 69.54%),
     repeating-linear-gradient(134deg, #c1c1c12e, #c1c1c146 8px, #ffffff 8px, #ffffff 16px);
 }

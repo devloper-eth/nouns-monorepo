@@ -1,5 +1,6 @@
 import { Auction } from '../../wrappers/nounsAuction';
 import config from '../../config';
+import { BigNumber } from 'ethers';
 import { connectContractToSigner, useEthers } from '@usedapp/core';
 import { useContractFunction__fix } from '../../hooks/useContractFunction__fix';
 import { useAppSelector } from '../../hooks';
@@ -84,6 +85,8 @@ const Bid: React.FC<{
     nounsPartyContract,
     NounsPartyContractFunction.bid,
   );
+
+
   // const { send: settleAuction, state: settleAuctionState } = useContractFunction__fix(
   //   auctionHouseContract,
   //   AuctionHouseContractFunction.settleCurrentAndCreateNewAuction,
@@ -123,16 +126,19 @@ const Bid: React.FC<{
     // }
 
     const contract = connectContractToSigner(nounsPartyContract, undefined, library);
-    const gasLimit = await contract.estimateGas.bid();
+    let gasLimit = BigNumber.from(500000)
+    try {
+      gasLimit = await contract.estimateGas.bid();
+      gasLimit.add(10000) // A 10,000 gas pad is used to avoid 'Out of gas' errors
+    } catch(e) {
+      console.log("Failed to guess gas.", e);
+    }
+
     bid({
-      gasLimit: gasLimit.add(10000), // A 10,000 gas pad is used to avoid 'Out of gas' errors
+      gasLimit: gasLimit, 
     });
     setBidButtonContent({ loading: true, content: 'Placing bid...' });
   };
-
-  // const settleAuctionHandler = () => {
-  //   settleAuction();
-  // };
 
   const clearBidInput = () => {
     if (bidInputRef.current) {
@@ -217,11 +223,7 @@ const Bid: React.FC<{
             Submitting a bid will place a bid on the nouns auction using the vault's funds. The bid will be 5% higher than the current highest bid.
           </p>
           <p className={classes.infoText}>
-            <strong>Insufficient funds</strong><br/>
-            Currently the party has not enough funds to execute a bid of <strong>{formatEther(maxBid)}&nbsp;ETH</strong>.
-          </p>
-          <p className={classes.infoText}>
-            Please add funds to the vault to execute this bid.
+            The vault does not have enough funds. Please add funds to the vault to execute this bid. <strong>A bid requires {formatEther(maxBid)}&nbsp;ETH</strong>.
           </p>
         </Col>
       </Row>
@@ -235,11 +237,14 @@ const Bid: React.FC<{
       <Row>
         <Col>
           <p className={classes.infoText}>
-            Submitting this bid will place a bid on the nouns auction using the vault's funds. The bid will be 5% higher than the current highest bid.
+            Submitting this bid will place a bid on the nouns auction using the vault's funds. The bid will be 7% higher than the current highest bid.
           </p>
           <p className={classes.infoText}>
             If the party goes on to win the auction, contributors can return after the auction to claim their tokens.
             Any unused funds can be withdrawn.
+          </p>
+          <p className={classes.infoText}>
+            Bid amount: <strong>{formatEther(maxBid)}&nbsp;ETH</strong>
           </p>
         </Col>
       </Row>

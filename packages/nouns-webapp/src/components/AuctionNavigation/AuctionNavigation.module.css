@@ -1,26 +1,28 @@
 .leftArrow {
-  margin-left: 1rem;
   display: inline-block;
-  width: 2rem;
   border: none;
   background-color: #6db3f2;
   background-size: contain;
   background-repeat: no-repeat;
   background-color: transparent;
-  font-size: xx-large;
   z-index: 3;
+  margin-left: 10px;
+  margin-top: 10px;
 }
 .rightArrow {
-  margin-left: 1rem;
   display: inline-block;
-  width: 2rem;
   border: none;
   background-size: contain;
   background-repeat: no-repeat;
   background-color: transparent;
-  font-size: xx-large;
   z-index: 3;
+  margin-top: 12px;
 }
+
+.rightArrow img {
+  transform: rotate(180deg);
+}
+
 .leftArrow:hover,
 .rightArrow:hover {
   opacity: 0.9;
@@ -29,9 +31,9 @@
 .rightArrow:disabled {
   opacity: 0.5;
 }
-
+/*
 @media (max-width: 992px) {
   .leftArrow {
     margin-left: 1rem;
   }
-}
+}*/

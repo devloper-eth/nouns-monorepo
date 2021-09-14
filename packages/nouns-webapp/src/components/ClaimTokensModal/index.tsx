@@ -116,8 +116,8 @@ const ClaimTokensModal: React.FC<{
         <>
           {activeAccount && currentClaimsCount && currentClaimsCount > 0
             ? [...Array(currentClaimsCount)].map((e, i) => (
-                <ClaimsComponent key={i} account={activeAccount} counter={i} />
-              ))
+              <ClaimsComponent key={i} account={activeAccount} counter={i} />
+            ))
             : null}
 
           <Col>
@@ -128,7 +128,13 @@ const ClaimTokensModal: React.FC<{
           </Col>
         </>
       ) : (
-        <p>No tokens to claim</p>
+        <>
+          <p className={classes.confirmText}>
+            Every noun won by the party is fractionalized into ERC20 tokens by <a href="https://fractional.art" target="_blank" rel="noreferrer">fractional.art</a>.
+            You will receive tokens proportional to the amount of your ETH used in the winning bid.
+          </p>
+          <p className={classes.confirmText}>You have no tokens to claim. Please come back later.</p>
+        </>
       )}
     </>
   );
@@ -149,10 +155,9 @@ const ClaimsComponent: React.FC<{
   counter: number;
 }> = props => {
   const claimsResponse = useNounsPartyClaims(props.account, props.counter);
-
   return (
     <>
-      <Row>
+      <Row className={classes.row}>
         <Col>
           <p className={classes.tokenRowText}>
             {claimsResponse ? `Noun ${claimsResponse[0]?.toString()}` : null}
@@ -160,7 +165,7 @@ const ClaimsComponent: React.FC<{
         </Col>
         <Col>
           <p className={classes.tokenRowText}>
-            {claimsResponse ? `${formatEther(claimsResponse[1])} tokens` : null}
+            {claimsResponse ? `${Math.round(Number(formatEther(claimsResponse[1])))} tokens` : null}
           </p>
         </Col>
       </Row>

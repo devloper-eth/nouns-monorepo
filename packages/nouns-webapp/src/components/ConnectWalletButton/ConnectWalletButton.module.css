@@ -11,9 +11,10 @@
   z-index: 0;
   text-align: center;
   font-size: 1em;
-  background:
+  background: #212529;
+  /*background:
     linear-gradient(180deg, #ffffff75 15.22%, #ffffff00 56.54%),
-    linear-gradient(90.72deg, #00ffa3 -7.78%, #57cdff 35.54%, #f68eff 118.48%);
+    linear-gradient(90.72deg, #00ffa3 -7.78%, #57cdff 35.54%, #f68eff 118.48%);*/
   /* filter: blur(12px); */
   border-radius: 24px;
   margin: 0px 0px 10px 0px;
@@ -23,6 +24,11 @@
 
 .connectWalletButton:hover {
   box-shadow: 0px 8px 16px rgb(0 0 0 / 20%);
+}
+
+.connectWalletButton:disabled {
+  background: #F0F1F4;
+  color: #D2D5DA;
 }
 
 /*

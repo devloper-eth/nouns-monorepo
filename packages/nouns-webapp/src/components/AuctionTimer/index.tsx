@@ -35,7 +35,7 @@ const AuctionTimer: React.FC<{
     }
   }, [auction, auctionTimer]);
 
-  const auctionContent = auctionEnded ? 'Auction Ended' : 'Time Remaining';
+  const auctionContent = auctionEnded ? 'Auction Ended' : 'Auction Ends In';
 
   const flooredMinutes = Math.floor(timerDuration.minutes());
   const flooredSeconds = Math.floor(timerDuration.seconds());
@@ -54,47 +54,22 @@ const AuctionTimer: React.FC<{
           <h3 className={`${classes.timerWrapper} ${classes.noPaddingMargin}`}>
             <div className={classes.timerSection}>
               <span>
-                {`${Math.floor(timerDuration.hours())}`}
-                <span className={classes.small}>h</span>
+                {`${Math.floor(timerDuration.hours())}`}h
               </span>
             </div>
             <div className={classes.timerSection}>
               <span>
-                {`${flooredMinutes}`}
-                <span className={classes.small}>m</span>
+                {`${flooredMinutes}`}m
               </span>
             </div>
             <div className={classes.timerSection}>
               <span>
-                {`${flooredSeconds}`}
-                <span className={classes.small}>s</span>
+                {`${flooredSeconds}`}s
               </span>
             </div>
           </h3>
         </Col>
       </Row>
-      {/* OLD TIMER STYLE - FLAGGED FOR REMOVAL */}
-      {/* <h4 className={classes.title}>{auctionContent}</h4>
-      <h2 className={classes.timerWrapper}>
-        <div className={classes.timerSection}>
-          <span>
-            {`${Math.floor(timerDuration.hours())}`}
-            <span className={classes.small}>h</span>
-          </span>
-        </div>
-        <div className={classes.timerSection}>
-          <span>
-            {`${flooredMinutes}`}
-            <span className={classes.small}>m</span>
-          </span>
-        </div>
-        <div className={classes.timerSection}>
-          <span>
-            {`${flooredSeconds}`}
-            <span className={classes.small}>s</span>
-          </span>
-        </div>
-      </h2> */}
     </>
   );
 };

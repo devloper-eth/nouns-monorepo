@@ -14,8 +14,6 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
   props => {
     const { onDismiss, activeAccount } = props;
     const [bidInput, setBidInput] = useState('');
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [iUnderstand, setIunderstand] = useState(true);
     const [depositButtonContent, setDepositButtonContent] = useState({
       loading: false,
       content: 'Add funds to vault',
@@ -178,11 +176,7 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
         <Row>
           <Col>
             {' '}
-            <Button
-              className={classes.addFundsButton}
-              onClick={placeBidHandler}
-              disabled={!iUnderstand}
-            >
+            <Button className={classes.addFundsButton} onClick={placeBidHandler}>
               {depositButtonContent.loading ? <Spinner animation="border" size="sm" /> : null}
               &nbsp; {depositButtonContent.content}
             </Button>

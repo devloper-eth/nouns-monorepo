@@ -124,9 +124,12 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
       <Row className={`justify-content-center ${classes.withdrawTextRow}`}>
         <Col>
           <p>
-            {`Withdrawals are currently disabled. ${
-              auctionIsHot ? `The auction is about to end or just ended. ` : ''
-            } ${pendingSettledCount.gt(0) ? `Some auctions still need to be settled.` : ''}`}
+            Withdrawals are currently disabled,
+            <br />
+            because
+            {` ${auctionIsHot ? `the auction is about to end or just ended. ` : ''} ${
+              pendingSettledCount.gt(0) ? `some auctions still need to be settled.` : ''
+            }`}
           </p>
         </Col>
       </Row>

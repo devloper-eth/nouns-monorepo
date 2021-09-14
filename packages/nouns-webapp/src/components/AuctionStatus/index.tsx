@@ -2,7 +2,7 @@ import { Auction } from '../../wrappers/nounsAuction';
 import classes from './AuctionStatus.module.css';
 import { useState, useEffect } from 'react';
 import config from '../../config';
-import { useNounsPartyDepositBalance } from '../../wrappers/nounsParty';
+import { useNounsPartyDepositBalance, useNounsPartyMaxBid} from '../../wrappers/nounsParty';
 import { Col, Row } from 'react-bootstrap';
 
 const AuctionStatus: React.FC<{
@@ -11,6 +11,7 @@ const AuctionStatus: React.FC<{
   const { auction: currentAuction } = props;
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
+  let maxBid = useNounsPartyMaxBid();
 
   useEffect(() => {
     if (!currentAuction) return;
@@ -44,14 +45,17 @@ const AuctionStatus: React.FC<{
     } else if (targetBidAmount.gt(currentAuction.amount)) {
       statusText = 'The vault has enough funds! Submit the bid!';
       status = 'success';
+    } else if (currentAuction.amount.lt(maxBid)) {
+      statusText = 'The vault requires more funds to bid.';
+      status = 'fail';
     } else {
-      statusText = 'The party has been outbid.';
+      statusText = 'The party has been outbid!';
       status = 'fail';
     }
   } else if (currentAuction) {
     let bidder = currentAuction.bidder;
     if (bidder && bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
-      statusText = 'The party won the auction!';
+      statusText = 'The party won the auction! The noun has been fractionalized into ERC20 tokens.';
       status = 'success';
     } else {
       statusText = 'The party lost the auction!';

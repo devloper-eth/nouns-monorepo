@@ -1,24 +1,12 @@
-.title {
-  margin-bottom: 0.5rem;
-}
-
 .timerWrapper {
   display: flex;
   text-align: center;
   margin: 0px !important;
+  font-size: 36px;
 }
 
 .timerSection {
   margin-right: 0.5rem;
-}
-
-.small {
-  padding-left: 0.1rem;
-  font-size: 0.65em;
-}
-
-.timeSubtitle {
-  font-size: medium;
 }
 
 .noPaddingMargin {
@@ -28,5 +16,5 @@
 
 .timerText {
   font-weight: 500;
-  font-size: 1.25rem;
+  font-size: 16px;
 }

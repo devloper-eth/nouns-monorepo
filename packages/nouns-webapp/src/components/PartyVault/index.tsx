@@ -31,6 +31,7 @@ const PartyVault: React.FC<{
   }
 
   let roundedEth = Math.ceil(Number(utils.formatEther(depositBalance)) * 100) / 100;
+
   return (
     <div className={classes.partyVaultWrapper}>
       <Row>

@@ -5,8 +5,6 @@ import { LoadingNoun } from '../Noun';
 import { Auction as IAuction } from '../../wrappers/nounsAuction';
 import classes from './Auction.module.css';
 import { INounSeed } from '../../wrappers/nounToken';
-import { isNounderNoun } from '../../utils/nounderNoun';
-import NounderNounContent from '../NounderNounContent';
 import AuctionActivity from '../AuctionActivity';
 import { useHistory } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -60,70 +58,9 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
     const [confettiSize, setConfettiSize] = useState({ height: 0, width: 0 });
     const confettiContainerRef = useRef<HTMLDivElement>(null);
 
-    // const [onDisplayNounId, setOnDisplayNounId] = useState(currentAuction && currentAuction.nounId);
-    // const [lastAuctionId, setLastAuctionId] = useState(currentAuction && currentAuction.nounId);
-    // const [isLastAuction, setIsLastAuction] = useState(true);
-    // const [isFirstAuction, setIsFirstAuction] = useState(false);
-
-    // // Query onDisplayNounId auction. Used to display past auctions' data.
-    // const { data: dataCurrent } = useQuery(
-    //   auctionQuery(onDisplayNounId && onDisplayNounId.toNumber()),
-    // );
-    // // Query onDisplayNounId auction plus one. Used to determine nounder noun timestamp.
-    // const { data: dataNext } = useQuery(
-    //   auctionQuery(onDisplayNounId && onDisplayNounId.add(1).toNumber()),
-    // );
-
-    // Query onDisplayNounId auction minus one. Used to cache prev auction + check if The Graph queries are functional.
-    // const {
-    //   loading: loadingPrev,
-    //   data: dataPrev,
-    //   error: errorPrev,
-    // } = useQuery(auctionQuery(onDisplayNounId && onDisplayNounId.sub(1).toNumber()), {
-    //   pollInterval: 10000,
-    // });
-
-    /**
-     * Auction derived from `onDisplayNounId` query
-     */
-    // const auction: IAuction = dataCurrent && dataCurrent.auction && createAuctionObj(dataCurrent);
-    /**
-     * Auction derived from `onDisplayNounId.add(1)` query
-     */
-    // const nextAuction: IAuction = dataNext && dataNext.auction && createAuctionObj(dataNext);
-    /**
-     * Auction derived from `onDisplayNounId.sub(1)` query
-     */
-    // const prevAuction: IAuction = dataPrev && dataPrev.auction && createAuctionObj(dataPrev);
-
     const loadedNounHandler = (seed: INounSeed) => {
       bgColorHandler(seed.background === 0);
     };
-
-    // useEffect(() => {
-    //   if (!onDisplayNounId || (currentAuction && currentAuction.nounId.gt(lastAuctionId))) {
-    //     setOnDisplayNounId(currentAuction && currentAuction.nounId);
-    //     setLastAuctionId(currentAuction && currentAuction.nounId);
-    //   }
-    // }, [onDisplayNounId, currentAuction, lastAuctionId]);
-
-    // const auctionHandlerFactory = (nounIdMutator: (prev: BigNumber) => BigNumber) => () => {
-    //   setOnDisplayNounId(prev => {
-    //     const updatedNounId = nounIdMutator(prev);
-    //     setIsFirstAuction(updatedNounId.eq(0) ? true : false);
-    //     setIsLastAuction(updatedNounId.eq(currentAuction && currentAuction.nounId) ? true : false);
-    //     return updatedNounId;
-    //   });
-    // };
-
-    // const prevAuctionHandler = auctionHandlerFactory((prev: BigNumber) => {
-    //   history.push(`/noun/${prev.sub(1)}`);
-    //   return prev.sub(1);
-    // });
-    // const nextAuctionHandler = auctionHandlerFactory((prev: BigNumber) => {
-    //   history.push(`/noun/${prev.add(1)}`);
-    //   return prev.add(1);
-    // });
 
     const prevAuctionHandler = () => {
       dispatch(setPrevOnDisplayAuctionNounId());
@@ -146,43 +83,9 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
       </div>
     );
 
-    // const auctionActivityContent = (auction: IAuction, displayGraphDepComps: boolean) => (
-    //   <AuctionActivity
-    //     auction={currentAuction}
-    //     isFirstAuction={currentAuction.nounId.eq(0)}
-    //     isLastAuction={currentAuction.nounId.eq(lastNounId)}
-    //     onPrevAuctionClick={prevAuctionHandler}
-    //     onNextAuctionClick={nextAuctionHandler}
-    //     displayGraphDepComps={true}
-    //   />
-    // );
-
-    // const currentAuctionActivityContent =
-    //   currentAuction &&
-    //   auctionActivityContent(
-    //     currentAuction,
-    //     onDisplayNounId && prevAuctionsAvailable(loadingPrev, errorPrev, prevAuction), // else check if prev auct is avail
-    //   );
-
-    // const pastAuctionActivityContent =
-    //   auction &&
-    //   auctionActivityContent(auction, prevAuctionsAvailable(loadingPrev, errorPrev, prevAuction));
-
     const currentAuctionActivityContent = lastNounId && (
       <AuctionActivity
         auction={currentAuction}
-        isFirstAuction={currentAuction.nounId.eq(0)}
-        isLastAuction={currentAuction.nounId.eq(lastNounId)}
-        onPrevAuctionClick={prevAuctionHandler}
-        onNextAuctionClick={nextAuctionHandler}
-        displayGraphDepComps={true}
-      />
-    );
-
-    const nounderNounContent = lastNounId && (
-      <NounderNounContent
-        mintTimestamp={currentAuction.startTime}
-        nounId={currentAuction.nounId}
         isFirstAuction={currentAuction.nounId.eq(0)}
         isLastAuction={currentAuction.nounId.eq(lastNounId)}
         onPrevAuctionClick={prevAuctionHandler}
@@ -218,9 +121,7 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
               {currentAuction ? nounContent : loadingNoun}
             </Col>
             <Col lg={{ span: 6 }} className={classes.currentAuctionActivityContainer}>
-              {currentAuction.nounId && isNounderNoun(currentAuction.nounId)
-                ? nounderNounContent
-                : currentAuctionActivityContent}
+              {currentAuctionActivityContent}
             </Col>
             <Col lg={2} />
           </Row>

@@ -24,3 +24,8 @@
   border-radius: 24px;
   margin: 0px 0px 10px 0px;
 }
+
+.infoText {
+  text-align: left;
+  font-size: 0.9em;
+}

@@ -1,9 +1,8 @@
 .partyVaultWrapper {
-  padding: 0px 15px 15px 15px;
-  margin: 20px 10px 0px 10px;
+  margin: 10px 25px 10px 25px
 }
 .ethNeededText {
-  font-size: 0.9em;
+  font-size: 18px;
   color: rgba(33, 37, 41, 0.2);
 }
 
@@ -16,11 +15,14 @@
 }
 
 .partyVaultText {
-  font-size: 0.9em;
+  font-size: 18px;
   font-weight: 600;
 }
 
 .ethXiFont {
+  background: -webkit-linear-gradient(10deg, #00ffa3 0%, #57cdff 52%, #f68eff 91%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
     'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
@@ -28,8 +30,4 @@
 .noPaddingMargin {
   padding: 0px;
   margin: 0px;
-}
-
-.progressBarContainer {
-  margin: 5px 0px 5px 0px;
 }
