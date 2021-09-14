@@ -166,7 +166,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
               <Row>
                 <Col className={classes.fracVaultContainer}>
                   <p>
-                    Noun {auction.nounId.toNumber()} has been fractionalized into ERC20 tokens which have a new home at {fracVault.substr(0, 4)}...{fracVault.substr(38, 4)}.
+                    Noun {auction.nounId.toNumber()} has been fractionalized into ERC20 tokens.
                   </p>
                   <button
                     className={classes.fracVaultButton}
