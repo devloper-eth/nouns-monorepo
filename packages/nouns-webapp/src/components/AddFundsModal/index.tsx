@@ -14,7 +14,7 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
   props => {
     const { onDismiss, activeAccount } = props;
     const [bidInput, setBidInput] = useState('');
-    const [iUnderstand, setIunderstand] = useState(false);
+    const [iUnderstand, setIunderstand] = useState(true);
     const [depositButtonContent, setDepositButtonContent] = useState({
       loading: false,
       content: 'Add funds to vault',
@@ -141,8 +141,7 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
       <>
         <Row>
           <Col>
-            <p className={classes.depositText}>Deposit</p>
-            <p className={classes.minimumDeposit}>Minimum deposit: 0.1 eth</p>
+            <p className={classes.minimumDeposit}><strong>Minimum amount: 0.1 ETH</strong></p>
           </Col>
         </Row>
         <Row>
@@ -153,7 +152,9 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
                 aria-describedby="basic-addon1"
                 className={classes.bidInput}
                 type="number"
-                min="0"
+                min="0.1"
+                step="0.1"
+                placeholder="1.0"
                 onChange={bidInputHandler}
                 ref={bidInputRef}
                 value={bidInput}
@@ -167,21 +168,8 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
             <p className={classes.infoText}>
               You will receive tokens proportional to the amount of your ETH used in the winning
               bid. If the party loses the auction, or if any of your ETH is in excess of the winning
-              bid, you will be able to claim all unused funds from your contribution.
+              bid, you will be able to withdraw all unused funds from your contribution.
             </p>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            {' '}
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check
-                checked={iUnderstand}
-                type="checkbox"
-                label="I understand"
-                onChange={e => setIunderstand(e.target.checked)}
-              />
-            </Form.Group>
           </Col>
         </Row>
         <Row>
@@ -200,7 +188,7 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
       </>
     );
 
-    return <Modal title="Add Funds" content={fundsModal} onDismiss={onDismiss} />;
+    return <Modal title="Add funds" content={fundsModal} onDismiss={onDismiss} />;
   };
 
 export default AddFundsModal;

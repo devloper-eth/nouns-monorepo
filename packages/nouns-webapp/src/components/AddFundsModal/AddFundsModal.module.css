@@ -56,7 +56,7 @@
 .minimumDeposit {
   font-size: 0.8rem;
   text-align: left;
-  color: rgba(33, 37, 41, 0.4);
+  color: rgba(33, 37, 41, 0.534);
   padding: 0px;
-  margin: 0px;
+  margin: 0px 0px 0px 20px;
 }
