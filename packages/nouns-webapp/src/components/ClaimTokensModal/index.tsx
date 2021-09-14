@@ -155,10 +155,9 @@ const ClaimsComponent: React.FC<{
   counter: number;
 }> = props => {
   const claimsResponse = useNounsPartyClaims(props.account, props.counter);
-
   return (
     <>
-      <Row>
+      <Row className={classes.row}>
         <Col>
           <p className={classes.tokenRowText}>
             {claimsResponse ? `Noun ${claimsResponse[0]?.toString()}` : null}
@@ -166,7 +165,7 @@ const ClaimsComponent: React.FC<{
         </Col>
         <Col>
           <p className={classes.tokenRowText}>
-            {claimsResponse ? `${formatEther(claimsResponse[1])} tokens` : null}
+            {claimsResponse ? `${Math.round(Number(formatEther(claimsResponse[1])))} tokens` : null}
           </p>
         </Col>
       </Row>

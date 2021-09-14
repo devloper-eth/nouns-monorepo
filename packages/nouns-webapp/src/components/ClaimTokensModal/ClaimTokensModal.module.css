@@ -26,3 +26,13 @@
   text-align: left;
   font-size: 0.9em;
 }
+
+.row {
+  margin-bottom: 10px;
+  padding: 8px 0px;
+  font-weight: bold;
+}
+
+.row:nth-child(odd) {
+  background-color: #f7f7f7;
+}
