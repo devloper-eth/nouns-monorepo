@@ -14,6 +14,7 @@ import {
 } from '../../state/slices/onDisplayAuction';
 import { useEffect, useRef, useState } from 'react';
 import UpdatedConfetti from '../UpdatedConfetti';
+import Confetti from 'react-confetti';
 /* OLD IMPORTS - FLAGGED FOR DELETION */
 // import {
 //   setNextOnDisplayAuctionNounId,
@@ -121,10 +122,40 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
       };
     }, []);
 
+    const confettiColors = [
+      '#2B83F6',
+      '#4BEA69',
+      '#5648ED',
+      '#F3322C',
+      '#F68EFF',
+      '#FF638D',
+      '#FFF449',
+    ];
+
     return (
       <Container ref={confettiContainerRef} fluid>
         <Container fluid="lg" className={classes.pageContentWrapper}>
-          <UpdatedConfetti width={confettiSize.width} height={confettiSize.height} />
+          {/* <UpdatedConfetti width={confettiSize.width} height={confettiSize.height} /> */}
+          <Confetti
+            width={confettiSize.width}
+            height={confettiSize.height}
+            numberOfPieces={150}
+            gravity={0.02}
+            colors={confettiColors}
+            recycle={true}
+            drawShape={ctx => {
+              // ctx.beginPath();
+              // ctx.fillRect(
+              //   Math.random() * 6 + 3,
+              //   Math.random() * 7.5 + 3,
+              //   Math.random(),
+              //   Math.random(),
+              // );
+              // ctx.restore();
+              // ctx.closePath();
+              ctx.fillRect(0, 0, Math.random() + 5, Math.random() + 10);
+            }}
+          />
           <Row>
             <Col lg={{ span: 6 }} className={`align-self-end ${classes.noPaddingMargin}`}>
               {currentAuction ? nounContent : loadingNoun}
@@ -138,5 +169,4 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
       </Container>
     );
   };
-
 export default Auction;

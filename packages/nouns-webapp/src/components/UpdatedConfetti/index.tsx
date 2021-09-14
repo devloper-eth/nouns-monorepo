@@ -36,7 +36,7 @@ const UpdatedConfetti: React.FC<{ height: number; width: number }> = props => {
     currentTime = time;
 
     if (time - startTime > 1500) {
-      items[++index % 300] = particle(Math.random() * width, -20, index, 10);
+      items[++index % 600] = particle(Math.random() * width, -20, index, 10);
     }
 
     items.forEach(function (item) {
