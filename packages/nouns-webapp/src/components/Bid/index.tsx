@@ -134,7 +134,7 @@ const Bid: React.FC<{
       console.log("Failed to guess gas.", e);
     }
 
-    bid(auction.nounId, {
+    bid({
       gasLimit: gasLimit, 
     });
     setBidButtonContent({ loading: true, content: 'Placing bid...' });
