@@ -1,6 +1,6 @@
 import { connectContractToSigner, useEthers } from '@usedapp/core';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Spinner } from 'react-bootstrap';
+import { Button, Col, Row, Spinner } from 'react-bootstrap';
 import { useContractFunction__fix } from '../../hooks/useContractFunction__fix';
 import {
   nounsPartyContractFactory,
@@ -12,99 +12,99 @@ import classes from './SettleAuction.module.css';
 import { AlertModal, setAlertModal } from '../../state/slices/application';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Auction } from '../../wrappers/nounsAuction';
-// import Modal from '../Modal';
+import Modal from '../Modal';
 
-const SettleAuction: React.FC<{ auction: Auction }> = props => {
-  // state
-  const { auction } = props;
+const SettleAuction: React.FC<{ auction: Auction; hideSettleAuctionHandler: () => void }> =
+  props => {
+    // state
+    const { hideSettleAuctionHandler, auction } = props;
 
-  const activeAccount = useAppSelector(state => state.account.activeAccount);
-  const [settleAuctionButtonContent, setSettleAuctionButtonContent] = useState({
-    loading: false,
-    content: 'Settle Auction',
-  });
+    const activeAccount = useAppSelector(state => state.account.activeAccount);
+    const [settleAuctionButtonContent, setSettleAuctionButtonContent] = useState({
+      loading: false,
+      content: 'Settle Auction',
+    });
 
-  const pendingSettledCount = useNounsPartyPendingSettledCount();
+    const pendingSettledCount = useNounsPartyPendingSettledCount();
 
-  // Redux
-  const dispatch = useAppDispatch();
-  const setModal = useCallback((modal: AlertModal) => dispatch(setAlertModal(modal)), [dispatch]);
+    // Redux
+    const dispatch = useAppDispatch();
+    const setModal = useCallback((modal: AlertModal) => dispatch(setAlertModal(modal)), [dispatch]);
 
-  // party contract
-  const nounsPartyContract = nounsPartyContractFactory(config.nounsPartyAddress);
-  const { library } = useEthers();
-  const { send: settle, state: settleState } = useContractFunction__fix(
-    nounsPartyContract,
-    NounsPartyContractFunction.settle,
-  );
+    // party contract
+    const nounsPartyContract = nounsPartyContractFactory(config.nounsPartyAddress);
+    const { library } = useEthers();
+    const { send: settle, state: settleState } = useContractFunction__fix(
+      nounsPartyContract,
+      NounsPartyContractFunction.settle,
+    );
 
-  const settleAuction = async () => {
-    if (auction && auction.nounId) {
-      try {
-        const contract = connectContractToSigner(nounsPartyContract, undefined, library);
-        const gasLimit = await contract.estimateGas.settle();
-        settle({ gasLimit: gasLimit.add(15000000) });
-      } catch {
-        // hideSettleAuctionHandler();
+    const settleAuction = async () => {
+      if (auction && auction.nounId) {
+        try {
+          const contract = connectContractToSigner(nounsPartyContract, undefined, library);
+          const gasLimit = await contract.estimateGas.settle();
+          settle({ gasLimit: gasLimit.add(15000000) });
+        } catch {
+          hideSettleAuctionHandler();
+          setModal({
+            title: 'Error',
+            message: settleState.errorMessage
+              ? settleState.errorMessage
+              : `The Nouns.wtf auction must be settled before the party can settle this auction. Please try again later.`,
+            show: true,
+          });
+        }
+      }
+    };
+
+    useEffect(() => {
+      if (!activeAccount) return;
+
+      // tx state is mining
+      const isMiningUserTx = settleState.status === 'Mining';
+      // allows user to rebid against themselves so long as it is not the same tx
+      // const isCorrectTx = currentBid(bidInputRef).isEqualTo(new BigNumber(auction.amount.toString()));
+
+      if (isMiningUserTx) {
+        // isCorrectTx
+        settleState.status = 'Success';
+        hideSettleAuctionHandler();
         setModal({
-          title: 'Error',
-          message: settleState.errorMessage
-            ? settleState.errorMessage
-            : 'Settle auction failed. Please try again.',
+          title: 'Success',
+          message: `The auction has been settled.`,
           show: true,
         });
+        setSettleAuctionButtonContent({ loading: false, content: 'Settle auction' });
       }
-    }
+    }, [settleState, activeAccount, setModal, hideSettleAuctionHandler]);
+
+    const settleContent = pendingSettledCount.gt(0) ? (
+      <>
+        <Row className="justify-content-center">
+          <Col>
+            <p className={classes.confirmText}>Are you ready to settle the auction?</p>
+          </Col>
+        </Row>
+
+        <Col>
+          <Button className={classes.settleAuctionButton} onClick={() => settleAuction()}>
+            {settleAuctionButtonContent.loading ? <Spinner animation="border" size="sm" /> : null}
+            &nbsp; {settleAuctionButtonContent.content}
+          </Button>
+        </Col>
+      </>
+    ) : (
+      <Row className="justify-content-center">
+        <Col>
+          <p className={classes.confirmText}>There are currently no auctions to settle.</p>
+        </Col>
+      </Row>
+    );
+
+    return (
+      <Modal title="Settle Auction" content={settleContent} onDismiss={hideSettleAuctionHandler} />
+    );
   };
-
-  useEffect(() => {
-    if (!activeAccount) return;
-
-    // tx state is mining
-    const isMiningUserTx = settleState.status === 'Mining';
-    // allows user to rebid against themselves so long as it is not the same tx
-    // const isCorrectTx = currentBid(bidInputRef).isEqualTo(new BigNumber(auction.amount.toString()));
-
-    if (isMiningUserTx) {
-      // isCorrectTx
-      settleState.status = 'Success';
-      // hideSettleAuctionHandler();
-      setModal({
-        title: 'Success',
-        message: `The auction has been settled.`,
-        show: true,
-      });
-      setSettleAuctionButtonContent({ loading: false, content: 'Settle auction' });
-    }
-  }, [settleState, activeAccount, setModal]);
-
-  // const settleContent = (
-  //   <>
-  //     <Row className="justify-content-center">
-  //       <Col>
-  //         <p className={classes.confirmText}>Are you ready to settle the auction?</p>
-  //       </Col>
-  //     </Row>
-
-  //     <Col>
-  //       <Button className={classes.settleAuctionButton} onClick={() => settleAuction()}>
-  //         {settleAuctionButtonContent.loading ? <Spinner animation="border" /> : null}
-  //         {settleAuctionButtonContent.content}
-  //       </Button>
-  //     </Col>
-  //   </>
-  // );
-
-  return (
-    <>
-      {pendingSettledCount.gt(0) && (
-        <Button className={classes.settleAuctionButton} onClick={() => settleAuction()}>
-          {settleAuctionButtonContent.loading ? <Spinner animation="border" size="sm" /> : null}
-          &nbsp; {settleAuctionButtonContent.content}
-        </Button>
-      )}
-    </>
-  );
-};
 
 export default SettleAuction;

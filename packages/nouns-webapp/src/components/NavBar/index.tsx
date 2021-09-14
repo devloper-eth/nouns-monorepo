@@ -14,9 +14,12 @@ import WithdrawModal from '../WithdrawModal';
 import ClaimTokensModal from '../ClaimTokensModal';
 // import { useAuction } from '../../wrappers/nounsAuction';
 // import Bid from '../Bid';
-// import SettleAuctionModal from '../SettleAuction';
+import SettleAuctionModal from '../SettleAuction';
+// import { Auction as IAuction } from '../../wrappers/nounsAuction';
+import useOnDisplayAuction from '../../wrappers/onDisplayAuction';
 
 const NavBar = () => {
+  const onDisplayAuction = useOnDisplayAuction();
   const activeAccount = useAppSelector(state => state.account.activeAccount);
   // const lastNounId = useAppSelector(state => state.onDisplayAuction.lastAuctionNounId);
   // const auction = useAuction(config.auctionProxyAddress);
@@ -29,7 +32,7 @@ const NavBar = () => {
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [showClaimTokensModal, setShowClaimTokensModal] = useState(false);
   // const [showPlaceBidModal, setShowPlaceBidModal] = useState(false);
-  // const [showSettleAuctionModal, setShowSettleAuctionModal] = useState(false);
+  const [showSettleAuctionModal, setShowSettleAuctionModal] = useState(false);
   // const [auctionEnded, setAuctionEnded] = useState(false);
   // const [auctionTimer, setAuctionTimer] = useState(false);
 
@@ -67,12 +70,12 @@ const NavBar = () => {
   // };
 
   // Settle Auction Modal
-  // const showSettleAuctionModalHandler = () => {
-  //   setShowSettleAuctionModal(true);
-  // };
-  // const hideSettleAuctionHandler = () => {
-  //   setShowSettleAuctionModal(false);
-  // };
+  const showSettleAuctionModalHandler = () => {
+    setShowSettleAuctionModal(true);
+  };
+  const hideSettleAuctionHandler = () => {
+    setShowSettleAuctionModal(false);
+  };
 
   // // timer logic
   // useEffect(() => {
@@ -142,9 +145,12 @@ const NavBar = () => {
           activeAccount={activeAccount}
         />
       )}
-      {/* {showSettleAuctionModal && auction && (
-        <SettleAuctionModal hideSettleAuctionHandler={hideSettleAuctionHandler} auction={auction} />
-      )} */}
+      {showSettleAuctionModal && onDisplayAuction && (
+        <SettleAuctionModal
+          hideSettleAuctionHandler={hideSettleAuctionHandler}
+          auction={onDisplayAuction}
+        />
+      )}
       {/* {auction &&
         lastNounId &&
         auction?.nounId?.eq(lastNounId) &&
@@ -187,9 +193,12 @@ const NavBar = () => {
             {/* <Nav.Item className={classes.menuItem} onClick={() => showPlaceBidModalHandler()}>
               Place Bid
             </Nav.Item> */}
-            {/* <Nav.Item className={classes.menuItem} onClick={() => showSettleAuctionModalHandler()}>
-              Settle Auction
-            </Nav.Item> */}
+            <Nav.Link
+              className={classes.nounsNavLink}
+              onClick={() => showSettleAuctionModalHandler()}
+            >
+              SETTLE AUCTION
+            </Nav.Link>
 
             {activeAccount ? connectedContent : disconnectedContent}
             {/* <PartyInvite /> */}
