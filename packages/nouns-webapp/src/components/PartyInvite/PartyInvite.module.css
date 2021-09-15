@@ -11,7 +11,7 @@
 }
 
 .partyInviteButtonText {
-  background: -webkit-linear-gradient(90.72deg, #00ffa3 -33.78%, #57cdff 35.54%, #f68eff 118.48%);
+  background: -webkit-linear-gradient(10deg, #00ffa3 -22%, #57cdff 45%, #f68eff 100%);
   -webkit-background-clip: text;
   font-family: 'Londrina Solid';
   -webkit-text-fill-color: transparent;

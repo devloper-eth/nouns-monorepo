@@ -1,5 +1,5 @@
 .partyVaultWrapper {
-  margin: 10px 25px 10px 25px
+  margin: 20px 25px 10px 25px
 }
 .ethNeededText {
   font-size: 18px;
@@ -16,12 +16,12 @@
 
 .partyVaultText {
   font-size: 22px;
-  font-weight: 600;
+  font-weight: bold;
   margin-bottom: 10px;
 }
 
 .ethXiFont {
-  background: -webkit-linear-gradient(10deg, #00ffa3 0%, #57cdff 52%, #f68eff 91%);
+  background: -webkit-linear-gradient(10deg, #00ffa3 -22%, #57cdff 45%, #f68eff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
@@ -38,6 +38,6 @@
 }
 
 .blurProgressBar {
-  filter: blur(3px);
+  filter: blur(6px);
   z-index: -2;
 }
