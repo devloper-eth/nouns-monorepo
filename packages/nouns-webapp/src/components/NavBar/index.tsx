@@ -17,6 +17,9 @@ import ClaimTokensModal from '../ClaimTokensModal';
 import SettleAuctionModal from '../SettleAuction';
 // import { Auction as IAuction } from '../../wrappers/nounsAuction';
 import useOnDisplayAuction from '../../wrappers/onDisplayAuction';
+import {
+  useNounsPartyPendingSettledCount,
+} from '../../wrappers/nounsParty';
 
 const NavBar = () => {
   const onDisplayAuction = useOnDisplayAuction();
@@ -131,6 +134,8 @@ const NavBar = () => {
     </>
   );
 
+  const pendingSettledCount = useNounsPartyPendingSettledCount();
+
   return (
     <>
       {showConnectModal && activeAccount === undefined && (
@@ -193,12 +198,15 @@ const NavBar = () => {
             {/* <Nav.Item className={classes.menuItem} onClick={() => showPlaceBidModalHandler()}>
               Place Bid
             </Nav.Item> */}
-            <Nav.Link
-              className={classes.nounsNavLink}
-              onClick={() => showSettleAuctionModalHandler()}
-            >
-              SETTLE AUCTION
-            </Nav.Link>
+
+            {pendingSettledCount.gt(0) && (
+              <Nav.Link
+                className={classes.nounsNavLink}
+                onClick={() => showSettleAuctionModalHandler()}
+              >
+                SETTLE AUCTION
+              </Nav.Link>
+            )}
 
             {activeAccount ? connectedContent : disconnectedContent}
             {/* <PartyInvite /> */}
