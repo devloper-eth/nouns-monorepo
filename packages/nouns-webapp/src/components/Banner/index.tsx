@@ -23,7 +23,7 @@ const Banner = () => {
                   <span>1</span>
                   <p>
                     Add funds to the nouns party vault to join in with the auction. You can add as
-                    little as .01 eth to get the party started.
+                    little as 0.1 ETH to get the party started.
                   </p>
                 </div>
               </Row>
