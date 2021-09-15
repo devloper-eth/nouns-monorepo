@@ -6,6 +6,7 @@ import {
   nounsPartyContractFactory,
   NounsPartyContractFunction,
   useNounsPartyPendingSettledCount,
+  useNounsPartySettleNext,
 } from '../../wrappers/nounsParty';
 import config from '../../config';
 import classes from './SettleAuction.module.css';
@@ -79,11 +80,13 @@ const SettleAuction: React.FC<{ auction: Auction; hideSettleAuctionHandler: () =
       }
     }, [settleState, activeAccount, setModal, hideSettleAuctionHandler]);
 
+    const settleNext = useNounsPartySettleNext();
+
     const settleContent = pendingSettledCount.gt(0) ? (
       <>
         <Row className="justify-content-center">
           <Col>
-            <p className={classes.confirmText}>Are you ready to settle the auction?</p>
+            <p className={classes.confirmText}>Are you ready to settle the auction for Noun {settleNext.toNumber()}?</p>
           </Col>
         </Row>
 
