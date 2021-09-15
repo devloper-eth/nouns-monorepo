@@ -13,6 +13,7 @@ import {
   setPrevOnDisplayAuctionNounId,
 } from '../../state/slices/onDisplayAuction';
 import { useEffect, useRef, useState } from 'react';
+// import UpdatedConfetti from '../UpdatedConfetti';
 import Confetti from 'react-confetti';
 import { BigNumber } from '@ethersproject/bignumber';
 import { isNounderNoun } from '../../utils/nounderNoun';
@@ -67,6 +68,7 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
       />
     );
 
+    // set confetti container size
     useEffect(() => {
       if (confettiContainerRef.current) {
         let parentHeight = confettiContainerRef.current.offsetHeight;
@@ -76,6 +78,22 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
         setConfettiSize({ height: parentHeight + 110, width: parentWidth });
       }
     }, [confettiContainerRef]);
+
+    // resize confetti container on window resize
+    useEffect(() => {
+      function handleResize() {
+        if (confettiContainerRef.current) {
+          let parentHeight = confettiContainerRef.current.offsetHeight;
+          let parentWidth = confettiContainerRef.current.offsetWidth;
+
+          setConfettiSize({ height: parentHeight + 110, width: parentWidth });
+        }
+      }
+      window.addEventListener('resize', handleResize);
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
 
     const confettiColors = [
       '#2B83F6',
@@ -90,13 +108,26 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
     return (
       <Container ref={confettiContainerRef} fluid>
         <Container fluid="lg" className={classes.pageContentWrapper}>
+          {/* <UpdatedConfetti width={confettiSize.width} height={confettiSize.height} /> */}
           <Confetti
             width={confettiSize.width}
             height={confettiSize.height}
-            numberOfPieces={100}
+            numberOfPieces={150}
             gravity={0.02}
             colors={confettiColors}
             recycle={true}
+            drawShape={ctx => {
+              // ctx.beginPath();
+              // ctx.fillRect(
+              //   Math.random() * 6 + 3,
+              //   Math.random() * 7.5 + 3,
+              //   Math.random(),
+              //   Math.random(),
+              // );
+              // ctx.restore();
+              // ctx.closePath();
+              ctx.fillRect(0, 0, Math.random() + 5, Math.random() + 10);
+            }}
           />
           <Row>
             <Col lg={{ span: 6 }} className={`align-self-end ${classes.noPaddingMargin}`}>
@@ -111,7 +142,6 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
       </Container>
     );
   };
-
 export default Auction;
 
 const checkIfNounBurned = (auction: IAuction) => {

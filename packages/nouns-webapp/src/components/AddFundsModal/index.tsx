@@ -140,7 +140,9 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
       <>
         <Row>
           <Col>
-            <p className={classes.minimumDeposit}><strong>Minimum amount: 0.1 ETH</strong></p>
+            <p className={classes.minimumDeposit}>
+              <strong>Minimum amount: 0.1 ETH</strong>
+            </p>
           </Col>
         </Row>
         <Row>
@@ -174,10 +176,7 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
         <Row>
           <Col>
             {' '}
-            <Button
-              className={classes.addFundsButton}
-              onClick={placeBidHandler}
-            >
+            <Button className={classes.addFundsButton} onClick={placeBidHandler}>
               {depositButtonContent.loading ? <Spinner animation="border" size="sm" /> : null}
               &nbsp; {depositButtonContent.content}
             </Button>

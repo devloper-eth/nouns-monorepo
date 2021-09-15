@@ -168,7 +168,7 @@ const NavBar = () => {
             hidePlaceBidModalHandler={hidePlaceBidModalHandler}
           />
         )} */}
-      <Navbar expand="lg">
+      <Navbar expand="lg" className={classes.navBarContainer}>
         <Container>
           <Navbar.Brand as={Link} to="/" className={classes.navBarBrand}>
             <img
