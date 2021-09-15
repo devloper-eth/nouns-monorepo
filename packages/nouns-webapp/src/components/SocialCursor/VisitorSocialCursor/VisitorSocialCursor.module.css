@@ -34,6 +34,7 @@
   left: -18px;
   top: -18px;
   margin-right: -6px;
+  background: linear-gradient(90.72deg, #00ffa3 -33.78%, #57cdff 35.54%, #f68eff 118.48%);
 }
 
 .triangle:before,
