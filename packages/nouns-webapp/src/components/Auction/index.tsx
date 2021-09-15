@@ -13,7 +13,7 @@ import {
   setPrevOnDisplayAuctionNounId,
 } from '../../state/slices/onDisplayAuction';
 import { useEffect, useRef, useState } from 'react';
-import UpdatedConfetti from '../UpdatedConfetti';
+// import UpdatedConfetti from '../UpdatedConfetti';
 import Confetti from 'react-confetti';
 /* OLD IMPORTS - FLAGGED FOR DELETION */
 // import {
