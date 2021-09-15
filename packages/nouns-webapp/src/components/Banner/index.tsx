@@ -31,7 +31,7 @@ const Banner = () => {
                 <div className={clsx(classes.instructionText)}>
                   <span>2</span>
                   <p>
-                    The nouns party vault will be used to bid on the daily {nounsLink}
+                    The nouns party vault will be used to bid on the daily&nbsp;{nounsLink}&nbsp;
                     auction. If the community collects enough ethereum to outbid the largest bidder,
                     they will win a noun!
                   </p>
