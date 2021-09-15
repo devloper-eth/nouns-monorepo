@@ -120,17 +120,11 @@ const ClaimTokensModal: React.FC<{
         </>
       ) : (
         <>
-          <p className={classes.confirmText}>
-            Every noun won by the party is fractionalized into ERC20 tokens by{' '}
-            <a href="https://fractional.art" target="_blank" rel="noreferrer">
-              fractional.art
-            </a>
-            . You will receive tokens proportional to the amount of your ETH used in the winning
-            bid.
+          <p className={classes.infoText}>
+            Every noun won by the party is fractionalized into ERC20 tokens by <a href="https://fractional.art" target="_blank" rel="noreferrer">fractional.art</a>.
+            You will receive tokens proportional to the amount of your ETH used in the winning bid.
           </p>
-          <p className={classes.confirmText}>
-            You have no tokens to claim. Please come back later.
-          </p>
+          <p className={classes.infoText}>You have no tokens to claim. Please come back later.</p>
         </>
       )}
     </>
