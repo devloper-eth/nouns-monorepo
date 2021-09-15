@@ -5,7 +5,7 @@ import WalletConnectModal from '../WalletConnectModal';
 import AddFundsModal from '../AddFundsModal';
 import { Col, Row } from 'react-bootstrap';
 import Bid from '../Bid';
-import SettleAuction from '../SettleAuction';
+// import SettleAuction from '../SettleAuction';
 import { Auction } from '../../wrappers/nounsAuction';
 /*  Currently unused packages FLAGGED FOR DELETION */
 // import { usePendingSettled } from '../../wrappers/nounsParty';
@@ -77,9 +77,7 @@ const ConnectWalletButton: React.FC<{
   const connectedContent = (
     <>
       {auctionEnded ? (
-        <>
-          <SettleAuction auction={currentAuction} />
-        </>
+        <>{/* <SettleAuction auction={currentAuction} /> */}</>
       ) : (
         <Row>
           <Col>
