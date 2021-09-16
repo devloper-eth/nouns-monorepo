@@ -18,6 +18,7 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
       loading: false,
       content: 'Add funds to vault',
     });
+    const [minimumBidErrorMessage, setMinimumBidErrorMessage] = useState(false);
 
     const { library } = useEthers();
     const nounsPartyContract = nounsPartyContractFactory(config.nounsPartyAddress);
@@ -44,12 +45,14 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
     );
 
     const placeBidHandler = async () => {
+      setMinimumBidErrorMessage(false);
       if (!bidInputRef.current || !bidInputRef.current.value) {
         return;
       }
 
       // minimum deposit .1 eth
       if (Number(bidInputRef.current.value) < 0.1) {
+        setMinimumBidErrorMessage(true);
         return;
       }
 
@@ -140,7 +143,17 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
       <>
         <Row>
           <Col>
-            <p className={classes.minimumDeposit}><strong>Minimum amount: 0.1 ETH</strong></p>
+            <p
+              className={
+                minimumBidErrorMessage ? classes.minimumDepositErrorMessage : classes.minimumDeposit
+              }
+            >
+              <strong>
+                {minimumBidErrorMessage
+                  ? `Please enter a minimum deposit of at least 0.1 ETH`
+                  : `Minimum amount: 0.1 ETH`}
+              </strong>
+            </p>
           </Col>
         </Row>
         <Row>
@@ -174,10 +187,7 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
         <Row>
           <Col>
             {' '}
-            <Button
-              className={classes.addFundsButton}
-              onClick={placeBidHandler}
-            >
+            <Button className={classes.addFundsButton} onClick={placeBidHandler}>
               {depositButtonContent.loading ? <Spinner animation="border" size="sm" /> : null}
               &nbsp; {depositButtonContent.content}
             </Button>
