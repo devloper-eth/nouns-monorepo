@@ -39,7 +39,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
 
-  // timer logic
+  // timer logic - check auction every 30 seconds, until final minute, then every second
   useEffect(() => {
     if (!auction) return;
 
@@ -49,9 +49,12 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
       setAuctionEnded(true);
     } else {
       setAuctionEnded(false);
-      const timer = setTimeout(() => {
-        setAuctionTimer(!auctionTimer);
-      }, 1000);
+      const timer = setTimeout(
+        () => {
+          setAuctionTimer(!auctionTimer);
+        },
+        timeLeft > 60 ? 30000 : 1000,
+      );
 
       return () => {
         clearTimeout(timer);
