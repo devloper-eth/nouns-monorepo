@@ -14,6 +14,8 @@ import {
 } from '../../state/slices/onDisplayAuction';
 import { useEffect, useRef, useState } from 'react';
 import Confetti from 'react-confetti';
+import { BigNumber } from '@ethersproject/bignumber';
+import { isNounderNoun } from '../../utils/nounderNoun';
 
 const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) => void }> =
   props => {
@@ -37,7 +39,12 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
       history.push(`/noun/${currentAuction.nounId.toNumber() + 1}`);
     };
 
-    const nounContent = (
+    // avoid unnecessary 'useNounToken' calls and the dreaded by checking if noun was burned
+    const nounContent = checkIfNounBurned(currentAuction) ? (
+      <div className={classes.nounWrapper}>
+        <LoadingNoun />
+      </div>
+    ) : (
       <div className={classes.nounWrapper}>
         <StandaloneNounWithSeed nounId={currentAuction.nounId} onLoadSeed={loadedNounHandler} />
       </div>
@@ -106,3 +113,23 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
   };
 
 export default Auction;
+
+const checkIfNounBurned = (auction: IAuction) => {
+  if (!auction) return true;
+
+  const timeLeft = Number(auction.endTime) - Math.floor(Date.now() / 1000);
+
+  // if nounders noun, noun was not burned, so render normally
+  if (isNounderNoun(BigNumber.from(auction.nounId))) return false;
+
+  if (
+    !auction ||
+    !auction.nounId ||
+    (!auction.bidder && timeLeft <= 0) ||
+    (auction.bidder && auction.bidder === '0x0000000000000000000000000000000000000000')
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+};
