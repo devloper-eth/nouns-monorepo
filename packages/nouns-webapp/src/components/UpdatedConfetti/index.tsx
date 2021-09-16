@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 import classes from './UpdatedConfetti.module.css';
 
-const UpdatedConfetti: React.FC<{ height: number; width: number }> = props => {
+const UpdatedConfetti: React.FC<{ height: number; width: number }> = memo(props => {
   const { height, width } = props;
   let canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -36,7 +36,9 @@ const UpdatedConfetti: React.FC<{ height: number; width: number }> = props => {
     currentTime = time;
 
     if (time - startTime > 1500) {
-      items[++index % 600] = particle(Math.random() * width, -20, index, 10);
+      if (time % 3 === 0) {
+        items[++index % 600] = particle(Math.random() * width, -20, index, 10);
+      }
     }
 
     items.forEach(function (item) {
@@ -79,17 +81,17 @@ const UpdatedConfetti: React.FC<{ height: number; width: number }> = props => {
       y: y,
       vx: vx,
       vy: vy,
-      width: Math.random() * 6 + 3,
-      height: Math.random() * 7.5 + 3,
+      width: Math.random() * 6 + 5,
+      height: Math.random() * 7.5 + 5,
       color: colors[i % colors.length],
       // circle: Math.random() > 0.8,
       rotate: Math.random() * 180,
       direction: Math.random() * 5 - 2.5,
-      fallSpeed: Math.random() / 10 + 0.033,
+      fallSpeed: Math.random() / 10 + 0.05,
     };
   }
 
   return <canvas className={classes.confettiContainer} ref={canvasRef} id="confetti" />;
-};
+});
 
 export default UpdatedConfetti;
