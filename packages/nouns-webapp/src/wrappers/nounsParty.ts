@@ -76,6 +76,19 @@ export const useNounsPartyPendingSettledCount = () => {
 	return count[0];
 }
 
+export const useNounsPartySettleNext = () => {
+	const settleNext = useContractCall<[EthersBN]>({
+		abi,
+		address: config.nounsPartyAddress,
+		method: "settleNext",
+		args: [],
+	})
+	if (!settleNext) {
+		return EthersBN.from(0)
+	};
+	return settleNext[0];
+}
+
 export const useNounsPartyAuctionIsHot = () => {
 	const hot = useContractCall<[Boolean]>({
 		abi,
@@ -103,7 +116,7 @@ export const useNounsPartyMaxBid = () => {
 }
 
 export const useNounsPartyClaimsCount = (address: string | null | undefined) => {
-	const count  = useContractCall({
+	const count = useContractCall({
 		abi,
 		address: config.nounsPartyAddress,
 		method: "claimsCount",
@@ -140,7 +153,7 @@ export const useFracTokenVaults = (nounId: EthersBN) => {
 		return "";
 	}
 
-	if(vault[0] === "0x0000000000000000000000000000000000000000") {
+	if (vault[0] === "0x0000000000000000000000000000000000000000") {
 		return "";
 	}
 

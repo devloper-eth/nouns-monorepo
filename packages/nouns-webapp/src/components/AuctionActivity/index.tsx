@@ -10,13 +10,12 @@ import PartyVault from '../PartyVault';
 import PartyButtons from '../PartyButtons';
 import PartyGuestList from '../PartyGuestList';
 import AuctionNavigation from '../AuctionNavigation';
-import SettleAuction from '../SettleAuction';
+// import SettleAuction from '../SettleAuction';
 import stampLogo from '../../assets/nouns_stamp.svg';
 import AuctionActivityDateHeadline from '../AuctionActivityDateHeadline';
 import AuctionStatus from '../AuctionStatus';
 import { useFracTokenVaults } from '../../wrappers/nounsParty';
 import { isNounderNoun } from '../../utils/nounderNoun';
-
 
 interface AuctionActivityProps {
   auction: Auction;
@@ -34,7 +33,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
     isLastAuction,
     onPrevAuctionClick,
     onNextAuctionClick,
-    displayGraphDepComps
+    displayGraphDepComps,
   } = props;
 
   const [auctionEnded, setAuctionEnded] = useState(false);
@@ -87,7 +86,9 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
               <Col lg={6}>
                 <Row>
                   <Col>
-                    <p className={`${classes.noMarginPadding} ${classes.bidText}`}>{`Winning bid`}</p>
+                    <p
+                      className={`${classes.noMarginPadding} ${classes.bidText}`}
+                    >{`Winning bid`}</p>
                   </Col>
                 </Row>
                 <Row>
@@ -97,7 +98,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
                 </Row>
               </Col>
               <Col lg={6}>
-                <Winner winner={"nounders.eth"} auction={auction} />
+                <Winner winner={'nounders.eth'} auction={auction} />
               </Col>
             </Row>
           )}
@@ -105,7 +106,10 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
           {!isNounderNoun(auction.nounId) && (
             <Row className={classes.auctionActivityContainer}>
               <Col lg={6}>
-                <CurrentBid currentBid={new BigNumber(auction.amount.toString())} auctionEnded={auctionEnded}/>
+                <CurrentBid
+                  currentBid={new BigNumber(auction.amount.toString())}
+                  auctionEnded={auctionEnded}
+                />
               </Col>
               <Col lg={6}>
                 {auctionEnded ? (
@@ -117,17 +121,15 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
             </Row>
           )}
 
-          {!isLastAuction && (
-            <AuctionStatus auction={auction} />
-          )}
+          {!isLastAuction && <AuctionStatus auction={auction} />}
 
-          {!isLastAuction && auction && auction.nounId && (
+          {/* {!isLastAuction && auction && auction.nounId && (
             <Row className={classes.buttonsWrapper}>
               <Col>
                 <SettleAuction auction={auction} />
               </Col>
             </Row>
-          )}
+          )} */}
 
           {fracVault && (
             <>
@@ -136,11 +138,13 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
                   <button
                     className={classes.fracVaultButton}
                     type="button"
-                    onClick={(e) => {
+                    onClick={e => {
                       e.preventDefault();
-                      window.open("https://fractional.art/vaults/" + fracVault, "_blank");
+                      window.open('https://fractional.art/vaults/' + fracVault, '_blank');
                     }}
-                  >Go to token vault</button>
+                  >
+                    Go to token vault
+                  </button>
                 </Col>
               </Row>
             </>

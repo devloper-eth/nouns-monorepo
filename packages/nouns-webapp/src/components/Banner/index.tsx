@@ -23,7 +23,7 @@ const Banner = () => {
                   <span>1</span>
                   <p>
                     Add funds to the nouns party vault to join in with the auction. You can add as
-                    little as .01 eth to get the party started.
+                    little as 0.1 ETH to get the party started.
                   </p>
                 </div>
               </Row>
@@ -31,9 +31,9 @@ const Banner = () => {
                 <div className={clsx(classes.instructionText)}>
                   <span>2</span>
                   <p>
-                    The nouns party vault will be used to bid on the daily {nounsLink}
-                    {` `}auction. If the community collects enough ethereum to outbid the largest
-                    bidder, they will win a noun!
+                    The nouns party vault will be used to bid on the daily&nbsp;{nounsLink}&nbsp;
+                    auction. If the community collects enough ethereum to outbid the largest bidder,
+                    they will win a noun!
                   </p>
                 </div>
               </Row>

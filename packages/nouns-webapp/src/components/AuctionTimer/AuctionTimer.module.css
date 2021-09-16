@@ -2,7 +2,9 @@
   display: flex;
   text-align: center;
   margin: 0px !important;
-  font-size: 36px;
+  font-size: 40px;
+  font-weight: 500;
+  color: #212529;
 }
 
 .timerSection {
@@ -15,6 +17,6 @@
 }
 
 .timerText {
-  font-weight: 500;
+  font-weight: bold;
   font-size: 16px;
 }

@@ -44,7 +44,7 @@
 }
 .nounsNavLink:hover {
   cursor: pointer;
-  background: -webkit-linear-gradient(10deg, #00ffa3 20.78%, #57cdff 40.54%, #f68eff 68%);
+  background: -webkit-linear-gradient(10deg, #00ffa3 -22%, #57cdff 45%, #f68eff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -72,7 +72,7 @@
   cursor: pointer;
   margin-right: 10px;
   margin-left: 10px;
-  background: -webkit-linear-gradient(90.72deg, #00ffa3 -33.78%, #57cdff 35.54%, #f68eff 118.48%);
+  background: -webkit-linear-gradient(10deg, #00ffa3 -22%, #57cdff 45%, #f68eff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -84,7 +84,7 @@
   cursor: pointer;
   cursor: pointer;
 
-  background: -webkit-linear-gradient(90.72deg, #00ffa3 -33.78%, #57cdff 35.54%, #f68eff 118.48%);
+  background: -webkit-linear-gradient(10deg, #00ffa3 -22%, #57cdff 45%, #f68eff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

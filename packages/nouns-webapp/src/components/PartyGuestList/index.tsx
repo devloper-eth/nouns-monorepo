@@ -21,7 +21,7 @@ const PartyGuestList = () => {
           className={classes.noPaddingMargin}
         >
           <p className={`${classes.partyMembersHeadingText} ${classes.noPaddingMargin}`}>
-            Party Members ({deposits && deposits.length})
+            Party Members
           </p>
         </Col>
         {/* <PartyInvite /> */}
