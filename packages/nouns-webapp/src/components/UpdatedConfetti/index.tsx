@@ -13,12 +13,15 @@ const UpdatedConfetti: React.FC<{ height: number; width: number }> = memo(props 
 
   let index = 0;
 
+  let timer: number;
+
   useEffect(() => {
     if (canvasRef.current) {
       canvasRef.current.width = width;
       canvasRef.current.height = height;
       const ctx = canvasRef.current.getContext('2d');
       if (ctx) {
+        cancelAnimationFrame(timer);
         render(ctx);
       }
     }
@@ -67,7 +70,7 @@ const UpdatedConfetti: React.FC<{ height: number; width: number }> = memo(props 
       }
     });
 
-    window.requestAnimationFrame(() => render(ctx));
+    timer = window.requestAnimationFrame(() => render(ctx));
   }
 
   function particle(x: number, y: number, i: number, minv: number) {
