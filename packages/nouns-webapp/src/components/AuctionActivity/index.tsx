@@ -42,7 +42,6 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
 
-  // timer logic - once less than 60 seconds left, trigger every second
   useEffect(() => {
     if (!auction) return;
 
