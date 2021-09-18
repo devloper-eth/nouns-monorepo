@@ -17,9 +17,7 @@ import ClaimTokensModal from '../ClaimTokensModal';
 import SettleAuctionModal from '../SettleAuction';
 // import { Auction as IAuction } from '../../wrappers/nounsAuction';
 import useOnDisplayAuction from '../../wrappers/onDisplayAuction';
-import {
-  useNounsPartyPendingSettledCount,
-} from '../../wrappers/nounsParty';
+import { useNounsPartyPendingSettledCount } from '../../wrappers/nounsParty';
 
 const NavBar = () => {
   const onDisplayAuction = useOnDisplayAuction();
@@ -105,7 +103,9 @@ const NavBar = () => {
       <Nav.Item>
         <Nav.Link className={classes.nounsNavLink} disabled>
           <span className={classes.greenStatusCircle} />
-          <span>{activeAccount && <ShortAddress address={activeAccount} />}</span>
+          <span className={classes.nounsNavLink}>
+            {activeAccount && <ShortAddress address={activeAccount} />}
+          </span>
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
@@ -168,7 +168,7 @@ const NavBar = () => {
             hidePlaceBidModalHandler={hidePlaceBidModalHandler}
           />
         )} */}
-      <Navbar expand="lg">
+      <Navbar expand="lg" className={classes.navBarContainer}>
         <Container>
           <Navbar.Brand as={Link} to="/" className={classes.navBarBrand}>
             <img

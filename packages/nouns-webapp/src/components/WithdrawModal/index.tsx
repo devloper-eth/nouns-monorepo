@@ -8,7 +8,7 @@ import {
   useNounsPartyAuctionIsHot,
   useNounsPartyDeposits,
   useNounsPartyPendingSettledCount,
-  Deposit
+  Deposit,
 } from '../../wrappers/nounsParty';
 import config from '../../config';
 import Modal from '../Modal';
@@ -124,9 +124,12 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
       <Row className={`justify-content-center ${classes.withdrawTextRow}`}>
         <Col>
           <p>
-            Withdrawals are currently disabled,<br/>because
-            {` ${auctionIsHot ? `the auction is about to end or just ended. ` : ''
-              } ${pendingSettledCount.gt(0) ? `some auctions still need to be settled.` : ''}`}
+            Withdrawals are currently disabled,
+            <br />
+            because
+            {` ${auctionIsHot ? `the auction is about to end or just ended. ` : ''} ${
+              pendingSettledCount.gt(0) ? `some auctions still need to be settled.` : ''
+            }`}
           </p>
         </Col>
       </Row>
@@ -142,28 +145,24 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
       return account && getAddress(account) === getAddress(curr.owner)
         ? prev.add(curr.amount)
         : prev;
-    }, BigNumber.from(0))
+    }, BigNumber.from(0));
   };
 
   const withdrawNoFundsContent = (
     <>
       <Row className={`justify-content-center ${classes.withdrawTextRow}`}>
         <Col>
-          <p className={classes.confirmText}>
-            You have no funds to withdraw.
-          </p>
+          <p className={classes.confirmText}>You have no funds to withdraw.</p>
         </Col>
       </Row>
     </>
-  )
+  );
 
   const withdrawFormContent = (
     <>
       <Row className={`justify-content-center ${classes.withdrawTextRow}`}>
         <Col>
-          <p className={classes.confirmText}>
-            Are you sure you want to withdraw all your funds?
-          </p>
+          <p className={classes.confirmText}>Are you sure you want to withdraw all your funds?</p>
           <p>
             You will withdraw <strong>{formatEther(withdrawAmount(deposits))}&nbsp;ETH</strong>.
           </p>
@@ -179,7 +178,13 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
   );
 
   const withdrawContent = (
-    <>{auctionIsHot || pendingSettledCount.gt(0) ? withdrawDisabledContent : withdrawAmount(deposits).gt(0) ? withdrawFormContent : withdrawNoFundsContent}</>
+    <>
+      {auctionIsHot || pendingSettledCount.gt(0)
+        ? withdrawDisabledContent
+        : withdrawAmount(deposits).gt(0)
+        ? withdrawFormContent
+        : withdrawNoFundsContent}
+    </>
   );
 
   return (

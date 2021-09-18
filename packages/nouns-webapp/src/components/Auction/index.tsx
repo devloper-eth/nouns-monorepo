@@ -13,7 +13,7 @@ import {
   setPrevOnDisplayAuctionNounId,
 } from '../../state/slices/onDisplayAuction';
 import { useEffect, useRef, useState } from 'react';
-import Confetti from 'react-confetti';
+import UpdatedConfetti from '../UpdatedConfetti';
 import { BigNumber } from '@ethersproject/bignumber';
 import { isNounderNoun } from '../../utils/nounderNoun';
 
@@ -67,6 +67,7 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
       />
     );
 
+    // set confetti container size
     useEffect(() => {
       if (confettiContainerRef.current) {
         let parentHeight = confettiContainerRef.current.offsetHeight;
@@ -77,27 +78,26 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
       }
     }, [confettiContainerRef]);
 
-    const confettiColors = [
-      '#2B83F6',
-      '#4BEA69',
-      '#5648ED',
-      '#F3322C',
-      '#F68EFF',
-      '#FF638D',
-      '#FFF449',
-    ];
+    // resize confetti container on window resize
+    useEffect(() => {
+      function handleResize() {
+        if (confettiContainerRef.current) {
+          let parentHeight = confettiContainerRef.current.offsetHeight;
+          let parentWidth = confettiContainerRef.current.offsetWidth;
+
+          setConfettiSize({ height: parentHeight + 110, width: parentWidth });
+        }
+      }
+      window.addEventListener('resize', handleResize);
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
 
     return (
       <Container ref={confettiContainerRef} fluid>
         <Container fluid="lg" className={classes.pageContentWrapper}>
-          <Confetti
-            width={confettiSize.width}
-            height={confettiSize.height}
-            numberOfPieces={100}
-            gravity={0.02}
-            colors={confettiColors}
-            recycle={true}
-          />
+          <UpdatedConfetti width={confettiSize.width} height={confettiSize.height} />
           <Row>
             <Col lg={{ span: 6 }} className={`align-self-end ${classes.noPaddingMargin}`}>
               {currentAuction ? nounContent : loadingNoun}
@@ -111,13 +111,12 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
       </Container>
     );
   };
-
 export default Auction;
 
 const checkIfNounBurned = (auction: IAuction) => {
   if (!auction) return true;
 
-  const timeLeft = Number(auction.endTime) - Math.floor(Date.now() / 1000);
+  const auctionEnded = Number(auction.endTime) - Math.floor(Date.now() / 1000) <= 0;
 
   // if nounders noun, noun was not burned, so render normally
   if (isNounderNoun(BigNumber.from(auction.nounId))) return false;
@@ -125,8 +124,10 @@ const checkIfNounBurned = (auction: IAuction) => {
   if (
     !auction ||
     !auction.nounId ||
-    (!auction.bidder && timeLeft <= 0) ||
-    (auction.bidder && auction.bidder === '0x0000000000000000000000000000000000000000')
+    (!auction.bidder && auctionEnded) ||
+    (auction.bidder &&
+      auction.bidder === '0x0000000000000000000000000000000000000000' &&
+      auctionEnded)
   ) {
     return true;
   } else {

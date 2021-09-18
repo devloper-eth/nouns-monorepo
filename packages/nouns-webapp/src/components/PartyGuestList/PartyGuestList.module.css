@@ -67,6 +67,9 @@
   /* padding: 0.5rem; */
   /* border-bottom: 1px solid rgba(211, 211, 211, 0.322); */
   border-radius: 4px;
+  background-color: #eeeff2;
+  padding: 8px 4px 8px 4px;
+  border-radius: 50px;
 }
 
 .bidItem {
@@ -127,4 +130,20 @@
 }
 .linkSymbol a:hover {
   color: gray;
+}
+
+@media (max-width: 992px) {
+  .bidAmount {
+    color: var(--brand-black);
+    margin-right: 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .bidder {
+    color: var(--brand-black);
+    display: flex;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
 }

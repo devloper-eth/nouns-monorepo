@@ -1,6 +1,7 @@
 .nounWrapper {
   align-self: flex-end;
   width: 100%;
+  z-index: -1;
 }
 .nounContentCol {
   display: flex;
@@ -13,6 +14,7 @@
 .currentAuctionActivityContainer {
   margin-top: 10vh;
   text-align: left;
+  z-index: 2;
 }
 
 @media (max-width: 992px) {

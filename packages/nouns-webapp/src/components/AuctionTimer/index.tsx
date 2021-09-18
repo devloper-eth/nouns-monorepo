@@ -8,7 +8,7 @@ const AuctionTimer: React.FC<{
   auction: Auction;
   auctionEnded: boolean;
 }> = props => {
-  const { auction, auctionEnded } = props;
+  const { auction } = props;
 
   const [auctionTimer, setAuctionTimer] = useState(0);
   const auctionTimerRef = useRef(auctionTimer); // to access within setTimeout
@@ -35,8 +35,6 @@ const AuctionTimer: React.FC<{
     }
   }, [auction, auctionTimer]);
 
-  const auctionContent = auctionEnded ? 'Auction Ended' : 'Auction Ends In';
-
   const flooredMinutes = Math.floor(timerDuration.minutes());
   const flooredSeconds = Math.floor(timerDuration.seconds());
 
@@ -46,26 +44,16 @@ const AuctionTimer: React.FC<{
     <>
       <Row>
         <Col>
-          <p className={`${classes.timerText} ${classes.noPaddingMargin}`}>{auctionContent}</p>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
+          <p className={classes.noPaddingMargin}>Time Remaining</p>
           <h3 className={`${classes.timerWrapper} ${classes.noPaddingMargin}`}>
             <div className={classes.timerSection}>
-              <span>
-                {`${Math.floor(timerDuration.hours())}`}h
-              </span>
+              <span>{`${Math.floor(timerDuration.hours())}`}h</span>
             </div>
             <div className={classes.timerSection}>
-              <span>
-                {`${flooredMinutes}`}m
-              </span>
+              <span>{`${flooredMinutes}`}m</span>
             </div>
             <div className={classes.timerSection}>
-              <span>
-                {`${flooredSeconds}`}s
-              </span>
+              <span>{`${flooredSeconds}`}s</span>
             </div>
           </h3>
         </Col>

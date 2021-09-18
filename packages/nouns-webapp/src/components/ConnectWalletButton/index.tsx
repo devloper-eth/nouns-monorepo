@@ -7,17 +7,6 @@ import { Col, Row } from 'react-bootstrap';
 import Bid from '../Bid';
 // import SettleAuction from '../SettleAuction';
 import { Auction } from '../../wrappers/nounsAuction';
-/*  Currently unused packages FLAGGED FOR DELETION */
-// import { usePendingSettled } from '../../wrappers/nounsParty';
-// import { useAuction } from '../../wrappers/nounsAuction';
-// import config from '../../config';
-// import logo from '../../assets/logo.svg';
-// import { useEtherBalance, useEthers } from '@usedapp/core';
-// import { Link } from 'react-router-dom';
-// import testnetNoun from '../../assets/testnet-noun.png';
-// import config, { CHAIN_ID } from '../../config';
-// import { utils } from 'ethers';
-// import { buildEtherscanAddressLink, Network } from '../../utils/buildEtherscanLink';
 
 const ConnectWalletButton: React.FC<{
   auction: Auction;
@@ -74,54 +63,6 @@ const ConnectWalletButton: React.FC<{
     }
   }, [auctionTimer, currentAuction]);
 
-  const connectedContent = (
-    <>
-      {auctionEnded ? (
-        <>{/* <SettleAuction auction={currentAuction} /> */}</>
-      ) : (
-        <Row>
-          <Col>
-            <button onClick={showFundsModalHandler} className={classes.connectWalletButton}>
-              Add funds
-            </button>
-          </Col>
-          <Col>
-            <button onClick={showPlaceBidModalHandler} className={classes.connectWalletButton}>
-              Submit bid
-            </button>
-          </Col>
-        </Row>
-      )}
-
-      {/* <Nav.Item>
-        <Nav.Link className={classes.nounsNavLink} disabled>
-          <span className={classes.greenStatusCircle} />
-          <span>{activeAccount && <ShortAddress address={activeAccount} />}</span>
-        </Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link
-          className={clsx(classes.nounsNavLink, classes.disconnectBtn)}
-          onClick={() => {
-            setShowConnectModal(false);
-            deactivate();
-            setShowConnectModal(false);
-          }}
-        >
-          DISCONNECT
-        </Nav.Link>
-      </Nav.Item> */}
-    </>
-  );
-
-  const disconnectedContent = (
-    <>
-      <button onClick={showModalHandler} className={classes.connectWalletButton}>
-        Connect Wallet
-      </button>
-    </>
-  );
-
   return (
     <>
       {showConnectModal && activeAccount === undefined && (
@@ -142,19 +83,29 @@ const ConnectWalletButton: React.FC<{
             hidePlaceBidModalHandler={hidePlaceBidModalHandler}
           />
         )}
-      {/* {auction &&
-        lastNounId &&
-        auction?.nounId?.eq(lastNounId) &&
-        showPlaceBidModal &&
-        activeAccount &&
-        !auctionEnded && (
-          <Bid
-            auction={auction}
-            auctionEnded={auctionEnded}
-            hidePlaceBidModalHandler={hidePlaceBidModalHandler}
-          />
-        )} */}
-      {activeAccount ? connectedContent : disconnectedContent}
+      {!auctionEnded && (
+        <>
+          <Row>
+            <Col>
+              <button
+                onClick={activeAccount ? showFundsModalHandler : showModalHandler}
+                className={classes.connectWalletButton}
+              >
+                Add funds
+              </button>
+            </Col>
+            <Col>
+              <button
+                disabled={!activeAccount}
+                onClick={showPlaceBidModalHandler}
+                className={classes.connectWalletButton}
+              >
+                Submit bid
+              </button>
+            </Col>
+          </Row>
+        </>
+      )}
     </>
   );
 };
