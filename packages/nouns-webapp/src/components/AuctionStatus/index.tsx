@@ -2,8 +2,10 @@ import { Auction } from '../../wrappers/nounsAuction';
 import classes from './AuctionStatus.module.css';
 import { useState, useEffect } from 'react';
 import config from '../../config';
-import { useNounsPartyDepositBalance, useNounsPartyMaxBid} from '../../wrappers/nounsParty';
+import { useNounsPartyMaxBid } from '../../wrappers/nounsParty';
 import { Col, Row } from 'react-bootstrap';
+import { BigNumber as EthersBN } from 'ethers';
+import { useEtherBalance } from '@usedapp/core';
 
 const AuctionStatus: React.FC<{
   auction: Auction;
@@ -36,7 +38,7 @@ const AuctionStatus: React.FC<{
 
   let statusText = '';
   let status = '';
-  let depositBalance = useNounsPartyDepositBalance();
+  let depositBalance = useEtherBalance(config.nounsPartyAddress) || EthersBN.from(0);
   let targetBidAmount = depositBalance.mul(105).div(100);
 
   if (currentAuction && !auctionEnded) {
@@ -47,7 +49,7 @@ const AuctionStatus: React.FC<{
     } else if (targetBidAmount.gt(currentAuction.amount)) {
       statusText = 'The vault has enough funds! Submit the bid!';
       status = 'success';
-    } else if (currentAuction.amount.lt(maxBid || 0 )) {
+    } else if (currentAuction.amount.lt(maxBid || 0)) {
       statusText = 'The vault requires more funds to bid.';
       status = 'fail';
     } else {
