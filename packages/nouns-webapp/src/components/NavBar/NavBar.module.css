@@ -41,6 +41,10 @@
   text-decoration: none !important;
   padding: 0.5rem 0.8rem !important;
   color: var(--brand-black) !important;
+  font-family: -apple-system, system-ui, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 .nounsNavLink:hover {
   cursor: pointer;

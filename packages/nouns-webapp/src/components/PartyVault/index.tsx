@@ -1,20 +1,15 @@
 import React from 'react';
-import { Col, ProgressBar, Row } from 'react-bootstrap';
 import { useNounsPartyDepositBalance } from '../../wrappers/nounsParty';
-import classes from './PartyVault.module.css';
-import { Auction as IAuction } from '../../wrappers/nounsAuction';
-import './progressbar.css';
-// import config from '../../config';
-
 import { utils } from 'ethers';
+import { Auction } from '../../wrappers/nounsAuction';
+import classes from './PartyVault.module.css';
+import { Col, Row } from 'react-bootstrap';
 
-const PartyVault: React.FC<{
-  auction: IAuction;
-}> = props => {
-  const { auction: currentAuction } = props;
-
+const PartyVault: React.FC<{ auction: Auction }> = props => {
+  const { auction } = props;
   const depositBalance = useNounsPartyDepositBalance();
-  const auctionBid = currentAuction?.amount;
+
+  const auctionBid = auction?.amount;
 
   let ratio = 50;
   if (depositBalance.eq(0)) {
@@ -24,7 +19,7 @@ const PartyVault: React.FC<{
   } else {
     let depositBalanceNumber = Number(utils.formatEther(depositBalance));
     let auctionBidNumber = Number(utils.formatEther(auctionBid));
-    ratio = depositBalanceNumber / auctionBidNumber * 100;
+    ratio = (depositBalanceNumber / auctionBidNumber) * 100;
     if (ratio > 100) {
       ratio = 100;
     }
@@ -33,26 +28,13 @@ const PartyVault: React.FC<{
   let roundedEth = Math.ceil(Number(utils.formatEther(depositBalance)) * 100) / 100;
 
   return (
-    <div className={classes.partyVaultWrapper}>
-      <Row>
-        <Col xs={12} lg={9}>
-          <p className={`${classes.partyVaultText}`}>
-            {`Nouns Party Vault `}
-            <span className={classes.ethXiFont}>{`Ξ${roundedEth}`}</span>
-          </p>
-        </Col>
-      </Row>
-      <Row>
-        <Col className={classes.progressBarContainer}>
-          <div className={`${classes.progressBar}`}>
-            <ProgressBar now={ratio} />
-          </div>
-          <div className={`${classes.progressBar} ${classes.blurProgressBar}`}>
-            <ProgressBar now={ratio} />
-          </div>
-        </Col>
-      </Row>
-    </div>
+    <>
+      <p className={`${classes.noMarginPadding} ${classes.vaultText}`}>Party Vault</p>
+      <h3 className={classes.addressText}>
+        <span className={classes.ethXiFont}>{`Ξ `}</span>
+        {`${roundedEth}`}
+      </h3>
+    </>
   );
 };
 

@@ -13,8 +13,7 @@ import {
   setPrevOnDisplayAuctionNounId,
 } from '../../state/slices/onDisplayAuction';
 import { useEffect, useRef, useState } from 'react';
-// import UpdatedConfetti from '../UpdatedConfetti';
-import Confetti from 'react-confetti';
+import UpdatedConfetti from '../UpdatedConfetti';
 import { BigNumber } from '@ethersproject/bignumber';
 import { isNounderNoun } from '../../utils/nounderNoun';
 
@@ -95,40 +94,10 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
       };
     }, []);
 
-    const confettiColors = [
-      '#2B83F6',
-      '#4BEA69',
-      '#5648ED',
-      '#F3322C',
-      '#F68EFF',
-      '#FF638D',
-      '#FFF449',
-    ];
-
     return (
       <Container ref={confettiContainerRef} fluid>
         <Container fluid="lg" className={classes.pageContentWrapper}>
-          {/* <UpdatedConfetti width={confettiSize.width} height={confettiSize.height} /> */}
-          <Confetti
-            width={confettiSize.width}
-            height={confettiSize.height}
-            numberOfPieces={150}
-            gravity={0.02}
-            colors={confettiColors}
-            recycle={true}
-            drawShape={ctx => {
-              // ctx.beginPath();
-              // ctx.fillRect(
-              //   Math.random() * 6 + 3,
-              //   Math.random() * 7.5 + 3,
-              //   Math.random(),
-              //   Math.random(),
-              // );
-              // ctx.restore();
-              // ctx.closePath();
-              ctx.fillRect(0, 0, Math.random() + 5, Math.random() + 10);
-            }}
-          />
+          <UpdatedConfetti width={confettiSize.width} height={confettiSize.height} />
           <Row>
             <Col lg={{ span: 6 }} className={`align-self-end ${classes.noPaddingMargin}`}>
               {currentAuction ? nounContent : loadingNoun}
@@ -147,7 +116,7 @@ export default Auction;
 const checkIfNounBurned = (auction: IAuction) => {
   if (!auction) return true;
 
-  const timeLeft = Number(auction.endTime) - Math.floor(Date.now() / 1000);
+  const auctionEnded = Number(auction.endTime) - Math.floor(Date.now() / 1000) <= 0;
 
   // if nounders noun, noun was not burned, so render normally
   if (isNounderNoun(BigNumber.from(auction.nounId))) return false;
@@ -155,8 +124,10 @@ const checkIfNounBurned = (auction: IAuction) => {
   if (
     !auction ||
     !auction.nounId ||
-    (!auction.bidder && timeLeft <= 0) ||
-    (auction.bidder && auction.bidder === '0x0000000000000000000000000000000000000000')
+    (!auction.bidder && auctionEnded) ||
+    (auction.bidder &&
+      auction.bidder === '0x0000000000000000000000000000000000000000' &&
+      auctionEnded)
   ) {
     return true;
   } else {

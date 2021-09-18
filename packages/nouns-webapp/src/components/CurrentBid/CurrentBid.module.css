@@ -4,12 +4,6 @@
   font-family: 'Londrina Solid';
 }
 
-/* Help prevent overflow */
-.ethAddressPadding {
-  padding-left: 1em;
-  padding-right: 0px;
-}
-
 .noMarginPadding {
   margin: 0px !important;
   padding: 0px !important;
@@ -26,6 +20,17 @@
 .bidText {
   font-weight: bold;
   font-size: 16px;
+  color: #5ec0fa;
+  margin: 0px !important;
+  padding: 0px !important;
+  text-align: center;
+}
+
+.winningText {
+  font-weight: bold;
+  font-size: 16px;
+  margin: 0px !important;
+  padding: 0px !important;
 }
 
 .winningAmount {
@@ -34,4 +39,33 @@
   font-size: 40px;
   font-weight: 500;
   color: #212529;
+}
+
+.partyWonText {
+  background: -webkit-linear-gradient(10deg, #00ffa3 12%, #57cdff 25%, #f68eff 40%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 40px;
+  font-weight: 500;
+}
+
+.leadingBid {
+  margin: 0px !important;
+  padding: 0px !important;
+  font-size: 2.5rem;
+  font-weight: 500;
+  color: #212529;
+  text-align: center;
+}
+
+@media (max-width: 992px) {
+  .leadingBid {
+    margin: 0px !important;
+    padding: 0px !important;
+    font-size: 1.75rem;
+    font-weight: 500;
+    color: #212529;
+    text-align: center;
+    white-space: nowrap;
+  }
 }

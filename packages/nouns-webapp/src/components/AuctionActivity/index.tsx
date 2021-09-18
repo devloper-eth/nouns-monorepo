@@ -6,7 +6,7 @@ import BigNumber from 'bignumber.js';
 import AuctionTimer from '../AuctionTimer';
 import CurrentBid from '../CurrentBid';
 import Winner from '../Winner';
-import PartyVault from '../PartyVault';
+import PartyProgressBar from '../PartyProgressBar';
 import PartyButtons from '../PartyButtons';
 import PartyGuestList from '../PartyGuestList';
 import AuctionNavigation from '../AuctionNavigation';
@@ -14,8 +14,11 @@ import AuctionNavigation from '../AuctionNavigation';
 import stampLogo from '../../assets/nouns_stamp.svg';
 import AuctionActivityDateHeadline from '../AuctionActivityDateHeadline';
 import AuctionStatus from '../AuctionStatus';
-import { useFracTokenVaults } from '../../wrappers/nounsParty';
+import { useFracTokenVaults, useNounsPartyDepositBalance } from '../../wrappers/nounsParty';
 import { isNounderNoun } from '../../utils/nounderNoun';
+
+import { utils } from 'ethers';
+import PartyVault from '../PartyVault';
 
 interface AuctionActivityProps {
   auction: Auction;
@@ -39,7 +42,9 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
 
-  // timer logic
+  const depositBalance = useNounsPartyDepositBalance();
+
+  // timer logic - once less than 60 seconds left, trigger every second
   useEffect(() => {
     if (!auction) return;
 
@@ -49,9 +54,12 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
       setAuctionEnded(true);
     } else {
       setAuctionEnded(false);
-      const timer = setTimeout(() => {
-        setAuctionTimer(!auctionTimer);
-      }, 1000);
+      const timer = setTimeout(
+        () => {
+          setAuctionTimer(!auctionTimer);
+        },
+        timeLeft > 60 ? 30000 : 1000,
+      );
 
       return () => {
         clearTimeout(timer);
@@ -68,18 +76,35 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
       <div className={classes.floatingPaper}>
         <div className={classes.paperWrapper}>
           <img src={stampLogo} className={classes.nounsPartyStamp} alt="Nouns party logo" />
-          <AuctionActivityDateHeadline startTime={auction.startTime} />
-          <div className={classes.nounIdContainer}>
-            <h1 className={classes.nounIdText}>{`Noun ${auction && auction.nounId}`}</h1>
-            {displayGraphDepComps && (
-              <AuctionNavigation
-                isFirstAuction={isFirstAuction}
-                isLastAuction={isLastAuction}
-                onNextAuctionClick={onNextAuctionClick}
-                onPrevAuctionClick={onPrevAuctionClick}
-              />
-            )}
-          </div>
+
+          <Row>
+            <Col xs={12} md={6}>
+              <div className={classes.dateContainer}>
+                <AuctionActivityDateHeadline startTime={auction.startTime} />
+                {displayGraphDepComps && (
+                  <AuctionNavigation
+                    isFirstAuction={isFirstAuction}
+                    isLastAuction={isLastAuction}
+                    onNextAuctionClick={onNextAuctionClick}
+                    onPrevAuctionClick={onPrevAuctionClick}
+                  />
+                )}
+              </div>
+            </Col>
+            <Col xs={12} md={6} className="align-self-end"></Col>
+          </Row>
+          <Row style={{ marginTop: '-10px' }}>
+            <Col xs={12} md={6}>
+              <div className={classes.nounIdContainer}>
+                <h1 className={classes.nounIdText}>{`Noun ${auction && auction.nounId}`}</h1>
+              </div>
+            </Col>
+            <Col xs={12} md={6}>
+              <div className={classes.auctionTimerContainer}>
+                {!auctionEnded && <AuctionTimer auction={auction} auctionEnded={auctionEnded} />}
+              </div>
+            </Col>
+          </Row>
 
           {auction.nounId && isNounderNoun(auction.nounId) && (
             <Row className={classes.auctionActivityContainer}>
@@ -103,33 +128,41 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
             </Row>
           )}
 
+          {isLastAuction && !auctionEnded && <PartyProgressBar auction={auction} />}
+
+          {!isNounderNoun(auction.nounId) && <AuctionStatus auction={auction} />}
+
           {!isNounderNoun(auction.nounId) && (
-            <Row className={classes.auctionActivityContainer}>
-              <Col lg={6}>
-                <CurrentBid
-                  currentBid={new BigNumber(auction.amount.toString())}
-                  auctionEnded={auctionEnded}
-                />
-              </Col>
-              <Col lg={6}>
-                {auctionEnded ? (
+            <Row className={`${classes.auctionActivityContainer} justify-content-center`}>
+              {auctionEnded ? (
+                <Col xs={12} lg={6} className="align-self-center">
+                  <CurrentBid
+                    currentBid={new BigNumber(auction.amount.toString())}
+                    auctionEnded={auctionEnded}
+                    auction={auction}
+                  />
+                </Col>
+              ) : (
+                <Col xs={6} className="align-self-center">
+                  <PartyVault auction={auction} />
+                </Col>
+              )}
+
+              {auctionEnded ? (
+                <Col xs={12} lg={6}>
                   <Winner winner={auction.bidder} auction={auction} />
-                ) : (
-                  <AuctionTimer auction={auction} auctionEnded={auctionEnded} />
-                )}
-              </Col>
+                </Col>
+              ) : (
+                <Col xs={6}>
+                  <CurrentBid
+                    currentBid={new BigNumber(auction.amount.toString())}
+                    auctionEnded={auctionEnded}
+                    auction={auction}
+                  />
+                </Col>
+              )}
             </Row>
           )}
-
-          {!isLastAuction && <AuctionStatus auction={auction} />}
-
-          {/* {!isLastAuction && auction && auction.nounId && (
-            <Row className={classes.buttonsWrapper}>
-              <Col>
-                <SettleAuction auction={auction} />
-              </Col>
-            </Row>
-          )} */}
 
           {fracVault && (
             <>
@@ -152,8 +185,6 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
 
           {isLastAuction && (
             <>
-              <PartyVault auction={auction} />
-              <AuctionStatus auction={auction} />
               <PartyButtons auction={auction} />
               <PartyGuestList />
             </>

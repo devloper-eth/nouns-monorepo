@@ -47,7 +47,7 @@ const PartyGuestList = () => {
                   </div>
                   <div className={classes.rightSectionWrapper}>
                     <div className={classes.bidAmount}>
-                      {null ?? `${utils.formatEther(bid.amount)} ETH`}
+                      {null ?? `${Number(utils.formatEther(bid.amount)).toFixed(2)} ETH`}
                     </div>
                     <div className={classes.linkSymbol}>
                       <a

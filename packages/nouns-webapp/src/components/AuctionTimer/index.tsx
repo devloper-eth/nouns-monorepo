@@ -46,26 +46,16 @@ const AuctionTimer: React.FC<{
     <>
       <Row>
         <Col>
-          <p className={`${classes.timerText} ${classes.noPaddingMargin}`}>{auctionContent}</p>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
+          <p className={classes.noPaddingMargin}>Time Remaining</p>
           <h3 className={`${classes.timerWrapper} ${classes.noPaddingMargin}`}>
             <div className={classes.timerSection}>
-              <span>
-                {`${Math.floor(timerDuration.hours())}`}h
-              </span>
+              <span>{`${Math.floor(timerDuration.hours())}`}h</span>
             </div>
             <div className={classes.timerSection}>
-              <span>
-                {`${flooredMinutes}`}m
-              </span>
+              <span>{`${flooredMinutes}`}m</span>
             </div>
             <div className={classes.timerSection}>
-              <span>
-                {`${flooredSeconds}`}s
-              </span>
+              <span>{`${flooredSeconds}`}s</span>
             </div>
           </h3>
         </Col>

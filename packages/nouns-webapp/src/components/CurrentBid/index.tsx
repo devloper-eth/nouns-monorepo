@@ -2,6 +2,8 @@ import BigNumber from 'bignumber.js';
 import classes from './CurrentBid.module.css';
 import TruncatedAmount from '../TruncatedAmount';
 import { Col, Row } from 'react-bootstrap';
+import config from '../../config';
+import { Auction } from '../../wrappers/nounsAuction';
 
 /**
  * Passible to CurrentBid as `currentBid` prop to indicate that
@@ -15,19 +17,40 @@ type BidNa = typeof BID_N_A;
 const CurrentBid: React.FC<{
   currentBid: BigNumber | BidNa;
   auctionEnded: boolean;
+  auction: Auction;
 }> = props => {
-  const { currentBid, auctionEnded } = props;
+  const { currentBid, auctionEnded, auction } = props;
   const titleContent = auctionEnded ? 'Winning bid' : 'Current bid';
+
+  let bidder = auction.bidder;
+  let partyWin = bidder && bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase();
+
   return (
     <>
       <Row>
         <Col>
-          <p className={`${classes.noMarginPadding} ${classes.bidText}`}>{titleContent}</p>
+          <p
+            className={
+              auctionEnded
+                ? `${classes.noMarginPadding} ${classes.winningText}`
+                : `${classes.bidText}`
+            }
+          >
+            {titleContent}
+          </p>
         </Col>
       </Row>
       <Row>
-        <Col className={classes.ethAddressPadding}>
-          <h3 className={`${classes.winningAmount}`}>
+        <Col>
+          <h3
+            className={
+              auctionEnded
+                ? partyWin
+                  ? `${classes.partyWonText}`
+                  : `${classes.winningAmount}`
+                : classes.leadingBid
+            }
+          >
             {currentBid === BID_N_A ? (
               BID_N_A
             ) : (

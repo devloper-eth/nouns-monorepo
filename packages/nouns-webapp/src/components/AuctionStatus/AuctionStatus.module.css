@@ -26,9 +26,10 @@
 
 .statusText {
   text-align: center;
-
+  font-size: 1.25rem;
   padding: 0px 20px 0px 20px;
-  color: rgba(33, 37, 41, 0.3);
+  color: #212529;
+  font-family: 'Fredoka One';
 }
 
 /*

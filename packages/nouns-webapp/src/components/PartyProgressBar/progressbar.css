@@ -1,0 +1,55 @@
+.progress {
+  border-radius: 50px;
+  overflow: visible;
+  height: 12px;
+}
+
+/* 19eea1 */
+.bg-partyGradient {
+  background-image: linear-gradient(90deg, #00ffa3 0%, #57cdff 49.53%, #f68eff 100%);
+  /* border-radius: 50px; */
+  border-bottom-right-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-top-left-radius: 50px;
+}
+
+.bg-partyVaultLess {
+  background-image: linear-gradient(90deg, #ccffed 0%, #00ffa3 100%);
+  border-bottom-right-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-top-left-radius: 50px;
+  z-index: 2;
+}
+
+.bg-partyVaultMore {
+  background-image: linear-gradient(90deg, #ccffed 0%, #00ffa3 100%);
+  border-bottom-right-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-top-left-radius: 50px;
+}
+
+.bg-currentBidLess {
+  background-image: linear-gradient(90deg, #cbecff 0%, #68c7ff 100%);
+  border-bottom-right-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-top-left-radius: 50px;
+  z-index: 2;
+}
+.bg-currentBidMore {
+  background-image: linear-gradient(90deg, #cbecff 0%, #68c7ff 100%);
+  border-bottom-right-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-top-left-radius: 50px;
+}
+
+.progressBar {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+/* Rectangle 149 */
