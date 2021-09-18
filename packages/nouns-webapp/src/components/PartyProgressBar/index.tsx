@@ -46,10 +46,6 @@ const PartyProgressBar: React.FC<{
     }
   }
 
-  partyVaultGreaterThanBid = false;
-  currentBidProgressPercent = 70;
-  partyVaultProgressPercent = 50;
-  partyWinning = false;
   // let roundedEth = Math.ceil(Number(utils.formatEther(depositBalance)) * 100) / 100;
 
   return (
