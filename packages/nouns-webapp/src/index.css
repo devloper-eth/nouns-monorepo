@@ -8,11 +8,11 @@ body {
 
 /*  Global Defaults */
 * {
-  font-family: -apple-system, system-ui, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+  /* font-family: -apple-system, system-ui, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
     'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* font-family: 'Fredoka One'; */
+  -moz-osx-font-smoothing: grayscale; */
+  font-family: 'Fredoka One';
 }
 
 p {
