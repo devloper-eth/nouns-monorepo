@@ -68,7 +68,7 @@
   /* border-bottom: 1px solid rgba(211, 211, 211, 0.322); */
   border-radius: 4px;
   background-color: #eeeff2;
-  padding: 8px 4px 8px 4px;
+  padding: 8px 14px 8px 8px;
   border-radius: 50px;
 }
 
@@ -122,14 +122,6 @@
   padding: 0px;
   font-size: 1.5rem;
   text-align: center;
-}
-
-.linkSymbol,
-.linkSymbol a {
-  color: var(--brand-black);
-}
-.linkSymbol a:hover {
-  color: gray;
 }
 
 @media (max-width: 992px) {
