@@ -56,7 +56,7 @@ const Bid: React.FC<{
   // const auctionHouseContract = auctionHouseContractFactory(config.auctionProxyAddress);
   const nounsPartyContract = nounsPartyContractFactory(config.nounsPartyAddress);
 
-  const account = useAppSelector(state => state.account.activeAccount);
+  // const account = useAppSelector(state => state.account.activeAccount);
 
   const bidInputRef = useRef<HTMLInputElement>(null);
 
@@ -145,37 +145,25 @@ const Bid: React.FC<{
     }
   };
 
-  // successful bid using redux store state
-  useEffect(() => {
-    if (!account) return;
-
-    // tx state is mining
-    const isMiningUserTx = bidState.status === 'Mining';
-    // allows user to rebid against themselves so long as it is not the same tx
-    // const isCorrectTx = currentBid(bidInputRef).isEqualTo(new BigNumber(auction.amount.toString()));
-
-    if (isMiningUserTx) {
-      // isCorrectTx
-      bidState.status = 'Success';
-      hidePlaceBidModalHandler();
-      setModal({
-        title: 'Success',
-        message: `Bid was submitted successfully!`,
-        show: true,
-      });
-      setBidButtonContent({ loading: false, content: 'Submit Bid' });
-      clearBidInput();
-    }
-  }, [auction, bidState, account, setModal, hidePlaceBidModalHandler]);
-
   // placing bid transaction state hook
   useEffect(() => {
+    if (!activeAccount) return;
     switch (!auctionEnded && bidState.status) {
       case 'None':
         setBidButtonContent({
           loading: false,
           content: 'Submit bid',
         });
+        break;
+      case 'Success':
+        hidePlaceBidModalHandler();
+        setModal({
+          title: 'Success',
+          message: `Bid was submitted successfully!`,
+          show: true,
+        });
+        setBidButtonContent({ loading: false, content: 'Submit Bid' });
+        clearBidInput();
         break;
       case 'Mining':
         setBidButtonContent({ loading: true, content: 'Submitting bid...' });
@@ -203,12 +191,7 @@ const Bid: React.FC<{
         setBidButtonContent({ loading: false, content: 'Submit bid' });
         break;
     }
-  }, [bidState, auctionEnded, setModal, hidePlaceBidModalHandler]);
-
-  const checkIfPartyLeadingBidder =
-    auction &&
-    auction.bidder &&
-    auction.bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase();
+  }, [bidState, auctionEnded, setModal, hidePlaceBidModalHandler, activeAccount]);
 
   if (!auction) return null;
 
@@ -231,7 +214,7 @@ const Bid: React.FC<{
     </>
   );
 
-  const partyIsAlreadyWinning = <>The party is already the leading bidder.</>;
+  // const partyIsAlreadyWinning = <>The party is already the leading bidder.</>;
 
   const placeBidContent = (
     <>
@@ -267,13 +250,7 @@ const Bid: React.FC<{
   return (
     <Modal
       title="Submit bid"
-      content={
-        depositBalance.gte(maxBid)
-          ? checkIfPartyLeadingBidder
-            ? partyIsAlreadyWinning
-            : placeBidContent
-          : noPlaceBidContent
-      }
+      content={depositBalance.gte(maxBid) ? placeBidContent : noPlaceBidContent}
       onDismiss={hidePlaceBidModalHandler}
     />
   );

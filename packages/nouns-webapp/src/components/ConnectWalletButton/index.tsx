@@ -7,6 +7,7 @@ import { Col, Row } from 'react-bootstrap';
 import Bid from '../Bid';
 // import SettleAuction from '../SettleAuction';
 import { Auction } from '../../wrappers/nounsAuction';
+import config from '../../config';
 
 const ConnectWalletButton: React.FC<{
   auction: Auction;
@@ -63,6 +64,11 @@ const ConnectWalletButton: React.FC<{
     }
   }, [auctionTimer, currentAuction]);
 
+  const checkIfPartyLeadingBidder =
+    currentAuction &&
+    currentAuction.bidder &&
+    currentAuction.bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase();
+
   return (
     <>
       {showConnectModal && activeAccount === undefined && (
@@ -96,7 +102,7 @@ const ConnectWalletButton: React.FC<{
             </Col>
             <Col>
               <button
-                disabled={!activeAccount}
+                disabled={!activeAccount || !!checkIfPartyLeadingBidder}
                 onClick={showPlaceBidModalHandler}
                 className={classes.connectWalletButton}
               >

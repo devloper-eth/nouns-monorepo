@@ -8,18 +8,18 @@ import classes from './AddFundsModal.module.css';
 import { nounsPartyContractFactory, NounsPartyContractFunction } from '../../wrappers/nounsParty';
 import { useContractFunction__fix } from '../../hooks/useContractFunction__fix';
 import { AlertModal, setAlertModal } from '../../state/slices/application';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | undefined }> =
   props => {
-    const { onDismiss, activeAccount } = props;
+    const { onDismiss } = props;
     const [bidInput, setBidInput] = useState('');
     const [depositButtonContent, setDepositButtonContent] = useState({
       loading: false,
       content: 'Add funds to vault',
     });
     const [minimumBidErrorMessage, setMinimumBidErrorMessage] = useState(false);
-
+    const activeAccount = useAppSelector(state => state.account.activeAccount);
     const { library } = useEthers();
     const nounsPartyContract = nounsPartyContractFactory(config.nounsPartyAddress);
 
@@ -85,29 +85,9 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
       }
     };
 
-    // successful deposit using redux store state
-    useEffect(() => {
-      if (!activeAccount) return;
-
-      // tx state is mining
-      const isMiningUserTx = depositState.status === 'Mining';
-      // // allows user to rebid against themselves so long as it is not the same tx
-      // const isCorrectTx = currentBid(bidInputRef).isEqualTo(new BigNumber(auction.amount.toString()));
-      if (isMiningUserTx) {
-        depositState.status = 'Success';
-        onDismiss();
-        setModal({
-          title: 'Success',
-          message: `Eth was deposited successfully!`,
-          show: true,
-        });
-        setDepositButtonContent({ loading: false, content: 'Bid' });
-        clearBidInput();
-      }
-    }, [depositState, activeAccount, setModal, onDismiss]);
-
     // placing bid transaction state hook
     useEffect(() => {
+      if (!activeAccount) return;
       switch (depositState.status) {
         case 'None':
           setDepositButtonContent({
@@ -117,6 +97,16 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
           break;
         case 'Mining':
           setDepositButtonContent({ loading: true, content: 'Depositing eth...' });
+          break;
+        case 'Success':
+          onDismiss();
+          setModal({
+            title: 'Success',
+            message: `Eth was deposited successfully!`,
+            show: true,
+          });
+          setDepositButtonContent({ loading: false, content: 'Bid' });
+          clearBidInput();
           break;
         case 'Fail':
           onDismiss();
@@ -137,7 +127,7 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
           setDepositButtonContent({ loading: false, content: 'Add funds to vault' });
           break;
       }
-    }, [depositState, setModal, onDismiss]);
+    }, [depositState, setModal, onDismiss, activeAccount]);
 
     const fundsModal = (
       <>

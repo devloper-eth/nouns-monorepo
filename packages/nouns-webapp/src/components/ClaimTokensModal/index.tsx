@@ -60,6 +60,7 @@ const ClaimTokensModal: React.FC<{
 
   // claiming tokens transaction state hook
   useEffect(() => {
+    if (!activeAccount) return;
     switch (claimState.status) {
       case 'None':
         setClaimTokensButtonContent({
@@ -69,6 +70,15 @@ const ClaimTokensModal: React.FC<{
         break;
       case 'Mining':
         setClaimTokensButtonContent({ loading: true, content: 'Claiming tokens...' });
+        break;
+      case 'Success':
+        hideClaimTokensModalHandler();
+        setModal({
+          title: 'Success',
+          message: `Tokens claimed successfully!`,
+          show: true,
+        });
+        setClaimTokensButtonContent({ loading: false, content: 'Claim tokens' });
         break;
       case 'Fail':
         hideClaimTokensModalHandler();
@@ -89,26 +99,7 @@ const ClaimTokensModal: React.FC<{
         setClaimTokensButtonContent({ loading: false, content: 'Claim tokens' });
         break;
     }
-  }, [claimState, setModal, hideClaimTokensModalHandler]);
-
-  // successful claim
-  useEffect(() => {
-    if (!activeAccount) return;
-
-    // tx state is mining
-    const isMiningUserTx = claimState.status === 'Mining';
-
-    if (isMiningUserTx) {
-      claimState.status = 'Success';
-      hideClaimTokensModalHandler();
-      setModal({
-        title: 'Success',
-        message: `Tokens claimed successfully!`,
-        show: true,
-      });
-      setClaimTokensButtonContent({ loading: false, content: 'Claim tokens' });
-    }
-  }, [claimState, activeAccount, setModal, hideClaimTokensModalHandler]);
+  }, [claimState, setModal, hideClaimTokensModalHandler, activeAccount]);
 
   const claimTokensContent = (
     <>
@@ -116,8 +107,8 @@ const ClaimTokensModal: React.FC<{
         <>
           {activeAccount && currentClaimsCount && currentClaimsCount > 0
             ? [...Array(currentClaimsCount)].map((e, i) => (
-              <ClaimsComponent key={i} account={activeAccount} counter={i} />
-            ))
+                <ClaimsComponent key={i} account={activeAccount} counter={i} />
+              ))
             : null}
 
           <Col>
@@ -130,10 +121,16 @@ const ClaimTokensModal: React.FC<{
       ) : (
         <>
           <p className={classes.confirmText}>
-            Every noun won by the party is fractionalized into ERC20 tokens by <a href="https://fractional.art" target="_blank" rel="noreferrer">fractional.art</a>.
-            You will receive tokens proportional to the amount of your ETH used in the winning bid.
+            Every noun won by the party is fractionalized into ERC20 tokens by{' '}
+            <a href="https://fractional.art" target="_blank" rel="noreferrer">
+              fractional.art
+            </a>
+            . You will receive tokens proportional to the amount of your ETH used in the winning
+            bid.
           </p>
-          <p className={classes.confirmText}>You have no tokens to claim. Please come back later.</p>
+          <p className={classes.confirmText}>
+            You have no tokens to claim. Please come back later.
+          </p>
         </>
       )}
     </>

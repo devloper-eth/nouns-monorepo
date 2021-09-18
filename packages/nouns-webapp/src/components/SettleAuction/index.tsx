@@ -59,26 +59,52 @@ const SettleAuction: React.FC<{ auction: Auction; hideSettleAuctionHandler: () =
       }
     };
 
+    // placing bid transaction state hook
     useEffect(() => {
       if (!activeAccount) return;
-
-      // tx state is mining
-      const isMiningUserTx = settleState.status === 'Mining';
-      // allows user to rebid against themselves so long as it is not the same tx
-      // const isCorrectTx = currentBid(bidInputRef).isEqualTo(new BigNumber(auction.amount.toString()));
-
-      if (isMiningUserTx) {
-        // isCorrectTx
-        settleState.status = 'Success';
-        hideSettleAuctionHandler();
-        setModal({
-          title: 'Success',
-          message: `The auction has been settled.`,
-          show: true,
-        });
-        setSettleAuctionButtonContent({ loading: false, content: 'Settle auction' });
+      switch (settleState.status) {
+        case 'None':
+          setSettleAuctionButtonContent({
+            loading: false,
+            content: 'Settle Auction',
+          });
+          break;
+        case 'Success':
+          hideSettleAuctionHandler();
+          setModal({
+            title: 'Success',
+            message: `Auction was settled successfully!`,
+            show: true,
+          });
+          setSettleAuctionButtonContent({ loading: false, content: 'Settle Auction' });
+          break;
+        case 'Mining':
+          setSettleAuctionButtonContent({ loading: true, content: 'Settling Auction...' });
+          break;
+        case 'Fail':
+          hideSettleAuctionHandler();
+          setModal({
+            title: 'Transaction Failed',
+            message: settleState.errorMessage
+              ? settleState.errorMessage
+              : 'Settle Auction failed. Please try again.',
+            show: true,
+          });
+          setSettleAuctionButtonContent({ loading: false, content: 'Settle Auction' });
+          break;
+        case 'Exception':
+          hideSettleAuctionHandler();
+          setModal({
+            title: 'Error',
+            message: settleState.errorMessage
+              ? settleState.errorMessage
+              : 'Settle Auction failed. Please try again.',
+            show: true,
+          });
+          setSettleAuctionButtonContent({ loading: false, content: 'Settle Auction' });
+          break;
       }
-    }, [settleState, activeAccount, setModal, hideSettleAuctionHandler]);
+    }, [settleState, setModal, activeAccount, hideSettleAuctionHandler]);
 
     const settleNext = useNounsPartySettleNext();
 
@@ -86,7 +112,9 @@ const SettleAuction: React.FC<{ auction: Auction; hideSettleAuctionHandler: () =
       <>
         <Row className="justify-content-center">
           <Col>
-            <p className={classes.confirmText}>Are you ready to settle the auction for Noun {settleNext.toNumber()}?</p>
+            <p className={classes.confirmText}>
+              Are you ready to settle the auction for Noun {settleNext.toNumber()}?
+            </p>
           </Col>
         </Row>
 
