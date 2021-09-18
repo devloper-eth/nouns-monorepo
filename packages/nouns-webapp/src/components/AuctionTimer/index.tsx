@@ -8,7 +8,7 @@ const AuctionTimer: React.FC<{
   auction: Auction;
   auctionEnded: boolean;
 }> = props => {
-  const { auction, auctionEnded } = props;
+  const { auction } = props;
 
   const [auctionTimer, setAuctionTimer] = useState(0);
   const auctionTimerRef = useRef(auctionTimer); // to access within setTimeout
@@ -34,8 +34,6 @@ const AuctionTimer: React.FC<{
       };
     }
   }, [auction, auctionTimer]);
-
-  const auctionContent = auctionEnded ? 'Auction Ended' : 'Auction Ends In';
 
   const flooredMinutes = Math.floor(timerDuration.minutes());
   const flooredSeconds = Math.floor(timerDuration.seconds());

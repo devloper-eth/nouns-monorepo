@@ -3,7 +3,6 @@ import { useNounsPartyDepositBalance } from '../../wrappers/nounsParty';
 import { utils } from 'ethers';
 import { Auction } from '../../wrappers/nounsAuction';
 import classes from './PartyVault.module.css';
-import { Col, Row } from 'react-bootstrap';
 
 const PartyVault: React.FC<{ auction: Auction }> = props => {
   const { auction } = props;

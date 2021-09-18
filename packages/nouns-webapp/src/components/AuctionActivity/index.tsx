@@ -14,10 +14,10 @@ import AuctionNavigation from '../AuctionNavigation';
 import stampLogo from '../../assets/nouns_stamp.svg';
 import AuctionActivityDateHeadline from '../AuctionActivityDateHeadline';
 import AuctionStatus from '../AuctionStatus';
-import { useFracTokenVaults, useNounsPartyDepositBalance } from '../../wrappers/nounsParty';
+import { useFracTokenVaults } from '../../wrappers/nounsParty';
 import { isNounderNoun } from '../../utils/nounderNoun';
 
-import { utils } from 'ethers';
+// import { utils } from 'ethers';
 import PartyVault from '../PartyVault';
 
 interface AuctionActivityProps {
@@ -41,8 +41,6 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
 
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
-
-  const depositBalance = useNounsPartyDepositBalance();
 
   // timer logic - once less than 60 seconds left, trigger every second
   useEffect(() => {
