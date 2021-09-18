@@ -111,10 +111,16 @@ const PartyProgressBar: React.FC<{
         <Row>
           <Col className={classes.progressBarContainer}>
             <div className={`${classes.progressBar}`}>
-              <ProgressBar now={currentBidProgressPercent} variant={'partyGradient'} />
+              <ProgressBar
+                now={Math.max(currentBidProgressPercent, partyVaultProgressPercent)}
+                variant={'partyGradient'}
+              />
             </div>
             <div className={`${classes.progressBar} ${classes.blurProgressBar}`}>
-              <ProgressBar now={currentBidProgressPercent} variant={'partyGradient'} />
+              <ProgressBar
+                now={Math.max(currentBidProgressPercent, partyVaultProgressPercent)}
+                variant={'partyGradient'}
+              />
             </div>
           </Col>
         </Row>
