@@ -2,7 +2,7 @@ import { Auction } from '../../wrappers/nounsAuction';
 import classes from './AuctionStatus.module.css';
 import { useState, useEffect } from 'react';
 import config from '../../config';
-import { useNounsPartyMaxBid } from '../../wrappers/nounsParty';
+import { useFracTokenVaults, useNounsPartyMaxBid } from '../../wrappers/nounsParty';
 import { Col, Row } from 'react-bootstrap';
 import { BigNumber as EthersBN } from 'ethers';
 import { useEtherBalance } from '@usedapp/core';
@@ -15,6 +15,7 @@ const AuctionStatus: React.FC<{
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
   const maxBid = useNounsPartyMaxBid();
+  const fracTokenVault = useFracTokenVaults(currentAuction.nounId);
 
   useEffect(() => {
 
@@ -59,7 +60,11 @@ const AuctionStatus: React.FC<{
   } else if (currentAuction) {
     let bidder = currentAuction.bidder;
     if (bidder && bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
-      statusText = 'The party won the auction! The noun has been fractionalized into ERC20 tokens.';
+      if (fracTokenVault) {
+        statusText = 'The party won the auction! Claim your tokens.';
+      } else {
+        statusText = 'The party won the auction! Settle the auction to fractionalize the noun.';
+      }
       status = 'success';
     } else {
       statusText = 'The party lost the auction!';
