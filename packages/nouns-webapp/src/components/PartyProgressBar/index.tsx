@@ -46,6 +46,10 @@ const PartyProgressBar: React.FC<{
     }
   }
 
+  partyVaultGreaterThanBid = false;
+  currentBidProgressPercent = 70;
+  partyVaultProgressPercent = 50;
+  partyWinning = false;
   // let roundedEth = Math.ceil(Number(utils.formatEther(depositBalance)) * 100) / 100;
 
   return (
@@ -111,10 +115,16 @@ const PartyProgressBar: React.FC<{
         <Row>
           <Col className={classes.progressBarContainer}>
             <div className={`${classes.progressBar}`}>
-              <ProgressBar now={currentBidProgressPercent} variant={'partyGradient'} />
+              <ProgressBar
+                now={Math.max(currentBidProgressPercent, partyVaultProgressPercent)}
+                variant={'partyGradient'}
+              />
             </div>
             <div className={`${classes.progressBar} ${classes.blurProgressBar}`}>
-              <ProgressBar now={currentBidProgressPercent} variant={'partyGradient'} />
+              <ProgressBar
+                now={Math.max(currentBidProgressPercent, partyVaultProgressPercent)}
+                variant={'partyGradient'}
+              />
             </div>
           </Col>
         </Row>
