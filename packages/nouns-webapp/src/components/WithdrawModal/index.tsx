@@ -65,23 +65,6 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
     }
   };
 
-  // successful withdraw using redux store state
-  useEffect(() => {
-    // tx state is mining
-    const isMiningUserTx = withdrawState.status === 'Mining';
-
-    if (isMiningUserTx) {
-      withdrawState.status = 'Success';
-      hideWithdrawModalHandler();
-      setModal({
-        title: 'Success',
-        message: `Eth was withdrawn successfully!`,
-        show: true,
-      });
-      setWithdrawButtonContent({ loading: false, content: 'Withdraw funds' });
-    }
-  }, [withdrawState, setModal, hideWithdrawModalHandler]);
-
   // Withdrawing funds state hook
   useEffect(() => {
     switch (withdrawState.status) {
@@ -93,6 +76,15 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
         break;
       case 'Mining':
         setWithdrawButtonContent({ loading: true, content: 'Withdrawing eth...' });
+        break;
+      case 'Success':
+        hideWithdrawModalHandler();
+        setModal({
+          title: 'Success',
+          message: `Eth was withdrawn successfully!`,
+          show: true,
+        });
+        setWithdrawButtonContent({ loading: false, content: 'Withdraw funds' });
         break;
       case 'Fail':
         hideWithdrawModalHandler();
