@@ -1,14 +1,12 @@
 import React from 'react';
-import { utils, BigNumber as EthersBN } from 'ethers';
+import { useNounsPartyDepositBalance } from '../../wrappers/nounsParty';
+import { utils } from 'ethers';
 import { Auction } from '../../wrappers/nounsAuction';
 import classes from './PartyVault.module.css';
-import config from '../../config';
-import { useEtherBalance } from '@usedapp/core';
 
 const PartyVault: React.FC<{ auction: Auction }> = props => {
   const { auction } = props;
-
-  const depositBalance = useEtherBalance(config.nounsPartyAddress) || EthersBN.from(0);
+  const depositBalance = useNounsPartyDepositBalance();
 
   const auctionBid = auction?.amount;
 
@@ -26,7 +24,7 @@ const PartyVault: React.FC<{ auction: Auction }> = props => {
     }
   }
 
-  let roundedEth = Math.ceil(Number(utils.formatEther(depositBalance)) * 1000) / 1000;
+  let roundedEth = Math.ceil(Number(utils.formatEther(depositBalance)) * 100) / 100;
 
   return (
     <>

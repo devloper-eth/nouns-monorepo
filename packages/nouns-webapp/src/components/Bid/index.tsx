@@ -1,7 +1,7 @@
 import { Auction } from '../../wrappers/nounsAuction';
 import config from '../../config';
 import { BigNumber } from 'ethers';
-import { connectContractToSigner, useEthers, useEtherBalance } from '@usedapp/core';
+import { connectContractToSigner, useEthers } from '@usedapp/core';
 import { useContractFunction__fix } from '../../hooks/useContractFunction__fix';
 import { useAppSelector } from '../../hooks';
 import React, { useEffect, useState, useRef, useCallback } from 'react';
@@ -13,6 +13,7 @@ import Modal from '../Modal';
 import {
   nounsPartyContractFactory,
   NounsPartyContractFunction,
+  useNounsPartyDepositBalance,
   useNounsPartyMaxBid,
 } from '../../wrappers/nounsParty';
 import { formatEther } from '@ethersproject/units';
@@ -77,7 +78,7 @@ const Bid: React.FC<{
   //   minBidIncPercentage,
   // );
 
-  const depositBalance = useEtherBalance(config.nounsPartyAddress) || BigNumber.from(0);
+  const depositBalance = useNounsPartyDepositBalance();
   // const deposits = useNounsPartyDeposits();
 
   const { send: bid, state: bidState } = useContractFunction__fix(

@@ -1,18 +1,20 @@
 import React from 'react';
 import { Col, ProgressBar, Row } from 'react-bootstrap';
+import { useNounsPartyDepositBalance } from '../../wrappers/nounsParty';
 import classes from './PartyProgressBar.module.css';
 import { Auction as IAuction } from '../../wrappers/nounsAuction';
 import './progressbar.css';
 import config from '../../config';
-import { useEtherBalance } from '@usedapp/core';
-import { utils, BigNumber as EthersBN } from 'ethers';
+// import config from '../../config';
+
+import { utils } from 'ethers';
 
 const PartyProgressBar: React.FC<{
   auction: IAuction;
 }> = props => {
   const { auction: currentAuction } = props;
 
-  const depositBalance = useEtherBalance(config.nounsPartyAddress) || EthersBN.from(0);
+  const depositBalance = useNounsPartyDepositBalance();
   const auctionBid = currentAuction?.amount;
 
   let fullProgressBar = Math.max(
