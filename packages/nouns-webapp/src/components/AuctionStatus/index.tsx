@@ -38,7 +38,7 @@ const AuctionStatus: React.FC<{
   let statusText = '';
   let status = '';
   let depositBalance = useNounsPartyDepositBalance();
-  let targetBidAmount = depositBalance.mul(105).div(100);
+  let targetBidAmount = depositBalance.mul(107).div(100);
 
   if (currentAuction && !auctionEnded) {
     let bidder = currentAuction.bidder;
