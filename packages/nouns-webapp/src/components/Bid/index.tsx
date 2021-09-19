@@ -193,7 +193,7 @@ const Bid: React.FC<{
 
   if (!auction) return null;
 
-  const isDisabled = bidState.status === 'Mining' || !activeAccount;
+  const isDisabled =  bidState.status === 'Mining' || !activeAccount;
 
   const noPlaceBidContent = (
     <>

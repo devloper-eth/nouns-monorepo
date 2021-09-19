@@ -2,7 +2,7 @@ import { Auction } from '../../wrappers/nounsAuction';
 import classes from './AuctionStatus.module.css';
 import { useState, useEffect } from 'react';
 import config from '../../config';
-import { useNounsPartyDepositBalance, useFracTokenVaults, useNounsPartyMaxBid } from '../../wrappers/nounsParty';
+import { useNounsPartyDepositBalance, useFracTokenVaults, useNounsPartyMaxBid, useNounsPartyPendingSettledCount } from '../../wrappers/nounsParty';
 import { Col, Row } from 'react-bootstrap';
 
 const AuctionStatus: React.FC<{
@@ -14,6 +14,7 @@ const AuctionStatus: React.FC<{
   const [auctionTimer, setAuctionTimer] = useState(false);
   const maxBid = useNounsPartyMaxBid();
   const fracTokenVault = useFracTokenVaults(currentAuction.nounId);
+  const pendingSettledCount = useNounsPartyPendingSettledCount();
 
   useEffect(() => {
 
@@ -46,9 +47,13 @@ const AuctionStatus: React.FC<{
       statusText = 'The party is winning the auction!';
       status = 'success';
     } else if (targetBidAmount.gt(currentAuction.amount)) {
-      statusText = 'The vault has enough funds! Submit the bid!';
+      if (pendingSettledCount.gt(0)) {
+        statusText = 'The vault has enough funds! Settle the previous auction and then submit a bid.';
+      } else {
+        statusText = 'The vault has enough funds! Submit the bid!';
+      }
       status = 'success';
-    } else if (currentAuction.amount.lt(maxBid || 0 )) {
+    } else if (currentAuction.amount.lt(maxBid || 0)) {
       statusText = 'The vault requires more funds to bid.';
       status = 'fail';
     } else {
