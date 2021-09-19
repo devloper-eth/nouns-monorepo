@@ -13,7 +13,6 @@ import Modal from '../Modal';
 import {
   nounsPartyContractFactory,
   NounsPartyContractFunction,
-  useNounsPartyDepositBalance,
   useNounsPartyMaxBid,
 } from '../../wrappers/nounsParty';
 import { formatEther } from '@ethersproject/units';
@@ -78,7 +77,6 @@ const Bid: React.FC<{
   //   minBidIncPercentage,
   // );
 
-  const depositBalance = useNounsPartyDepositBalance();
   // const deposits = useNounsPartyDeposits();
 
   const { send: bid, state: bidState } = useContractFunction__fix(
@@ -250,7 +248,7 @@ const Bid: React.FC<{
   return (
     <Modal
       title="Submit bid"
-      content={depositBalance.gte(maxBid) ? placeBidContent : noPlaceBidContent}
+      content={maxBid.gte(0) ? placeBidContent : noPlaceBidContent}
       onDismiss={hidePlaceBidModalHandler}
     />
   );
