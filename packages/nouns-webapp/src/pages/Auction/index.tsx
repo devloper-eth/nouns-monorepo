@@ -59,9 +59,9 @@ const AuctionPage: React.FC<AuctionPageProps> = props => {
         />
       )}
       <Banner />
-      {lastAuctionNounId && (
+      {/* {lastAuctionNounId && (
         <HistoryCollection latestNounId={BigNumber.from(lastAuctionNounId)} historyCount={10} />
-      )}
+      )} */}
       <Documentation />
     </>
   );
