@@ -1,12 +1,14 @@
 import React from 'react';
 import { useNounsPartyDepositBalance } from '../../wrappers/nounsParty';
-import { utils } from 'ethers';
+import { utils, BigNumber as EthersBN } from 'ethers';
 import { Auction } from '../../wrappers/nounsAuction';
 import classes from './PartyVault.module.css';
+import config from '../../config';
+import { useEtherBalance } from '@usedapp/core';
 
 const PartyVault: React.FC<{ auction: Auction }> = props => {
   const { auction } = props;
-  const depositBalance = useNounsPartyDepositBalance();
+  const depositBalance = useEtherBalance(config.nounsPartyAddress) || EthersBN.from(0);
 
   const auctionBid = auction?.amount;
 
