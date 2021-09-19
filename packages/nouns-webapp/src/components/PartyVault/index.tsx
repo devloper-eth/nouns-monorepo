@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNounsPartyDepositBalance } from '../../wrappers/nounsParty';
 import { utils, BigNumber as EthersBN } from 'ethers';
 import { Auction } from '../../wrappers/nounsAuction';
 import classes from './PartyVault.module.css';
