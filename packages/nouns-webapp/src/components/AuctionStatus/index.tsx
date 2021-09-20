@@ -2,7 +2,7 @@ import { Auction } from '../../wrappers/nounsAuction';
 import classes from './AuctionStatus.module.css';
 import { useState, useEffect } from 'react';
 import config from '../../config';
-import { useNounsPartyDepositBalance, useFracTokenVaults, useNounsPartyMaxBid, useNounsPartyPendingSettledCount } from '../../wrappers/nounsParty';
+import { useNounsPartyDepositBalance, useFracTokenVaults, useNounsPartyMaxBid, useNounsPartyPendingSettledCount, useNounsPartySettleNext } from '../../wrappers/nounsParty';
 import { Col, Row } from 'react-bootstrap';
 
 const AuctionStatus: React.FC<{
@@ -15,6 +15,7 @@ const AuctionStatus: React.FC<{
   const maxBid = useNounsPartyMaxBid();
   const fracTokenVault = useFracTokenVaults(currentAuction.nounId);
   const pendingSettledCount = useNounsPartyPendingSettledCount();
+  const settleNext = useNounsPartySettleNext();
 
   useEffect(() => {
 
@@ -47,7 +48,7 @@ const AuctionStatus: React.FC<{
       statusText = 'The party is winning the auction!';
       status = 'success';
     } else if (targetBidAmount.gt(currentAuction.amount)) {
-      if (pendingSettledCount.gt(0)) {
+      if (pendingSettledCount.gt(0) && !settleNext.eq(currentAuction.nounId)) {
         statusText = 'The vault has enough funds! Settle the previous auction and then submit a bid.';
       } else {
         statusText = 'The vault has enough funds! Submit the bid!';

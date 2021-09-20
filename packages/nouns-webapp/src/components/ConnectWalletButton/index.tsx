@@ -8,7 +8,7 @@ import Bid from '../Bid';
 // import SettleAuction from '../SettleAuction';
 import { Auction } from '../../wrappers/nounsAuction';
 import config from '../../config';
-import { useNounsPartyPendingSettledCount } from '../../wrappers/nounsParty';
+import { useNounsPartyPendingSettledCount, useNounsPartySettleNext } from '../../wrappers/nounsParty';
 
 const ConnectWalletButton: React.FC<{
   auction: Auction;
@@ -23,6 +23,7 @@ const ConnectWalletButton: React.FC<{
   const lastNounId = useAppSelector(state => state.onDisplayAuction.lastAuctionNounId);
   // const auction = useAuction(config.auctionProxyAddress);
   const pendingSettledCount = useNounsPartyPendingSettledCount();
+  const settleNext = useNounsPartySettleNext();
 
   const showModalHandler = () => {
     setShowConnectModal(true);
@@ -104,7 +105,7 @@ const ConnectWalletButton: React.FC<{
             </Col>
             <Col>
               <button
-                disabled={!activeAccount || !!checkIfPartyLeadingBidder || pendingSettledCount.gt(0)}
+                disabled={!activeAccount || !!checkIfPartyLeadingBidder || (pendingSettledCount.gt(0) && !settleNext.eq(currentAuction.nounId))}
                 onClick={showPlaceBidModalHandler}
                 className={classes.connectWalletButton}
               >

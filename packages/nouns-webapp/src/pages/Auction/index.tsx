@@ -11,7 +11,6 @@ import Documentation from '../../components/Documentation';
 import Banner from '../../components/Banner';
 import HistoryCollection from '../../components/HistoryCollection';
 import { BigNumber } from 'ethers';
-// import HistoryCollection from '../../components/HistoryCollection';
 /* Currently unused packages flagged for removal */
 // import config from '../../config';
 // import { useAuction } from '../../wrappers/nounsAuction';
@@ -59,9 +58,9 @@ const AuctionPage: React.FC<AuctionPageProps> = props => {
         />
       )}
       <Banner />
-      {/* {lastAuctionNounId && (
+      {lastAuctionNounId && (
         <HistoryCollection latestNounId={BigNumber.from(lastAuctionNounId)} historyCount={10} />
-      )} */}
+      )}
       <Documentation />
     </>
   );

@@ -54,8 +54,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
       const timer = setTimeout(
         () => {
           setAuctionTimer(!auctionTimer);
-        },
-        timeLeft > 60 ? 30000 : 1000,
+        }, 1000,
       );
 
       return () => {
