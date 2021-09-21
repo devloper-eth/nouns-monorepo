@@ -37,7 +37,7 @@
 }
 
 .content {
-  padding: 2rem;
+  padding: 1.5rem 3rem 4rem 3rem;
   max-height: 50vh;
   overflow-y: auto;
 }

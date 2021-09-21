@@ -28,10 +28,22 @@ const PartyProgressBar: React.FC<{
 
   let partyVaultGreaterThanBid =
     Number(utils.formatEther(depositBalance)) > Number(utils.formatEther(auctionBid));
-  let currentBidProgressPercent = (Number(utils.formatEther(auctionBid)) / fullProgressBar) * 100;
-  let partyVaultProgressPercent =
-    (Number(utils.formatEther(depositBalance)) / fullProgressBar) * 100;
 
+  let currentBidProgressPercent =
+    Number(utils.formatEther(auctionBid)) > 0
+      ? Math.max(
+          partyWinning ? 3 : 4,
+          (Number(utils.formatEther(auctionBid)) / fullProgressBar) * 100,
+        )
+      : 0;
+
+  let partyVaultProgressPercent =
+    Number(utils.formatEther(depositBalance)) > 0
+      ? Math.max(
+          partyWinning ? 4 : 3,
+          (Number(utils.formatEther(depositBalance)) / fullProgressBar) * 100,
+        )
+      : 0;
   let ratio = 50;
   if (depositBalance.eq(0)) {
     ratio = 0;
@@ -107,7 +119,7 @@ const PartyProgressBar: React.FC<{
           </Col>
         </Row>
       )}
-      {partyWinning && (
+      {/* {partyWinning && (
         <Row>
           <Col className={classes.progressBarContainer}>
             <div className={`${classes.progressBar}`}>
@@ -124,7 +136,7 @@ const PartyProgressBar: React.FC<{
             </div>
           </Col>
         </Row>
-      )}
+      )} */}
     </div>
   );
 };

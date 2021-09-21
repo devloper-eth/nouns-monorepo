@@ -193,7 +193,7 @@ const Bid: React.FC<{
 
   if (!auction) return null;
 
-  const isDisabled =  bidState.status === 'Mining' || !activeAccount;
+  const isDisabled = bidState.status === 'Mining' || !activeAccount;
 
   const noPlaceBidContent = (
     <>
@@ -236,7 +236,7 @@ const Bid: React.FC<{
           <Button
             className={classes.placePartyBidButton}
             onClick={placeBidHandler}
-            disabled={isDisabled || auctionEnded}
+            disabled={isDisabled || auctionEnded || !maxBid}
           >
             {bidButtonContent.loading ? <Spinner animation="border" size="sm" /> : null}
             &nbsp; {bidButtonContent.content}

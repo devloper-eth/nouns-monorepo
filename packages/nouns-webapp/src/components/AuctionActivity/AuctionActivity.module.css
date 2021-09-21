@@ -42,18 +42,40 @@
   background-color: white;
   /* box-shadow: 0px -8px 8px rgb(0 0 0 / 20%); */
   padding-top: 20px;
-  padding-bottom: 20px;
   -webkit-filter: drop-shadow(0px 0px 0px white);
   filter: drop-shadow(0px 0px 0px white);
   border-top-left-radius: 42px;
   border-top-right-radius: 42px;
   overflow: hidden;
+  scrollbar-color: #cacfd2 rgba(255, 255, 255, 0);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  padding: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #eeeff2;
+  border-radius: 24px;
+  margin-top: 20px;
+  border: none;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cacfd2;
+  border-radius: 24px;
 }
 
 @media (max-width: 992px) {
   .floatingPaper {
     border-bottom-left-radius: 42px;
     border-bottom-right-radius: 42px;
+    padding-bottom: 20px;
   }
 }
 
@@ -107,6 +129,8 @@ h4 {
   height: 150px;
 }
 
+/* come on safari what in the world */
+/* https://stackoverflow.com/questions/41901346/div-with-position-fixed-not-displaying-inside-div-with-position-absolute-in-sa */
 .nounsPartyStamp {
   position: fixed;
   top: -40px;
@@ -114,6 +138,18 @@ h4 {
   z-index: -1;
   height: 200px;
   width: 200px;
+}
+
+.winningAmount {
+  margin: 0px !important;
+  padding: 0px !important;
+  font-size: 2.25rem;
+  font-weight: 500;
+  color: #212529;
+}
+
+.winningBidRow {
+  margin-bottom: 20px;
 }
 
 @media (max-width: 992px) {
@@ -126,11 +162,24 @@ h4 {
 
   .nounsPartyStamp {
     position: fixed;
-    top: -30px;
-    right: -10px;
+    top: -20px;
+    right: 0px;
     z-index: -1;
     height: 150px;
     width: 150px;
+    /* https://stackoverflow.com/questions/20832531/mobile-safari-positionfixed-z-index-glitch-when-scrolling/20898012 */
+    -webkit-transform: translateZ(1px);
+    -moz-transform: translateZ(1px);
+    -o-transform: translateZ(1px);
+    transform: translateZ(1px);
+  }
+
+  .winningAmount {
+    margin: 0px !important;
+    padding: 0px 0px 15px 0px !important;
+    font-size: 2rem;
+    font-weight: 500;
+    color: #212529;
   }
 }
 
@@ -175,7 +224,7 @@ h4 {
   width: 100%;
   border: none;
   outline: none;
-  font-weight: bold;
+  font-weight: 500;
   color: #fff;
   align-items: center;
   cursor: pointer;
@@ -208,14 +257,6 @@ h4 {
 .bidText {
   font-weight: bold;
   font-size: 16px;
-}
-
-.winningAmount {
-  margin: 0px !important;
-  padding: 0px !important;
-  font-size: 40px;
-  font-weight: 500;
-  color: #212529;
 }
 
 .dateContainer {
