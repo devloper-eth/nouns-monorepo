@@ -9,7 +9,7 @@ const Documentation = () => {
   const nounsLink = <Link text="Nouns.wtf" url="https://nouns.wtf" leavesPage={true} />;
 
   const fractionalizeLink = (
-    <Link text="Fractional.art" url="https://fractionalize.art" leavesPage={true} />
+    <Link text="Fractional.art" url="https://fractional.art" leavesPage={true} />
   );
   const nounsProposal = (
     <Link text="nouns DAO proposal process" url="https://nouns.wtf/vote/3" leavesPage={true} />
