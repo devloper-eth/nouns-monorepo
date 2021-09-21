@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import Link from '../Link';
 const Banner = () => {
   const fractionalizeLink = (
-    <Link text="Fractional.art" url="https://fractionalize.art" leavesPage={true} />
+    <Link text="Fractional.art" url="https://fractional.art" leavesPage={true} />
   );
   const nounsLink = <Link text="Nouns.wtf" url="https://nouns.wtf" leavesPage={true} />;
 
