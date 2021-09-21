@@ -20,7 +20,7 @@
 .teamRewards {
   font-family: 'Fredoka One';
   font-size: 2.5rem;
-  background: -webkit-linear-gradient(10deg, #00ffa3 10%, #57cdff 20%, #f68eff 50%);
+  background: -webkit-linear-gradient(10deg, #00ffa3 5%, #57cdff 17%, #f68eff 40%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -67,6 +67,19 @@
   font-family: 'Londrina Solid';
   font-size: 2.5rem;
   cursor: pointer;
+}
+
+.documentationParagraph {
+  font-weight: 500;
+  margin-bottom: 3rem;
+}
+
+.collectiveParagraph {
+  margin-bottom: 1rem;
+}
+
+.weAreTheBuildersBaby {
+  margin-bottom: 3rem;
 }
 
 /* .cardHeader h2 {

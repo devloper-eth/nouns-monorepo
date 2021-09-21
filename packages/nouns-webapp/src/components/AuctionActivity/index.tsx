@@ -51,11 +51,9 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
       setAuctionEnded(true);
     } else {
       setAuctionEnded(false);
-      const timer = setTimeout(
-        () => {
-          setAuctionTimer(!auctionTimer);
-        }, 1000,
-      );
+      const timer = setTimeout(() => {
+        setAuctionTimer(!auctionTimer);
+      }, 1000);
 
       return () => {
         clearTimeout(timer);
@@ -104,7 +102,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
 
           {auction.nounId && isNounderNoun(auction.nounId) && (
             <Row className={classes.auctionActivityContainer}>
-              <Col lg={6}>
+              <Col lg={5}>
                 <Row>
                   <Col>
                     <p
@@ -118,7 +116,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
                   </Col>
                 </Row>
               </Col>
-              <Col lg={6}>
+              <Col lg={7}>
                 <Winner winner={'nounders.eth'} auction={auction} />
               </Col>
             </Row>
@@ -131,7 +129,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
           {!isNounderNoun(auction.nounId) && (
             <Row className={`${classes.auctionActivityContainer} justify-content-center`}>
               {auctionEnded ? (
-                <Col xs={12} lg={6} className="align-self-center">
+                <Col xs={12} lg={5} className="align-self-center">
                   <CurrentBid
                     currentBid={new BigNumber(auction.amount.toString())}
                     auctionEnded={auctionEnded}
@@ -145,7 +143,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
               )}
 
               {auctionEnded ? (
-                <Col xs={12} lg={6}>
+                <Col xs={12} lg={7}>
                   <Winner winner={auction.bidder} auction={auction} />
                 </Col>
               ) : (

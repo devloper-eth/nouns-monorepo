@@ -4,7 +4,7 @@
   /* padding: 10.5px 50px; */
   border: none;
   outline: none;
-  font-weight: bold;
+  font-weight: 500;
   color: #fff;
   align-items: center;
   cursor: pointer;
@@ -18,7 +18,7 @@
   /* filter: blur(12px); */
   border-radius: 24px;
   margin: 0px 0px 10px 0px;
-  box-shadow: 0px 4px 8px rgb(0 0 0 / 20%);
+
   transition: all 0.3s ease-in-out;
 }
 
@@ -27,8 +27,8 @@
 }
 
 .connectWalletButton:disabled {
-  background: #F0F1F4;
-  color: #D2D5DA;
+  background: #f0f1f4;
+  color: #d2d5da;
 }
 
 /*

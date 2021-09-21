@@ -29,7 +29,7 @@
 }
 .leftArrow:disabled,
 .rightArrow:disabled {
-  opacity: 0.5;
+  opacity: 0.2;
 }
 /*
 @media (max-width: 992px) {
