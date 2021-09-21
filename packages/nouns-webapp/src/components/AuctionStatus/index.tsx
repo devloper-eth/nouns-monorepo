@@ -66,7 +66,7 @@ const AuctionStatus: React.FC<{
       statusTextTitle = 'The vault has enough funds!';
       statusText = 'Submit a bid!';
       status = 'success';
-    } else if (maxBid.lt(parseEther("0.1")) || (vaultSize.eq(0) && maxBid.eq(parseEther("0.1")))) {
+    } else if (vaultSize.eq(0) && maxBid.eq(parseEther("0.1"))) {
       statusTextTitle = 'The vault needs more funds!';
       statusText = 'Add more funds for the minimum bid.';
       status = 'success';
