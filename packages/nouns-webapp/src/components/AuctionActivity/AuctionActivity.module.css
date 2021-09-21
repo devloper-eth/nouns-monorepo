@@ -130,7 +130,9 @@ h4 {
 }
 
 /* come on safari what in the world */
+
 /* https://stackoverflow.com/questions/41901346/div-with-position-fixed-not-displaying-inside-div-with-position-absolute-in-sa */
+
 .nounsPartyStamp {
   position: fixed;
   top: -40px;
@@ -138,6 +140,7 @@ h4 {
   z-index: -1;
   height: 200px;
   width: 200px;
+  opacity: 0.5;
 }
 
 .winningAmount {
@@ -159,7 +162,6 @@ h4 {
   .auctionTimerCol {
     padding-left: 15px;
   }
-
   .nounsPartyStamp {
     position: fixed;
     top: -20px;
@@ -167,13 +169,13 @@ h4 {
     z-index: -1;
     height: 150px;
     width: 150px;
+    opacity: 0.5;
     /* https://stackoverflow.com/questions/20832531/mobile-safari-positionfixed-z-index-glitch-when-scrolling/20898012 */
     -webkit-transform: translateZ(1px);
     -moz-transform: translateZ(1px);
     -o-transform: translateZ(1px);
     transform: translateZ(1px);
   }
-
   .winningAmount {
     margin: 0px !important;
     padding: 0px 0px 15px 0px !important;

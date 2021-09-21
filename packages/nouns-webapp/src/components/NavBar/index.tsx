@@ -199,7 +199,7 @@ const NavBar = () => {
               Place Bid
             </Nav.Item> */}
 
-            {pendingSettledCount.gt(0) && (
+            {pendingSettledCount.gt(0) && !onDisplayAuction?.settled  && (
               <Nav.Link
                 className={classes.nounsNavLink}
                 onClick={() => showSettleAuctionModalHandler()}
