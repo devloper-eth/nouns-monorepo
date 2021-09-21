@@ -40,25 +40,25 @@ const AuctionStatus: React.FC<{
   let statusText = '';
   let status = '';
   let depositBalance = useNounsPartyDepositBalance();
-  let targetBidAmount = depositBalance.mul(107).div(100);
+
+  let vaultSize = depositBalance;
+  if (currentAuction.bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
+    vaultSize = depositBalance.sub(currentAuction.amount);
+  }
 
   if (currentAuction && !auctionEnded) {
     let bidder = currentAuction.bidder;
     if (bidder && bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
       statusText = 'The party is winning the auction!';
       status = 'success';
-    } else if (targetBidAmount.gt(currentAuction.amount)) {
-      if (pendingSettledCount.gt(0) && !settleNext.eq(currentAuction.nounId)) {
-        statusText = 'The vault has enough funds! Settle the previous auction and then submit a bid.';
-      } else {
-        statusText = 'The vault has enough funds! Submit the bid!';
-      }
+    } else if (pendingSettledCount.gt(0) && !settleNext.eq(currentAuction.nounId)) {
+      statusText = 'Settle the previous auction to submit a bid.';
       status = 'success';
-    } else if (currentAuction.amount.lt(maxBid || 0)) {
-      statusText = 'The vault requires more funds to bid.';
-      status = 'fail';
+    } else if (vaultSize.gte(maxBid) && maxBid.gt(0)) {
+      statusText = 'The vault has enough funds! Submit a bid!';
+      status = 'success';
     } else {
-      statusText = 'The party has been outbid!';
+      statusText = 'The party has been outbid! Add more funds.';
       status = 'fail';
     }
   } else if (currentAuction) {
