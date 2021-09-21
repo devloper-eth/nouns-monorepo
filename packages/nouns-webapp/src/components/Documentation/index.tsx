@@ -153,8 +153,8 @@ const Documentation = () => {
 
                 <p className={classes.documentationParagraph}>
                   As a result, nouns party contributors can expect 2.5% fewer tokens than their initial
-                  vault contribution. For example, if a noun is won for 200E and is tokenized into
-                  200,000 tokens, the vault contributors will receive 200,000 less 2.5%, or 195,000
+                  vault contribution. For example, if a noun is won for 200E it will be tokenized
+                  205,000 tokens, the vault contributors will receive 205,000 less 2.5%, or 200,000
                   tokens distributed in proportion to the amount contributed to the vault.
                 </p>
 
