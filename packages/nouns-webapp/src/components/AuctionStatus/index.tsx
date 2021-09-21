@@ -55,7 +55,7 @@ const AuctionStatus: React.FC<{
   if (currentAuction && !auctionEnded) {
     let bidder = currentAuction.bidder;
     if (bidder && bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
-      statusTextTitle = `We've taken the lead!`;
+      statusTextTitle = `We're winning the auction!`;
       statusText = 'You can still add more funds to the party vault.';
       status = 'success';
     } else if (pendingSettledCount.gt(0) && !settleNext.eq(currentAuction.nounId)) {
