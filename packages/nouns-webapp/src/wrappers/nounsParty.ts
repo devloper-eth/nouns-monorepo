@@ -127,7 +127,7 @@ export const useNounsPartyClaimsCount = (address: string | null | undefined) => 
 }
 
 export const useNounsPartyClaims = (address: string | null | undefined, index: Number) => {
-	const claim = useContractCall(address && index && {
+	const claim = useContractCall(address && index >= 0 && {
 		abi,
 		address: config.nounsPartyAddress,
 		method: "claims",
