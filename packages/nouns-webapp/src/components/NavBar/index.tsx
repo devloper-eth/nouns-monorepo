@@ -17,7 +17,8 @@ import ClaimTokensModal from '../ClaimTokensModal';
 import SettleAuctionModal from '../SettleAuction';
 // import { Auction as IAuction } from '../../wrappers/nounsAuction';
 import useOnDisplayAuction from '../../wrappers/onDisplayAuction';
-import { useNounsPartyPendingSettledCount } from '../../wrappers/nounsParty';
+import { useNounsPartyPendingSettledCount, useNounsPartySettleNext } from '../../wrappers/nounsParty';
+import { BigNumber } from '@ethersproject/bignumber';
 
 const NavBar = () => {
   const onDisplayAuction = useOnDisplayAuction();
@@ -134,7 +135,9 @@ const NavBar = () => {
     </>
   );
 
+  const settleNext = useNounsPartySettleNext();
   const pendingSettledCount = useNounsPartyPendingSettledCount();
+  const needsSettle = pendingSettledCount.gt(0) && !settleNext.eq(onDisplayAuction?.nounId || BigNumber.from(0))
 
   return (
     <>
@@ -199,7 +202,7 @@ const NavBar = () => {
               Place Bid
             </Nav.Item> */}
 
-            {pendingSettledCount.gt(0) && !onDisplayAuction?.settled && (
+            {needsSettle && !onDisplayAuction?.settled && (
               <Nav.Link
                 className={classes.nounsNavLink}
                 onClick={() => showSettleAuctionModalHandler()}
