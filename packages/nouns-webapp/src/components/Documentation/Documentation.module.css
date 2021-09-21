@@ -12,17 +12,13 @@
 .faq {
   font-family: 'Fredoka One';
   font-size: 2.5rem;
-  background: -webkit-linear-gradient(10deg, #00ffa3 2.5%, #57cdff 5%, #f68eff 7.5%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #212529;
 }
 
 .teamRewards {
   font-family: 'Fredoka One';
   font-size: 2.5rem;
-  background: -webkit-linear-gradient(10deg, #00ffa3 5%, #57cdff 17%, #f68eff 40%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #212529;
 }
 
 @media (max-width: 992px) {
@@ -33,23 +29,19 @@
   .headerWrapper h1 {
     font-family: 'Fredoka One';
     font-size: 4rem;
-    background: -webkit-linear-gradient(10deg, #00ffa3 5%, #57cdff 35%, #f68eff 50%);
+    background: -webkit-linear-gradient(10deg, #00ffa3 10%, #57cdff 40%, #f68eff 70%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
   .faq {
     font-family: 'Fredoka One';
     font-size: 2.5rem;
-    background: -webkit-linear-gradient(10deg, #00ffa3 5%, #57cdff 15%, #f68eff 20%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #212529;
   }
   .teamRewards {
     font-family: 'Fredoka One';
     font-size: 2.5rem;
-    background: -webkit-linear-gradient(10deg, #00ffa3 10%, #57cdff 40%, #f68eff 70%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #212529;
   }
 }
 
