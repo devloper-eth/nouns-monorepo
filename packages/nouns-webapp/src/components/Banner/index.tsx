@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import Link from '../Link';
 const Banner = () => {
   const fractionalizeLink = (
-    <Link text="Fractional.app" url="https://fractionalize.app" leavesPage={true} />
+    <Link text="Fractional.art" url="https://fractionalize.art" leavesPage={true} />
   );
   const nounsLink = <Link text="Nouns.wtf" url="https://nouns.wtf" leavesPage={true} />;
 
@@ -22,8 +22,9 @@ const Banner = () => {
                 <div className={clsx(classes.instructionText)}>
                   <span>1</span>
                   <p>
-                    Add funds to the nouns party vault to join in with the auction. You can add as
-                    little as 0.1 ETH to get the party started.
+                    Nouns party is the community's tool for participating in&nbsp;{nounsLink}&nbsp;auctions.
+                    The nouns party vault is a rolling fund which can be used in a set it and forget style. Simply
+                    contribute funds to the vault and wait.
                   </p>
                 </div>
               </Row>
@@ -31,9 +32,11 @@ const Banner = () => {
                 <div className={clsx(classes.instructionText)}>
                   <span>2</span>
                   <p>
-                    The nouns party vault will be used to bid on the daily&nbsp;{nounsLink}&nbsp;
-                    auction. If the community collects enough ethereum to outbid the largest bidder,
-                    they will win a noun!
+                    Over time the vault will accumulate funds. And when the vault is large enough,
+                    the community will come together to use the funds
+                    to bid in the daily&nbsp;{nounsLink}&nbsp; auction. If the vault is large
+                    enough, the community will win a noun! If not, the funds will
+                    remain in the vault for the next daily auction.
                   </p>
                 </div>
               </Row>
@@ -41,10 +44,10 @@ const Banner = () => {
                 <div className={clsx(classes.instructionText)}>
                   <span>3</span>
                   <p>
-                    When the community wins a noun, everyone wins. The noun will trustlessly
-                    fractionalized into nouns shares with a {fractionalizeLink} vault. These shares
+                    When the community wins a noun, everyone wins. The noun will be trustlessly
+                    fractionalized into nouns shares with a&nbsp;{fractionalizeLink}&nbsp;vault. These shares
                     are an ERC20 representation of the community owned noun. Contributors can return
-                    and claim their shares at any time.
+                    and claim their shares in proportion to their contribution at any time.
                   </p>
                 </div>
               </Row>
