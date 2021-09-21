@@ -73,7 +73,7 @@ const PartyProgressBar: React.FC<{
           {fullProgressBar === 150 && (
             <p className={`${classes.partyGoalText}`}>
               {/* {`Nouns Party Vault `} */}
-              <span className={classes.ethXiFont}>{`Goal Ξ150`}</span>
+              <span className={classes.ethXiFont}>{`Goal Ξ135`}</span>
             </p>
           )}
         </Col>
@@ -119,7 +119,7 @@ const PartyProgressBar: React.FC<{
           </Col>
         </Row>
       )}
-      {/* {partyWinning && (
+      {partyWinning && (
         <Row>
           <Col className={classes.progressBarContainer}>
             <div className={`${classes.progressBar}`}>
@@ -136,7 +136,7 @@ const PartyProgressBar: React.FC<{
             </div>
           </Col>
         </Row>
-      )} */}
+      )}
     </div>
   );
 };
