@@ -10,6 +10,7 @@ import {
   useNounsPartySettleNext,
 } from '../../wrappers/nounsParty';
 import { Col, Row } from 'react-bootstrap';
+import { parseEther } from 'ethers/lib/utils';
 
 const AuctionStatus: React.FC<{
   auction: Auction;
@@ -61,9 +62,13 @@ const AuctionStatus: React.FC<{
       statusTextTitle = 'The previous auction can now be settled!';
       statusText = 'Settle the previous auction to submit a bid.';
       status = 'success';
-    } else if (vaultSize.gte(maxBid) && maxBid.gt(0)) {
+    } else if (vaultSize.gte(maxBid) && maxBid.gte(parseEther("0.1"))) {
       statusTextTitle = 'The vault has enough funds!';
       statusText = 'Submit a bid!';
+      status = 'success';
+    } else if (maxBid.lt(parseEther("0.1")) || (vaultSize.eq(0) && maxBid.eq(parseEther("0.1")))) {
+      statusTextTitle = 'The vault needs more funds!';
+      statusText = 'Add more funds for the minimum bid.';
       status = 'success';
     } else {
       statusTextTitle = 'The party has been outbid!';
