@@ -112,14 +112,22 @@ const SettleAuction: React.FC<{ auction: Auction; hideSettleAuctionHandler: () =
       <>
         <Row className="justify-content-center">
           <Col>
-            <p className={classes.confirmText}>
-              Are you ready to settle the auction for Noun {settleNext.toNumber()}?
-            </p>
+            {settleNext ? (
+              <p className={classes.confirmText}>
+                Are you ready to settle the auction for Noun {settleNext.toNumber()}?
+              </p>
+            ) : (
+              <p className={classes.confirmText}>Loading auction settle data...</p>
+            )}
           </Col>
         </Row>
 
         <Col>
-          <Button className={classes.settleAuctionButton} onClick={() => settleAuction()}>
+          <Button
+            disabled={!settleNext}
+            className={classes.settleAuctionButton}
+            onClick={() => settleAuction()}
+          >
             {settleAuctionButtonContent.loading ? <Spinner animation="border" size="sm" /> : null}
             &nbsp; {settleAuctionButtonContent.content}
           </Button>
