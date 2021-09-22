@@ -79,26 +79,6 @@ const NavBar = () => {
     setShowSettleAuctionModal(false);
   };
 
-  // // timer logic
-  // useEffect(() => {
-  //   if (!auction) return;
-
-  //   const timeLeft = Number(auction.endTime) - Math.floor(Date.now() / 1000);
-
-  //   if (auction && timeLeft <= 0) {
-  //     setAuctionEnded(true);
-  //   } else {
-  //     setAuctionEnded(false);
-  //     const timer = setTimeout(() => {
-  //       setAuctionTimer(!auctionTimer);
-  //     }, 1000);
-
-  //     return () => {
-  //       clearTimeout(timer);
-  //     };
-  //   }
-  // }, [auctionTimer, auction]);
-
   const connectedContent = (
     <>
       <Nav.Item>
@@ -134,10 +114,6 @@ const NavBar = () => {
       </Nav.Link>
     </>
   );
-
-  const settleNext = useNounsPartySettleNext();
-  const pendingSettledCount = useNounsPartyPendingSettledCount();
-  const needsSettle = pendingSettledCount.gt(0) && !settleNext.eq(onDisplayAuction?.nounId || BigNumber.from(0))
 
   return (
     <>
@@ -201,15 +177,6 @@ const NavBar = () => {
             {/* <Nav.Item className={classes.menuItem} onClick={() => showPlaceBidModalHandler()}>
               Place Bid
             </Nav.Item> */}
-
-            {needsSettle && !onDisplayAuction?.settled && (
-              <Nav.Link
-                className={classes.nounsNavLink}
-                onClick={() => showSettleAuctionModalHandler()}
-              >
-                SETTLE AUCTION
-              </Nav.Link>
-            )}
 
             {activeAccount ? connectedContent : disconnectedContent}
             {/* <PartyInvite /> */}
