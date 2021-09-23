@@ -93,7 +93,6 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
 
   return (
     <Col lg={{ span: 6 }} className={classes.currentAuctionActivityContainer}>
-      <AuctionStatus auction={auction} noundersNoun={isNounderNoun(auction.nounId)} />
 
       {showSettleAuctionModal && onDisplayAuction && (
         <SettleAuctionModal
@@ -165,7 +164,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
 
           {isLastAuction && !auctionEnded && <PartyProgressBar auction={auction} />}
 
-          {/* {!isNounderNoun(auction.nounId) && <AuctionStatus auction={auction} />} */}
+          {!isNounderNoun(auction.nounId) && <AuctionStatus auction={auction} />}
 
           {!isNounderNoun(auction.nounId) && (
             <Row className={`${classes.auctionActivityContainer} justify-content-center`}>
