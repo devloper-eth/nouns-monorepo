@@ -9,34 +9,19 @@ import ShortAddress from '../ShortAddress';
 import { useState } from 'react';
 import { useEthers } from '@usedapp/core';
 import WalletConnectModal from '../WalletConnectModal';
-// import PartyInvite from '../PartyInvite';
 import WithdrawModal from '../WithdrawModal';
 import ClaimTokensModal from '../ClaimTokensModal';
-// import { useAuction } from '../../wrappers/nounsAuction';
-// import Bid from '../Bid';
-import SettleAuctionModal from '../SettleAuction';
-// import { Auction as IAuction } from '../../wrappers/nounsAuction';
-import useOnDisplayAuction from '../../wrappers/onDisplayAuction';
-import { useNounsPartyPendingSettledCount, useNounsPartySettleNext } from '../../wrappers/nounsParty';
-import { BigNumber } from '@ethersproject/bignumber';
+import { useNounsPartyClaimsCount } from '../../wrappers/nounsParty';
 
 const NavBar = () => {
-  const onDisplayAuction = useOnDisplayAuction();
   const activeAccount = useAppSelector(state => state.account.activeAccount);
-  // const lastNounId = useAppSelector(state => state.onDisplayAuction.lastAuctionNounId);
-  // const auction = useAuction(config.auctionProxyAddress);
   const { deactivate } = useEthers();
-
-  // const treasuryBalance = useEtherBalance(config.nounsDaoExecutorAddress);
-  // const daoEtherscanLink = buildEtherscanAddressLink(config.nounsDaoExecutorAddress);
 
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [showClaimTokensModal, setShowClaimTokensModal] = useState(false);
-  // const [showPlaceBidModal, setShowPlaceBidModal] = useState(false);
-  const [showSettleAuctionModal, setShowSettleAuctionModal] = useState(false);
-  // const [auctionEnded, setAuctionEnded] = useState(false);
-  // const [auctionTimer, setAuctionTimer] = useState(false);
+
+  const currentClaimsCount = useNounsPartyClaimsCount(activeAccount);
 
   // Wallet Connect Modal
   const showModalHandler = () => {
@@ -61,22 +46,6 @@ const NavBar = () => {
 
   const hideClaimTokensModalHandler = () => {
     setShowClaimTokensModal(false);
-  };
-
-  // Place Bid Modal
-  // const showPlaceBodModalHandler = () => {
-  //   setShowPlaceBidModal(true);
-  // };
-  // const hidePlaceBidModalHandler = () => {
-  //   setShowPlaceBidModal(false);
-  // };
-
-  // Settle Auction Modal
-  const showSettleAuctionModalHandler = () => {
-    setShowSettleAuctionModal(true);
-  };
-  const hideSettleAuctionHandler = () => {
-    setShowSettleAuctionModal(false);
   };
 
   const connectedContent = (
@@ -129,24 +98,6 @@ const NavBar = () => {
           activeAccount={activeAccount}
         />
       )}
-      {showSettleAuctionModal && onDisplayAuction && (
-        <SettleAuctionModal
-          hideSettleAuctionHandler={hideSettleAuctionHandler}
-          auction={onDisplayAuction}
-        />
-      )}
-      {/* {auction &&
-        lastNounId &&
-        auction?.nounId?.eq(lastNounId) &&
-        showPlaceBidModal &&
-        activeAccount &&
-        !auctionEnded && (
-          <Bid
-            auction={auction}
-            auctionEnded={auctionEnded}
-            hidePlaceBidModalHandler={hidePlaceBidModalHandler}
-          />
-        )} */}
       <Navbar expand="lg" className={classes.navBarContainer}>
         <Container>
           <Navbar.Brand as={Link} to="/" className={classes.navBarBrand}>
@@ -161,25 +112,22 @@ const NavBar = () => {
           {Number(CHAIN_ID) !== 1 && <Nav.Item>TESTNET</Nav.Item>}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-end">
-            <Nav.Link
-              className={classes.nounsNavLink}
-              onClick={activeAccount ? showClaimTokensModalHandler : showModalHandler}
-            >
-              CLAIM TOKENS
-            </Nav.Link>
+            {currentClaimsCount > 0 && (
+              <Nav.Link
+                className={classes.nounsNavLink}
+                onClick={activeAccount ? showClaimTokensModalHandler : showModalHandler}
+              >
+                CLAIM TOKENS
+              </Nav.Link>
+            )}
             <Nav.Link
               className={classes.nounsNavLink}
               onClick={activeAccount ? showWithdrawModalHandler : showModalHandler}
             >
               WITHDRAW FUNDS
             </Nav.Link>
-            {/* <SettleAuction /> */}
-            {/* <Nav.Item className={classes.menuItem} onClick={() => showPlaceBidModalHandler()}>
-              Place Bid
-            </Nav.Item> */}
 
             {activeAccount ? connectedContent : disconnectedContent}
-            {/* <PartyInvite /> */}
           </Navbar.Collapse>
         </Container>
       </Navbar>

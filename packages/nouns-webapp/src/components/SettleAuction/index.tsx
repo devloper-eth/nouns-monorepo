@@ -5,8 +5,7 @@ import { useContractFunction__fix } from '../../hooks/useContractFunction__fix';
 import {
   nounsPartyContractFactory,
   NounsPartyContractFunction,
-  useNounsPartyPendingSettledCount,
-  useNounsPartySettleNext,
+  useNounsPartyCurrentNounId,
 } from '../../wrappers/nounsParty';
 import config from '../../config';
 import classes from './SettleAuction.module.css';
@@ -26,7 +25,8 @@ const SettleAuction: React.FC<{ auction: Auction; hideSettleAuctionHandler: () =
       content: 'Settle Auction',
     });
 
-    const pendingSettledCount = useNounsPartyPendingSettledCount();
+    // const nounsPartyActiveAuction = useNounsPartyActiveAuction();
+    const nounsPartyCurrentNounId = useNounsPartyCurrentNounId();
 
     // Redux
     const dispatch = useAppDispatch();
@@ -106,15 +106,13 @@ const SettleAuction: React.FC<{ auction: Auction; hideSettleAuctionHandler: () =
       }
     }, [settleState, setModal, activeAccount, hideSettleAuctionHandler]);
 
-    const settleNext = useNounsPartySettleNext();
-
-    const settleContent = pendingSettledCount.gt(0) ? (
+    const settleContent = activeAccount ? (
       <>
         <Row className="justify-content-center">
           <Col>
-            {settleNext ? (
+            {nounsPartyCurrentNounId ? (
               <p className={classes.confirmText}>
-                Are you ready to settle the auction for Noun {settleNext.toNumber()}?
+                Are you ready to settle the auction for Noun {nounsPartyCurrentNounId}?
               </p>
             ) : (
               <p className={classes.confirmText}>Loading auction settle data...</p>
@@ -124,7 +122,7 @@ const SettleAuction: React.FC<{ auction: Auction; hideSettleAuctionHandler: () =
 
         <Col>
           <Button
-            disabled={!settleNext}
+            disabled={!nounsPartyCurrentNounId}
             className={classes.settleAuctionButton}
             onClick={() => settleAuction()}
           >

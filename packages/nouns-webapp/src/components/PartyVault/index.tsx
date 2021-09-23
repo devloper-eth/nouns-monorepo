@@ -1,25 +1,13 @@
 import React from 'react';
-import { utils, BigNumber as EthersBN } from 'ethers';
+import { utils } from 'ethers';
 import { Auction } from '../../wrappers/nounsAuction';
 import classes from './PartyVault.module.css';
-import config from '../../config';
-import { useNounsPartyDepositBalance, useNounsPartyPendingSettledCount, useNounsPartySettleNext } from '../../wrappers/nounsParty';
-import { useEtherBalance } from '@usedapp/core';
-import { formatEther } from '@ethersproject/units';
+import { useNounsPartyAvailableDepositBalance } from '../../wrappers/nounsParty';
 
 const PartyVault: React.FC<{ auction: Auction }> = props => {
   const { auction } = props;
-  const depositBalance = useNounsPartyDepositBalance()
-  const pendingSettledCount = useNounsPartyPendingSettledCount();
-  const settleNext = useNounsPartySettleNext();
-  const contractBalance = useEtherBalance(config.nounsPartyAddress) || EthersBN.from(0);
-
+  const vaultSize = useNounsPartyAvailableDepositBalance();
   const auctionBid = auction?.amount;
-
-  let vaultSize = depositBalance;
-  if (auction.bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
-    vaultSize = depositBalance.sub(auctionBid);
-  }
 
   let ratio = 50;
   if (vaultSize.eq(0)) {
@@ -37,23 +25,12 @@ const PartyVault: React.FC<{ auction: Auction }> = props => {
 
   let roundedEth = Math.ceil(Number(utils.formatEther(vaultSize)) * 1000) / 1000;
 
-  const needsSettle = pendingSettledCount.gt(0) && !settleNext.eq(auction.nounId)
-
   return (
     <>
       <p className={`${classes.noMarginPadding} ${classes.vaultText}`}>Party Vault</p>
-      {!needsSettle ? <>
-        <h3 className={classes.addressText}>
-          <span className={classes.ethXiFont}>{`Ξ `}</span> {`${roundedEth}`}
-        </h3>
-      </>
-        :
-        <>
-          <h3 className={classes.addressText}>
-            <span className={classes.ethXiFont}>{`Ξ `}</span> {formatEther(contractBalance)}
-          </h3>
-        </>
-      }
+      <h3 className={classes.addressText}>
+        <span className={classes.ethXiFont}>{`Ξ `}</span> {`${roundedEth}`}
+      </h3>
     </>
   );
 };
