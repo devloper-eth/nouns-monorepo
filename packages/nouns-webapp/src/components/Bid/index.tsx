@@ -13,7 +13,7 @@ import Modal from '../Modal';
 import {
   nounsPartyContractFactory,
   NounsPartyContractFunction,
-  useNounsPartyMaxBid,
+  useNounsPartyCalcBidAmount,
 } from '../../wrappers/nounsParty';
 import { formatEther } from '@ethersproject/units';
 
@@ -69,7 +69,8 @@ const Bid: React.FC<{
   const dispatch = useAppDispatch();
   const setModal = useCallback((modal: AlertModal) => dispatch(setAlertModal(modal)), [dispatch]);
 
-  const maxBid = useNounsPartyMaxBid();
+  const bidAmount = useNounsPartyCalcBidAmount();
+  // console.log("bidAmount", bidAmount, formatEther(bidAmount))
 
   // const minBidIncPercentage = useAuctionMinBidIncPercentage();
   // const minBid = computeMinimumNextBid(
@@ -126,9 +127,9 @@ const Bid: React.FC<{
     let gasLimit = BigNumber.from(500000);
     try {
       gasLimit = await contract.estimateGas.bid();
-      gasLimit.add(10000); // A 10,000 gas pad is used to avoid 'Out of gas' errors
+      gasLimit.add(100000);
     } catch (e) {
-      console.log('Failed to guess gas.', e);
+      console.error('Failed to guess gas.', e);
     }
 
     bid({
@@ -205,7 +206,7 @@ const Bid: React.FC<{
           </p>
           <p className={classes.infoText}>
             The vault does not have enough funds. Please add funds to the vault to execute this bid.{' '}
-            <strong>A bid requires {formatEther(maxBid)}&nbsp;ETH</strong>.
+            <strong>A bid requires {formatEther(bidAmount)}&nbsp;ETH</strong>.
           </p>
         </Col>
       </Row>
@@ -227,7 +228,7 @@ const Bid: React.FC<{
             claim their tokens. Any unused funds can be withdrawn.
           </p>
           <p className={classes.infoText}>
-            Bid amount: <strong>{formatEther(maxBid)}&nbsp;ETH</strong>
+            Bid amount: <strong>{formatEther(bidAmount)}&nbsp;ETH</strong>
           </p>
         </Col>
       </Row>
@@ -236,7 +237,7 @@ const Bid: React.FC<{
           <Button
             className={classes.placePartyBidButton}
             onClick={placeBidHandler}
-            disabled={isDisabled || auctionEnded || !maxBid}
+            disabled={isDisabled || auctionEnded || !bidAmount}
           >
             {bidButtonContent.loading ? <Spinner animation="border" size="sm" /> : null}
             &nbsp; {bidButtonContent.content}
@@ -248,7 +249,7 @@ const Bid: React.FC<{
   return (
     <Modal
       title="Submit bid"
-      content={maxBid.gte(0) ? placeBidContent : noPlaceBidContent}
+      content={bidAmount.gte(0) ? placeBidContent : noPlaceBidContent}
       onDismiss={hidePlaceBidModalHandler}
     />
   );

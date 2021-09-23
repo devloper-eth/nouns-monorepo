@@ -172,7 +172,7 @@ h4 {
 }
 
 .fracVaultContainer {
-  margin: 20px 25px;
+  margin: 5px 25px;
 }
 
 .fracVaultButton {
@@ -181,6 +181,23 @@ h4 {
   border: none;
   outline: none;
   font-weight: 700;
+  color: #fff;
+  align-items: center;
+  cursor: pointer;
+  z-index: 0;
+  text-align: center;
+  font-size: 1em;
+  background: linear-gradient(90.72deg, #00ffa3 -33.78%, #57cdff 35.54%, #f68eff 118.48%);
+  border-radius: 24px;
+  margin: 5px 0px 5px 0px;
+}
+
+.settleAuctionButton {
+  height: 3em;
+  width: 100%;
+  border: none;
+  outline: none;
+  font-weight: 500;
   color: #fff;
   align-items: center;
   cursor: pointer;
