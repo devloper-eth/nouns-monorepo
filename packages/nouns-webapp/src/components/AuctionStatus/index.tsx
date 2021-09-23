@@ -19,7 +19,7 @@ const AuctionStatus: React.FC<{
   auction: Auction;
   noundersNoun: boolean;
 }> = props => {
-  const { auction: currentAuction } = props;
+  const { auction: currentAuction, noundersNoun } = props;
   const activeAccount = useAppSelector(state => state.account.activeAccount);
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
@@ -109,6 +109,9 @@ const AuctionStatus: React.FC<{
           statusTextTitle = 'The party won the auction!';
           statusText = 'We can fractionalize the noun as soon as a new auction starts.';
         }
+      } else if (noundersNoun) {
+        statusTextTitle = 'The nounders were rewarded this noun.';
+        statusText = 'No auction occurred.';
       } else {
         statusTextTitle = 'The party lost the auction!';
         statusText = `We'll get it next time.`;
