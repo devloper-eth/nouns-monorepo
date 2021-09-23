@@ -7,8 +7,9 @@ import {
   useNounsPartyCalcBidAmount,
   useNounsPartyNounStatus,
   useNounsPartyClaimsCount,
-  useNounsPartyAvailableDepositBalance,
-  useNounsPartyCurrentNounId,
+  useNounsPartyDepositBalance,
+  useNounsPartyCurrentBidAmount,
+  useNounsPartyCurrentNounId
 } from '../../wrappers/nounsParty';
 import { Col, Row } from 'react-bootstrap';
 import { useAppSelector } from '../../hooks';
@@ -27,6 +28,8 @@ const AuctionStatus: React.FC<{
   const currentClaimsCount = useNounsPartyClaimsCount(activeAccount);
   const nounsPartyCurrentNounId = useNounsPartyCurrentNounId();
   const nounsPartyPreviousNounStatus = useNounsPartyNounStatus(BigNumber.from(nounsPartyCurrentNounId));
+  const depositBalance = useNounsPartyDepositBalance()
+  const currentBidAmount = useNounsPartyCurrentBidAmount();
 
   useEffect(() => {
     if (!currentAuction) return;
@@ -49,35 +52,37 @@ const AuctionStatus: React.FC<{
 
   let statusText = '';
   let statusTextTitle = '';
-  let vaultSize = useNounsPartyAvailableDepositBalance();
+
+  let vaultSize = depositBalance;
+  if (currentAuction.bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
+    vaultSize = depositBalance.sub(currentAuction.amount);
+  } else if (nounsPartyPreviousNounStatus === "won") {
+    vaultSize = depositBalance.sub(currentBidAmount);
+  }
 
   if (currentAuction) {
     let bidder = currentAuction.bidder;
     if (!auctionEnded) {
-      if (nounsPartyPreviousNounStatus === "won") {
-        statusTextTitle = 'A previous auction needs to be settled first.';
-        statusText = 'We can place a bid after the previous auction is settled.';
+      if (bidder && bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
+        statusTextTitle = `We're winning the auction!`;
+        statusText = 'You can still add more funds to the party vault.';
+      } else if (vaultSize.eq(0)) {
+        statusTextTitle = 'The vault needs more funds!';
+        statusText = 'Add more funds for the minimum bid.';
+      } else if (bidAmount.gt(0) && (!bidder || bidder === "0x0000000000000000000000000000000000000000")) {
+        statusTextTitle = 'The vault has enough funds!';
+        statusText = 'Submit the very first bid!';
+      } else if (bidAmount.gt(0)) {
+        statusTextTitle = 'The party has been outbid!';
+        statusText = 'Submit a bid!';
+      } else if (bidAmount.eq(0) && (!bidder || bidder === "0x0000000000000000000000000000000000000000")) {
+        statusTextTitle = 'Add more funds to submit a bid!';
+        statusText = 'The auction is live.';
       } else {
-        if (bidder && bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
-          statusTextTitle = `We're winning the auction!`;
-          statusText = 'You can still add more funds to the party vault.';
-        } else if (vaultSize.eq(0)) {
-          statusTextTitle = 'The vault needs more funds!';
-          statusText = 'Add more funds for the minimum bid.';
-        } else if (bidAmount.gt(0) && (!bidder || bidder === "0x0000000000000000000000000000000000000000")) {
-          statusTextTitle = 'The vault has enough funds!';
-          statusText = 'Submit the very first bid!';
-        } else if (bidAmount.gt(0)) {
-          statusTextTitle = 'The party has been outbid!';
-          statusText = 'Submit a bid!';
-        } else if (bidAmount.eq(0) && (!bidder || bidder === "0x0000000000000000000000000000000000000000")) {
-          statusTextTitle = 'Add more funds to submit a bid!';
-          statusText = 'The auction is live.';
-        } else {
-          statusTextTitle = 'The party has been outbid!';
-          statusText = 'Add more funds to the vault.';
-        }
+        statusTextTitle = 'The party has been outbid!';
+        statusText = 'Add more funds to the vault.';
       }
+      // }
     } else {
       if (bidder && bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
         if (nounStatus === "won") {
@@ -100,8 +105,6 @@ const AuctionStatus: React.FC<{
         statusText = `We'll get it next time.`;
       }
     }
-  } else {
-    statusText = 'The nounders were rewarded this noun.';
   }
 
   return (

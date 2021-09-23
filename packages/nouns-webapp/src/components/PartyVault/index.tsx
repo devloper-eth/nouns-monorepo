@@ -1,35 +1,31 @@
 import React from 'react';
-import { utils } from 'ethers';
 import { Auction } from '../../wrappers/nounsAuction';
 import classes from './PartyVault.module.css';
-import { useNounsPartyAvailableDepositBalance } from '../../wrappers/nounsParty';
+import { useNounsPartyCurrentBidAmount, useNounsPartyCurrentNounId, useNounsPartyDepositBalance, useNounsPartyNounStatus } from '../../wrappers/nounsParty';
+import { formatEther } from '@ethersproject/units';
+import { BigNumber as EthersBN } from 'ethers';
+import config from '../../config';
 
 const PartyVault: React.FC<{ auction: Auction }> = props => {
   const { auction } = props;
-  const vaultSize = useNounsPartyAvailableDepositBalance();
+  const depositBalance = useNounsPartyDepositBalance()
   const auctionBid = auction?.amount;
+  const currentBidAmount = useNounsPartyCurrentBidAmount();
+  const nounsPartyCurrentNounId = useNounsPartyCurrentNounId();
+  const nounsPartyPreviousNounStatus = useNounsPartyNounStatus(EthersBN.from(nounsPartyCurrentNounId));
 
-  let ratio = 50;
-  if (vaultSize.eq(0)) {
-    ratio = 0;
-  } else if (auctionBid.eq(0)) {
-    ratio = 100;
-  } else {
-    let vaultSizeNumber = Number(utils.formatEther(vaultSize));
-    let auctionBidNumber = Number(utils.formatEther(auctionBid));
-    ratio = (vaultSizeNumber / auctionBidNumber) * 100;
-    if (ratio > 100) {
-      ratio = 100;
-    }
+  let vaultSize = depositBalance;
+  if (auction.bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
+    vaultSize = depositBalance.sub(auctionBid);
+  } else if (nounsPartyPreviousNounStatus === "won") {
+    vaultSize = depositBalance.sub(currentBidAmount);
   }
-
-  let roundedEth = Math.ceil(Number(utils.formatEther(vaultSize)) * 1000) / 1000;
 
   return (
     <>
       <p className={`${classes.noMarginPadding} ${classes.vaultText}`}>Party Vault</p>
       <h3 className={classes.addressText}>
-        <span className={classes.ethXiFont}>{`Ξ `}</span> {`${roundedEth}`}
+        <span className={classes.ethXiFont}>{`Ξ `}</span> {`${formatEther(vaultSize)}`}
       </h3>
     </>
   );

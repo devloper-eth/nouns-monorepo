@@ -70,6 +70,7 @@ const Bid: React.FC<{
   const setModal = useCallback((modal: AlertModal) => dispatch(setAlertModal(modal)), [dispatch]);
 
   const bidAmount = useNounsPartyCalcBidAmount();
+  // console.log("bidAmount", bidAmount, formatEther(bidAmount))
 
   // const minBidIncPercentage = useAuctionMinBidIncPercentage();
   // const minBid = computeMinimumNextBid(
@@ -126,9 +127,9 @@ const Bid: React.FC<{
     let gasLimit = BigNumber.from(500000);
     try {
       gasLimit = await contract.estimateGas.bid();
-      gasLimit.add(10000); // A 10,000 gas pad is used to avoid 'Out of gas' errors
+      gasLimit.add(100000);
     } catch (e) {
-      console.log('Failed to guess gas.', e);
+      console.error('Failed to guess gas.', e);
     }
 
     bid({
