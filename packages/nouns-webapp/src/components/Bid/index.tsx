@@ -202,7 +202,7 @@ const Bid: React.FC<{
         <Col>
           <p className={classes.infoText}>
             Submitting a bid will place a bid on the nouns auction using the vault's funds. The bid
-            will be 7% higher than the current highest bid.
+            will be 5% higher than the current highest bid.
           </p>
           <p className={classes.infoText}>
             The vault does not have enough funds. Please add funds to the vault to execute this bid.{' '}
@@ -221,7 +221,7 @@ const Bid: React.FC<{
         <Col>
           <p className={classes.infoText}>
             Submitting this bid will place a bid on the nouns auction using the vault's funds. The
-            bid will be 7% higher than the current highest bid.
+            bid will be 5% higher than the current highest bid.
           </p>
           <p className={classes.infoText}>
             If the party goes on to win the auction, contributors can return after the auction to

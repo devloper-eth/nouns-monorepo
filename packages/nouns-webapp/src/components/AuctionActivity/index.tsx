@@ -20,7 +20,6 @@ import {
 } from '../../wrappers/nounsParty';
 import { isNounderNoun } from '../../utils/nounderNoun';
 import SettleAuctionModal from '../SettleAuction';
-import useOnDisplayAuction from '../../wrappers/onDisplayAuction';
 import ClaimTokensModal from '../ClaimTokensModal';
 
 // import { utils } from 'ethers';
@@ -47,7 +46,6 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
   } = props;
 
   const activeAccount = useAppSelector(state => state.account.activeAccount);
-  const onDisplayAuction = useOnDisplayAuction();
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
   const [showSettleAuctionModal, setShowSettleAuctionModal] = useState(false);
@@ -98,10 +96,10 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
   return (
     <Col lg={{ span: 6 }} className={classes.currentAuctionActivityContainer}>
       <AuctionStatus auction={auction} noundersNoun={isNounderNoun(auction.nounId)} />
-      {showSettleAuctionModal && onDisplayAuction && (
+      {showSettleAuctionModal && auction && (
         <SettleAuctionModal
           hideSettleAuctionHandler={hideSettleAuctionHandler}
-          auction={onDisplayAuction}
+          auction={auction}
         />
       )}
       {showClaimTokensModal && activeAccount && currentClaimsCount > 0 && (
