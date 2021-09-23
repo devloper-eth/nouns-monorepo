@@ -13,13 +13,13 @@
   margin: 0px !important;
   padding: 0px !important;
   font-size: 40px;
-  font-weight: 500;
+  font-weight: 700;
   color: #212529;
 }
 
 .bidText {
-  font-weight: 500;
-  font-size: 16px;
+  font-weight: 700;
+  font-size: 1.125rem;
   color: #5ec0fa;
   margin: 0px !important;
   padding: 0px !important;
@@ -27,8 +27,8 @@
 }
 
 .winningText {
-  font-weight: bold;
-  font-size: 16px;
+  font-weight: 700;
+  font-size: 1.125rem;
   margin: 0px !important;
   padding: 0px !important;
 }
@@ -37,7 +37,7 @@
   margin: 0px !important;
   padding: 0px !important;
   font-size: 2.25rem;
-  font-weight: 500;
+  font-weight: 700;
   color: #212529;
 }
 
@@ -45,15 +45,15 @@
   background: -webkit-linear-gradient(10deg, #00ffa3 12%, #57cdff 25%, #f68eff 40%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-size: 40px;
-  font-weight: 500;
+  font-size: 2.25rem;
+  font-weight: 700;
 }
 
 .leadingBid {
   margin: 0px !important;
   padding: 0px !important;
-  font-size: 2.5rem;
-  font-weight: 500;
+  font-size: 2.25rem;
+  font-weight: 700;
   color: #212529;
   text-align: center;
 }
@@ -63,7 +63,7 @@
     margin: 0px !important;
     padding: 0px !important;
     font-size: 1.75rem;
-    font-weight: 500;
+    font-weight: 700;
     color: #212529;
     text-align: center;
     white-space: nowrap;
@@ -72,7 +72,7 @@
     margin: 0px !important;
     padding: 0px 0px 15px 0px !important;
     font-size: 2rem;
-    font-weight: 500;
+    font-weight: 700;
     color: #212529;
   }
 }

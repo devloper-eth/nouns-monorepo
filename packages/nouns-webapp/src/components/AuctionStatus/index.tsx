@@ -14,8 +14,9 @@ import { parseEther } from 'ethers/lib/utils';
 
 const AuctionStatus: React.FC<{
   auction: Auction;
+  noundersNoun: boolean;
 }> = props => {
-  const { auction: currentAuction } = props;
+  const { auction: currentAuction, noundersNoun } = props;
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
   const maxBid = useNounsPartyMaxBid();
@@ -66,9 +67,13 @@ const AuctionStatus: React.FC<{
       statusTextTitle = 'The vault has enough funds!';
       statusText = 'Submit a bid!';
       status = 'success';
-    } else if (vaultSize.eq(0) && maxBid.eq(parseEther("0.1"))) {
+    } else if (vaultSize.eq(0) && maxBid.eq(parseEther('0.1'))) {
       statusTextTitle = 'The vault needs more funds!';
       statusText = 'Add more funds for the minimum bid.';
+      status = 'success';
+    } else if (noundersNoun) {
+      statusTextTitle = 'The party has been outbid!';
+      statusText = 'Add more funds to the vault.';
       status = 'success';
     } else {
       statusTextTitle = 'The party has been outbid!';
@@ -86,6 +91,10 @@ const AuctionStatus: React.FC<{
         statusText = 'Settle the auction to fractionalize the noun.';
       }
       status = 'success';
+    } else if (noundersNoun) {
+      statusTextTitle = 'The nounders were rewarded this noun.';
+      statusText = 'No auction occurred.';
+      status = 'success';
     } else {
       statusTextTitle = 'The party lost the auction!';
       statusText = `We'll get it next time.`;
@@ -100,8 +109,9 @@ const AuctionStatus: React.FC<{
   return (
     <>
       {statusText && statusTextTitle && (
-        <Row>
+        <Row className={classes.statusRow}>
           <Col>
+            <div className={classes.rectangle}></div>
             <p className={classes.statusTextTitle}>{statusTextTitle}</p>
             <p className={classes.statusText}>{statusText}</p>
           </Col>

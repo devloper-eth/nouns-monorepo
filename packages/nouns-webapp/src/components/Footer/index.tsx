@@ -9,6 +9,7 @@ const Footer = () => {
 
   const location = useLocation();
   const useGreyBg = useAppSelector(state => state.application.useGreyBackground);
+  const cursorVisibility = useAppSelector(state => state.application.cursorVisibility);
   const bgColor =
     location.pathname === '/' || location.pathname.startsWith('/noun/')
       ? 'white'
@@ -19,11 +20,19 @@ const Footer = () => {
   return (
     <>
       <div className={classes.cursorInstructions}>
+        {cursorVisibility && (
+          <>
+            <p>
+              Chat <code className={classes.codeText}>ctrl + /</code>
+            </p>
+            <p>
+              Escape <code className={classes.codeText}>esc</code>
+            </p>
+          </>
+        )}
         <p>
-          Chat <code className={classes.codeText}>cmd + /</code>
-        </p>
-        <p>
-          Escape <code className={classes.codeText}>esc</code>
+          {cursorVisibility ? 'Hide cursors' : 'Show cursors'}{' '}
+          <code className={classes.codeText}>ctrl + x</code>
         </p>
         {/* <p>
           Hide Cursors <code className={classes.codeText}>cmd + x</code>

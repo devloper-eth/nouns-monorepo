@@ -17,14 +17,6 @@
   }
 }
 
-@media (max-width: 992px) {
-  .paperWrapper {
-    overflow-x: hidden;
-    overflow-y: auto;
-    padding: 0px 10px;
-  }
-}
-
 .partyPaperContainer:before {
   position: absolute;
   top: -20px;
@@ -58,7 +50,7 @@
 ::-webkit-scrollbar-track {
   background-color: #eeeff2;
   border-radius: 24px;
-  margin-top: 20px;
+
   border: none;
 }
 
@@ -69,14 +61,6 @@
 ::-webkit-scrollbar-thumb {
   background-color: #cacfd2;
   border-radius: 24px;
-}
-
-@media (max-width: 992px) {
-  .floatingPaper {
-    border-bottom-left-radius: 42px;
-    border-bottom-right-radius: 42px;
-    padding-bottom: 20px;
-  }
 }
 
 .auctionActivityContainer {
@@ -134,7 +118,7 @@ h4 {
 /* https://stackoverflow.com/questions/41901346/div-with-position-fixed-not-displaying-inside-div-with-position-absolute-in-sa */
 
 .nounsPartyStamp {
-  position: fixed;
+  position: absolute;
   top: -40px;
   right: -15px;
   z-index: -1;
@@ -147,42 +131,12 @@ h4 {
   margin: 0px !important;
   padding: 0px !important;
   font-size: 2.25rem;
-  font-weight: 500;
+  font-weight: 700;
   color: #212529;
 }
 
 .winningBidRow {
   margin-bottom: 20px;
-}
-
-@media (max-width: 992px) {
-  .wrapper {
-    padding: 1rem;
-  }
-  .auctionTimerCol {
-    padding-left: 15px;
-  }
-  .nounsPartyStamp {
-    position: fixed;
-    top: -20px;
-    right: 0px;
-    z-index: -1;
-    height: 150px;
-    width: 150px;
-    opacity: 0.5;
-    /* https://stackoverflow.com/questions/20832531/mobile-safari-positionfixed-z-index-glitch-when-scrolling/20898012 */
-    -webkit-transform: translateZ(1px);
-    -moz-transform: translateZ(1px);
-    -o-transform: translateZ(1px);
-    transform: translateZ(1px);
-  }
-  .winningAmount {
-    margin: 0px !important;
-    padding: 0px 0px 15px 0px !important;
-    font-size: 2rem;
-    font-weight: 500;
-    color: #212529;
-  }
 }
 
 /* Fix Firefox navigation arrow alignment issues */
@@ -226,7 +180,7 @@ h4 {
   width: 100%;
   border: none;
   outline: none;
-  font-weight: 500;
+  font-weight: 700;
   color: #fff;
   align-items: center;
   cursor: pointer;
@@ -252,7 +206,7 @@ h4 {
   margin: 0px !important;
   padding: 0px !important;
   font-size: 40px;
-  font-weight: 500;
+  font-weight: 700;
   color: #212529;
 }
 
@@ -273,4 +227,54 @@ h4 {
 .auctionTimerContainer {
   margin: 0px 10px 10px 10px;
   padding-left: 15px;
+}
+
+.currentAuctionActivityContainer {
+  margin-top: 5vh;
+  text-align: left;
+  z-index: 2;
+  align-self: flex-end;
+  /* for nouns stamp in safari browsers */
+}
+
+@media (max-width: 992px) {
+  .floatingPaper {
+    border-bottom-left-radius: 42px;
+    border-bottom-right-radius: 42px;
+    padding-bottom: 20px;
+  }
+  .wrapper {
+    padding: 1rem;
+  }
+  .auctionTimerCol {
+    padding-left: 15px;
+  }
+  .nounsPartyStamp {
+    position: absolute;
+    top: 100px;
+    right: 0px;
+    z-index: -1;
+    height: 150px;
+    width: 150px;
+    opacity: 0.5;
+  }
+  .winningAmount {
+    margin: 0px !important;
+    padding: 0px 0px 15px 0px !important;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #212529;
+  }
+
+  .currentAuctionActivityContainer {
+    margin-top: 0;
+    text-align: left;
+    margin-bottom: 30px;
+  }
+
+  .paperWrapper {
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 0px 0px;
+  }
 }
