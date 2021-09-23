@@ -98,6 +98,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
   return (
     <Col lg={{ span: 6 }} className={classes.currentAuctionActivityContainer}>
       <AuctionStatus auction={auction} noundersNoun={isNounderNoun(auction.nounId)} />
+
       {showSettleAuctionModal && onDisplayAuction && (
         <SettleAuctionModal
           hideSettleAuctionHandler={hideSettleAuctionHandler}
@@ -110,6 +111,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
           activeAccount={activeAccount}
         />
       )}
+
       <div className={classes.floatingPaper}>
         <div className={classes.paperWrapper}>
           <img src={stampLogo} className={classes.nounsPartyStamp} alt="Nouns party logo" />
@@ -167,8 +169,6 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
 
           {isLastAuction && !auctionEnded && <PartyProgressBar auction={auction} />}
 
-          {/* {!isNounderNoun(auction.nounId) && <AuctionStatus auction={auction} />} */}
-
           {!isNounderNoun(auction.nounId) && (
             <Row className={`${classes.auctionActivityContainer} justify-content-center`}>
               {auctionEnded ? (
@@ -203,7 +203,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
 
           {nounStatus === 'won' && (
             <>
-              <Row>
+              <Row className={`${classes.settleAuctionRow} justify-content-center`}>
                 <Col>
                   <button
                     onClick={() => showSettleAuctionModalHandler()}

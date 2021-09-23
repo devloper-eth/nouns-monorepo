@@ -36,8 +36,8 @@
   padding-top: 20px;
   -webkit-filter: drop-shadow(0px 0px 0px white);
   filter: drop-shadow(0px 0px 0px white);
-  border-top-left-radius: 42px;
-  border-top-right-radius: 42px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
   overflow: hidden;
   scrollbar-color: #cacfd2 rgba(255, 255, 255, 0);
 }
@@ -228,8 +228,8 @@ h4 {
 }
 
 .bidText {
-  font-weight: bold;
-  font-size: 16px;
+  font-weight: 700;
+  font-size: 1.125rem;
 }
 
 .dateContainer {
@@ -256,8 +256,8 @@ h4 {
 
 @media (max-width: 992px) {
   .floatingPaper {
-    border-bottom-left-radius: 42px;
-    border-bottom-right-radius: 42px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
     padding-bottom: 20px;
   }
   .wrapper {
@@ -294,4 +294,8 @@ h4 {
     overflow-y: auto;
     padding: 0px 0px;
   }
+}
+
+.settleAuctionRow {
+  margin: 0px 10px 0px 10px;
 }
