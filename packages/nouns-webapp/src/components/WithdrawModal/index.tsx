@@ -118,10 +118,9 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
           <p>
             Withdrawals are currently disabled,
             <br />
-            because
-            {` ${auctionIsHot ? `the auction is about to end or just ended. ` : ''} ${
-              nounsPartyActiveAuction ? `some auctions still need to be settled.` : ''
-            }`}
+            because&nbsp;
+            {auctionIsHot ? `the auction is about to end or just ended. ` : ''}
+            {nounsPartyActiveAuction ? `some auctions still need to be settled.` : ''}
           </p>
         </Col>
       </Row>
@@ -171,11 +170,11 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
 
   const withdrawContent = (
     <>
-      {auctionIsHot || nounsPartyActiveAuction 
+      {auctionIsHot || nounsPartyActiveAuction
         ? withdrawDisabledContent
         : withdrawAmount(deposits).gt(0)
-        ? withdrawFormContent
-        : withdrawNoFundsContent}
+          ? withdrawFormContent
+          : withdrawNoFundsContent}
     </>
   );
 
