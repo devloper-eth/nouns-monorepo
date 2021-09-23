@@ -13,7 +13,11 @@ import AuctionNavigation from '../AuctionNavigation';
 import stampLogo from '../../assets/nouns_stamp.svg';
 import AuctionActivityDateHeadline from '../AuctionActivityDateHeadline';
 import AuctionStatus from '../AuctionStatus';
-import { useFracTokenVaults, useNounsPartyClaimsCount, useNounsPartyNounStatus } from '../../wrappers/nounsParty';
+import {
+  useFracTokenVaults,
+  useNounsPartyClaimsCount,
+  useNounsPartyNounStatus,
+} from '../../wrappers/nounsParty';
 import { isNounderNoun } from '../../utils/nounderNoun';
 import SettleAuctionModal from '../SettleAuction';
 import useOnDisplayAuction from '../../wrappers/onDisplayAuction';
@@ -93,7 +97,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
 
   return (
     <Col lg={{ span: 6 }} className={classes.currentAuctionActivityContainer}>
-
+      <AuctionStatus auction={auction} noundersNoun={isNounderNoun(auction.nounId)} />
       {showSettleAuctionModal && onDisplayAuction && (
         <SettleAuctionModal
           hideSettleAuctionHandler={hideSettleAuctionHandler}
@@ -164,8 +168,6 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
 
           {isLastAuction && !auctionEnded && <PartyProgressBar auction={auction} />}
 
-          {!isNounderNoun(auction.nounId) && <AuctionStatus auction={auction} />}
-
           {!isNounderNoun(auction.nounId) && (
             <Row className={`${classes.auctionActivityContainer} justify-content-center`}>
               {auctionEnded ? (
@@ -198,9 +200,9 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
             </Row>
           )}
 
-          {nounStatus === "won" && (
+          {nounStatus === 'won' && (
             <>
-              <Row>
+              <Row className={`${classes.settleAuctionRow} justify-content-center`}>
                 <Col>
                   <button
                     onClick={() => showSettleAuctionModalHandler()}
@@ -217,10 +219,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
             <>
               <Row>
                 <Col className={classes.fracVaultContainer}>
-                  <button
-                    onClick={showClaimTokensModalHandler}
-                    className={classes.fracVaultButton}
-                  >
+                  <button onClick={showClaimTokensModalHandler} className={classes.fracVaultButton}>
                     Claim tokens
                   </button>
                 </Col>

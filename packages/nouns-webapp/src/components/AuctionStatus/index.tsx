@@ -9,7 +9,7 @@ import {
   useNounsPartyClaimsCount,
   useNounsPartyDepositBalance,
   useNounsPartyCurrentBidAmount,
-  useNounsPartyCurrentNounId
+  useNounsPartyCurrentNounId,
 } from '../../wrappers/nounsParty';
 import { Col, Row } from 'react-bootstrap';
 import { useAppSelector } from '../../hooks';
@@ -17,8 +17,9 @@ import { BigNumber } from 'ethers';
 
 const AuctionStatus: React.FC<{
   auction: Auction;
+  noundersNoun: boolean;
 }> = props => {
-  const { auction: currentAuction } = props;
+  const { auction: currentAuction, noundersNoun } = props;
   const activeAccount = useAppSelector(state => state.account.activeAccount);
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
@@ -27,8 +28,10 @@ const AuctionStatus: React.FC<{
   const nounStatus = useNounsPartyNounStatus(currentAuction.nounId);
   const currentClaimsCount = useNounsPartyClaimsCount(activeAccount);
   const nounsPartyCurrentNounId = useNounsPartyCurrentNounId();
-  const nounsPartyPreviousNounStatus = useNounsPartyNounStatus(BigNumber.from(nounsPartyCurrentNounId));
-  const depositBalance = useNounsPartyDepositBalance()
+  const nounsPartyPreviousNounStatus = useNounsPartyNounStatus(
+    BigNumber.from(nounsPartyCurrentNounId),
+  );
+  const depositBalance = useNounsPartyDepositBalance();
   const currentBidAmount = useNounsPartyCurrentBidAmount();
 
   useEffect(() => {
@@ -56,7 +59,7 @@ const AuctionStatus: React.FC<{
   let vaultSize = depositBalance;
   if (currentAuction.bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
     vaultSize = depositBalance.sub(currentAuction.amount);
-  } else if (nounsPartyPreviousNounStatus === "won") {
+  } else if (nounsPartyPreviousNounStatus === 'won') {
     vaultSize = depositBalance.sub(currentBidAmount);
   }
 
@@ -69,13 +72,19 @@ const AuctionStatus: React.FC<{
       } else if (vaultSize.eq(0)) {
         statusTextTitle = 'The vault needs more funds!';
         statusText = 'Add more funds for the minimum bid.';
-      } else if (bidAmount.gt(0) && (!bidder || bidder === "0x0000000000000000000000000000000000000000")) {
+      } else if (
+        bidAmount.gt(0) &&
+        (!bidder || bidder === '0x0000000000000000000000000000000000000000')
+      ) {
         statusTextTitle = 'The vault has enough funds!';
         statusText = 'Submit the very first bid!';
       } else if (bidAmount.gt(0)) {
         statusTextTitle = 'The party has been outbid!';
         statusText = 'Submit a bid!';
-      } else if (bidAmount.eq(0) && (!bidder || bidder === "0x0000000000000000000000000000000000000000")) {
+      } else if (
+        bidAmount.eq(0) &&
+        (!bidder || bidder === '0x0000000000000000000000000000000000000000')
+      ) {
         statusTextTitle = 'Add more funds to submit a bid!';
         statusText = 'The auction is live.';
       } else {
@@ -85,7 +94,7 @@ const AuctionStatus: React.FC<{
       // }
     } else {
       if (bidder && bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
-        if (nounStatus === "won") {
+        if (nounStatus === 'won') {
           statusTextTitle = 'The party won the auction!';
           statusText = 'Settle the auction to fractionalize the noun.';
         } else if (fracTokenVault) {
@@ -100,6 +109,9 @@ const AuctionStatus: React.FC<{
           statusTextTitle = 'The party won the auction!';
           statusText = 'We can fractionalize the noun as soon as a new auction starts.';
         }
+      } else if (noundersNoun) {
+        statusTextTitle = 'The nounders were rewarded this noun.';
+        statusText = 'No auction occurred.';
       } else {
         statusTextTitle = 'The party lost the auction!';
         statusText = `We'll get it next time.`;
@@ -110,8 +122,9 @@ const AuctionStatus: React.FC<{
   return (
     <>
       {statusText && statusTextTitle && (
-        <Row>
+        <Row className={classes.statusRow}>
           <Col>
+            <div className={classes.rectangle}></div>
             <p className={classes.statusTextTitle}>{statusTextTitle}</p>
             <p className={classes.statusText}>{statusText}</p>
           </Col>
