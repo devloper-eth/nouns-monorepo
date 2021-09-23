@@ -3,26 +3,36 @@ import classes from './AuctionStatus.module.css';
 import { useState, useEffect } from 'react';
 import config from '../../config';
 import {
-  useNounsPartyDepositBalance,
   useFracTokenVaults,
-  useNounsPartyMaxBid,
-  useNounsPartyPendingSettledCount,
-  useNounsPartySettleNext,
+  useNounsPartyCalcBidAmount,
+  useNounsPartyNounStatus,
+  useNounsPartyClaimsCount,
+  useNounsPartyDepositBalance,
+  useNounsPartyCurrentBidAmount,
+  useNounsPartyCurrentNounId,
 } from '../../wrappers/nounsParty';
 import { Col, Row } from 'react-bootstrap';
-import { parseEther } from 'ethers/lib/utils';
+import { useAppSelector } from '../../hooks';
+import { BigNumber } from 'ethers';
 
 const AuctionStatus: React.FC<{
   auction: Auction;
   noundersNoun: boolean;
 }> = props => {
-  const { auction: currentAuction, noundersNoun } = props;
+  const { auction: currentAuction } = props;
+  const activeAccount = useAppSelector(state => state.account.activeAccount);
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
-  const maxBid = useNounsPartyMaxBid();
+  const bidAmount = useNounsPartyCalcBidAmount();
   const fracTokenVault = useFracTokenVaults(currentAuction.nounId);
-  const pendingSettledCount = useNounsPartyPendingSettledCount();
-  const settleNext = useNounsPartySettleNext();
+  const nounStatus = useNounsPartyNounStatus(currentAuction.nounId);
+  const currentClaimsCount = useNounsPartyClaimsCount(activeAccount);
+  const nounsPartyCurrentNounId = useNounsPartyCurrentNounId();
+  const nounsPartyPreviousNounStatus = useNounsPartyNounStatus(
+    BigNumber.from(nounsPartyCurrentNounId),
+  );
+  const depositBalance = useNounsPartyDepositBalance();
+  const currentBidAmount = useNounsPartyCurrentBidAmount();
 
   useEffect(() => {
     if (!currentAuction) return;
@@ -44,66 +54,66 @@ const AuctionStatus: React.FC<{
   }, [auctionTimer, currentAuction]);
 
   let statusText = '';
-  let status = '';
   let statusTextTitle = '';
-  let depositBalance = useNounsPartyDepositBalance();
 
   let vaultSize = depositBalance;
   if (currentAuction.bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
     vaultSize = depositBalance.sub(currentAuction.amount);
+  } else if (nounsPartyPreviousNounStatus === 'won') {
+    vaultSize = depositBalance.sub(currentBidAmount);
   }
 
-  if (currentAuction && !auctionEnded) {
+  if (currentAuction) {
     let bidder = currentAuction.bidder;
-    if (bidder && bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
-      statusTextTitle = `We're winning the auction!`;
-      statusText = 'You can still add more funds to the party vault.';
-      status = 'success';
-    } else if (pendingSettledCount.gt(0) && !settleNext.eq(currentAuction.nounId)) {
-      statusTextTitle = 'The previous auction can now be settled!';
-      statusText = 'Settle the previous auction to submit a bid.';
-      status = 'success';
-    } else if (vaultSize.gte(maxBid) && maxBid.gt(0)) {
-      statusTextTitle = 'The vault has enough funds!';
-      statusText = 'Submit a bid!';
-      status = 'success';
-    } else if (vaultSize.eq(0) && maxBid.eq(parseEther('0.1'))) {
-      statusTextTitle = 'The vault needs more funds!';
-      statusText = 'Add more funds for the minimum bid.';
-      status = 'success';
-    } else if (noundersNoun) {
-      statusTextTitle = 'The party has been outbid!';
-      statusText = 'Add more funds to the vault.';
-      status = 'success';
-    } else {
-      statusTextTitle = 'The party has been outbid!';
-      statusText = 'Add more funds to the vault.';
-      status = 'fail';
-    }
-  } else if (currentAuction) {
-    let bidder = currentAuction.bidder;
-    if (bidder && bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
-      if (fracTokenVault) {
-        statusTextTitle = 'The party won the auction!';
-        statusText = 'Claim your tokens.';
+    if (!auctionEnded) {
+      if (bidder && bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
+        statusTextTitle = `We're winning the auction!`;
+        statusText = 'You can still add more funds to the party vault.';
+      } else if (vaultSize.eq(0)) {
+        statusTextTitle = 'The vault needs more funds!';
+        statusText = 'Add more funds for the minimum bid.';
+      } else if (
+        bidAmount.gt(0) &&
+        (!bidder || bidder === '0x0000000000000000000000000000000000000000')
+      ) {
+        statusTextTitle = 'The vault has enough funds!';
+        statusText = 'Submit the very first bid!';
+      } else if (bidAmount.gt(0)) {
+        statusTextTitle = 'The party has been outbid!';
+        statusText = 'Submit a bid!';
+      } else if (
+        bidAmount.eq(0) &&
+        (!bidder || bidder === '0x0000000000000000000000000000000000000000')
+      ) {
+        statusTextTitle = 'Add more funds to submit a bid!';
+        statusText = 'The auction is live.';
       } else {
-        statusTextTitle = 'The party won the auction!';
-        statusText = 'Settle the auction to fractionalize the noun.';
+        statusTextTitle = 'The party has been outbid!';
+        statusText = 'Add more funds to the vault.';
       }
-      status = 'success';
-    } else if (noundersNoun) {
-      statusTextTitle = 'The nounders were rewarded this noun.';
-      statusText = 'No auction occurred.';
-      status = 'success';
+      // }
     } else {
-      statusTextTitle = 'The party lost the auction!';
-      statusText = `We'll get it next time.`;
-      status = 'fail';
+      if (bidder && bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
+        if (nounStatus === 'won') {
+          statusTextTitle = 'The party won the auction!';
+          statusText = 'Settle the auction to fractionalize the noun.';
+        } else if (fracTokenVault) {
+          if (currentClaimsCount > 0) {
+            statusTextTitle = 'The party won the auction!';
+            statusText = 'Claim your tokens.';
+          } else {
+            statusTextTitle = 'The party won the auction!';
+            statusText = 'You already claimed your tokens.';
+          }
+        } else {
+          statusTextTitle = 'The party won the auction!';
+          statusText = 'We can fractionalize the noun as soon as a new auction starts.';
+        }
+      } else {
+        statusTextTitle = 'The party lost the auction!';
+        statusText = `We'll get it next time.`;
+      }
     }
-  } else {
-    statusText = 'The nounders were rewarded this noun.';
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    status = 'success';
   }
 
   return (
@@ -117,19 +127,6 @@ const AuctionStatus: React.FC<{
           </Col>
         </Row>
       )}
-      {/* {statusText && (
-        <div className={classes.statusIndicator}>
-          <span className={
-            status === "success"
-              ? classes.successStatus
-              : status === "fail" 
-                ? classes.failStatus
-                : classes.hiddenStatus
-          }>
-            {statusText}
-          </span>
-        </div>
-      )} */}
     </>
   );
 };

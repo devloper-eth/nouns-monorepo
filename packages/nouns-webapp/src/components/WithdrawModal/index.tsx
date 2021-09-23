@@ -7,8 +7,8 @@ import {
   NounsPartyContractFunction,
   useNounsPartyAuctionIsHot,
   useNounsPartyDeposits,
-  useNounsPartyPendingSettledCount,
   Deposit,
+  useNounsPartyActiveAuction,
 } from '../../wrappers/nounsParty';
 import config from '../../config';
 import Modal from '../Modal';
@@ -38,7 +38,7 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
     NounsPartyContractFunction.withdraw,
   );
 
-  const pendingSettledCount = useNounsPartyPendingSettledCount();
+  const nounsPartyActiveAuction = useNounsPartyActiveAuction();
   const auctionIsHot = useNounsPartyAuctionIsHot();
   const deposits = useNounsPartyDeposits();
   const { account } = useEthers();
@@ -120,7 +120,7 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
             <br />
             because
             {` ${auctionIsHot ? `the auction is about to end or just ended. ` : ''} ${
-              pendingSettledCount.gt(0) ? `some auctions still need to be settled.` : ''
+              nounsPartyActiveAuction ? `some auctions still need to be settled.` : ''
             }`}
           </p>
         </Col>
@@ -171,7 +171,7 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
 
   const withdrawContent = (
     <>
-      {auctionIsHot || pendingSettledCount.gt(0)
+      {auctionIsHot || nounsPartyActiveAuction 
         ? withdrawDisabledContent
         : withdrawAmount(deposits).gt(0)
         ? withdrawFormContent
