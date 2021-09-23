@@ -17,6 +17,7 @@ import { BigNumber } from 'ethers';
 
 const AuctionStatus: React.FC<{
   auction: Auction;
+  noundersNoun: boolean;
 }> = props => {
   const { auction: currentAuction, noundersNoun } = props;
   const activeAccount = useAppSelector(state => state.account.activeAccount);
@@ -121,8 +122,9 @@ const AuctionStatus: React.FC<{
   return (
     <>
       {statusText && statusTextTitle && (
-        <Row>
+        <Row className={classes.statusRow}>
           <Col>
+            <div className={classes.rectangle}></div>
             <p className={classes.statusTextTitle}>{statusTextTitle}</p>
             <p className={classes.statusText}>{statusText}</p>
           </Col>
