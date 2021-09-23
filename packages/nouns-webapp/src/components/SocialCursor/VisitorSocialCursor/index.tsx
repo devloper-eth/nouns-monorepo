@@ -20,7 +20,7 @@ const VisitorSocialCursor: React.FC<{
       style={{ left: x, top: y, visibility: cursorVisibility ? 'visible' : 'hidden' }}
     >
       <img alt="glasses cursor" src={VisitorGlasses} />
-      <span>{message}</span>
+      {message ? <span>{message}</span> : null}
     </div>
   );
 };
