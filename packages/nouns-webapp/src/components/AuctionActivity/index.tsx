@@ -97,8 +97,6 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
 
   return (
     <Col lg={{ span: 6 }} className={classes.currentAuctionActivityContainer}>
-      <AuctionStatus auction={auction} noundersNoun={isNounderNoun(auction.nounId)} />
-
       {showSettleAuctionModal && onDisplayAuction && (
         <SettleAuctionModal
           hideSettleAuctionHandler={hideSettleAuctionHandler}
