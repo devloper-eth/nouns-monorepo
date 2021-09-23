@@ -102,10 +102,7 @@ const Auction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) 
             <Col lg={{ span: 6 }} className={`align-self-end ${classes.noPaddingMargin}`}>
               {currentAuction ? nounContent : loadingNoun}
             </Col>
-            <Col lg={{ span: 6 }} className={classes.currentAuctionActivityContainer}>
-              {currentAuctionActivityContent}
-            </Col>
-            <Col lg={2} />
+            {currentAuctionActivityContent}
           </Row>
         </Container>
       </Container>

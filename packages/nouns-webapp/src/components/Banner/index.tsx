@@ -22,9 +22,9 @@ const Banner = () => {
                 <div className={clsx(classes.instructionText)}>
                   <span>1</span>
                   <p>
-                    Nouns party is the community's tool for participating in&nbsp;{nounsLink}&nbsp;auctions.
-                    The nouns party vault is a rolling fund which can be used in a set it and forget style. Simply
-                    contribute funds to the vault and wait.
+                    Nouns party is the community's tool for participating in&nbsp;{nounsLink}
+                    &nbsp;auctions. The nouns party vault is a rolling fund which can be used in a
+                    set it and forget style. Simply contribute funds to the vault and wait.
                   </p>
                 </div>
               </Row>
@@ -33,10 +33,9 @@ const Banner = () => {
                   <span>2</span>
                   <p>
                     Over time the vault will accumulate funds. And when the vault is large enough,
-                    the community will come together to use the funds
-                    to bid in the daily&nbsp;{nounsLink}&nbsp; auction. If the vault is large
-                    enough, the community will win a noun! If not, the funds will
-                    remain in the vault for the next daily auction.
+                    the community will come together to use the funds to bid in the daily&nbsp;
+                    {nounsLink}&nbsp; auction. If the vault is large enough, the community will win
+                    a noun! If not, the funds will remain in the vault for the next daily auction.
                   </p>
                 </div>
               </Row>
@@ -45,9 +44,10 @@ const Banner = () => {
                   <span>3</span>
                   <p>
                     When the community wins a noun, everyone wins. The noun will be trustlessly
-                    fractionalized into nouns shares with a&nbsp;{fractionalizeLink}&nbsp;vault. These shares
-                    are an ERC20 representation of the community owned noun. Contributors can return
-                    and claim their shares in proportion to their contribution at any time.
+                    fractionalized into nouns shares with a&nbsp;{fractionalizeLink}&nbsp;vault.
+                    These shares are an ERC20 representation of the community owned noun.
+                    Contributors can return and claim their shares in proportion to their
+                    contribution at any time.
                   </p>
                 </div>
               </Row>

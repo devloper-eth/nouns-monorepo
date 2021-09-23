@@ -6,6 +6,7 @@
   background-repeat: no-repeat;
   background-color: transparent;
   z-index: 3;
+  align-self: end;
   /* margin-left: 10px;
   margin-top: 10px; */
 }
@@ -16,6 +17,7 @@
   background-repeat: no-repeat;
   background-color: transparent;
   z-index: 3;
+  align-self: end;
   /* margin-top: 12px; */
 }
 

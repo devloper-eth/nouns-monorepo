@@ -2,24 +2,26 @@
   display: flex;
   text-align: center;
   margin: 0px !important;
-  font-size: 2rem;
-  font-weight: 500;
+  font-size: 2.25rem;
+  font-weight: 700;
   color: #212529;
-  font-family: 'Fredoka One';
 }
 
 .timerSection {
   margin-right: 0.5rem;
-  font-family: 'Fredoka One';
 }
 
 .noPaddingMargin {
   padding: 0px;
   margin: 0px;
+  font-weight: 700;
 }
 
 .timerText {
-  font-weight: bold;
-  font-size: 16px;
-  font-family: 'Fredoka One';
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+.timeLabels {
+  font-size: 1.75rem;
 }

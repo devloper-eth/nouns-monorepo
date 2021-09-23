@@ -2,6 +2,8 @@ import useMousePosition from '../../../hooks/useMousePosition';
 import useThrottledEffect from '../../../hooks/useThrottledEffect';
 import { useState, useEffect, ChangeEvent } from 'react';
 import classes from './OwnSocialCursor.module.css';
+import { useAppSelector } from '../../../hooks';
+import glassesLogo from '../../../assets/Glasses.svg';
 
 export type OwnCursor = {
   x: number;
@@ -21,6 +23,7 @@ const OwnSocialCursor: React.FC<{
   const [writeable, setWriteable] = useState(false);
   const [message, setMessage] = useState('');
   const { clientX, clientY } = useMousePosition();
+  const cursorVisibility = useAppSelector(state => state.application.cursorVisibility);
 
   const keyDown = (event: KeyboardEvent) => {
     if ((event.ctrlKey || event.metaKey) && event.key === '/') {
@@ -65,9 +68,10 @@ const OwnSocialCursor: React.FC<{
       style={{
         left: clientX + 5,
         top: clientY + 5,
+        visibility: cursorVisibility ? 'visible' : 'hidden',
       }}
     >
-      <i>{emoji}</i>
+      <img alt="glasses cursor" src={glassesLogo} />
       {writeable ? (
         <input
           type="text"

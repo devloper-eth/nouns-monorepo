@@ -9,6 +9,7 @@ export interface AlertModal {
 interface ApplicationState {
   useGreyBackground: boolean;
   alertModal: AlertModal;
+  cursorVisibility: boolean;
 }
 
 const initialState: ApplicationState = {
@@ -16,6 +17,7 @@ const initialState: ApplicationState = {
   alertModal: {
     show: false,
   },
+  cursorVisibility: true,
 };
 
 export const applicationSlice = createSlice({
@@ -28,9 +30,13 @@ export const applicationSlice = createSlice({
     setAlertModal: (state, action: PayloadAction<AlertModal>) => {
       state.alertModal = action.payload;
     },
+    setCursorVisibility: (state, action: PayloadAction<boolean>) => {
+      state.cursorVisibility = action.payload;
+    },
   },
 });
 
-export const { setUseGreyBackground, setAlertModal } = applicationSlice.actions;
+export const { setUseGreyBackground, setAlertModal, setCursorVisibility } =
+  applicationSlice.actions;
 
 export default applicationSlice.reducer;

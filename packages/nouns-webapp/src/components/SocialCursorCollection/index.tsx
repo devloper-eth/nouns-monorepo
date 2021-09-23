@@ -4,6 +4,8 @@ import VisitorSocialCursor from '../SocialCursor/VisitorSocialCursor';
 import { isTouchDevice } from '../../utils/isTouchDevice';
 import { useState, useEffect, useRef } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { setCursorVisibility } from '../../state/slices/application';
 
 type Cursor = {
   id: string;
@@ -19,13 +21,32 @@ const SocialCursorCollection: React.FC<{}> = props => {
   const [cursors, setCursors] = useState<Cursor[]>([]);
   const [ownCursorEmoji] = useState(randomEmoji());
   const [ownCursorColor] = useState(randomColor());
+
   const didUnmount = useRef(false);
+
+  const dispatch = useAppDispatch();
+  const cursorVisibility = useAppSelector(state => state.application.cursorVisibility);
 
   useEffect(() => {
     return () => {
       didUnmount.current = true;
     };
   }, []);
+
+  const keyDown = (event: KeyboardEvent) => {
+    if ((event.ctrlKey || event.metaKey) && event.key === 'x') {
+      event.preventDefault();
+      const visibility = !cursorVisibility;
+      dispatch(setCursorVisibility(visibility));
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', keyDown);
+    return () => {
+      document.removeEventListener('keydown', keyDown);
+    };
+  });
 
   const patchCursors = (c: Cursor) => {
     if (c.op === 'delete') {
@@ -99,7 +120,6 @@ const SocialCursorCollection: React.FC<{}> = props => {
         emoji={ownCursorEmoji}
         onChange={onOwnSocialCursorChange}
       ></OwnSocialCursor>
-
       {cursors.map(c => (
         <VisitorSocialCursor
           key={c.id}

@@ -5,12 +5,8 @@
   align-items: center;
   justify-content: center;
   padding: 0px 8px;
-  background-color: var(--white);
   color: var(--brand-black);
   border-radius: 20px;
-  border: 2px solid transparent;
-  background: linear-gradient(white, white) padding-box,
-    linear-gradient(90.72deg, #00ffa3 20%, #57cdff 33.54%, #f68eff 90%) border-box;
 }
 
 .cursor i {
@@ -23,6 +19,13 @@
   margin-left: 4px;
   font-size: small;
   width: 200px;
+  background-color: var(--white);
+  border: 2px solid transparent;
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(90.72deg, #00ffa3 20%, #57cdff 33.54%, #f68eff 90%) border-box;
+  padding: 4px 12px;
+  border-radius: 20px;
+  color: var(--brand-black);
 }
 
 .cursor input:focus {

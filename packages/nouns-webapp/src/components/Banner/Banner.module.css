@@ -42,6 +42,7 @@
   overflow-y: hidden;
   overflow-x: hidden;
   overflow: hidden;
+  font-weight: 500;
 }
 
 .instructionText div {
