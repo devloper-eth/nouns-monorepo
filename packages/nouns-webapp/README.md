@@ -49,3 +49,4 @@ Then add an RPC provider to MetaMask to point to your local simnet.
          Chain ID: 31337
 
 Select the network and connect to your local Nouns webapp to interact with simnet
+
