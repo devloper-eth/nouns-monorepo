@@ -147,16 +147,16 @@ const Documentation = () => {
               <Card.Body>
                 <p className={classes.collectiveParagraph}>
                   Because 100% of the vault funding will be contributed to the nouns DAO auctions, the
-                  nouns party founders have chosen to be compensated for future work in fractions of
+                  nouns party founders have chosen to be compensated for future work in shares of
                   the nouns which are won by the nouns party vault. They will only be compensated in
                   nouns shares and will only be compensated when an auction is won.
                 </p>
                 <p className={classes.collectiveParagraph}>
-                  The nouns DAO have agreed to reward 2.5% of the noun shares earned through auctions
-                  won on nouns party. As a result, nouns party contributors can expect 2.5% fewer tokens than their initial
-                  vault contribution. For example, if a noun is won for 200E and is tokenized into 200,000
-                  tokens, the vault funders will receive 200,000 less 2.5%, or 195,000 tokens distributed
-                  in proportion to the amount each funder contributed to the vault.
+                  The nouns DAO have agreed to reward 2.5% of the noun shares. As a result, nouns party
+                  contributors can expect 2.5% fewer tokens than their initial vault contribution. For
+                  example, if a noun is won for 200E and is tokenized into 200,000 tokens, the vault
+                  contributors will receive 200,000 less 2.5%, or 195,000 tokens distributed in proportion
+                  to the amount each funder contributed to the vault.
                 </p>
 
                 <p className={classes.collectiveParagraph}>

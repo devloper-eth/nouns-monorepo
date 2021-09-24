@@ -22,7 +22,7 @@ const Banner = () => {
                 <div className={clsx(classes.instructionText)}>
                   <span>1</span>
                   <p>
-                    Nouns party is the community's tool for participating in{` `}
+                    Nouns party is the community's way of participating in{` `}
                     {nounsLink}
                     {` `}auctions. The nouns party vault is a rolling fund which
                     can be used in set it and forget style. Simply contribute funds
