@@ -6,8 +6,6 @@ import {
   nounsPartyContractFactory,
   NounsPartyContractFunction,
   useNounsPartyAuctionIsHot,
-  useNounsPartyDeposits,
-  Deposit,
   useNounsPartyActiveAuction,
   useNounsPartyWithdrawableAmount,
 } from '../../wrappers/nounsParty';
@@ -16,8 +14,7 @@ import Modal from '../Modal';
 import { AlertModal, setAlertModal } from '../../state/slices/application';
 import classes from './WithdrawModal.module.css';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { BigNumber } from 'ethers';
-import { formatEther, getAddress } from 'ethers/lib/utils';
+import { formatEther } from 'ethers/lib/utils';
 
 const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props => {
   // state

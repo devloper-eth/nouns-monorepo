@@ -1064,9 +1064,9 @@ export const emojis = [
   '🆓',
 ];
 
-const randomEmoji = (): string => {
-  return emojis[Math.floor(Math.random() * emojis.length)];
-};
+// const randomEmoji = (): string => {
+//   return emojis[Math.floor(Math.random() * emojis.length)];
+// };
 
 const randomColor = (): string => {
   return '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0');
