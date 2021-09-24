@@ -9,12 +9,13 @@ import {
   useNounsPartyDeposits,
   Deposit,
   useNounsPartyActiveAuction,
+  useNounsPartyWithdrawableAmount,
 } from '../../wrappers/nounsParty';
 import config from '../../config';
 import Modal from '../Modal';
 import { AlertModal, setAlertModal } from '../../state/slices/application';
 import classes from './WithdrawModal.module.css';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { BigNumber } from 'ethers';
 import { formatEther, getAddress } from 'ethers/lib/utils';
 
@@ -25,6 +26,8 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
     loading: false,
     content: 'Withdraw funds',
   });
+
+  const activeAccount = useAppSelector(state => state.account.activeAccount);
 
   // Redux
   const dispatch = useAppDispatch();
@@ -40,8 +43,8 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
 
   const nounsPartyActiveAuction = useNounsPartyActiveAuction();
   const auctionIsHot = useNounsPartyAuctionIsHot();
-  const deposits = useNounsPartyDeposits();
-  const { account } = useEthers();
+  const withdrawableAmount = useNounsPartyWithdrawableAmount(activeAccount);
+  // const { account } = useEthers();
 
   // withdraw funds
   const withdrawFundsHandler = async () => {
@@ -127,18 +130,6 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
     </>
   );
 
-  const withdrawAmount = (deposits: Deposit[] | undefined) => {
-    if (deposits === undefined || deposits.length === 0) {
-      return BigNumber.from(0);
-    }
-
-    return deposits.reduce((prev, curr) => {
-      return account && getAddress(account) === getAddress(curr.owner)
-        ? prev.add(curr.amount)
-        : prev;
-    }, BigNumber.from(0));
-  };
-
   const withdrawNoFundsContent = (
     <>
       <Row className={`justify-content-center ${classes.withdrawTextRow}`}>
@@ -153,26 +144,27 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
     <>
       <Row className={`justify-content-center ${classes.withdrawTextRow}`}>
         <Col>
-          <p className={classes.confirmText}>Are you sure you want to withdraw all your funds?</p>
-          <p>
-            You will withdraw <strong>{formatEther(withdrawAmount(deposits))}&nbsp;ETH</strong>.
+          <p className={classes.infoText}>
+            You can withdraw your funds. 
+            This is an estimated amount and it might change if new bids are submitted before you withdraw.
           </p>
+          <p className={classes.infoText}>
+            Withdraw amount: <strong>{formatEther(withdrawableAmount)}&nbsp;ETH</strong>
+          </p>
+          <Button className={classes.withdrawFundsButton} onClick={withdrawFundsHandler}>
+            {withdrawButtonContent.loading ? <Spinner animation="border" size="sm" /> : null}
+            &nbsp; {withdrawButtonContent.content}
+          </Button>
         </Col>
       </Row>
-      <Col>
-        <Button className={classes.withdrawFundsButton} onClick={withdrawFundsHandler}>
-          {withdrawButtonContent.loading ? <Spinner animation="border" size="sm" /> : null}
-          &nbsp; {withdrawButtonContent.content}
-        </Button>
-      </Col>
     </>
   );
 
   const withdrawContent = (
     <>
-      {auctionIsHot || nounsPartyActiveAuction
+      {auctionIsHot
         ? withdrawDisabledContent
-        : withdrawAmount(deposits).gt(0)
+        : withdrawableAmount.gt(0)
           ? withdrawFormContent
           : withdrawNoFundsContent}
     </>
