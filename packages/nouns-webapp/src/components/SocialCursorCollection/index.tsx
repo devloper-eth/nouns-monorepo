@@ -88,6 +88,9 @@ const SocialCursorCollection: React.FC<{}> = props => {
 
   const handleWebsocketMessage = (event: WebSocketEventMap['message']) => {
     const c: Cursor = JSON.parse(event.data);
+
+    console.log('initial c: ', c);
+    // this is a problem: event data doesn't include noun head? results in random head due to null info
     if (c.id === undefined) {
       return;
     }
