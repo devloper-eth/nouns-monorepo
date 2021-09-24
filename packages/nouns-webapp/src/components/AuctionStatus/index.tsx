@@ -94,7 +94,11 @@ const AuctionStatus: React.FC<{
       // }
     } else {
       if (bidder && bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
-        if (nounStatus === 'won') {
+        if(!nounStatus) {
+          statusTextTitle = " "; // `Six-Per-Em Space` character to prevent empty line from rendering
+          statusText = " "; // see above
+        }
+        else if (nounStatus === 'won') {
           statusTextTitle = 'The party won the auction!';
           statusText = 'Settle the auction to fractionalize the noun.';
         } else if (fracTokenVault) {

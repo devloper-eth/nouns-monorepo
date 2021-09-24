@@ -107,7 +107,7 @@ export const useNounsPartyNounStatus = (nounId: EthersBN) => {
 		case 4:
 			return "notfound";
 		default:
-			return "notfound";
+			return "";
 	}
 };
 
