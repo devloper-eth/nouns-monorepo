@@ -79,10 +79,6 @@ export const randomNounHead = () => {
   return nounHeadCollection[Math.floor(Math.random() * nounHeadCollection.length)].name;
 };
 
-export const getRandomNounFeadFile = () => {
-  return nounHeadCollection[Math.floor(Math.random() * nounHeadCollection.length)].file;
-};
-
 export const getNounSvgFile = (nounHead: string) => {
   let result = nounHeadCollection.filter(noun => {
     return noun.name === nounHead;
@@ -90,6 +86,6 @@ export const getNounSvgFile = (nounHead: string) => {
   if (result && result.length) {
     return result[0].file;
   } else {
-    return getRandomNounFeadFile();
+    return blueberry;
   }
 };
