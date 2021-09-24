@@ -102,7 +102,7 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
           onDismiss();
           setModal({
             title: 'Success',
-            message: `Eth was deposited successfully!`,
+            message: `Funds deposited successfully!`,
             show: true,
           });
           setDepositButtonContent({ loading: false, content: 'Bid' });

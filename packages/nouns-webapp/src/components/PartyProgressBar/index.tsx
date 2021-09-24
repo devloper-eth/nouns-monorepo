@@ -73,7 +73,7 @@ const PartyProgressBar: React.FC<{
           {fullProgressBar === 150 && (
             <p className={`${classes.partyGoalText}`}>
               {/* {`Nouns Party Vault `} */}
-              <span className={classes.ethXiFont}>{`Estimated Sale Ξ135`}</span>
+              <span className={classes.ethXiFont}>{`Last Noun Sold Ξ135`}</span>
             </p>
           )}
         </Col>

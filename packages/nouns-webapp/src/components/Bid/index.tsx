@@ -183,7 +183,7 @@ const Bid: React.FC<{
         setModal({
           title: 'Error',
           message: bidState.errorMessage
-            ? bidState.errorMessage
+            ? 'The bid was already submitted.'
             : 'Submit bid failed. Please try again.',
           show: true,
         });

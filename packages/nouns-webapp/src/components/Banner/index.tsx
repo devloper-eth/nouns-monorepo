@@ -5,9 +5,9 @@ import clsx from 'clsx';
 import Link from '../Link';
 const Banner = () => {
   const fractionalizeLink = (
-    <Link text="Fractional.art" url="https://fractional.art" leavesPage={true} />
+    <Link text="fractional.art" url="https://fractional.art" leavesPage={true} />
   );
-  const nounsLink = <Link text="Nouns.wtf" url="https://nouns.wtf" leavesPage={true} />;
+  const nounsLink = <Link text="nouns.wtf" url="https://nouns.wtf" leavesPage={true} />;
 
   return (
     <Section bgColor="white" fullWidth={false} className={classes.bannerSection}>
@@ -22,10 +22,11 @@ const Banner = () => {
                 <div className={clsx(classes.instructionText)}>
                   <span>1</span>
                   <p>
-                    Nouns party is the community's tool for participating in {` `}
+                    Nouns party is the community's tool for participating in{` `}
                     {nounsLink}
-                    {` `}auctions. The nouns party vault is a rolling fund which can be used in a
-                    set it and forget style. Simply contribute funds to the vault and wait.
+                    {` `}auctions. The nouns party vault is a rolling fund which
+                    can be used in set it and forget style. Simply contribute funds
+                    to the vault and wait.
                   </p>
                 </div>
               </Row>
@@ -46,7 +47,7 @@ const Banner = () => {
                   <span>3</span>
                   <p>
                     When the community wins a noun, everyone wins. The noun will be trustlessly
-                    fractionalized into nouns shares with a{` `}
+                    fractionalized into noun shares with a{` `}
                     {fractionalizeLink}
                     {` `}vault. These shares are an ERC20 representation of the community owned
                     noun. Contributors can return and claim their shares in proportion to their

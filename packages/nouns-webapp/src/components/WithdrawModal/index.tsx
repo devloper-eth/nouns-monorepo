@@ -131,7 +131,8 @@ const WithdrawModal: React.FC<{ hideWithdrawModalHandler: () => void }> = props 
     <>
       <Row className={`justify-content-center ${classes.withdrawTextRow}`}>
         <Col>
-          <p className={classes.confirmText}>You have no funds to withdraw.</p>
+          <p className={classes.infoText}>You have no funds to withdraw.</p>
+          <p className={classes.infoText}>If you've deposited funds, but they're not available, they may be involved in a live auction. Return after the auction completes.</p>
         </Col>
       </Row>
     </>
