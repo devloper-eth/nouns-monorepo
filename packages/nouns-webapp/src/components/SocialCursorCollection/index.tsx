@@ -4,6 +4,9 @@ import VisitorSocialCursor from '../SocialCursor/VisitorSocialCursor';
 import { isTouchDevice } from '../../utils/isTouchDevice';
 import { useState, useEffect, useRef } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { setCursorVisibility } from '../../state/slices/application';
+import { randomNounHead } from '../SocialCursor/NounCursors';
 
 type Cursor = {
   id: string;
@@ -17,15 +20,35 @@ type Cursor = {
 
 const SocialCursorCollection: React.FC<{}> = props => {
   const [cursors, setCursors] = useState<Cursor[]>([]);
-  const [ownCursorEmoji] = useState(randomEmoji());
+  // const [ownCursorEmoji] = useState(randomEmoji());
   const [ownCursorColor] = useState(randomColor());
+  const [ownCursorHead] = useState(randomNounHead());
+
   const didUnmount = useRef(false);
+
+  const dispatch = useAppDispatch();
+  const cursorVisibility = useAppSelector(state => state.application.cursorVisibility);
 
   useEffect(() => {
     return () => {
       didUnmount.current = true;
     };
   }, []);
+
+  const keyDown = (event: KeyboardEvent) => {
+    if ((event.ctrlKey || event.metaKey) && event.key === 'x') {
+      event.preventDefault();
+      const visibility = !cursorVisibility;
+      dispatch(setCursorVisibility(visibility));
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', keyDown);
+    return () => {
+      document.removeEventListener('keydown', keyDown);
+    };
+  });
 
   const patchCursors = (c: Cursor) => {
     if (c.op === 'delete') {
@@ -63,6 +86,8 @@ const SocialCursorCollection: React.FC<{}> = props => {
 
   const handleWebsocketMessage = (event: WebSocketEventMap['message']) => {
     const c: Cursor = JSON.parse(event.data);
+
+    // this is the problem: event data doesn't include noun head? this causes random head due to null info
     if (c.id === undefined) {
       return;
     }
@@ -83,6 +108,7 @@ const SocialCursorCollection: React.FC<{}> = props => {
 
   const onOwnSocialCursorChange = (c: OwnCursor) => {
     if (readyState === ReadyState.OPEN) {
+      // seems to send nounsHead string correctly with rest of data (from <OwnSocialCursor>), so why does handleWebsocketMessage() receive without nounsHead?
       sendMessage(JSON.stringify(c));
     }
   };
@@ -96,16 +122,15 @@ const SocialCursorCollection: React.FC<{}> = props => {
     <div>
       <OwnSocialCursor
         color={ownCursorColor}
-        emoji={ownCursorEmoji}
+        emoji={ownCursorHead}
         onChange={onOwnSocialCursorChange}
       ></OwnSocialCursor>
-
       {cursors.map(c => (
         <VisitorSocialCursor
           key={c.id}
           x={c.x || 0}
           y={c.y || 0}
-          emoji={c.emoji || randomEmoji()}
+          emoji={c.emoji || randomNounHead()}
           color={c.color || randomColor()}
           message={c.message || ''}
         ></VisitorSocialCursor>
@@ -1039,9 +1064,9 @@ export const emojis = [
   '🆓',
 ];
 
-const randomEmoji = (): string => {
-  return emojis[Math.floor(Math.random() * emojis.length)];
-};
+// const randomEmoji = (): string => {
+//   return emojis[Math.floor(Math.random() * emojis.length)];
+// };
 
 const randomColor = (): string => {
   return '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0');

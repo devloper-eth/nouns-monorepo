@@ -63,13 +63,13 @@ const PartyProgressBar: React.FC<{
   return (
     <div className={classes.partyVaultWrapper}>
       <Row>
-        <Col xs={6} lg={6}>
+        <Col xs={5} lg={6}>
           <p className={`${classes.partyTrackerText}`}>
             {/* {`Nouns Party Vault `} */}
             <span>{`Party Tracker`}</span>
           </p>
         </Col>
-        <Col xs={6} lg={6} className="align-self-center">
+        <Col xs={7} lg={6} className="align-self-center">
           {fullProgressBar === 150 && (
             <p className={`${classes.partyGoalText}`}>
               {/* {`Nouns Party Vault `} */}

@@ -4,14 +4,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0px 10px;
-  color: white;
-  border-radius: 20px;
+
   /* box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3); */
   cursor: default;
-  border: 2px solid transparent;
-  background: linear-gradient(white, white) padding-box,
-    linear-gradient(90.72deg, #00ffa3 20%, #57cdff 33.54%, #f68eff 90%) border-box;
 }
 
 .cursor i {
@@ -26,6 +21,11 @@
   font-size: medium;
   white-space: nowrap;
   color: black;
+  border: 2px solid transparent;
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(90.72deg, #00ffa3 20%, #57cdff 33.54%, #f68eff 90%) border-box;
+  padding: 0px 10px;
+  border-radius: 20px;
 }
 
 .triangle {
@@ -62,4 +62,11 @@
 
 .triangle:after {
   transform: rotate(135deg) skewY(-45deg) scale(0.707, 1.414) translate(50%);
+}
+
+.nounHeadImage {
+  height: 60px;
+  width: 60px;
+  margin-left: -20px;
+  margin-top: -5px;
 }

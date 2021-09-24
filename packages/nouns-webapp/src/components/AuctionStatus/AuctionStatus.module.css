@@ -25,23 +25,58 @@
 }
 
 .statusText {
-  text-align: center;
-  font-size: 1rem;
-  padding: 0px 20px 0px 20px;
-  color: #cacfd2;
-  font-family: 'Fredoka One';
+  font-size: 1.125rem;
+  padding: 0px 0px 0px 10px;
+  color: #afb3b7;
+  font-weight: 500;
+  margin-bottom: 0px;
+  line-height: 22px;
 }
 
 .statusTextTitle {
-  text-align: center;
   font-size: 1.25rem;
-  padding: 0px 20px 0px 20px;
+  padding: 0px 0px 0px 10px;
   margin: 0px;
   color: #212529;
-  font-family: 'Fredoka One';
+  font-weight: 700;
+  margin-bottom: 0px;
+  line-height: 22px;
 }
 
-/*
-.hiddenStatus {
-	display: none;
-}*/
+.statusRow {
+  padding: 12px;
+  border-radius: 20px;
+  margin: 0px 0px 20px 0px;
+  background: #ffffff;
+}
+
+.rectangle {
+  position: absolute;
+  width: 6px;
+  height: 100%;
+  top: 0px;
+  left: 5px;
+  background: linear-gradient(360deg, #00ffa3 0%, #57cdff 49.53%, #f68eff 100%);
+  border-radius: 4px;
+}
+
+@media (max-width: 993px) {
+  .statusText {
+    font-size: 1rem;
+    padding: 0px 0px 0px 10px;
+    color: #afb3b7;
+    font-weight: 500;
+    margin-bottom: 0px;
+    line-height: 22px;
+  }
+
+  .statusTextTitle {
+    font-size: 1.125rem;
+    padding: 0px 0px 0px 10px;
+    margin: 0px;
+    color: #212529;
+    font-weight: 700;
+    margin-bottom: 0px;
+    line-height: 22px;
+  }
+}

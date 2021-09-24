@@ -4,11 +4,11 @@
 }
 
 .wrapper h1 {
-  font-family: 'Fredoka One';
   text-align: center;
   font-size: 4rem;
   color: #212529;
   line-height: 1;
+  font-weight: 900;
 }
 
 .instructionsRow {
@@ -42,6 +42,8 @@
   overflow-y: hidden;
   overflow-x: hidden;
   overflow: hidden;
+  font-weight: 700;
+  font-size: 1.125rem;
 }
 
 .instructionText div {

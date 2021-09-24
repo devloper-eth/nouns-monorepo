@@ -2,6 +2,8 @@ import useMousePosition from '../../../hooks/useMousePosition';
 import useThrottledEffect from '../../../hooks/useThrottledEffect';
 import { useState, useEffect, ChangeEvent } from 'react';
 import classes from './OwnSocialCursor.module.css';
+import { useAppSelector } from '../../../hooks';
+import { getNounSvgFile } from '../NounCursors';
 
 export type OwnCursor = {
   x: number;
@@ -21,6 +23,7 @@ const OwnSocialCursor: React.FC<{
   const [writeable, setWriteable] = useState(false);
   const [message, setMessage] = useState('');
   const { clientX, clientY } = useMousePosition();
+  const cursorVisibility = useAppSelector(state => state.application.cursorVisibility);
 
   const keyDown = (event: KeyboardEvent) => {
     if ((event.ctrlKey || event.metaKey) && event.key === '/') {
@@ -53,7 +56,13 @@ const OwnSocialCursor: React.FC<{
 
   useThrottledEffect(
     () => {
-      onChange({ x: clientX, y: clientY, color: color, emoji: emoji, message: message });
+      onChange({
+        x: clientX,
+        y: clientY,
+        color: color,
+        emoji: emoji,
+        message: message,
+      });
     },
     [message, clientX, clientY, color, emoji],
     50,
@@ -65,9 +74,10 @@ const OwnSocialCursor: React.FC<{
       style={{
         left: clientX + 5,
         top: clientY + 5,
+        visibility: cursorVisibility ? 'visible' : 'hidden',
       }}
     >
-      <i>{emoji}</i>
+      <img alt="noun cursor" src={getNounSvgFile(emoji)} className={classes.nounHeadImage} />
       {writeable ? (
         <input
           type="text"

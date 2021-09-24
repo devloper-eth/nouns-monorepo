@@ -5,10 +5,9 @@ import WalletConnectModal from '../WalletConnectModal';
 import AddFundsModal from '../AddFundsModal';
 import { Col, Row } from 'react-bootstrap';
 import Bid from '../Bid';
-// import SettleAuction from '../SettleAuction';
 import { Auction } from '../../wrappers/nounsAuction';
 import config from '../../config';
-import { useNounsPartyPendingSettledCount, useNounsPartyMaxBid, useNounsPartySettleNext, useNounsPartyDepositBalance } from '../../wrappers/nounsParty';
+import { useNounsPartyCalcBidAmount } from '../../wrappers/nounsParty';
 
 const ConnectWalletButton: React.FC<{
   auction: Auction;
@@ -21,16 +20,9 @@ const ConnectWalletButton: React.FC<{
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
   const lastNounId = useAppSelector(state => state.onDisplayAuction.lastAuctionNounId);
-  // const auction = useAuction(config.auctionProxyAddress);
-  const pendingSettledCount = useNounsPartyPendingSettledCount();
-  const settleNext = useNounsPartySettleNext();
-  const maxBid = useNounsPartyMaxBid();
-  const depositBalance = useNounsPartyDepositBalance();
-
-  let vaultSize = depositBalance;
-  if (currentAuction.bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
-    vaultSize = depositBalance.sub(currentAuction.amount);
-  }
+  const bidAmount = useNounsPartyCalcBidAmount();
+  // const nounsPartyCurrentNounId = useNounsPartyCurrentNounId();
+  // const nounsPartyPreviousNounStatus = useNounsPartyNounStatus(BigNumber.from(nounsPartyCurrentNounId));
 
   const showModalHandler = () => {
     setShowConnectModal(true);
@@ -112,8 +104,8 @@ const ConnectWalletButton: React.FC<{
             </Col>
             <Col>
               <button
-                disabled={!activeAccount || !!checkIfPartyLeadingBidder || (maxBid.eq(0)) || vaultSize.lt(maxBid) || (pendingSettledCount.gt(0) && !settleNext.eq(currentAuction.nounId))}
-                onClick={showPlaceBidModalHandler}
+                disabled={!!checkIfPartyLeadingBidder || bidAmount.eq(0)}
+                onClick={activeAccount ? showPlaceBidModalHandler : showModalHandler}
                 className={classes.connectWalletButton}
               >
                 Submit bid
