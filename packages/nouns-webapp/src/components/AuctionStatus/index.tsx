@@ -103,11 +103,11 @@ const AuctionStatus: React.FC<{
             statusText = 'Claim your tokens.';
           } else {
             statusTextTitle = 'The party won the auction!';
-            statusText = 'You already claimed your tokens.';
+            statusText = 'You have no tokens to claim.';
           }
         } else {
           statusTextTitle = 'The party won the auction!';
-          statusText = 'We can fractionalize the noun as soon as a new auction starts.';
+          statusText = 'We can fractionalize the noun when the auction settles.';
         }
       } else if (noundersNoun) {
         statusTextTitle = 'The nounders were rewarded this noun.';
