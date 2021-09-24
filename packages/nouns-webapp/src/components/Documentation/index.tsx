@@ -15,6 +15,19 @@ const Documentation = () => {
     <Link text="nouns DAO proposal process" url="https://nouns.wtf/vote/3" leavesPage={true} />
   );
 
+  const devloper = (
+    <Link text="@devloper" url="https://twitter.com/devloper_eth" leavesPage={true} />
+  );
+  const hans = (
+    <Link text="@hansklaus4711" url="https://twitter.com/hansklaus4711" leavesPage={true} />
+  );
+  const floyd = (
+    <Link text="@0xfloyd" url="https://twitter.com/0xFloyd" leavesPage={true} />
+  );
+  const bold = (
+    <Link text="@bstsrvdbld" url="https://twitter.com/bstsrvdbld" leavesPage={true} />
+  );
+
   return (
     <Section bgColor="white" fullWidth={false}>
       <Col lg={{ span: 10, offset: 1 }}>
@@ -117,12 +130,12 @@ const Documentation = () => {
           </Card>
           <Card className={classes.card}>
             <Accordion.Toggle as={Card.Header} eventKey="2" className={classes.cardHeader}>
-              <h2 className={classes.teamRewards}>The team</h2>
+              <h2 className={classes.teamRewards}>Nouns party team</h2>
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="2">
               <Card.Body>
                 <p className={classes.collectiveParagraph}>
-                  The nouns party was founded by @devloper_eth and @hansklaus4711, two builders who
+                  The nouns party was founded by&nbsp;{devloper}&nbsp;and&nbsp;{hans}, two builders who
                   escaped the corporate world. They now spend their time contributing to the nouns ecosystem.
                   They are an active member of the nouns DAO governance and own noun#13.
                 </p>
@@ -131,10 +144,10 @@ const Documentation = () => {
                   bootstrapped through the&nbsp;{nounsProposal}.
                 </p>
                 <ul className={classes.weAreTheBuildersBaby}>
-                  <li>@devloper_eth</li>
-                  <li>@hansklaus4711</li>
-                  <li>@0xfloyd</li>
-                  <li>@bstsrvdbld</li>
+                  <li>&nbsp;{devloper}&nbsp;</li>
+                  <li>&nbsp;{hans}&nbsp;</li>
+                  <li>&nbsp;{floyd}&nbsp;</li>
+                  <li>&nbsp;{bold}&nbsp;</li>
                 </ul>
               </Card.Body>
             </Accordion.Collapse>
