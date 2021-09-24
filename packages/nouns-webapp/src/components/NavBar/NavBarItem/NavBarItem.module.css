@@ -9,7 +9,10 @@
   color: var(--brand-black);
 }
 .navBarItem a:hover {
-  color: var(--brand-dark-red);
+  cursor: pointer;
+  background: -webkit-linear-gradient(10deg, #00ffa3 -22%, #57cdff 45%, #f68eff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 @media (max-width: 992px) {

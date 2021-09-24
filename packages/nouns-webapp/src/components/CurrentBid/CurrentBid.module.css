@@ -3,3 +3,76 @@
   font-weight: bold;
   font-family: 'Londrina Solid';
 }
+
+.noMarginPadding {
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.addressText {
+  margin: 0px !important;
+  padding: 0px !important;
+  font-size: 40px;
+  font-weight: 700;
+  color: #212529;
+}
+
+.bidText {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: #5ec0fa;
+  margin: 0px !important;
+  padding: 0px !important;
+  text-align: center;
+}
+
+.winningText {
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.winningAmount {
+  margin: 0px !important;
+  padding: 0px !important;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #212529;
+}
+
+.partyWonText {
+  background: -webkit-linear-gradient(10deg, #00ffa3 12%, #57cdff 25%, #f68eff 40%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 2.25rem;
+  font-weight: 700;
+}
+
+.leadingBid {
+  margin: 0px !important;
+  padding: 0px !important;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #212529;
+  text-align: center;
+}
+
+@media (max-width: 992px) {
+  .leadingBid {
+    margin: 0px !important;
+    padding: 0px !important;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #212529;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .winningAmount {
+    margin: 0px !important;
+    padding: 0px 0px 15px 0px !important;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #212529;
+  }
+}

@@ -1,3 +1,7 @@
+.navBarContainer {
+  z-index: 2;
+}
+
 .navBarBrand {
   position: relative;
   z-index: 2;
@@ -25,7 +29,7 @@
   display: inline-block;
   width: 10px;
   height: 10px;
-  background-color: #7fc59c;
+  background-color: #00d688;
   border-radius: 50%;
   margin-right: 5px;
 }
@@ -33,15 +37,59 @@
 .nounsNavLink,
 .nounsNavLink:active,
 .nounsNavLink:visited {
-  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none !important;
   padding: 0.5rem 0.8rem !important;
   color: var(--brand-black) !important;
+  /* font-family: -apple-system, system-ui, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; */
+  font-weight: 500;
 }
 .nounsNavLink:hover {
-  color: var(--brand-dark-red) !important;
+  cursor: pointer;
+  background: var(--brand-dark-red);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .testnetImg {
   width: auto;
   height: 45px;
+}
+
+.ethXiFont {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+.menuItem {
+  cursor: pointer;
+  margin-right: 10px;
+  margin-left: 10px;
+  font-size: large;
+  font-weight: normal;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+.menuItem:hover {
+  cursor: pointer;
+  margin-right: 10px;
+  margin-left: 10px;
+  background: var(--brand-dark-red);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.disconnectButton {
+  cursor: pointer;
+}
+.disconnectButton:hover {
+  cursor: pointer;
+  cursor: pointer;
+
+  background: -webkit-linear-gradient(10deg, #00ffa3 -22%, #57cdff 45%, #f68eff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

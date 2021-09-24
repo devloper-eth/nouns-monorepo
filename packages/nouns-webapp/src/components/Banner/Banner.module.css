@@ -1,20 +1,74 @@
-.wrapper h1 {
-  font-family: 'Londrina Solid';
-  font-size: 5rem;
+.wrapper {
+  margin-top: 8rem;
+  margin-bottom: 2rem;
 }
 
-.bannerSection {
-  border-top: 4px lightgray solid;
+.wrapper h1 {
+  text-align: center;
+  font-size: 4rem;
+  color: #212529;
+  line-height: 1;
+  font-weight: 900;
+}
+
+.instructionsRow {
+  margin-bottom: 3rem;
 }
 
 @media (max-width: 992px) {
   .wrapper {
     padding: 2rem;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .wrapper h1 {
+    margin-top: 1rem;
+    margin-bottom: 4rem;
   }
 }
 
 @media (min-width: 992px) {
   .wrapper h1 {
-    font-size: 7rem;
+    font-size: 6rem;
+  }
+}
+
+.instructionText {
+  display: grid;
+  grid-auto-flow: column dense;
+  column-gap: 32px;
+  width: 100%;
+  padding: 8px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  overflow: hidden;
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+.instructionText div {
+  display: grid;
+  grid-auto-flow: column dense;
+}
+
+.instructionText span {
+  font-family: 'Fredoka One';
+  margin-top: -6px;
+  margin-right: 8px;
+  font-size: 1.75rem;
+  color: white;
+  text-align: center;
+  font-weight: 900;
+  border-radius: 50%;
+  text-align: center;
+  width: 45px;
+  height: 45px;
+  padding: 2px;
+  background: -webkit-linear-gradient(330deg, #00ffa3, #57cdff, #f68eff 90%);
+}
+
+@media (max-width: 992px) {
+  .instructionText {
+    /* Todo:  Stack vertically */
   }
 }

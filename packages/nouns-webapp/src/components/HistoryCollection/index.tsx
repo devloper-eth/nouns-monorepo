@@ -1,4 +1,4 @@
-import { BigNumber, BigNumberish } from 'ethers';
+import { BigNumberish } from 'ethers';
 import Section from '../../layout/Section';
 import classes from './HistoryCollection.module.css';
 import clsx from 'clsx';
@@ -6,6 +6,7 @@ import StandaloneNoun from '../StandaloneNoun';
 import { LoadingNoun } from '../Noun';
 import config from '../../config';
 import { Container, Row } from 'react-bootstrap';
+import { useAppSelector } from '../../hooks';
 
 interface HistoryCollectionProps {
   historyCount: number;
@@ -14,25 +15,36 @@ interface HistoryCollectionProps {
 
 const HistoryCollection: React.FC<HistoryCollectionProps> = (props: HistoryCollectionProps) => {
   const { historyCount, latestNounId } = props;
+  const pastAuctions = useAppSelector(state => state.pastAuctions);
 
-  if (!latestNounId) return null;
+  if (!latestNounId || !pastAuctions) return null;
 
-  const startAtZero = BigNumber.from(latestNounId).sub(historyCount).lt(0);
+  // const startAtZero = BigNumber.from(latestNounId).sub(historyCount).lt(0);
 
-  let nounIds: Array<BigNumber | null> = new Array(historyCount);
-  nounIds = nounIds.fill(null).map((_, i) => {
-    if (BigNumber.from(i).lt(latestNounId)) {
-      const index = startAtZero
-        ? BigNumber.from(0)
-        : BigNumber.from(Number(latestNounId) - historyCount);
-      return index.add(i);
-    } else {
-      return null;
-    }
-  });
+  // let nounIds: Array<BigNumber | null> = new Array(historyCount);
+  // nounIds = nounIds.fill(null).map((_, i) => {
+  //   if (BigNumber.from(i).lt(latestNounId)) {
+  //     const index = startAtZero
+  //       ? BigNumber.from(0)
+  //       : BigNumber.from(Number(latestNounId) - historyCount);
+  //     return index.add(i);
+  //   } else {
+  //     return null;
+  //   }
+  // });
 
-  const nounsContent = nounIds.map((nounId, i) => {
-    return !nounId ? <LoadingNoun key={i} /> : <StandaloneNoun key={i} nounId={nounId} />;
+  // get last 'historyCount' number of auctions
+  let historyAuctions = pastAuctions.pastAuctions.slice(0, historyCount);
+
+  const nounsContent = historyAuctions?.map((history, i) => {
+    let bidder = history?.activeAuction?.bidder;
+    let nounId = history?.activeAuction?.nounId;
+
+    return !nounId || !bidder || bidder === '0x0000000000000000000000000000000000000000' ? (
+      <LoadingNoun key={i} />
+    ) : (
+      <StandaloneNoun key={i} nounId={nounId} />
+    );
   });
 
   return (

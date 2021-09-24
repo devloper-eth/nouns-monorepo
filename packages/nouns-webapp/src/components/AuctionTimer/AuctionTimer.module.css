@@ -1,20 +1,27 @@
-.title {
-  margin-bottom: 0.5rem;
-}
-
 .timerWrapper {
   display: flex;
+  text-align: center;
+  margin: 0px !important;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #212529;
 }
 
 .timerSection {
   margin-right: 0.5rem;
 }
 
-.small {
-  padding-left: 0.1rem;
-  font-size: 0.65em;
+.noPaddingMargin {
+  padding: 0px;
+  margin: 0px;
+  font-weight: 700;
 }
 
-.timeSubtitle {
-  font-size: medium;
+.timerText {
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+.timeLabels {
+  font-size: 1.75rem;
 }

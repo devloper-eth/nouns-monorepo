@@ -3,227 +3,177 @@ import { Col, Card } from 'react-bootstrap';
 import classes from './Documentation.module.css';
 import Accordion from 'react-bootstrap/Accordion';
 import Link from '../Link';
+// import { classicNameResolver } from 'typescript';
 
 const Documentation = () => {
-  const cryotopunksLink = (
-    <Link text="Cryptopunks" url="https://www.larvalabs.com/cryptopunks" leavesPage={true} />
+  const nounsLink = <Link text="nouns.wtf" url="https://nouns.wtf" leavesPage={true} />;
+
+  const fractionalizeLink = (
+    <Link text="fractional.art" url="https://fractional.art" leavesPage={true} />
   );
-  const playgroundLink = <Link text="nouns playground" url="/playground" leavesPage={false} />;
-  const publicDomainLink = (
-    <Link
-      text="public domain"
-      url="https://creativecommons.org/publicdomain/zero/1.0/"
-      leavesPage={true}
-    />
+  const nounsProposal = (
+    <Link text="nouns DAO proposal process" url="https://nouns.wtf/vote/3" leavesPage={true} />
   );
-  const compoundGovLink = (
-    <Link text="Compound Governance" url="https://compound.finance/governance" leavesPage={true} />
+
+  const devloper = (
+    <Link text="@devloper" url="https://twitter.com/devloper_eth" leavesPage={true} />
   );
+  const hans = (
+    <Link text="@hansklaus4711" url="https://twitter.com/hansklaus4711" leavesPage={true} />
+  );
+  const floyd = (
+    <Link text="@0xfloyd" url="https://twitter.com/0xFloyd" leavesPage={true} />
+  );
+  const bold = (
+    <Link text="@bstsrvdbld" url="https://twitter.com/bstsrvdbld" leavesPage={true} />
+  );
+
   return (
     <Section bgColor="white" fullWidth={false}>
       <Col lg={{ span: 10, offset: 1 }}>
         <div className={classes.headerWrapper}>
-          <h1>WTF?</h1>
+          <h1>Party?</h1>
           <p>
             Nouns are an experimental attempt to improve the formation of on-chain avatar
-            communities. While projects such as {cryotopunksLink} have attempted to bootstrap
-            digital community and identity, Nouns attempt to bootstrap identity, community,
-            governance and a treasury that can be used by the community for the creation of
-            long-term value.
+            communities. Nouns party is an extension of the core ideas powering nouns, but with the
+            community in mind. Now, with nouns party, anyone can contribute to a collective vault so
+            that the community can win nouns together.
           </p>
-          <p>
-            Learn more about on-chain nouns below, or make some off-chain nouns using{' '}
-            {playgroundLink}.
-          </p>
+
+          <p>To learn more about the nouns project at large, head over to&nbsp;{nounsLink}.</p>
         </div>
         <Accordion>
           <Card className={classes.card}>
-            <Accordion.Toggle as={Card.Header} eventKey="0" className={classes.cardHeader}>
-              Summary <i className={classes.arrowRight}></i>
-            </Accordion.Toggle>
-            <Accordion.Collapse eventKey="0">
-              <Card.Body>
-                <ul>
-                  <li>nouns artwork is {publicDomainLink}</li>
-                  <li>1 noun trustlessly auctioned every 24 hours, forever</li>
-                  <li>100% of noun auction proceeds are trustlessly sent to Nouns DAO treasury</li>
-                  <li>settlement of one auction kicks off the next</li>
-                  <li>all nouns are members of Nouns DAO</li>
-                  <li>Nouns DAO uses a fork of {compoundGovLink}</li>
-                  <li>1 noun = 1 vote</li>
-                  <li>treasury is controlled exclusively by nouns via governance</li>
-                  <li>artwork is generative and stored directly on-chain (not IPFS)</li>
-                  <li>no explicit rules for attribute scarcity, all nouns are equally rare</li>
-                  <li>
-                    'Nounders' receive rewards in the form of nouns (10% of supply for first 5
-                    years)
-                  </li>
-                </ul>
-              </Card.Body>
-            </Accordion.Collapse>
-          </Card>
-          <Card className={classes.card}>
             <Accordion.Toggle as={Card.Header} eventKey="1" className={classes.cardHeader}>
-              Daily Auctions
+              <h2 className={classes.faq}>FAQ</h2>
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="1">
               <Card.Body>
-                <p>
-                  The Nouns Auction Contract will act as a self-sufficient noun generation and
-                  distribution mechanism, auctioning one noun every 24 hours, forever. 100% of
-                  auction proceeds (ETH) are automatically deposited in the Nouns DAO treasury,
-                  where they are governed by noun owners.
+                <h3>How can I add funds?</h3>
+                <p className={classes.documentationParagraph}>
+                  Simply click add funds and select the amount of ethereum that you'd like to
+                  contribute. The community will collectively use these funds to bid on nouns
+                  auctions until an auction is won.
                 </p>
+                <h3>How can I withdraw my funds?</h3>
+                <p className={classes.documentationParagraph}>
+                  You can withdraw your funds at any time outside of an active bid. An active
+                  bid occurs when the nouns party vault has more ethereum than the current
+                  largest bidder in the&nbsp;{nounsLink}&nbsp;auction and when the auction is less than
+                  one hour from completion. If the party does not win the auction, you can return and
+                  withdraw your funds. If the party wins, you can return and claim your shares!
+                </p>
+                <h3>What happens when the vault wins an auction?</h3>
+                <p className={classes.documentationParagraph}>
+                  When the vault has enough funds the community can use those funds to bid on a noun auction.
+                  When the community wins, anyone will be able to settle the auction. This causes the noun
+                  to be stored in a fractional vault and converted to noun shares. These shares represent
+                  your proportional ownership of the noun. They can be claimed at any time after settlement.
+                </p>
+                <h3>What happens when the vault losses an auction?</h3>
+                <p className={classes.documentationParagraph}>
+                  After an unsuccessful auction, the funds will remain in the party vault for the next auction.
+                  Contributors can return and withdraw funds or add additional funds at any time to improve
+                  the chance of winning.
+                </p>
+                <h3>How does settlement work?</h3>
+                <p className={classes.documentationParagraph}>
+                  Once the party vault wins a noun, the community will be presented with the option to settle.
+                  Settlement causes the noun to be transferred into a&nbsp;{fractionalizeLink}&nbsp;vault and
+                  converted into ERC20 tokens which represent each contributor's proportional ownership of
+                  that noun. These tokens will be named in the style of, e.g. NOUN13.
+                </p>
+                <h3>How many noun shares will I receive?</h3>
+                <p className={classes.documentationParagraph}>
+                  Each contributor will receive shares proportional to their ethereum contribution at a rate
+                  of 1E = 975 shares. Each noun will have a variable number of shares determined by the price
+                  at which the noun sells. For example, if a noun sells for 200E, it will be converted to
+                  200,000 shares. The remaining 2.5% of shares will be rewarded to the nouns party founders.
+                  See the founder rewards section for more details.
+                </p>
+                <h3>How do I receive my shares?</h3>
+                <p className={classes.documentationParagraph}>
+                  Once the party vault wins a noun and the auction is settled, you will be able to return
+                  and claim your shares. All shares for any successful auctions can be claimed in a single transaction.
+                </p>
+                <h3>What can I do with my shares?</h3>
+                <p className={classes.documentationParagraph}>
+                  The ERC20 tokens represent your proportional ownership in any nouns auctions which you've won.
+                  These shares can be used in several ways.  They can be exchanged for ethereum at the fractional.art
+                  exchange rate, they can be used to set a reserve price on a community auction of the noun or they
+                  can be used to provide liquidity to the fractional.art vault.
 
-                <p>
-                  Each time an auction is settled, the settlement transaction will also cause a new
-                  noun to be minted and a new 24 hour auction to begin.{' '}
+                  If you return after settlement of a successful auction, you will see a link on your noun where you
+                  can perform these actions.
+
+                  See the&nbsp;{fractionalizeLink}&nbsp;FAQ for further details.
                 </p>
-                <p>
-                  While settlement is most heavily incentivized for the winning bidder, it can be
-                  triggered by anyone, allowing the system to trustlessly auction nouns as long as
-                  Ethereum is operational and there are interested bidders.
+                <h3>What about nouns DAO governance?</h3>
+                <p className={classes.documentationParagraph}>
+                  Each noun also comes with a vote in&nbsp;{nounsLink}&nbsp;governance. Today this vote will be held
+                  by the&nbsp;{fractionalizeLink}&nbsp;vault and the community will be unable to vote with it.
+                  However, the team is in the process of creating a community governance module which will enable
+                  the auction contributors to build a community around their noun and have voting power within the
+                  nouns DAO governance.
+
+                  We expect to deliver this form of community governance soon.
+                </p>
+                <h3>What's next for nouns party?</h3>
+                <p className={classes.documentationParagraph}>
+                  We want community nouns from the nouns party to become some of the most prolific members
+                  of the nouns DAO. With this initial launch, we aim to simplify community participation in
+                  nouns. Over time we will build more and better tooling to help enable the formation of new
+                  DAOs built around nouns with improved governance. Watch this space.
                 </p>
               </Card.Body>
             </Accordion.Collapse>
           </Card>
           <Card className={classes.card}>
             <Accordion.Toggle as={Card.Header} eventKey="2" className={classes.cardHeader}>
-              Nouns DAO
+              <h2 className={classes.teamRewards}>Nouns party team</h2>
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="2">
               <Card.Body>
-                Nouns DAO utilizes a fork of {compoundGovLink} and is the main governing body of the
-                Nouns ecosystem. The Nouns DAO treasury receives 100% of ETH proceeds from daily
-                noun auctions. Each noun is an irrevocable member of Nouns DAO and entitled to one
-                vote in all governance matters. Noun votes are non-transferable (if you sell your
-                noun the vote goes with it) but delegatable, which means you can assign your vote to
-                someone else as long as you own your noun.
-              </Card.Body>
-            </Accordion.Collapse>
-          </Card>
-          <Card className={classes.card}>
-            <Accordion.Toggle as={Card.Header} eventKey="4" className={classes.cardHeader}>
-              Governance ‘Slow Start’
-            </Accordion.Toggle>
-            <Accordion.Collapse eventKey="4">
-              <Card.Body>
-                <p>
-                  In addition to the precautions taken by Compound Governance, Nounders have given
-                  themselves a special veto right to ensure that no malicious proposals can be
-                  passed while the noun supply is low. This veto right will only be used if an
-                  obviously harmful governance proposal has been passed, and is intended as a last
-                  resort.
+                <p className={classes.collectiveParagraph}>
+                  The nouns party was founded by&nbsp;{devloper}&nbsp;and&nbsp;{hans}, two builders who
+                  escaped the corporate world. They now spend their time contributing to the nouns ecosystem.
+                  They are an active member of the nouns DAO governance and own noun#13.
                 </p>
-                <p>
-                  Nounders will proveably revoke this veto right when they deem it safe to do so.
-                  This decision will be based on a healthy noun distribution and a community that is
-                  engaged in the governance process.
+                <p className={classes.collectiveParagraph}>
+                  The team behind nouns party is a collective of the following contributors. The team was initially
+                  bootstrapped through the&nbsp;{nounsProposal}.
                 </p>
-              </Card.Body>
-            </Accordion.Collapse>
-          </Card>
-          <Card className={classes.card}>
-            <Accordion.Toggle as={Card.Header} eventKey="5" className={classes.cardHeader}>
-              Noun Traits
-            </Accordion.Toggle>
-            <Accordion.Collapse eventKey="5">
-              <Card.Body>
-                <p>
-                  Nouns are generated randomly based Ethereum block hashes. There are no 'if'
-                  statements or other rules governing noun trait scarcity, which makes all nouns
-                  equally rare. As of this writing, nouns are made up of:
-                </p>
-                <ul>
-                  <li>backgrounds (2) </li>
-                  <li>bodies (30)</li>
-                  <li>accessories (137) </li>
-                  <li>heads (234) </li>
-                  <li>glasses (21)</li>
+                <ul className={classes.weAreTheBuildersBaby}>
+                  <li>&nbsp;{devloper}&nbsp;</li>
+                  <li>&nbsp;{hans}&nbsp;</li>
+                  <li>&nbsp;{floyd}&nbsp;</li>
+                  <li>&nbsp;{bold}&nbsp;</li>
                 </ul>
-                You can experiment with off-chain noun generation at the {playgroundLink}
-              </Card.Body>
-            </Accordion.Collapse>
-          </Card>
-          <Card className={classes.card}>
-            <Accordion.Toggle as={Card.Header} eventKey="6" className={classes.cardHeader}>
-              On-Chain Artwork
-            </Accordion.Toggle>
-            <Accordion.Collapse eventKey="6">
-              <Card.Body>
-                <p>
-                  Nouns are stored directly on Ethereum and do not utilize pointers to other
-                  networks such as IPFS. This is possible because noun parts are compressed and
-                  stored on-chain using a custom run-length encoding (RLE), which is a form of
-                  lossless compression.
-                </p>
-
-                <p>
-                  The compressed parts are efficiently converted into a single base64 encoded SVG
-                  image on-chain. To accomplish this, each part is decoded into an intermediate
-                  format before being converted into a series of SVG rects using batched, on-chain
-                  string concatenation. Once the entire SVG has been generated, it is base64
-                  encoded.
-                </p>
-              </Card.Body>
-            </Accordion.Collapse>
-          </Card>
-          <Card className={classes.card}>
-            <Accordion.Toggle as={Card.Header} eventKey="7" className={classes.cardHeader}>
-              Noun Seeder Contract
-            </Accordion.Toggle>
-            <Accordion.Collapse eventKey="7">
-              <Card.Body>
-                <p>
-                  The Noun Seeder contract is used to determine Noun traits during the minting
-                  process. The seeder contract can be replaced to allow for future trait generation
-                  algorithm upgrades. Additionally, it can be locked by the Nouns DAO to prevent any
-                  future updates. Currently, Noun traits are determined using pseudo-random number
-                  generation:
-                </p>
-                <code>keccak256(abi.encodePacked(blockhash(block.number - 1), nounId))</code>
-                <br />
-                <br />
-                <p>
-                  Trait generation is not truly random. Traits can be predicted when minting a Noun
-                  on the pending block.
-                </p>
               </Card.Body>
             </Accordion.Collapse>
           </Card>
           <Card className={classes.card}>
             <Accordion.Toggle as={Card.Header} eventKey="3" className={classes.cardHeader}>
-              Nounder's Rewards
+              <h2 className={classes.teamRewards}>Founder rewards</h2>
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="3">
               <Card.Body>
-                <p>
-                  'Nounders' are the group of ten builders that initiated Nouns. Here are the
-                  Nounders:
+                <p className={classes.collectiveParagraph}>
+                  Because 100% of the vault funding will be contributed to the nouns DAO auctions, the
+                  nouns party founders have chosen to be compensated for future work in shares of
+                  the nouns which are won by the nouns party vault. They will only be compensated in
+                  nouns shares and will only be compensated when an auction is won.
                 </p>
-                <ul>
-                  <li>@cryptoseneca</li>
-                  <li>@supergremplin</li>
-                  <li>@punk4156</li>
-                  <li>@eboyarts</li>
-                  <li>@punk4464</li>
-                  <li>solimander</li>
-                  <li>@dhof</li>
-                  <li>devcarrot</li>
-                  <li>@TimpersHD</li>
-                  <li>@lastpunk9999</li>
-                </ul>
-                <p>
-                  Because 100% of noun auction proceeds are sent to Nouns DAO, Nounders have chosen
-                  to compensate themselves with nouns. Every 10th noun for the first 5 years of the
-                  project (noun ids #0, #10, #20, #30 and so on) will be automatically sent to the
-                  Nounder's multisig to be vested and shared among the founding members of the
-                  project.
+                <p className={classes.collectiveParagraph}>
+                  The nouns DAO have agreed to reward 2.5% of the noun shares. As a result, nouns party
+                  contributors can expect 2.5% fewer tokens than their initial vault contribution. For
+                  example, if a noun is won for 200E and is tokenized into 200,000 tokens, the vault
+                  contributors will receive 200,000 less 2.5%, or 195,000 tokens distributed in proportion
+                  to the amount each funder contributed to the vault.
                 </p>
-                <p>
-                  Nounder distributions don't interfere with the cadence of 24 hour auctions. Nouns
-                  are sent directly to the Nounder's Multisig, and auctions continue on schedule
-                  with the next available noun ID.
+
+                <p className={classes.collectiveParagraph}>
+                  This 2.5% of noun shares is distributed to the nouns party founder multisig.
                 </p>
               </Card.Body>
             </Accordion.Collapse>

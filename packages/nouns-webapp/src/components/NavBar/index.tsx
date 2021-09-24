@@ -1,28 +1,29 @@
+import classes from './NavBar.module.css';
+import logo from '../../assets/nouns-party.svg';
+import { Link } from 'react-router-dom';
+import { Navbar, Container, Nav } from 'react-bootstrap';
+import clsx from 'clsx';
+import { CHAIN_ID } from '../../config';
 import { useAppSelector } from '../../hooks';
 import ShortAddress from '../ShortAddress';
-import classes from './NavBar.module.css';
-import logo from '../../assets/logo.svg';
 import { useState } from 'react';
-import { useEtherBalance, useEthers } from '@usedapp/core';
+import { useEthers } from '@usedapp/core';
 import WalletConnectModal from '../WalletConnectModal';
-import { Link } from 'react-router-dom';
-import { Nav, Navbar, Container } from 'react-bootstrap';
-import testnetNoun from '../../assets/testnet-noun.png';
-import clsx from 'clsx';
-import config, { CHAIN_ID } from '../../config';
-import { utils } from 'ethers';
-import { buildEtherscanAddressLink } from '../../utils/etherscan';
-import { ExternalURL, externalURL } from '../../utils/externalURL';
+import WithdrawModal from '../WithdrawModal';
+import ClaimTokensModal from '../ClaimTokensModal';
+import { useNounsPartyClaimsCount } from '../../wrappers/nounsParty';
 
 const NavBar = () => {
   const activeAccount = useAppSelector(state => state.account.activeAccount);
   const { deactivate } = useEthers();
 
-  const treasuryBalance = useEtherBalance(config.nounsDaoExecutorAddress);
-  const daoEtherscanLink = buildEtherscanAddressLink(config.nounsDaoExecutorAddress);
-
   const [showConnectModal, setShowConnectModal] = useState(false);
+  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
+  const [showClaimTokensModal, setShowClaimTokensModal] = useState(false);
 
+  const currentClaimsCount = useNounsPartyClaimsCount(activeAccount);
+
+  // Wallet Connect Modal
   const showModalHandler = () => {
     setShowConnectModal(true);
   };
@@ -30,12 +31,31 @@ const NavBar = () => {
     setShowConnectModal(false);
   };
 
+  // Withdraw Modal
+  const showWithdrawModalHandler = () => {
+    setShowWithdrawModal(true);
+  };
+  const hideWithdrawModalHandler = () => {
+    setShowWithdrawModal(false);
+  };
+
+  // Claim Tokens Modal
+  const showClaimTokensModalHandler = () => {
+    setShowClaimTokensModal(true);
+  };
+
+  const hideClaimTokensModalHandler = () => {
+    setShowClaimTokensModal(false);
+  };
+
   const connectedContent = (
     <>
       <Nav.Item>
         <Nav.Link className={classes.nounsNavLink} disabled>
           <span className={classes.greenStatusCircle} />
-          <span>{activeAccount && <ShortAddress address={activeAccount} />}</span>
+          <span className={classes.nounsNavLink}>
+            {activeAccount && <ShortAddress address={activeAccount} />}
+          </span>
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
@@ -69,7 +89,16 @@ const NavBar = () => {
       {showConnectModal && activeAccount === undefined && (
         <WalletConnectModal onDismiss={hideModalHandler} />
       )}
-      <Navbar expand="lg">
+      {showWithdrawModal && activeAccount && (
+        <WithdrawModal hideWithdrawModalHandler={hideWithdrawModalHandler} />
+      )}
+      {showClaimTokensModal && activeAccount && (
+        <ClaimTokensModal
+          hideClaimTokensModalHandler={hideClaimTokensModalHandler}
+          activeAccount={activeAccount}
+        />
+      )}
+      <Navbar expand="lg" className={classes.navBarContainer}>
         <Container>
           <Navbar.Brand as={Link} to="/" className={classes.navBarBrand}>
             <img
@@ -80,40 +109,24 @@ const NavBar = () => {
               alt="Nouns DAO logo"
             />
           </Navbar.Brand>
-          {Number(CHAIN_ID) !== 1 && (
-            <Nav.Item>
-              <img className={classes.testnetImg} src={testnetNoun} alt="testnet noun" />
-              TESTNET
-            </Nav.Item>
-          )}
+          {Number(CHAIN_ID) !== 1 && <Nav.Item>TESTNET</Nav.Item>}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-end">
-            <Nav.Item>
-              {treasuryBalance && (
-                <Nav.Link
-                  href={daoEtherscanLink}
-                  className={classes.nounsNavLink}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  TREASURY Ξ {utils.formatEther(treasuryBalance.toString())}
-                </Nav.Link>
-              )}
-            </Nav.Item>
-            <Nav.Link as={Link} to="/vote" className={classes.nounsNavLink}>
-              DAO
-            </Nav.Link>
+            {currentClaimsCount > 0 && (
+              <Nav.Link
+                className={classes.nounsNavLink}
+                onClick={activeAccount ? showClaimTokensModalHandler : showModalHandler}
+              >
+                CLAIM TOKENS
+              </Nav.Link>
+            )}
             <Nav.Link
-              href={externalURL(ExternalURL.notion)}
               className={classes.nounsNavLink}
-              target="_blank"
-              rel="noreferrer"
+              onClick={activeAccount ? showWithdrawModalHandler : showModalHandler}
             >
-              DOCS
+              WITHDRAW FUNDS
             </Nav.Link>
-            <Nav.Link href="/playground" className={classes.nounsNavLink} target="_blank">
-              PLAYGROUND
-            </Nav.Link>
+
             {activeAccount ? connectedContent : disconnectedContent}
           </Navbar.Collapse>
         </Container>

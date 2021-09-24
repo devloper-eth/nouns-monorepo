@@ -1,0 +1,4 @@
+/* override default boostrap style */
+.popover .arrow {
+  display: none;
+}

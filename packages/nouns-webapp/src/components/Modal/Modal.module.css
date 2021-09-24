@@ -15,11 +15,20 @@
   width: 80%;
   z-index: 100;
   background-color: white;
-  padding: 2rem;
+  padding-top: 3rem;
   text-align: center;
-  border-radius: 15px;
   left: calc(50% - 15rem);
-  width: 30rem;
+  width: 34rem;
+  -webkit-filter: drop-shadow(0px 0px 0px white);
+  filter: drop-shadow(0px 0px 0px white);
+  border-radius: 24px;
+}
+
+@media (max-width: 992px) {
+  .modal {
+    max-width: 100vw;
+    max-height: 100vh;
+  }
 }
 
 .modal h3 {
@@ -28,7 +37,7 @@
 }
 
 .content {
-  padding: 1rem;
+  padding: 1.5rem 3rem 4rem 3rem;
   max-height: 50vh;
   overflow-y: auto;
 }

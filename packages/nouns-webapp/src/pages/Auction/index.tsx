@@ -1,15 +1,19 @@
-import { BigNumber } from 'ethers';
-import Banner from '../../components/Banner';
 import Auction from '../../components/Auction';
-import Documentation from '../../components/Documentation';
-import HistoryCollection from '../../components/HistoryCollection';
 import { setUseGreyBackground } from '../../state/slices/application';
+import SocialCursorCollection from '../../components/SocialCursorCollection';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setOnDisplayAuctionNounId } from '../../state/slices/onDisplayAuction';
 import { push } from 'connected-react-router';
 import { nounPath } from '../../utils/history';
 import useOnDisplayAuction from '../../wrappers/onDisplayAuction';
 import { useEffect } from 'react';
+import Documentation from '../../components/Documentation';
+import Banner from '../../components/Banner';
+import HistoryCollection from '../../components/HistoryCollection';
+import { BigNumber } from 'ethers';
+/* Currently unused packages flagged for removal */
+// import config from '../../config';
+// import { useAuction } from '../../wrappers/nounsAuction';
 
 interface AuctionPageProps {
   initialAuctionId?: number;
@@ -46,10 +50,11 @@ const AuctionPage: React.FC<AuctionPageProps> = props => {
 
   return (
     <>
+      <SocialCursorCollection />
       {onDisplayAuction && (
         <Auction
           auction={onDisplayAuction}
-          bgColorHandler={useGrey => dispatch(setUseGreyBackground(useGrey))}
+          bgColorHandler={(useGrey: boolean) => dispatch(setUseGreyBackground(useGrey))}
         />
       )}
       <Banner />

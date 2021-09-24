@@ -1,0 +1,72 @@
+.cursor {
+  z-index: 99998;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3); */
+  cursor: default;
+}
+
+.cursor i {
+  font-style: normal;
+  font-size: x-large;
+}
+
+.cursor span {
+  overflow: hidden;
+  margin-left: 4px;
+  font-weight: bold;
+  font-size: medium;
+  white-space: nowrap;
+  color: black;
+  border: 2px solid transparent;
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(90.72deg, #00ffa3 20%, #57cdff 33.54%, #f68eff 90%) border-box;
+  padding: 0px 10px;
+  border-radius: 20px;
+}
+
+.triangle {
+  position: relative;
+  text-align: left;
+  left: -18px;
+  top: -18px;
+  margin-right: -6px;
+  background: linear-gradient(90.72deg, #00ffa3 -33.78%, #57cdff 35.54%, #f68eff 118.48%);
+}
+
+.triangle:before,
+.triangle:after {
+  content: '';
+  position: absolute;
+  background: linear-gradient(90.72deg, #00ffa3 -33.78%, #57cdff 35.54%, #f68eff 118.48%);
+}
+
+.triangle,
+.triangle:before,
+.triangle:after {
+  width: 7px;
+  height: 7px;
+  border-top-right-radius: 60%;
+}
+
+.triangle {
+  transform: rotate(-110deg) skewX(-30deg) scale(1, 0.866);
+}
+
+.triangle:before {
+  transform: rotate(-135deg) skewX(-45deg) scale(1.414, 0.707) translate(0, -50%);
+}
+
+.triangle:after {
+  transform: rotate(135deg) skewY(-45deg) scale(0.707, 1.414) translate(50%);
+}
+
+.nounHeadImage {
+  height: 60px;
+  width: 60px;
+  margin-left: -20px;
+  margin-top: -5px;
+}
