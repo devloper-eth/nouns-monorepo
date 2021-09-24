@@ -3,7 +3,7 @@ import useThrottledEffect from '../../../hooks/useThrottledEffect';
 import { useState, useEffect, ChangeEvent } from 'react';
 import classes from './OwnSocialCursor.module.css';
 import { useAppSelector } from '../../../hooks';
-import glassesLogo from '../../../assets/Glasses.svg';
+import { getNounSvgFile } from '../NounCursors';
 
 export type OwnCursor = {
   x: number;
@@ -11,14 +11,16 @@ export type OwnCursor = {
   emoji: string;
   color: string;
   message: string;
+  nounHead: string;
 };
 
 const OwnSocialCursor: React.FC<{
   color: string;
   emoji: string;
+  nounHead: string;
   onChange: (c: OwnCursor) => void;
 }> = props => {
-  const { color, emoji, onChange } = props;
+  const { color, emoji, nounHead, onChange } = props;
 
   const [writeable, setWriteable] = useState(false);
   const [message, setMessage] = useState('');
@@ -56,9 +58,16 @@ const OwnSocialCursor: React.FC<{
 
   useThrottledEffect(
     () => {
-      onChange({ x: clientX, y: clientY, color: color, emoji: emoji, message: message });
+      onChange({
+        x: clientX,
+        y: clientY,
+        color: color,
+        emoji: emoji,
+        message: message,
+        nounHead: nounHead,
+      });
     },
-    [message, clientX, clientY, color, emoji],
+    [message, clientX, clientY, color, emoji, nounHead],
     50,
   );
 
@@ -71,7 +80,7 @@ const OwnSocialCursor: React.FC<{
         visibility: cursorVisibility ? 'visible' : 'hidden',
       }}
     >
-      <img alt="glasses cursor" src={glassesLogo} />
+      <img alt="noun cursor" src={getNounSvgFile(nounHead)} className={classes.nounHeadImage} />
       {writeable ? (
         <input
           type="text"

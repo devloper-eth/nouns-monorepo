@@ -1,6 +1,6 @@
 import { useAppSelector } from '../../../hooks';
 import classes from './VisitorSocialCursor.module.css';
-import VisitorGlasses from '../../../assets/Nouns_Cursor.svg';
+import { getNounSvgFile } from '../NounCursors';
 
 const VisitorSocialCursor: React.FC<{
   key: string;
@@ -9,8 +9,9 @@ const VisitorSocialCursor: React.FC<{
   emoji: string;
   color: string;
   message: string;
+  nounHead: string;
 }> = props => {
-  const { x, y, message } = props;
+  const { x, y, message, nounHead } = props;
 
   const cursorVisibility = useAppSelector(state => state.application.cursorVisibility);
 
@@ -19,7 +20,7 @@ const VisitorSocialCursor: React.FC<{
       className={classes.cursor}
       style={{ left: x, top: y, visibility: cursorVisibility ? 'visible' : 'hidden' }}
     >
-      <img alt="glasses cursor" src={VisitorGlasses} />
+      <img alt="noun cursor" src={getNounSvgFile(nounHead)} className={classes.nounHeadImage} />
       {message ? <span>{message}</span> : null}
     </div>
   );
