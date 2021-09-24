@@ -11,16 +11,14 @@ export type OwnCursor = {
   emoji: string;
   color: string;
   message: string;
-  nounHead: string;
 };
 
 const OwnSocialCursor: React.FC<{
   color: string;
   emoji: string;
-  nounHead: string;
   onChange: (c: OwnCursor) => void;
 }> = props => {
-  const { color, emoji, nounHead, onChange } = props;
+  const { color, emoji, onChange } = props;
 
   const [writeable, setWriteable] = useState(false);
   const [message, setMessage] = useState('');
@@ -64,10 +62,9 @@ const OwnSocialCursor: React.FC<{
         color: color,
         emoji: emoji,
         message: message,
-        nounHead: nounHead,
       });
     },
-    [message, clientX, clientY, color, emoji, nounHead],
+    [message, clientX, clientY, color, emoji],
     50,
   );
 
@@ -80,7 +77,7 @@ const OwnSocialCursor: React.FC<{
         visibility: cursorVisibility ? 'visible' : 'hidden',
       }}
     >
-      <img alt="noun cursor" src={getNounSvgFile(nounHead)} className={classes.nounHeadImage} />
+      <img alt="noun cursor" src={getNounSvgFile(emoji)} className={classes.nounHeadImage} />
       {writeable ? (
         <input
           type="text"

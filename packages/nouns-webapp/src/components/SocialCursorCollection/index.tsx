@@ -16,12 +16,11 @@ type Cursor = {
   color?: string;
   message?: string;
   op?: string;
-  nounHead?: string;
 };
 
 const SocialCursorCollection: React.FC<{}> = props => {
   const [cursors, setCursors] = useState<Cursor[]>([]);
-  const [ownCursorEmoji] = useState(randomEmoji());
+  // const [ownCursorEmoji] = useState(randomEmoji());
   const [ownCursorColor] = useState(randomColor());
   const [ownCursorHead] = useState(randomNounHead());
 
@@ -72,7 +71,6 @@ const SocialCursorCollection: React.FC<{}> = props => {
           emoji: c.emoji ? c.emoji : x.emoji,
           color: typeof c.color !== 'undefined' ? c.color : x.color,
           message: typeof c.message !== 'undefined' ? c.message : '',
-          nounHead: c.nounHead ? c.nounHead : x.nounHead,
         };
       }
       return x; // return immutable
@@ -90,7 +88,6 @@ const SocialCursorCollection: React.FC<{}> = props => {
     const c: Cursor = JSON.parse(event.data);
 
     // this is the problem: event data doesn't include noun head? this causes random head due to null info
-    console.log('event cursor data: ', c);
     if (c.id === undefined) {
       return;
     }
@@ -112,7 +109,6 @@ const SocialCursorCollection: React.FC<{}> = props => {
   const onOwnSocialCursorChange = (c: OwnCursor) => {
     if (readyState === ReadyState.OPEN) {
       // seems to send nounsHead string correctly with rest of data (from <OwnSocialCursor>), so why does handleWebsocketMessage() receive without nounsHead?
-      console.log('own cursor data: ', JSON.stringify(c));
       sendMessage(JSON.stringify(c));
     }
   };
@@ -126,8 +122,7 @@ const SocialCursorCollection: React.FC<{}> = props => {
     <div>
       <OwnSocialCursor
         color={ownCursorColor}
-        emoji={ownCursorEmoji}
-        nounHead={ownCursorHead}
+        emoji={ownCursorHead}
         onChange={onOwnSocialCursorChange}
       ></OwnSocialCursor>
       {cursors.map(c => (
@@ -135,10 +130,9 @@ const SocialCursorCollection: React.FC<{}> = props => {
           key={c.id}
           x={c.x || 0}
           y={c.y || 0}
-          emoji={c.emoji || randomEmoji()}
+          emoji={c.emoji || randomNounHead()}
           color={c.color || randomColor()}
           message={c.message || ''}
-          nounHead={c.nounHead || randomNounHead()}
         ></VisitorSocialCursor>
       ))}
     </div>

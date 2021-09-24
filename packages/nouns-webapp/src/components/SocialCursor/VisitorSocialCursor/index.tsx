@@ -9,9 +9,8 @@ const VisitorSocialCursor: React.FC<{
   emoji: string;
   color: string;
   message: string;
-  nounHead: string;
 }> = props => {
-  const { x, y, message, nounHead } = props;
+  const { x, y, message, emoji } = props;
 
   const cursorVisibility = useAppSelector(state => state.application.cursorVisibility);
 
@@ -20,7 +19,7 @@ const VisitorSocialCursor: React.FC<{
       className={classes.cursor}
       style={{ left: x, top: y, visibility: cursorVisibility ? 'visible' : 'hidden' }}
     >
-      <img alt="noun cursor" src={getNounSvgFile(nounHead)} className={classes.nounHeadImage} />
+      <img alt="noun cursor" src={getNounSvgFile(emoji)} className={classes.nounHeadImage} />
       {message ? <span>{message}</span> : null}
     </div>
   );
