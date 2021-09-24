@@ -89,8 +89,8 @@ const SocialCursorCollection: React.FC<{}> = props => {
   const handleWebsocketMessage = (event: WebSocketEventMap['message']) => {
     const c: Cursor = JSON.parse(event.data);
 
-    console.log('initial c: ', c);
-    // this is a problem: event data doesn't include noun head? results in random head due to null info
+    // this is the problem: event data doesn't include noun head? this causes random head due to null info
+    console.log('event cursor data: ', c);
     if (c.id === undefined) {
       return;
     }
@@ -111,6 +111,8 @@ const SocialCursorCollection: React.FC<{}> = props => {
 
   const onOwnSocialCursorChange = (c: OwnCursor) => {
     if (readyState === ReadyState.OPEN) {
+      // seems to send nounsHead string correctly with rest of data (from <OwnSocialCursor>), so why does handleWebsocketMessage() receive without nounsHead?
+      console.log('own cursor data: ', JSON.stringify(c));
       sendMessage(JSON.stringify(c));
     }
   };
@@ -136,7 +138,7 @@ const SocialCursorCollection: React.FC<{}> = props => {
           emoji={c.emoji || randomEmoji()}
           color={c.color || randomColor()}
           message={c.message || ''}
-          nounHead={c.nounHead ? c.nounHead : randomNounHead()}
+          nounHead={c.nounHead || randomNounHead()}
         ></VisitorSocialCursor>
       ))}
     </div>
