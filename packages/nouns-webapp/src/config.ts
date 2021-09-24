@@ -49,7 +49,7 @@ const config: Record<SupportedChains, Config> = {
       process.env.REACT_APP_MAINNET_WSRPC ||
       `wss://mainnet.infura.io/ws/v3/${process.env.REACT_APP_INFURA_PROJECT_ID}`,
     enableHistory: process.env.REACT_APP_ENABLE_HISTORY === 'true' || true,
-    nounsPartyAddress: 'TODO',
+    nounsPartyAddress: '0xd33f519291a5Ba56da1351243789C91a9C2a319e',
   },
   [LOCAL_CHAIN_ID]: {
     auctionProxyAddress: '0xa513E6E4b8f2a923D98304ec87F64353C4D5C853',
