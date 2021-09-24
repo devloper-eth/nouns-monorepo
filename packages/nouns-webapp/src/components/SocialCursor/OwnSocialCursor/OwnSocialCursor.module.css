@@ -31,3 +31,10 @@
 .cursor input:focus {
   outline: none;
 }
+
+.nounHeadImage {
+  height: 65px;
+  width: 65px;
+  margin-left: -20px;
+  margin-top: -5px;
+}

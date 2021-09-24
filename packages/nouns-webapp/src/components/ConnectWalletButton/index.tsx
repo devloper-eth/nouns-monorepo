@@ -104,8 +104,8 @@ const ConnectWalletButton: React.FC<{
             </Col>
             <Col>
               <button
-                disabled={!activeAccount || !!checkIfPartyLeadingBidder || (bidAmount.eq(0))}
-                onClick={showPlaceBidModalHandler}
+                disabled={!!checkIfPartyLeadingBidder || bidAmount.eq(0)}
+                onClick={activeAccount ? showPlaceBidModalHandler : showModalHandler}
                 className={classes.connectWalletButton}
               >
                 Submit bid
