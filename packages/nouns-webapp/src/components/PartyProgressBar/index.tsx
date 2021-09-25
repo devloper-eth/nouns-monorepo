@@ -17,8 +17,10 @@ const PartyProgressBar: React.FC<{
   const depositBalance = useNounsPartyDepositBalance();
   const auctionBid = currentAuction?.amount;
 
+  const lastSoldNounEth = 125;
+
   let fullProgressBar = Math.max(
-    150,
+    lastSoldNounEth,
     depositBalance ? Number(utils.formatEther(depositBalance)) : 0,
     auctionBid ? Number(utils.formatEther(auctionBid)) : 0,
   );
@@ -58,22 +60,18 @@ const PartyProgressBar: React.FC<{
     }
   }
 
-  // let roundedEth = Math.ceil(Number(utils.formatEther(depositBalance)) * 100) / 100;
-
   return (
     <div className={classes.partyVaultWrapper}>
       <Row>
         <Col xs={5} lg={6}>
           <p className={`${classes.partyTrackerText}`}>
-            {/* {`Nouns Party Vault `} */}
             <span>{`Party Tracker`}</span>
           </p>
         </Col>
         <Col xs={7} lg={6} className="align-self-center">
-          {fullProgressBar === 150 && (
+          {fullProgressBar === lastSoldNounEth && (
             <p className={`${classes.partyGoalText}`}>
-              {/* {`Nouns Party Vault `} */}
-              <span className={classes.ethXiFont}>{`Last Noun Sold Ξ135`}</span>
+              <span className={classes.ethXiFont}>{`Last Noun Sold Ξ${lastSoldNounEth}`}</span>
             </p>
           )}
         </Col>
