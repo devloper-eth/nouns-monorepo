@@ -34,7 +34,7 @@ const NetworkAlert = () => {
         </Modal.Header>
         <Modal.Body>
           <p className={classes.networkName}>
-            Nouns DAO auctions require you to switch over {networkName()} to be able to participate.
+            Nouns Party requires you to switch over {networkName()} to be able to participate.
           </p>
           <p className={classes.instructionsTitle}>
             <b>To get started, please switch your network by following the instructions below:</b>
