@@ -141,7 +141,7 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
               <strong>
                 {minimumBidErrorMessage
                   ? `Please enter a minimum deposit of at least 0.1 ETH`
-                  : `Minimum amount: 0.1 ETH`}
+                  : ``}
               </strong>
             </p>
           </Col>
@@ -156,7 +156,7 @@ const AddFundsModal: React.FC<{ onDismiss: () => void; activeAccount: string | u
                 type="number"
                 min="0.1"
                 step="0.1"
-                placeholder="0.1"
+                placeholder=""
                 onChange={bidInputHandler}
                 ref={bidInputRef}
                 value={bidInput}
