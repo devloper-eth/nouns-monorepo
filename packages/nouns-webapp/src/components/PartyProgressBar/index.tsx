@@ -17,7 +17,7 @@ const PartyProgressBar: React.FC<{
   const depositBalance = useNounsPartyDepositBalance();
   const auctionBid = currentAuction?.amount;
 
-  const lastSoldNounEth = 131;
+  const lastSoldNounEth = 128;
 
   let fullProgressBar = Math.max(
     lastSoldNounEth,
