@@ -3,6 +3,9 @@ import { useAppSelector } from '../hooks';
 import { generateEmptyNounderAuction, isNounderNoun } from '../utils/nounderNoun';
 import { Bid, BidEvent } from '../utils/types';
 import { Auction } from './nounsAuction';
+import { getAuctionStateByKey } from '../state/slices/auction'
+import { getOnDisplayByKey } from '../state/slices/onDisplayAuction'
+import { getPastAuctionsByKey } from '../state/slices/pastAuctions';
 
 const deserializeAuction = (reduxSafeAuction: Auction): Auction => {
   return {
@@ -33,13 +36,20 @@ const deserializeBids = (reduxSafeBids: BidEvent[]): Bid[] => {
     });
 };
 
-const useOnDisplayAuction = (): Auction | undefined => {
-  const lastAuctionNounId = useAppSelector(state => state.auction.activeAuction?.nounId);
-  const onDisplayAuctionNounId = useAppSelector(
-    state => state.onDisplayAuction.onDisplayAuctionNounId,
+
+const useOnDisplayAuction = (id: string): Auction | undefined => {
+  const lastAuctionNounId = useAppSelector(
+    state => getAuctionStateByKey(state.auction, id)?.activeAuction?.nounId
   );
-  const currentAuction = useAppSelector(state => state.auction.activeAuction);
-  const pastAuctions = useAppSelector(state => state.pastAuctions.pastAuctions);
+  const onDisplayAuctionNounId = useAppSelector(
+    state => getOnDisplayByKey(state.onDisplayAuction, id)?.onDisplayAuctionNounId,
+  );
+  const currentAuction = useAppSelector(
+    state => getAuctionStateByKey(state.auction, id)?.activeAuction
+  );
+  const pastAuctions = useAppSelector(
+    state => getPastAuctionsByKey(state.pastAuctions, id)?.pastAuctions
+  );
 
   if (
     onDisplayAuctionNounId === undefined ||
@@ -73,17 +83,23 @@ const useOnDisplayAuction = (): Auction | undefined => {
   }
 };
 
-export const useAuctionBids = (auctionNounId: BigNumber): Bid[] | undefined => {
-  const lastAuctionNounId = useAppSelector(state => state.onDisplayAuction.lastAuctionNounId);
-  const lastAuctionBids = useAppSelector(state => state.auction.bids);
-  const pastAuctions = useAppSelector(state => state.pastAuctions.pastAuctions);
+export const useAuctionBids = (auctionNounId: BigNumber, id: string): Bid[] | undefined => {
+  const lastAuctionNounId = useAppSelector(
+    state => getOnDisplayByKey(state.onDisplayAuction, id)?.lastAuctionNounId,
+  );
+  const lastAuctionBids = useAppSelector(
+    state => getAuctionStateByKey(state.auction, id)?.bids
+  );
+  const pastAuctions = useAppSelector(
+    state => getPastAuctionsByKey(state.pastAuctions, id)?.pastAuctions
+  );
 
   // auction requested is active auction
   if (lastAuctionNounId === auctionNounId.toNumber()) {
-    return deserializeBids(lastAuctionBids);
+    return lastAuctionBids && deserializeBids(lastAuctionBids);
   } else {
     // find bids for past auction requested
-    const bidEvents: BidEvent[] | undefined = pastAuctions.find(auction => {
+    const bidEvents: BidEvent[] | undefined = pastAuctions?.find(auction => {
       const nounId = auction.activeAuction && BigNumber.from(auction.activeAuction.nounId);
       return nounId && nounId.eq(auctionNounId);
     })?.bids;

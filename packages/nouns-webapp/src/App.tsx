@@ -10,6 +10,7 @@ import AlertModal from './components/Modal';
 import NavBar from './components/NavBar';
 import NetworkAlert from './components/NetworkAlert';
 import AuctionPage from './pages/Auction';
+import VaultAuctionPage from './pages/VaultAuction';
 import GovernancePage from './pages/Governance';
 import CreateProposalPage from './pages/CreateProposal';
 import VotePage from './pages/Vote';
@@ -44,15 +45,21 @@ function App() {
         <NavBar />
         <Switch>
           <Route exact path="/" component={AuctionPage} />
+          <Route exact path="/vault" component={VaultAuctionPage} />
           <Route
             exact
-            path="/noun/:id"
+            path="/party-noun/:id"
             render={props => <AuctionPage initialAuctionId={Number(props.match.params.id)} />}
           />
-          <Route exact path="/nounders" component={NoundersPage} />
+          <Route
+            exact
+            path="/vault/noun/:id"
+            render={props => <VaultAuctionPage initialAuctionId={Number(props.match.params.id)}/>}
+          />
+          {/*<Route exact path="/nounders" component={NoundersPage} />
           <Route exact path="/create-proposal" component={CreateProposalPage} />
           <Route exact path="/vote" component={GovernancePage} />
-          <Route exact path="/vote/:id" component={VotePage} />
+          <Route exact path="/vote/:id" component={VotePage} />*/}
         </Switch>
         <Footer />
       </BrowserRouter>

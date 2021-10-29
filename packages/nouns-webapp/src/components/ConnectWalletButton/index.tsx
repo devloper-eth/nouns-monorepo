@@ -4,11 +4,11 @@ import classes from './ConnectWalletButton.module.css';
 import WalletConnectModal from '../WalletConnectModal';
 import AddFundsModal from '../AddFundsModal';
 import { Col, Row } from 'react-bootstrap';
-import Bid from '../Bid';
+import VaultBid from '../VaultBid';
 import { Auction } from '../../wrappers/nounsAuction';
 import config from '../../config';
 import { useNounsPartyCalcBidAmount } from '../../wrappers/nounsParty';
-
+import { getOnDisplayByKey } from '../../state/slices/onDisplayAuction';
 const ConnectWalletButton: React.FC<{
   auction: Auction;
 }> = props => {
@@ -19,8 +19,9 @@ const ConnectWalletButton: React.FC<{
   const [showPlaceBidModal, setShowPlaceBidModal] = useState(false);
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
-  const lastNounId = useAppSelector(state => state.onDisplayAuction.lastAuctionNounId);
+  const lastNounId = useAppSelector(state => getOnDisplayByKey(state.onDisplayAuction, 'noun')?.lastAuctionNounId);
   const bidAmount = useNounsPartyCalcBidAmount();
+
   // const nounsPartyCurrentNounId = useNounsPartyCurrentNounId();
   // const nounsPartyPreviousNounStatus = useNounsPartyNounStatus(BigNumber.from(nounsPartyCurrentNounId));
 
@@ -85,7 +86,7 @@ const ConnectWalletButton: React.FC<{
         showPlaceBidModal &&
         activeAccount &&
         !auctionEnded && (
-          <Bid
+          <VaultBid
             auction={currentAuction}
             auctionEnded={auctionEnded}
             hidePlaceBidModalHandler={hidePlaceBidModalHandler}

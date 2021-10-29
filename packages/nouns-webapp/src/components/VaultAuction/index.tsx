@@ -3,14 +3,14 @@ import { StandaloneNounWithSeed } from '../StandaloneNoun';
 import { Row, Container } from 'react-bootstrap';
 import { LoadingNoun } from '../Noun';
 import { Auction as IAuction } from '../../wrappers/nounsAuction';
-import classes from './Auction.module.css';
+import classes from './VaultAuction.module.css';
 import { INounSeed } from '../../wrappers/nounToken';
-import AuctionActivity from '../AuctionActivity';
+import VaultAuctionActivity from '../VaultAuctionActivity';
 import { useHistory } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
-  setPrevOnDisplayAuctionNounId,
   setNextOnDisplayAuctionNounId,
+  setPrevOnDisplayAuctionNounId,
   getOnDisplayByKey,
 } from '../../state/slices/onDisplayAuction';
 import { useEffect, useRef, useState } from 'react';
@@ -19,10 +19,9 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { isNounderNoun } from '../../utils/nounderNoun';
 
 
-// TODO: Update to actually use auctionPath
-const Auction: React.FC<{ auction: IAuction; auctionPath: String; bgColorHandler: (useGrey: boolean) => void }> =
+const VaultAuction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: boolean) => void }> =
   props => {
-    const { auction: currentAuction, auctionPath, bgColorHandler } = props;
+    const { auction: currentAuction, bgColorHandler } = props;
     const history = useHistory();
     const dispatch = useAppDispatch();
     const lastNounId = useAppSelector(state => getOnDisplayByKey(state.onDisplayAuction, 'noun')?.lastAuctionNounId);
@@ -35,14 +34,14 @@ const Auction: React.FC<{ auction: IAuction; auctionPath: String; bgColorHandler
 
     const prevAuctionHandler = () => {
       dispatch(setPrevOnDisplayAuctionNounId('noun'));
-      history.push(`/party-noun/${currentAuction.nounId.toNumber() - 1}`);
+      history.push(`/vault/noun/${currentAuction.nounId.toNumber() - 1}`);
     };
     const nextAuctionHandler = () => {
       dispatch(setNextOnDisplayAuctionNounId('noun'));
-      history.push(`/party-noun/${currentAuction.nounId.toNumber() + 1}`);
+      history.push(`/vault/noun/${currentAuction.nounId.toNumber() + 1}`);
     };
 
-    // TODO: Create an IPFS loader and use it.
+    // TODO: Update the Standalone Noun to reference a party noun
     //
     // avoid unnecessary 'useNounToken' calls and the dreaded by checking if noun was burned
     const nounContent = checkIfNounBurned(currentAuction) ? (
@@ -62,7 +61,7 @@ const Auction: React.FC<{ auction: IAuction; auctionPath: String; bgColorHandler
     );
 
     const currentAuctionActivityContent = lastNounId && (
-      <AuctionActivity
+      <VaultAuctionActivity
         auction={currentAuction}
         isFirstAuction={currentAuction.nounId.eq(0)}
         isLastAuction={currentAuction.nounId.eq(lastNounId)}
@@ -113,7 +112,7 @@ const Auction: React.FC<{ auction: IAuction; auctionPath: String; bgColorHandler
       </Container>
     );
   };
-export default Auction;
+export default VaultAuction;
 
 const checkIfNounBurned = (auction: IAuction) => {
   if (!auction) return true;

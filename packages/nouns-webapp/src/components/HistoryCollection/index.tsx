@@ -7,6 +7,7 @@ import { LoadingNoun } from '../Noun';
 import config from '../../config';
 import { Container, Row } from 'react-bootstrap';
 import { useAppSelector } from '../../hooks';
+import { getPastAuctionsByKey } from '../../state/slices/pastAuctions';
 
 interface HistoryCollectionProps {
   historyCount: number;
@@ -15,7 +16,7 @@ interface HistoryCollectionProps {
 
 const HistoryCollection: React.FC<HistoryCollectionProps> = (props: HistoryCollectionProps) => {
   const { historyCount, latestNounId } = props;
-  const pastAuctions = useAppSelector(state => state.pastAuctions);
+  const pastAuctions = useAppSelector(state => getPastAuctionsByKey(state.pastAuctions, 'noun'));
 
   if (!latestNounId || !pastAuctions) return null;
 

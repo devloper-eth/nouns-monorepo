@@ -1,141 +1,129 @@
-import { Auction } from '../../wrappers/nounsAuction';
+import { Auction, AuctionHouseContractFunction } from '../../wrappers/nounsAuction';
 import config from '../../config';
-import { BigNumber } from 'ethers';
-import { connectContractToSigner, useEthers } from '@usedapp/core';
-import { useContractFunction__fix } from '../../hooks/useContractFunction__fix';
+import { connectContractToSigner, useEthers, useContractFunction } from '@usedapp/core';
 import { useAppSelector } from '../../hooks';
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef, ChangeEvent, useCallback } from 'react';
+import { utils, BigNumber as EthersBN } from 'ethers';
+import BigNumber from 'bignumber.js';
 import classes from './Bid.module.css';
-import { Spinner, Button, Row, Col } from 'react-bootstrap';
+import { Spinner, InputGroup, FormControl, Button } from 'react-bootstrap';
+import { useAuctionMinBidIncPercentage } from '../../wrappers/nounsAuction';
 import { useAppDispatch } from '../../hooks';
+import { useContractFunction__fix } from '../../hooks/useContractFunction__fix';
 import { AlertModal, setAlertModal } from '../../state/slices/application';
-import Modal from '../Modal';
 import {
   nounsPartyContractFactory,
-  NounsPartyContractFunction,
-  useNounsPartyCalcBidAmount,
+  NounsPartyContractFunction
 } from '../../wrappers/nounsParty';
-import { formatEther } from '@ethersproject/units';
 
-// const computeMinimumNextBid = (
-//   currentBid: BigNumber,
-//   minBidIncPercentage: BigNumber | undefined,
-// ): BigNumber => {
-//   return !minBidIncPercentage
-//     ? new BigNumber(0)
-//     : currentBid.times(minBidIncPercentage.div(100).plus(1));
-// };
+const computeMinimumNextBid = (
+  currentBid: BigNumber,
+  minBidIncPercentage: BigNumber | undefined,
+): BigNumber => {
+  return !minBidIncPercentage
+    ? new BigNumber(0)
+    : currentBid.times(minBidIncPercentage.div(100).plus(1));
+};
 
-// const minBidEth = (minBid: BigNumber): string => {
-//   if (minBid.isZero()) {
-//     return '0.01';
-//   }
+const minBidEth = (minBid: BigNumber): string => {
+  if (minBid.isZero()) {
+    return '0.01';
+  }
 
-//   const eth = Number(utils.formatEther(EthersBN.from(minBid.toString())));
-//   const roundedEth = Math.ceil(eth * 100) / 100;
+  const eth = Number(utils.formatEther(EthersBN.from(minBid.toString())));
+  const roundedEth = Math.ceil(eth * 100) / 100;
 
-//   return roundedEth.toString();
-// };
+  return roundedEth.toString();
+};
 
-// const currentBid = (bidInputRef: React.RefObject<HTMLInputElement>) => {
-//   if (!bidInputRef.current || !bidInputRef.current.value) {
-//     return new BigNumber(0);
-//   }
-//   return new BigNumber(utils.parseEther(bidInputRef.current.value).toString());
-// };
+const currentBid = (bidInputRef: React.RefObject<HTMLInputElement>) => {
+  if (!bidInputRef.current || !bidInputRef.current.value) {
+    return new BigNumber(0);
+  }
+  return new BigNumber(utils.parseEther(bidInputRef.current.value).toString());
+};
 
 const Bid: React.FC<{
   auction: Auction;
   auctionEnded: boolean;
-  hidePlaceBidModalHandler: () => void;
 }> = props => {
   const activeAccount = useAppSelector(state => state.account.activeAccount);
   const { library } = useEthers();
-  const { auction, auctionEnded, hidePlaceBidModalHandler } = props;
-  // const auctionHouseContract = auctionHouseContractFactory(config.auctionProxyAddress);
+  const { auction, auctionEnded } = props;
+
   const nounsPartyContract = nounsPartyContractFactory(config.nounsPartyAddress);
 
-  // const account = useAppSelector(state => state.account.activeAccount);
+  const account = useAppSelector(state => state.account.activeAccount);
 
   const bidInputRef = useRef<HTMLInputElement>(null);
 
-  // const [bidInput, setBidInput] = useState('');
-
+  const [bidInput, setBidInput] = useState('');
   const [bidButtonContent, setBidButtonContent] = useState({
     loading: false,
-    content: 'Submit Bid',
+    content: auctionEnded ? 'Settle' : 'Bid',
   });
 
   const dispatch = useAppDispatch();
   const setModal = useCallback((modal: AlertModal) => dispatch(setAlertModal(modal)), [dispatch]);
 
-  const bidAmount = useNounsPartyCalcBidAmount();
-  // console.log("bidAmount", bidAmount, formatEther(bidAmount))
-
-  // const minBidIncPercentage = useAuctionMinBidIncPercentage();
-  // const minBid = computeMinimumNextBid(
-  //   auction && new BigNumber(auction.amount.toString()),
-  //   minBidIncPercentage,
-  // );
-
-  // const deposits = useNounsPartyDeposits();
-
-  const { send: bid, state: bidState } = useContractFunction__fix(
-    nounsPartyContract,
-    NounsPartyContractFunction.bid,
+  const minBidIncPercentage = useAuctionMinBidIncPercentage();
+  const minBid = computeMinimumNextBid(
+    auction && new BigNumber(auction.amount.toString()),
+    minBidIncPercentage,
   );
 
-  // const { send: settleAuction, state: settleAuctionState } = useContractFunction__fix(
-  //   auctionHouseContract,
-  //   AuctionHouseContractFunction.settleCurrentAndCreateNewAuction,
-  // );
+  const { send: placeBid, state: placeBidState } = useContractFunction__fix(
+    nounsPartyContract,
+    // todo: Hook to correct call
+    NounsPartyContractFunction.bid,
+  );
+  const { send: settleAuction, state: settleAuctionState } = useContractFunction__fix(
+    nounsPartyContract,
+    // todo: Hook to correct call
+    NounsPartyContractFunction.settle,
+  );
 
-  // const { send: deposit, state: depositState } = useContractFunction__fix(
-  //   nounsPartyContract,
-  //   NounsPartyContractFunction.deposit,
-  // );
+  const bidInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const input = event.target.value;
 
-  // const bidInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
-  //   const input = event.target.value;
-
-  //   // disable more than 2 digits after decimal point
-  //   if (input.includes('.') && event.target.value.split('.')[1].length > 2) {
-  //     return;
-  //   }
-
-  //   setBidInput(event.target.value);
-  // };
-
-  const placeBidHandler = async () => {
-    // if (!auction || !bidInputRef.current || !bidInputRef.current.value) {
-    //   return;
-    // }
-
-    // if (currentBid(bidInputRef).isLessThan(minBid)) {
-    //   setModal({
-    //     show: true,
-    //     title: 'Insufficient bid amount 🤏',
-    //     message: `Please place a bid higher than or equal to the minimum bid amount of ${minBidEth(
-    //       minBid,
-    //     )} ETH.`,
-    //   });
-    //   setBidInput(minBidEth(minBid));
-    //   return;
-    // }
-
-    const contract = connectContractToSigner(nounsPartyContract, undefined, library);
-    let gasLimit = BigNumber.from(500000);
-    try {
-      gasLimit = await contract.estimateGas.bid();
-      gasLimit.add(100000);
-    } catch (e) {
-      console.error('Failed to guess gas.', e);
+    // disable more than 2 digits after decimal point
+    if (input.includes('.') && event.target.value.split('.')[1].length > 2) {
+      return;
     }
 
-    bid({
-      gasLimit: gasLimit,
+    setBidInput(event.target.value);
+  };
+
+  const placeBidHandler = async () => {
+    if (!auction || !bidInputRef.current || !bidInputRef.current.value) {
+      return;
+    }
+
+    if (currentBid(bidInputRef).isLessThan(minBid)) {
+      setModal({
+        show: true,
+        title: 'Insufficient bid amount 🤏',
+        message: `Please place a bid higher than or equal to the minimum bid amount of ${minBidEth(
+          minBid,
+        )} ETH.`,
+      });
+      setBidInput(minBidEth(minBid));
+      return;
+    }
+
+    const value = utils.parseEther(bidInputRef.current.value.toString());
+    const contract = connectContractToSigner(nounsPartyContract, undefined, library);
+    const gasLimit = await contract.estimateGas.createBid(auction.nounId, {
+      value,
     });
-    setBidButtonContent({ loading: true, content: 'Placing bid...' });
+    placeBid(auction.nounId, {
+      value,
+      gasLimit: gasLimit.add(10_000), // A 10,000 gas pad is used to avoid 'Out of gas' errors
+    });
+  };
+
+  const settleAuctionHandler = () => {
+    settleAuction();
   };
 
   const clearBidInput = () => {
@@ -144,114 +132,135 @@ const Bid: React.FC<{
     }
   };
 
+  // successful bid using redux store state
+  useEffect(() => {
+    if (!account) return;
+
+    // tx state is mining
+    const isMiningUserTx = placeBidState.status === 'Mining';
+    // allows user to rebid against themselves so long as it is not the same tx
+    const isCorrectTx = currentBid(bidInputRef).isEqualTo(new BigNumber(auction.amount.toString()));
+    if (isMiningUserTx && auction.bidder === account && isCorrectTx) {
+      placeBidState.status = 'Success';
+      setModal({
+        title: 'Success',
+        message: `Bid was placed successfully!`,
+        show: true,
+      });
+      setBidButtonContent({ loading: false, content: 'Bid' });
+      clearBidInput();
+    }
+  }, [auction, placeBidState, account, setModal]);
+
   // placing bid transaction state hook
   useEffect(() => {
-    if (!activeAccount) return;
-    switch (!auctionEnded && bidState.status) {
+    switch (!auctionEnded && placeBidState.status) {
       case 'None':
         setBidButtonContent({
           loading: false,
-          content: 'Submit bid',
+          content: 'Bid',
         });
-        break;
-      case 'Success':
-        hidePlaceBidModalHandler();
-        setModal({
-          title: 'Success',
-          message: `Bid was submitted successfully!`,
-          show: true,
-        });
-        setBidButtonContent({ loading: false, content: 'Submit Bid' });
-        clearBidInput();
         break;
       case 'Mining':
-        setBidButtonContent({ loading: true, content: 'Submitting bid...' });
+        setBidButtonContent({ loading: true, content: '' });
         break;
       case 'Fail':
-        hidePlaceBidModalHandler();
         setModal({
           title: 'Transaction Failed',
-          message: bidState.errorMessage
-            ? bidState.errorMessage
-            : 'Submit bid failed. Please try again.',
+          message: placeBidState.errorMessage ? placeBidState.errorMessage : 'Please try again.',
           show: true,
         });
-        setBidButtonContent({ loading: false, content: 'Submit bid' });
+        setBidButtonContent({ loading: false, content: 'Bid' });
         break;
       case 'Exception':
-        hidePlaceBidModalHandler();
         setModal({
           title: 'Error',
-          message: bidState.errorMessage
-            ? 'The bid was already submitted.'
-            : 'Submit bid failed. Please try again.',
+          message: placeBidState.errorMessage ? placeBidState.errorMessage : 'Please try again.',
           show: true,
         });
-        setBidButtonContent({ loading: false, content: 'Submit bid' });
+        setBidButtonContent({ loading: false, content: 'Bid' });
         break;
     }
-  }, [bidState, auctionEnded, setModal, hidePlaceBidModalHandler, activeAccount]);
+  }, [placeBidState, auctionEnded, setModal]);
+
+  // settle auction transaction state hook
+  useEffect(() => {
+    switch (auctionEnded && settleAuctionState.status) {
+      case 'None':
+        setBidButtonContent({
+          loading: false,
+          content: 'Settle Auction',
+        });
+        break;
+      case 'Mining':
+        setBidButtonContent({ loading: true, content: '' });
+        break;
+      case 'Success':
+        setModal({
+          title: 'Success',
+          message: `Settled auction successfully!`,
+          show: true,
+        });
+        setBidButtonContent({ loading: false, content: 'Settle Auction' });
+        break;
+      case 'Fail':
+        setModal({
+          title: 'Transaction Failed',
+          message: settleAuctionState.errorMessage
+            ? settleAuctionState.errorMessage
+            : 'Please try again.',
+          show: true,
+        });
+        setBidButtonContent({ loading: false, content: 'Settle Auction' });
+        break;
+      case 'Exception':
+        setModal({
+          title: 'Error',
+          message: settleAuctionState.errorMessage
+            ? settleAuctionState.errorMessage
+            : 'Please try again.',
+          show: true,
+        });
+        setBidButtonContent({ loading: false, content: 'Settle Auction' });
+        break;
+    }
+  }, [settleAuctionState, auctionEnded, setModal]);
 
   if (!auction) return null;
 
-  const isDisabled = bidState.status === 'Mining' || !activeAccount;
+  const isDisabled =
+    placeBidState.status === 'Mining' || settleAuctionState.status === 'Mining' || !activeAccount;
 
-  const noPlaceBidContent = (
-    <>
-      <Row>
-        <Col>
-          <p className={classes.infoText}>
-            Submitting a bid will place a bid on the nouns auction using the vault's funds. The bid
-            will be 5% higher than the current highest bid.
-          </p>
-          <p className={classes.infoText}>
-            The vault does not have enough funds. Please add funds to the vault to execute this bid.{' '}
-            <strong>A bid requires {formatEther(bidAmount)}&nbsp;ETH</strong>.
-          </p>
-        </Col>
-      </Row>
-    </>
-  );
-
-  // const partyIsAlreadyWinning = <>The party is already the leading bidder.</>;
-
-  const placeBidContent = (
-    <>
-      <Row>
-        <Col>
-          <p className={classes.infoText}>
-            Submitting this bid will place a bid on the nouns auction using the vault's funds. The
-            bid will be 5% higher than the current highest bid.
-          </p>
-          <p className={classes.infoText}>
-            If the party goes on to win the auction, contributors can return after the auction to
-            claim their tokens. Any unused funds can be withdrawn.
-          </p>
-          <p className={classes.infoText}>
-            Bid amount: <strong>{formatEther(bidAmount)}&nbsp;ETH</strong>
-          </p>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Button
-            className={classes.placePartyBidButton}
-            onClick={placeBidHandler}
-            disabled={isDisabled || auctionEnded || !bidAmount}
-          >
-            {bidButtonContent.loading ? <Spinner animation="border" size="sm" /> : null}
-            &nbsp; {bidButtonContent.content}
-          </Button>
-        </Col>
-      </Row>
-    </>
-  );
   return (
-    <Modal
-      title="Submit bid"
-      content={bidAmount.gte(0) ? placeBidContent : noPlaceBidContent}
-      onDismiss={hidePlaceBidModalHandler}
-    />
+    <>
+      {!auctionEnded && (
+        <p className={classes.minBidCopy}>{`Minimum bid: ${minBidEth(minBid)} ETH`}</p>
+      )}
+      <InputGroup>
+        {!auctionEnded && (
+          <>
+            <FormControl
+              aria-label="Example text with button addon"
+              aria-describedby="basic-addon1"
+              className={classes.bidInput}
+              type="number"
+              min="0"
+              onChange={bidInputHandler}
+              ref={bidInputRef}
+              value={bidInput}
+            />
+            <span className={classes.customPlaceholder}>ETH</span>
+          </>
+        )}
+        <Button
+          className={auctionEnded ? classes.bidBtnAuctionEnded : classes.bidBtn}
+          onClick={auctionEnded ? settleAuctionHandler : placeBidHandler}
+          disabled={isDisabled}
+        >
+          {bidButtonContent.loading ? <Spinner animation="border" /> : bidButtonContent.content}
+        </Button>
+      </InputGroup>
+    </>
   );
 };
 export default Bid;

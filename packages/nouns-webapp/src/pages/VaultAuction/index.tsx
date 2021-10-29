@@ -1,8 +1,11 @@
-import Auction from '../../components/Auction';
+import VaultAuction from '../../components/VaultAuction';
 import { setUseGreyBackground } from '../../state/slices/application';
 import SocialCursorCollection from '../../components/SocialCursorCollection';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getOnDisplayByKey, setOnDisplayAuctionNounId } from '../../state/slices/onDisplayAuction';
+import {
+  setOnDisplayAuctionNounId,
+  getOnDisplayByKey,
+} from '../../state/slices/onDisplayAuction';
 import { push } from 'connected-react-router';
 import { nounPath } from '../../utils/history';
 import useOnDisplayAuction from '../../wrappers/onDisplayAuction';
@@ -11,23 +14,24 @@ import Documentation from '../../components/Documentation';
 import Banner from '../../components/Banner';
 import HistoryCollection from '../../components/HistoryCollection';
 import { BigNumber } from 'ethers';
-/* Currently unused packages flagged for removal */
-// import config from '../../config';
-// import { useAuction } from '../../wrappers/nounsAuction';
 
 interface AuctionPageProps {
   initialAuctionId?: number;
 }
 
-// TODO:
-// - Update to handle different states depending on the properties.
-// - Arguably this useEffect should live elsewhere in the page root?
-const AuctionPage: React.FC<AuctionPageProps> = props => {
+/**
+ * The nouns auction house page.
+ *
+ * Not the prettiest code, but it gets the job done. This page is attached
+ * to the nouns auction house.
+ */
+const VaultAuctionPage: React.FC<AuctionPageProps> = props => {
   const { initialAuctionId } = props;
   const onDisplayAuction = useOnDisplayAuction('noun');
   const lastAuctionNounId = useAppSelector(state => getOnDisplayByKey(state.onDisplayAuction, 'noun')?.lastAuctionNounId);
 
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     if (!lastAuctionNounId) return;
 
@@ -39,7 +43,7 @@ const AuctionPage: React.FC<AuctionPageProps> = props => {
           value: lastAuctionNounId
         }));
 
-        // TODO: Fix path
+        // TODO: Path
         dispatch(push(nounPath(lastAuctionNounId)));
       } else {
         if (onDisplayAuction === undefined) {
@@ -65,13 +69,14 @@ const AuctionPage: React.FC<AuctionPageProps> = props => {
     <>
       <SocialCursorCollection />
       {onDisplayAuction && (
-        <Auction
+        <VaultAuction
           auction={onDisplayAuction}
-          auctionPath={"noun"}
           bgColorHandler={(useGrey: boolean) => dispatch(setUseGreyBackground(useGrey))}
         />
       )}
       <Banner />
+
+      { /* TODO: Use party nouns vs actual nouns. */ }
       {lastAuctionNounId && (
         <HistoryCollection latestNounId={BigNumber.from(lastAuctionNounId)} historyCount={10} />
       )}
@@ -79,4 +84,4 @@ const AuctionPage: React.FC<AuctionPageProps> = props => {
     </>
   );
 };
-export default AuctionPage;
+export default VaultAuctionPage;

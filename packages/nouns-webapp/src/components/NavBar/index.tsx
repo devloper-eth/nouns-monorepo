@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import clsx from 'clsx';
 import { CHAIN_ID } from '../../config';
+import config from '../../config';
+import { utils } from 'ethers';
 import { useAppSelector } from '../../hooks';
 import ShortAddress from '../ShortAddress';
 import { useState } from 'react';
@@ -11,6 +13,7 @@ import { useEthers } from '@usedapp/core';
 import WalletConnectModal from '../WalletConnectModal';
 import WithdrawModal from '../WithdrawModal';
 import ClaimTokensModal from '../ClaimTokensModal';
+import { buildEtherscanAddressLink } from '../../utils/etherscan';
 import { useNounsPartyClaimsCount } from '../../wrappers/nounsParty';
 
 const NavBar = () => {
@@ -20,6 +23,10 @@ const NavBar = () => {
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [showClaimTokensModal, setShowClaimTokensModal] = useState(false);
+
+  // TODO: Retrieve party vault size
+  const treasuryBalance = 100;
+  const daoEtherscanLink = buildEtherscanAddressLink(config.nounsDaoExecutorAddress);
 
   const currentClaimsCount = useNounsPartyClaimsCount(activeAccount);
 
@@ -112,21 +119,21 @@ const NavBar = () => {
           {Number(CHAIN_ID) !== 1 && <Nav.Item>TESTNET</Nav.Item>}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-end">
-            {currentClaimsCount > 0 && (
-              <Nav.Link
-                className={classes.nounsNavLink}
-                onClick={activeAccount ? showClaimTokensModalHandler : showModalHandler}
-              >
-                CLAIM TOKENS
-              </Nav.Link>
-            )}
-            <Nav.Link
-              className={classes.nounsNavLink}
-              onClick={activeAccount ? showWithdrawModalHandler : showModalHandler}
-            >
-              WITHDRAW FUNDS
-            </Nav.Link>
-
+            <Nav.Item>
+              {treasuryBalance && (
+                <Nav.Link
+                  href={daoEtherscanLink}
+                  className={classes.nounsNavLink}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  PARTY VAULT Ξ {Number(utils.formatEther(treasuryBalance)).toFixed(0)}
+                </Nav.Link>
+              )}
+            </Nav.Item>
+            <Link className={classes.nounsNavLink} to="/vault">
+              BUY NOUN
+            </Link>
             {activeAccount ? connectedContent : disconnectedContent}
           </Navbar.Collapse>
         </Container>

@@ -19,13 +19,17 @@ import auction, {
   setFullAuction,
 } from './state/slices/auction';
 import onDisplayAuction, {
+  Keyed,
   setLastAuctionNounId,
   setOnDisplayAuctionNounId,
+  getOnDisplayByKey,
 } from './state/slices/onDisplayAuction';
+import pastAuctions, {
+  addPastAuctions
+} from './state/slices/pastAuctions';
 import { ApolloProvider, useQuery } from '@apollo/client';
 import { clientFactory, latestAuctionsQuery } from './wrappers/subgraph';
 import { useEffect } from 'react';
-import pastAuctions, { addPastAuctions } from './state/slices/pastAuctions';
 import LogsUpdater from './state/updaters/logs';
 import config, { CHAIN_ID, LOCAL_CHAIN_ID } from './config';
 import { WebSocketProvider } from '@ethersproject/providers';
@@ -43,7 +47,9 @@ import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { nounPath } from './utils/history';
 import { push } from 'connected-react-router';
+import { enableMapSet } from 'immer'
 
+enableMapSet()
 dotenv.config();
 
 export const history = createBrowserHistory();
@@ -53,8 +59,8 @@ const createRootReducer = (history: History) =>
     router: connectRouter(history),
     account,
     application,
-    auction,
     logs,
+    auction,
     pastAuctions,
     onDisplayAuction,
   });
@@ -101,6 +107,8 @@ const Updaters = () => {
 
 const BLOCKS_PER_DAY = 6_500;
 
+// TODO:
+// - Add property to attach to different auction contract
 const ChainSubscriber: React.FC = () => {
   const dispatch = useAppDispatch();
 
@@ -126,7 +134,8 @@ const ChainSubscriber: React.FC = () => {
       const timestamp = (await event.getBlock()).timestamp;
       const transactionHash = event.transactionHash;
       dispatch(
-        appendBid(reduxSafeBid({ nounId, sender, value, extended, transactionHash, timestamp })),
+        // TODO: Configurable ID
+        appendBid({id: 'noun', value: reduxSafeBid({ nounId, sender, value, extended, transactionHash, timestamp })}),
       );
     };
     const processAuctionCreated = (
@@ -135,24 +144,39 @@ const ChainSubscriber: React.FC = () => {
       endTime: BigNumberish,
     ) => {
       dispatch(
-        setActiveAuction(reduxSafeNewAuction({ nounId, startTime, endTime, settled: false })),
+        // TODO: Configurable ID
+        setActiveAuction({id: 'noun', value: reduxSafeNewAuction({ nounId, startTime, endTime, settled: false })}),
       );
+      // TODO: Handle history
       const nounIdNumber = BigNumber.from(nounId).toNumber();
       dispatch(push(nounPath(nounIdNumber)));
-      dispatch(setOnDisplayAuctionNounId(nounIdNumber));
-      dispatch(setLastAuctionNounId(nounIdNumber));
+
+      let k: Keyed<number> = {
+        // TODO: Configurable ID
+        id: 'noun',
+        value: nounIdNumber
+      };
+
+      dispatch(setOnDisplayAuctionNounId(k));
+      dispatch(setLastAuctionNounId(k));
     };
     const processAuctionExtended = (nounId: BigNumberish, endTime: BigNumberish) => {
-      dispatch(setAuctionExtended({ nounId, endTime }));
+      // TODO: Configurable ID
+      dispatch(setAuctionExtended({id: 'noun', value: { nounId, endTime }}));
     };
     const processAuctionSettled = (nounId: BigNumberish, winner: string, amount: BigNumberish) => {
-      dispatch(setAuctionSettled({ nounId, amount, winner }));
+      // TODO: Configurable ID
+      dispatch(setAuctionSettled({id: 'noun', value: { nounId, amount, winner }}));
     };
 
     // Fetch the current auction
     const currentAuction: IAuction = await auctionContract.auction();
-    dispatch(setFullAuction(reduxSafeAuction(currentAuction)));
-    dispatch(setLastAuctionNounId(currentAuction.nounId.toNumber()));
+    dispatch(setFullAuction({id: 'noun', value: reduxSafeAuction(currentAuction)}));
+    let k: Keyed<number> = {
+      id: 'noun',
+      value: currentAuction.nounId.toNumber()
+    };
+    dispatch(setLastAuctionNounId(k));
 
     // Fetch the previous 24hours of  bids
     const previousBids = await auctionContract.queryFilter(bidFilter, 0 - BLOCKS_PER_DAY);
@@ -172,13 +196,14 @@ const ChainSubscriber: React.FC = () => {
   return <></>;
 };
 
-const PastAuctions: React.FC = () => {
-  const latestAuctionId = useAppSelector(state => state.onDisplayAuction.lastAuctionNounId);
+const PastAuctions: React.FC<{ id: string; }> = (props) => {
+  const { id: id } = props
+  const latestAuctionId = useAppSelector(state => getOnDisplayByKey(state.onDisplayAuction, id)?.lastAuctionNounId);
   const { data } = useQuery(latestAuctionsQuery(latestAuctionId));
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    data && dispatch(addPastAuctions({ data }));
+    data && dispatch(addPastAuctions({id: id, value: data}));
   }, [data, latestAuctionId, dispatch]);
 
   return <></>;
@@ -195,7 +220,8 @@ ReactDOM.render(
           }
         >
           <ApolloProvider client={client}>
-            <PastAuctions />
+            { /*TODO: Add past auctions for party nouns */ }
+            <PastAuctions id='noun'/>
             <DAppProvider config={useDappConfig}>
               <App />
               <Updaters />

@@ -8,14 +8,22 @@ import {
 } from '../../utils/types';
 import { Auction as IAuction } from '../../wrappers/nounsAuction';
 
+export interface Auctions {
+  auctions: Map<string, AuctionState>;
+}
+
 export interface AuctionState {
   activeAuction?: IAuction;
   bids: BidEvent[];
 }
 
-const initialState: AuctionState = {
-  activeAuction: undefined,
-  bids: [],
+export interface Keyed<T> {
+  id: string,
+  value: T
+}
+
+const initialState: Auctions = {
+  auctions: new Map<string, AuctionState>(),
 };
 
 export const reduxSafeNewAuction = (auction: AuctionCreateEvent): IAuction => ({
@@ -51,6 +59,23 @@ const maxBid = (bids: BidEvent[]): BidEvent => {
   });
 };
 
+export const upsertAuctionStateByKey = (state: Auctions, auctionType: string): AuctionState => {
+  let s = state.auctions.get(auctionType)
+  if(s) {
+    return s
+  }
+  var j = {
+    activeAuction: undefined,
+    bids: [],
+  }
+  state.auctions.set(auctionType, j)
+  return j
+};
+
+export const getAuctionStateByKey = (state: Auctions, auctionType: string): AuctionState | undefined => {
+  return state.auctions.get(auctionType)
+};
+
 const auctionsEqual = (
   a: IAuction,
   b: AuctionSettledEvent | AuctionCreateEvent | BidEvent | AuctionExtendedEvent,
@@ -60,41 +85,50 @@ const containsBid = (bidEvents: BidEvent[], bidEvent: BidEvent) =>
   bidEvents.map(bid => bid.transactionHash).indexOf(bidEvent.transactionHash) >= 0;
 
 /**
- * State of **current** auction (sourced via websocket)
+ * State of **current** auctions (sourced via websocket)
+ * Keyed by an ID which differentiates multiple auctions on the page.
  */
-export const auctionSlice = createSlice({
-  name: 'auction',
+export const auctionsSlice = createSlice({
+  name: 'auctions',
   initialState,
   reducers: {
-    setActiveAuction: (state, action: PayloadAction<AuctionCreateEvent>) => {
-      state.activeAuction = reduxSafeNewAuction(action.payload);
-      state.bids = [];
-      console.log('processed auction create', action.payload);
+    setActiveAuction: (state, action: PayloadAction<Keyed<AuctionCreateEvent>>) => {
+      let s = upsertAuctionStateByKey(state, action.payload.id)
+      s.activeAuction = reduxSafeNewAuction(action.payload.value);
+      s.bids = [];
+      console.log('processed auction create', action.payload.value);
     },
-    setFullAuction: (state, action: PayloadAction<IAuction>) => {
-      console.log(`from set full auction: `, action.payload);
-      state.activeAuction = reduxSafeAuction(action.payload);
+    setFullAuction: (state, action: PayloadAction<Keyed<IAuction>>) => {
+      console.log(`from set full auction: `, action.payload.value);
+      let s = upsertAuctionStateByKey(state, action.payload.id)
+      s.activeAuction = reduxSafeAuction(action.payload.value);
     },
-    appendBid: (state, action: PayloadAction<BidEvent>) => {
-      if (!(state.activeAuction && auctionsEqual(state.activeAuction, action.payload))) return;
-      if (containsBid(state.bids, action.payload)) return;
-      state.bids = [reduxSafeBid(action.payload), ...state.bids];
-      const maxBid_ = maxBid(state.bids);
-      state.activeAuction.amount = BigNumber.from(maxBid_.value).toJSON();
-      state.activeAuction.bidder = maxBid_.sender;
-      console.log('processed bid', action.payload);
+    appendBid: (state, action: PayloadAction<Keyed<BidEvent>>) => {
+      let s = upsertAuctionStateByKey(state, action.payload.id)
+
+      if (!(s.activeAuction && auctionsEqual(s.activeAuction, action.payload.value))) return;
+      if (containsBid(s.bids, action.payload.value)) return;
+      s.bids = [reduxSafeBid(action.payload.value), ...s.bids];
+      const maxBid_ = maxBid(s.bids);
+      s.activeAuction.amount = BigNumber.from(maxBid_.value).toJSON();
+      s.activeAuction.bidder = maxBid_.sender;
+      console.log('processed bid', action.payload.value);
     },
-    setAuctionSettled: (state, action: PayloadAction<AuctionSettledEvent>) => {
-      if (!(state.activeAuction && auctionsEqual(state.activeAuction, action.payload))) return;
-      state.activeAuction.settled = true;
-      state.activeAuction.bidder = action.payload.winner;
-      state.activeAuction.amount = BigNumber.from(action.payload.amount).toJSON();
-      console.log('processed auction settled', action.payload);
+    setAuctionSettled: (state, action: PayloadAction<Keyed<AuctionSettledEvent>>) => {
+      let s = upsertAuctionStateByKey(state, action.payload.id)
+
+      if (!(s.activeAuction && auctionsEqual(s.activeAuction, action.payload.value))) return;
+      s.activeAuction.settled = true;
+      s.activeAuction.bidder = action.payload.value.winner;
+      s.activeAuction.amount = BigNumber.from(action.payload.value.amount).toJSON();
+      console.log('processed auction settled', action.payload.value);
     },
-    setAuctionExtended: (state, action: PayloadAction<AuctionExtendedEvent>) => {
-      if (!(state.activeAuction && auctionsEqual(state.activeAuction, action.payload))) return;
-      state.activeAuction.endTime = BigNumber.from(action.payload.endTime).toJSON();
-      console.log('processed auction extended', action.payload);
+    setAuctionExtended: (state, action: PayloadAction<Keyed<AuctionExtendedEvent>>) => {
+      let s = upsertAuctionStateByKey(state, action.payload.id)
+
+      if (!(s.activeAuction && auctionsEqual(s.activeAuction, action.payload.value))) return;
+      s.activeAuction.endTime = BigNumber.from(action.payload.value.endTime).toJSON();
+      console.log('processed auction extended', action.payload.value);
     },
   },
 });
@@ -105,6 +139,6 @@ export const {
   setAuctionExtended,
   setAuctionSettled,
   setFullAuction,
-} = auctionSlice.actions;
+} = auctionsSlice.actions;
 
-export default auctionSlice.reducer;
+export default auctionsSlice.reducer;

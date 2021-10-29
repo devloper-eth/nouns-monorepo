@@ -1,23 +1,29 @@
 import { Auction } from '../../wrappers/nounsAuction';
 import { useState, useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import classes from './AuctionActivity.module.css';
+import classes from './VaultAuctionActivity.module.css';
 import BigNumber from 'bignumber.js';
 import AuctionTimer from '../AuctionTimer';
 import CurrentBid from '../CurrentBid';
 import Winner from '../Winner';
+import PartyProgressBar from '../PartyProgressBar';
+import PartyButtons from '../PartyButtons';
+import PartyGuestList from '../PartyGuestList';
+import PartyVault from '../PartyVault';
 import AuctionNavigation from '../AuctionNavigation';
 import stampLogo from '../../assets/nouns_stamp.svg';
 import AuctionActivityDateHeadline from '../AuctionActivityDateHeadline';
 import AuctionStatus from '../AuctionStatus';
 import {
+  useFracTokenVaults,
+  useNounsPartyClaimsCount,
   useNounsPartyNounStatus,
 } from '../../wrappers/nounsParty';
 import { isNounderNoun } from '../../utils/nounderNoun';
 import SettleAuctionModal from '../SettleAuction';
 import ClaimTokensModal from '../ClaimTokensModal';
 
-import Bid from '../Bid';
+// import { utils } from 'ethers';
 import { useAppSelector } from '../../hooks';
 
 interface AuctionActivityProps {
@@ -29,7 +35,7 @@ interface AuctionActivityProps {
   displayGraphDepComps: boolean;
 }
 
-const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityProps) => {
+const VaultAuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityProps) => {
   const {
     auction,
     isFirstAuction,
@@ -43,14 +49,24 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
   const [showSettleAuctionModal, setShowSettleAuctionModal] = useState(false);
+  const [showClaimTokensModal, setShowClaimTokensModal] = useState(false);
+  const currentClaimsCount = useNounsPartyClaimsCount(activeAccount);
 
-  // TODO: Rip out?
   // Settle Auction Modal
   const showSettleAuctionModalHandler = () => {
     setShowSettleAuctionModal(true);
   };
   const hideSettleAuctionHandler = () => {
     setShowSettleAuctionModal(false);
+  };
+
+  // Claim Tokens Modal
+  const showClaimTokensModalHandler = () => {
+    setShowClaimTokensModal(true);
+  };
+
+  const hideClaimTokensModalHandler = () => {
+    setShowClaimTokensModal(false);
   };
 
   useEffect(() => {
@@ -72,19 +88,24 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
     }
   }, [auctionTimer, auction]);
 
-  // TODO: Rip out?
+  const fracVault = useFracTokenVaults(auction.nounId);
   const nounStatus = useNounsPartyNounStatus(auction.nounId);
 
   if (!auction) return null;
 
   return (
     <Col lg={{ span: 6 }} className={classes.currentAuctionActivityContainer}>
-
-      { /* TODO: Rip out? */ }
+      <AuctionStatus auction={auction} noundersNoun={isNounderNoun(auction.nounId)} />
       {showSettleAuctionModal && auction && (
         <SettleAuctionModal
           hideSettleAuctionHandler={hideSettleAuctionHandler}
           auction={auction}
+        />
+      )}
+      {showClaimTokensModal && activeAccount && currentClaimsCount > 0 && (
+        <ClaimTokensModal
+          hideClaimTokensModalHandler={hideClaimTokensModalHandler}
+          activeAccount={activeAccount}
         />
       )}
 
@@ -143,6 +164,8 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
             </Row>
           )}
 
+          {isLastAuction && !auctionEnded && <PartyProgressBar auction={auction} />}
+
           {!isNounderNoun(auction.nounId) && (
             <Row className={`${classes.auctionActivityContainer} justify-content-center`}>
               {auctionEnded ? (
@@ -155,7 +178,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
                 </Col>
               ) : (
                 <Col xs={6} className="align-self-center">
-                  {/* What scenario renders this */ }
+                  <PartyVault auction={auction} />
                 </Col>
               )}
 
@@ -191,14 +214,41 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
             </>
           )}
 
+          {fracVault && currentClaimsCount > 0 && (
+            <>
+              <Row>
+                <Col className={classes.fracVaultContainer}>
+                  <button onClick={showClaimTokensModalHandler} className={classes.fracVaultButton}>
+                    Claim tokens
+                  </button>
+                </Col>
+              </Row>
+            </>
+          )}
 
-          {/* TODO: Re-add list of bidders */}
+          {fracVault && (
+            <>
+              <Row>
+                <Col className={classes.fracVaultContainer}>
+                  <button
+                    className={classes.fracVaultButton}
+                    type="button"
+                    onClick={e => {
+                      e.preventDefault();
+                      window.open('https://fractional.art/vaults/' + fracVault, '_blank');
+                    }}
+                  >
+                    Go to token vault
+                  </button>
+                </Col>
+              </Row>
+            </>
+          )}
+
           {isLastAuction && (
             <>
-              <Bid
-                auction={auction}
-                auctionEnded={auctionEnded}
-              />
+              <PartyButtons auction={auction} />
+              <PartyGuestList />
             </>
           )}
         </div>
@@ -207,4 +257,4 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
   );
 };
 
-export default AuctionActivity;
+export default VaultAuctionActivity;

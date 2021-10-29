@@ -65,7 +65,7 @@ const BidHistory: React.FC<{ auctionId: string; max: number; classes?: any }> = 
   //   },
   // })
 
-  const bids = useAuctionBids(EthersBN.from(auctionId));
+  const bids = useAuctionBids(EthersBN.from(auctionId), 'noun');
   const bidContent =
     bids &&
     bids
