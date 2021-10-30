@@ -23,8 +23,6 @@ export const StandaloneNounWithSeed: React.FC<StandaloneNounWithSeedProps> = (
 ) => {
   const { nounId, onLoadSeed } = props;
 
-  console.log("here", nounId)
-
   const noun = useNounToken(nounId);
   const seed = useNounSeed(nounId);
 
