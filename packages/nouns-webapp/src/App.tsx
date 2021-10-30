@@ -44,12 +44,12 @@ function App() {
       <BrowserRouter>
         <NavBar />
         <Switch>
-          <Route exact path="/" component={AuctionPage} />
+          <Route exact path="/" render={props => <AuctionPage id="partynoun" />} />
           <Route exact path="/vault" component={VaultAuctionPage} />
           <Route
             exact
             path="/party-noun/:id"
-            render={props => <AuctionPage initialAuctionId={Number(props.match.params.id)} />}
+            render={props => <AuctionPage id="partynoun" initialAuctionId={Number(props.match.params.id)} />}
           />
           <Route
             exact

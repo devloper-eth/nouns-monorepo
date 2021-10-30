@@ -10,6 +10,8 @@ interface Config {
   wsRpcUri: string;
   enableHistory: boolean;
   nounsPartyAddress: string;
+  partyAuctionProxyAddress: string;
+  partyAuctionSignerURL: string; 
 }
 
 type SupportedChains = ChainId.Rinkeby | ChainId.Mainnet | typeof LOCAL_CHAIN_ID;
@@ -34,7 +36,9 @@ const config: Record<SupportedChains, Config> = {
     nounsDaoExecutorAddress: '0xd1C753D9A23eb5c57e0d023e993B9bd4F5086b04',
     subgraphApiUri: 'https://api.thegraph.com/subgraphs/name/nounsdao/nouns-subgraph-rinkeby-v4',
     enableHistory: process.env.REACT_APP_ENABLE_HISTORY === 'true' || true,
-    nounsPartyAddress: '0xFDe17EB2e29b964a0A892BCb9f31b4a27779F228',
+    nounsPartyAddress: '0x8298F4246515C33b546679eFf1CACe0A6e7c7284', // party vault
+    partyAuctionProxyAddress: '0x3A8a4ab1BbE4cCFF749DfB38Bf213aa2dF4Eb6e6',
+    partyAuctionSignerURL: 'https://us-central1-devloper-eth.cloudfunctions.net/nouns-party-v2-rinkeby/sign-create-auction',
   },
   [ChainId.Mainnet]: {
     auctionProxyAddress: '0x830BD73E4184ceF73443C15111a1DF14e495C706',
@@ -50,6 +54,8 @@ const config: Record<SupportedChains, Config> = {
       `wss://mainnet.infura.io/ws/v3/${process.env.REACT_APP_INFURA_PROJECT_ID}`,
     enableHistory: process.env.REACT_APP_ENABLE_HISTORY === 'true' || true,
     nounsPartyAddress: '0xd33f519291a5Ba56da1351243789C91a9C2a319e',
+    partyAuctionProxyAddress: 'todo',
+    partyAuctionSignerURL: 'https://us-central1-devloper-eth.cloudfunctions.net/nouns-party-v2/sign-create-auction',
   },
   [LOCAL_CHAIN_ID]: {
     auctionProxyAddress: '0xa513E6E4b8f2a923D98304ec87F64353C4D5C853',
@@ -62,6 +68,8 @@ const config: Record<SupportedChains, Config> = {
     enableHistory: true,
     wsRpcUri: 'ws://localhost:8545',
     nounsPartyAddress: 'TODO',
+    partyAuctionProxyAddress: 'todo',
+    partyAuctionSignerURL: 'todo'
   },
 };
 

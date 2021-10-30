@@ -25,10 +25,9 @@ const Auction: React.FC<{ auction: IAuction; auctionPath: String; bgColorHandler
     const { auction: currentAuction, auctionPath, bgColorHandler } = props;
     const history = useHistory();
     const dispatch = useAppDispatch();
-    const lastNounId = useAppSelector(state => getOnDisplayByKey(state.onDisplayAuction, 'noun')?.lastAuctionNounId);
+    const lastNounId = useAppSelector(state => getOnDisplayByKey(state.onDisplayAuction, 'partynoun')?.lastAuctionNounId);
     const [confettiSize, setConfettiSize] = useState({ height: 0, width: 0 });
     const confettiContainerRef = useRef<HTMLDivElement>(null);
-
     const loadedNounHandler = (seed: INounSeed) => {
       bgColorHandler(seed.background === 0);
     };

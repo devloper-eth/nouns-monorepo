@@ -35,6 +35,7 @@ import config, { CHAIN_ID, LOCAL_CHAIN_ID } from './config';
 import { WebSocketProvider } from '@ethersproject/providers';
 import { BigNumber, BigNumberish, Contract } from 'ethers';
 import { NounsAuctionHouseABI } from '@nouns/contracts';
+import { default as NounsPartyAuctionHouseABI } from './contracts/NounsPartyAuctionHouse.json';
 import dotenv from 'dotenv';
 import { useAppDispatch, useAppSelector } from './hooks';
 import { appendBid } from './state/slices/auction';
@@ -107,16 +108,15 @@ const Updaters = () => {
 
 const BLOCKS_PER_DAY = 6_500;
 
-// TODO:
-// - Add property to attach to different auction contract
-const ChainSubscriber: React.FC = () => {
+const ChainSubscriber: React.FC<{id: string, address: string, abi: any}> = (props) => {
+  const { id: id, address: address, abi: abi } = props;
   const dispatch = useAppDispatch();
 
   const loadState = async () => {
     const wsProvider = new WebSocketProvider(config.wsRpcUri);
     const auctionContract = new Contract(
-      config.auctionProxyAddress,
-      NounsAuctionHouseABI,
+      address, 
+      abi,
       wsProvider,
     );
 
@@ -134,8 +134,7 @@ const ChainSubscriber: React.FC = () => {
       const timestamp = (await event.getBlock()).timestamp;
       const transactionHash = event.transactionHash;
       dispatch(
-        // TODO: Configurable ID
-        appendBid({id: 'noun', value: reduxSafeBid({ nounId, sender, value, extended, transactionHash, timestamp })}),
+        appendBid({id: id, value: reduxSafeBid({ nounId, sender, value, extended, transactionHash, timestamp })}),
       );
     };
     const processAuctionCreated = (
@@ -143,17 +142,18 @@ const ChainSubscriber: React.FC = () => {
       startTime: BigNumberish,
       endTime: BigNumberish,
     ) => {
+      if(id === "partynoun") {
+        console.log("PartyNoun Auction Created:", nounId) // TODO remove me
+      }
       dispatch(
-        // TODO: Configurable ID
-        setActiveAuction({id: 'noun', value: reduxSafeNewAuction({ nounId, startTime, endTime, settled: false })}),
+        setActiveAuction({id: id, value: reduxSafeNewAuction({ nounId, startTime, endTime, settled: false })}),
       );
       // TODO: Handle history
       const nounIdNumber = BigNumber.from(nounId).toNumber();
       dispatch(push(nounPath(nounIdNumber)));
 
       let k: Keyed<number> = {
-        // TODO: Configurable ID
-        id: 'noun',
+        id: id,
         value: nounIdNumber
       };
 
@@ -161,19 +161,18 @@ const ChainSubscriber: React.FC = () => {
       dispatch(setLastAuctionNounId(k));
     };
     const processAuctionExtended = (nounId: BigNumberish, endTime: BigNumberish) => {
-      // TODO: Configurable ID
-      dispatch(setAuctionExtended({id: 'noun', value: { nounId, endTime }}));
+      dispatch(setAuctionExtended({id: id, value: { nounId, endTime }}));
     };
     const processAuctionSettled = (nounId: BigNumberish, winner: string, amount: BigNumberish) => {
-      // TODO: Configurable ID
-      dispatch(setAuctionSettled({id: 'noun', value: { nounId, amount, winner }}));
+      dispatch(setAuctionSettled({id: id, value: { nounId, amount, winner }}));
     };
 
     // Fetch the current auction
     const currentAuction: IAuction = await auctionContract.auction();
-    dispatch(setFullAuction({id: 'noun', value: reduxSafeAuction(currentAuction)}));
+    console.log("currentAuction", currentAuction) // TODO remove me
+    dispatch(setFullAuction({id: id, value: reduxSafeAuction(currentAuction)}));
     let k: Keyed<number> = {
-      id: 'noun',
+      id: id,
       value: currentAuction.nounId.toNumber()
     };
     dispatch(setLastAuctionNounId(k));
@@ -212,7 +211,8 @@ const PastAuctions: React.FC<{ id: string; }> = (props) => {
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <ChainSubscriber />
+      <ChainSubscriber id="noun" address={config.auctionProxyAddress} abi={NounsAuctionHouseABI} />
+      <ChainSubscriber id="partynoun" address={config.partyAuctionProxyAddress} abi={NounsPartyAuctionHouseABI} />
       <React.StrictMode>
         <Web3ReactProvider
           getLibrary={

@@ -16,6 +16,7 @@ import { BigNumber } from 'ethers';
 // import { useAuction } from '../../wrappers/nounsAuction';
 
 interface AuctionPageProps {
+  id?: string;
   initialAuctionId?: number;
 }
 
@@ -23,9 +24,10 @@ interface AuctionPageProps {
 // - Update to handle different states depending on the properties.
 // - Arguably this useEffect should live elsewhere in the page root?
 const AuctionPage: React.FC<AuctionPageProps> = props => {
-  const { initialAuctionId } = props;
-  const onDisplayAuction = useOnDisplayAuction('noun');
-  const lastAuctionNounId = useAppSelector(state => getOnDisplayByKey(state.onDisplayAuction, 'noun')?.lastAuctionNounId);
+  const { id = "noun", initialAuctionId } = props; // defaults to noun
+
+  const onDisplayAuction = useOnDisplayAuction(id);
+  const lastAuctionNounId = useAppSelector(state => getOnDisplayByKey(state.onDisplayAuction, id)?.lastAuctionNounId);
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -35,7 +37,7 @@ const AuctionPage: React.FC<AuctionPageProps> = props => {
       // handle out of bounds noun path ids
       if (initialAuctionId > lastAuctionNounId || initialAuctionId < 0) {
         dispatch(setOnDisplayAuctionNounId({
-          id: 'noun',
+          id: id,
           value: lastAuctionNounId
         }));
 
@@ -45,7 +47,7 @@ const AuctionPage: React.FC<AuctionPageProps> = props => {
         if (onDisplayAuction === undefined) {
           // handle regular noun path ids on first load
           dispatch(setOnDisplayAuctionNounId({
-            id: 'noun',
+            id: id,
             value: initialAuctionId
           }));
         }
@@ -54,20 +56,21 @@ const AuctionPage: React.FC<AuctionPageProps> = props => {
       // no noun path id set
       if (lastAuctionNounId) {
         dispatch(setOnDisplayAuctionNounId({
-          id: 'noun',
+          id: id,
           value: lastAuctionNounId
         }));
       }
     }
   }, [lastAuctionNounId, dispatch, initialAuctionId, onDisplayAuction]);
 
+  console.log(onDisplayAuction)
   return (
     <>
       <SocialCursorCollection />
       {onDisplayAuction && (
         <Auction
           auction={onDisplayAuction}
-          auctionPath={"noun"}
+          auctionPath={id}
           bgColorHandler={(useGrey: boolean) => dispatch(setUseGreyBackground(useGrey))}
         />
       )}

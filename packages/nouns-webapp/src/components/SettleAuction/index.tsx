@@ -13,6 +13,7 @@ import { AlertModal, setAlertModal } from '../../state/slices/application';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Auction } from '../../wrappers/nounsAuction';
 import Modal from '../Modal';
+import axios from 'axios';
 
 const SettleAuction: React.FC<{ auction: Auction; hideSettleAuctionHandler: () => void }> =
   props => {
@@ -43,6 +44,14 @@ const SettleAuction: React.FC<{ auction: Auction; hideSettleAuctionHandler: () =
     const settleAuction = async () => {
       if (auction && auction.nounId) {
         try {
+
+          axios.get(config.partyAuctionSignerURL)
+          .then(function(response) {
+            console.info(response.data);
+          })
+
+          // TODO pass response.data to settle auction call
+
           const contract = connectContractToSigner(nounsPartyContract, undefined, library);
           const gasLimit = await contract.estimateGas.settle();
           settle({ gasLimit: gasLimit.add(15000000) });
