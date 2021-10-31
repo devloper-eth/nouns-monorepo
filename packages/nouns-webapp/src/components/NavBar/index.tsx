@@ -9,7 +9,7 @@ import { utils } from 'ethers';
 import { useAppSelector } from '../../hooks';
 import ShortAddress from '../ShortAddress';
 import { useState } from 'react';
-import { useEthers } from '@usedapp/core';
+import { useEtherBalance, useEthers } from '@usedapp/core';
 import WalletConnectModal from '../WalletConnectModal';
 import WithdrawModal from '../WithdrawModal';
 import ClaimTokensModal from '../ClaimTokensModal';
@@ -24,11 +24,8 @@ const NavBar = () => {
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [showClaimTokensModal, setShowClaimTokensModal] = useState(false);
 
-  // TODO: Retrieve party vault size
-  const treasuryBalance = 100;
+  const treasuryBalance = useEtherBalance(config.nounsPartyAddress);
   const daoEtherscanLink = buildEtherscanAddressLink(config.nounsDaoExecutorAddress);
-
-  const currentClaimsCount = useNounsPartyClaimsCount(activeAccount);
 
   // Wallet Connect Modal
   const showModalHandler = () => {
