@@ -169,7 +169,6 @@ const ChainSubscriber: React.FC<{id: string, address: string, abi: any}> = (prop
 
     // Fetch the current auction
     const currentAuction: IAuction = await auctionContract.auction();
-    console.log("currentAuction", currentAuction) // TODO remove me
     dispatch(setFullAuction({id: id, value: reduxSafeAuction(currentAuction)}));
     let k: Keyed<number> = {
       id: id,
@@ -221,7 +220,7 @@ ReactDOM.render(
         >
           <ApolloProvider client={client}>
             { /*TODO: Add past auctions for party nouns */ }
-            <PastAuctions id='noun'/>
+            {/* <PastAuctions id='noun'/> */}
             <DAppProvider config={useDappConfig}>
               <App />
               <Updaters />

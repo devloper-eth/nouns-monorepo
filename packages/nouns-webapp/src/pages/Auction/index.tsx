@@ -63,7 +63,6 @@ const AuctionPage: React.FC<AuctionPageProps> = props => {
     }
   }, [lastAuctionNounId, dispatch, initialAuctionId, onDisplayAuction]);
 
-  console.log(onDisplayAuction)
   return (
     <>
       <SocialCursorCollection />

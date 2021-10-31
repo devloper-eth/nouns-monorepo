@@ -34,22 +34,15 @@ const NavBar = () => {
     setShowConnectModal(false);
   };
 
-  // Withdraw Modal
-  const showWithdrawModalHandler = () => {
-    setShowWithdrawModal(true);
-  };
-  const hideWithdrawModalHandler = () => {
-    setShowWithdrawModal(false);
-  };
-
   // Claim Tokens Modal
-  const showClaimTokensModalHandler = () => {
-    setShowClaimTokensModal(true);
-  };
+  // TODO we might need this again
+  // const showClaimTokensModalHandler = () => {
+  //   setShowClaimTokensModal(true);
+  // };
 
-  const hideClaimTokensModalHandler = () => {
-    setShowClaimTokensModal(false);
-  };
+  // const hideClaimTokensModalHandler = () => {
+  //   setShowClaimTokensModal(false);
+  // };
 
   const connectedContent = (
     <>
@@ -92,15 +85,12 @@ const NavBar = () => {
       {showConnectModal && activeAccount === undefined && (
         <WalletConnectModal onDismiss={hideModalHandler} />
       )}
-      {showWithdrawModal && activeAccount && (
-        <WithdrawModal hideWithdrawModalHandler={hideWithdrawModalHandler} />
-      )}
-      {showClaimTokensModal && activeAccount && (
+      {/* {showClaimTokensModal && activeAccount && (
         <ClaimTokensModal
           hideClaimTokensModalHandler={hideClaimTokensModalHandler}
           activeAccount={activeAccount}
         />
-      )}
+      )} */}
       <Navbar expand="lg" className={classes.navBarContainer}>
         <Container>
           <Navbar.Brand as={Link} to="/" className={classes.navBarBrand}>

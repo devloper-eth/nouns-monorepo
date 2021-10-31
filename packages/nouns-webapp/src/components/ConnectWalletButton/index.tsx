@@ -97,14 +97,6 @@ const ConnectWalletButton: React.FC<{
           <Row>
             <Col>
               <button
-                onClick={activeAccount ? showFundsModalHandler : showModalHandler}
-                className={classes.connectWalletButton}
-              >
-                Add funds
-              </button>
-            </Col>
-            <Col>
-              <button
                 disabled={!!checkIfPartyLeadingBidder || bidAmount.eq(0)}
                 onClick={activeAccount ? showPlaceBidModalHandler : showModalHandler}
                 className={classes.connectWalletButton}
