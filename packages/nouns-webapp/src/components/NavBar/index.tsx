@@ -14,7 +14,6 @@ import WalletConnectModal from '../WalletConnectModal';
 import WithdrawModal from '../WithdrawModal';
 import ClaimTokensModal from '../ClaimTokensModal';
 import { buildEtherscanAddressLink } from '../../utils/etherscan';
-import { useNounsPartyClaimsCount } from '../../wrappers/nounsParty';
 
 const NavBar = () => {
   const activeAccount = useAppSelector(state => state.account.activeAccount);
@@ -25,7 +24,7 @@ const NavBar = () => {
   const [showClaimTokensModal, setShowClaimTokensModal] = useState(false);
 
   const treasuryBalance = useEtherBalance(config.nounsPartyAddress);
-  const daoEtherscanLink = buildEtherscanAddressLink(config.nounsDaoExecutorAddress);
+  const daoEtherscanLink = buildEtherscanAddressLink(config.nounsPartyAddress);
 
   // Wallet Connect Modal
   const showModalHandler = () => {
