@@ -76,7 +76,6 @@ const VaultAuctionPage: React.FC<AuctionPageProps> = props => {
         />
       )}
       <Banner />
-
       { /* TODO: Use party nouns vs actual nouns. */ }
       {lastAuctionNounId && (
         <HistoryCollection latestNounId={BigNumber.from(lastAuctionNounId)} historyCount={10} />

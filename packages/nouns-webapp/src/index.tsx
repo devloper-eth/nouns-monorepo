@@ -219,8 +219,7 @@ ReactDOM.render(
           }
         >
           <ApolloProvider client={client}>
-            { /*TODO: Add past auctions for party nouns */ }
-            {/* <PastAuctions id='noun'/> */}
+            <PastAuctions id='partynoun'/> {/*Make it work for nouns too */}
             <DAppProvider config={useDappConfig}>
               <App />
               <Updaters />

@@ -44,6 +44,8 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
   const [auctionTimer, setAuctionTimer] = useState(false);
   const [showSettleAuctionModal, setShowSettleAuctionModal] = useState(false);
 
+  const isPartyNounAuction = auction.partyNounId !== undefined;
+
   // TODO: Rip out?
   // Settle Auction Modal
   const showSettleAuctionModalHandler = () => {

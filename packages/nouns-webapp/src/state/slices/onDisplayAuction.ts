@@ -24,6 +24,7 @@ export const upsertOnDisplayByKey = (state: OnDisplayAuctions, id: string): OnDi
   if(s) {
     return s
   }
+  // TODO(hans): undefined?
   var j = {
     lastAuctionNounId: undefined,
     onDisplayAuctionNounId: undefined,
