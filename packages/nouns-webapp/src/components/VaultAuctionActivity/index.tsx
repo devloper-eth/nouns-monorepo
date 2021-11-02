@@ -248,7 +248,7 @@ const VaultAuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActi
           {isLastAuction && (
             <>
               <PartyButtons auction={auction} />
-              <PartyGuestList />
+              {/* <PartyGuestList /> */}
             </>
           )}
         </div>

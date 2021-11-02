@@ -13,6 +13,7 @@
   padding: 0px;
   font-size: 1.125rem;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 @media (max-width: 992px) {

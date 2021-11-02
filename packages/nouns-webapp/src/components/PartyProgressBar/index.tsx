@@ -5,9 +5,9 @@ import classes from './PartyProgressBar.module.css';
 import { Auction as IAuction } from '../../wrappers/nounsAuction';
 import './progressbar.css';
 import config from '../../config';
-// import config from '../../config';
-
 import { utils } from 'ethers';
+import { useAppSelector } from '../../hooks';
+import { getPastAuctionsByKey } from '../../state/slices/pastAuctions';
 
 const PartyProgressBar: React.FC<{
   auction: IAuction;
@@ -17,7 +17,10 @@ const PartyProgressBar: React.FC<{
   const depositBalance = useNounsPartyDepositBalance();
   const auctionBid = currentAuction?.amount;
 
-  const lastSoldNounEth = 192;
+  const pastAuctions = useAppSelector(state => getPastAuctionsByKey(state.pastAuctions, 'noun'));
+  const lastAuction = pastAuctions?.pastAuctions.slice(0, 1)
+
+  const lastSoldNounEth = (lastAuction && Number(utils.formatEther(lastAuction[0].activeAuction?.amount || 0))) || 0;
 
   let fullProgressBar = Math.max(
     lastSoldNounEth,

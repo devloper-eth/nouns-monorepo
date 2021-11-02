@@ -68,10 +68,10 @@ const AuctionStatus: React.FC<{
     if (!auctionEnded) {
       if (bidder && bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
         statusTextTitle = `We're winning the auction!`;
-        statusText = 'You can still add more funds to the party vault.';
+        statusText = ' '; // whitespace needed
       } else if (vaultSize.eq(0)) {
         statusTextTitle = 'The vault needs more funds!';
-        statusText = 'Add more funds for the minimum bid.';
+        statusText = 'Wait for more Party Noun Auctions to finish';
       } else if (
         bidAmount.gt(0) &&
         (!bidder || bidder === '0x0000000000000000000000000000000000000000')
@@ -85,11 +85,11 @@ const AuctionStatus: React.FC<{
         bidAmount.eq(0) &&
         (!bidder || bidder === '0x0000000000000000000000000000000000000000')
       ) {
-        statusTextTitle = 'Add more funds to submit a bid!';
-        statusText = 'The auction is live.';
+        statusTextTitle = 'The vault needs more funds!';
+        statusText = 'Wait for more Party Noun Auctions to finish';
       } else {
         statusTextTitle = 'The party has been outbid!';
-        statusText = 'Add more funds to the vault.';
+        statusText = 'Wait for more Party Noun Auctions to finish';
       }
       // }
     } else {
@@ -97,21 +97,9 @@ const AuctionStatus: React.FC<{
         if(!nounStatus) {
           statusTextTitle = " "; // `Six-Per-Em Space` character to prevent empty line from rendering
           statusText = " "; // see above
-        }
-        else if (nounStatus === 'won') {
+        } else if (nounStatus === 'won') {
           statusTextTitle = 'The party won the auction!';
-          statusText = 'Settle the auction to fractionalize the noun.';
-        } else if (fracTokenVault) {
-          if (currentClaimsCount > 0) {
-            statusTextTitle = 'The party won the auction!';
-            statusText = 'Claim your tokens.';
-          } else {
-            statusTextTitle = 'The party won the auction!';
-            statusText = 'You have no tokens to claim.';
-          }
-        } else {
-          statusTextTitle = 'The party won the auction!';
-          statusText = 'We can fractionalize the noun when the auction settles.';
+          statusText = "Join Noun's #nouns-party discord for updates";
         }
       } else if (noundersNoun) {
         statusTextTitle = 'The nounders were rewarded this noun.';
