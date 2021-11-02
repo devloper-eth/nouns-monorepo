@@ -18,6 +18,7 @@ import UpdatedConfetti from '../UpdatedConfetti';
 import { BigNumber } from '@ethersproject/bignumber';
 import { isNounderNoun } from '../../utils/nounderNoun';
 import StandalonePartyNoun from '../StandalonePartyNoun';
+import VaultAuctionActivity from '../VaultAuctionActivity';
 
 
 // TODO: Update to actually use auctionPath
@@ -29,9 +30,9 @@ const Auction: React.FC<{ auction: IAuction; auctionPath: String; bgColorHandler
     const lastNounId = useAppSelector(state => getOnDisplayByKey(state.onDisplayAuction, 'partynoun')?.lastAuctionNounId); // TODO needs to return lastPartyNounId
     const [confettiSize, setConfettiSize] = useState({ height: 0, width: 0 });
     const confettiContainerRef = useRef<HTMLDivElement>(null);
-    const loadedNounHandler = (seed: INounSeed) => {
-      bgColorHandler(seed.background === 0);
-    };
+    // const loadedNounHandler = (seed: INounSeed) => {
+    //   bgColorHandler(seed.background === 0);
+    // };
 
     const prevAuctionHandler = () => {
       dispatch(setPrevOnDisplayAuctionNounId('noun'));
@@ -42,26 +43,11 @@ const Auction: React.FC<{ auction: IAuction; auctionPath: String; bgColorHandler
       history.push(`/party-noun/${currentAuction.nounId.toNumber() + 1}`);
     };
 
-    console.log(currentAuction)
-    // TODO: Create an IPFS loader and use it.
-    //
-    // avoid unnecessary 'useNounToken' calls and the dreaded by checking if noun was burned
-
-    const nounContent = currentAuction.partyNounId !== undefined ?
-      (
-        <div className={classes.nounWrapper}>
-          <StandalonePartyNoun partyNounId={currentAuction.partyNounId} tokenURI={currentAuction.tokenURI || ""} />
-        </div>
-      ) : (checkIfNounBurned(currentAuction) ? (
-        <div className={classes.nounWrapper}>
-          <LoadingNoun />
-        </div>
-      ) : (
-        <div className={classes.nounWrapper}>
-          <StandaloneNounWithSeed nounId={currentAuction.nounId} onLoadSeed={loadedNounHandler} />
-        </div>
-      )
-      )
+    const nounContent = (
+      <div className={classes.nounWrapper}>
+        <StandalonePartyNoun partyNounId={currentAuction.partyNounId || BigNumber.from(0)} tokenURI={currentAuction.tokenURI || ""} />
+      </div>
+    )
 
     const loadingNoun = (
       <div className={classes.nounWrapper}>
@@ -69,28 +55,16 @@ const Auction: React.FC<{ auction: IAuction; auctionPath: String; bgColorHandler
       </div>
     );
 
-    const currentAuctionActivityContent = currentAuction.partyNounId !== undefined ?
-      (
-        <AuctionActivity
-          auction={currentAuction}
-          isFirstAuction={currentAuction.nounId.eq(0)} // TODO
-          isLastAuction={currentAuction.nounId.eq(lastNounId || 0)} // TODO
-          onPrevAuctionClick={prevAuctionHandler}
-          onNextAuctionClick={nextAuctionHandler}
-          displayGraphDepComps={true}
-        />
-      )
-      :
-      (
-        <AuctionActivity
-          auction={currentAuction}
-          isFirstAuction={currentAuction.nounId.eq(0)} // TODO
-          isLastAuction={currentAuction.nounId.eq(lastNounId || 0)} // TODO
-          onPrevAuctionClick={prevAuctionHandler}
-          onNextAuctionClick={nextAuctionHandler}
-          displayGraphDepComps={true}
-        />
-      )
+    const currentAuctionActivityContent = (
+      <AuctionActivity
+        auction={currentAuction}
+        isFirstAuction={(currentAuction.partyNounId || BigNumber.from(0)).eq(0)} // TODO
+        isLastAuction={(currentAuction.partyNounId || BigNumber.from(0)).eq(lastNounId || 0)} // TODO lastNounId is wrong
+        onPrevAuctionClick={prevAuctionHandler}
+        onNextAuctionClick={nextAuctionHandler}
+        displayGraphDepComps={true}
+      />
+    )
 
     // const currentAuctionActivityContent = lastNounId && (
     // );
@@ -138,24 +112,24 @@ const Auction: React.FC<{ auction: IAuction; auctionPath: String; bgColorHandler
   };
 export default Auction;
 
-const checkIfNounBurned = (auction: IAuction) => {
-  if (!auction) return true;
+// const checkIfNounBurned = (auction: IAuction) => {
+//   if (!auction) return true;
 
-  const auctionEnded = Number(auction.endTime) - Math.floor(Date.now() / 1000) <= 0;
+//   const auctionEnded = Number(auction.endTime) - Math.floor(Date.now() / 1000) <= 0;
 
-  // if nounders noun, noun was not burned, so render normally
-  if (isNounderNoun(BigNumber.from(auction.nounId))) return false;
+//   // if nounders noun, noun was not burned, so render normally
+//   if (isNounderNoun(BigNumber.from(auction.nounId))) return false;
 
-  if (
-    !auction ||
-    !auction.nounId ||
-    (!auction.bidder && auctionEnded) ||
-    (auction.bidder &&
-      auction.bidder === '0x0000000000000000000000000000000000000000' &&
-      auctionEnded)
-  ) {
-    return true;
-  } else {
-    return false;
-  }
-};
+//   if (
+//     !auction ||
+//     !auction.nounId ||
+//     (!auction.bidder && auctionEnded) ||
+//     (auction.bidder &&
+//       auction.bidder === '0x0000000000000000000000000000000000000000' &&
+//       auctionEnded)
+//   ) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// };

@@ -40,7 +40,7 @@ const VaultAuctionPage: React.FC<AuctionPageProps> = props => {
       // handle out of bounds noun path ids
       if (initialAuctionId > lastAuctionNounId || initialAuctionId < 0) {
         dispatch(setOnDisplayAuctionNounId({
-          id: 'partynoun',
+          id: 'noun',
           value: lastAuctionNounId
         }));
 
@@ -50,7 +50,7 @@ const VaultAuctionPage: React.FC<AuctionPageProps> = props => {
         if (onDisplayAuction === undefined) {
           // handle regular noun path ids on first load
           dispatch(setOnDisplayAuctionNounId({
-            id: 'partynoun',
+            id: 'noun',
             value: initialAuctionId
           }));
         }
@@ -59,7 +59,7 @@ const VaultAuctionPage: React.FC<AuctionPageProps> = props => {
       // no noun path id set
       if (lastAuctionNounId) {
         dispatch(setOnDisplayAuctionNounId({
-          id: 'partynoun',
+          id: 'noun',
           value: lastAuctionNounId
         }));
       }
