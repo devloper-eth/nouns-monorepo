@@ -13,7 +13,7 @@ import PartyVault from '../PartyVault';
 import AuctionNavigation from '../AuctionNavigation';
 import stampLogo from '../../assets/nouns_stamp.svg';
 import AuctionActivityDateHeadline from '../AuctionActivityDateHeadline';
-import AuctionStatus from '../AuctionStatus';
+import VaultAuctionStatus from '../VaultAuctionStatus';
 import {
   useFracTokenVaults,
   useNounsPartyClaimsCount,
@@ -95,7 +95,7 @@ const VaultAuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActi
 
   return (
     <Col lg={{ span: 6 }} className={classes.currentAuctionActivityContainer}>
-      <AuctionStatus auction={auction} noundersNoun={isNounderNoun(auction.nounId)} />
+      <VaultAuctionStatus auction={auction} noundersNoun={isNounderNoun(auction.nounId)} />
       {showSettleAuctionModal && auction && (
         <SettleAuctionModal
           hideSettleAuctionHandler={hideSettleAuctionHandler}
@@ -169,21 +169,6 @@ const VaultAuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActi
           {!isNounderNoun(auction.nounId) && (
             <Row className={`${classes.auctionActivityContainer} justify-content-center`}>
               {auctionEnded ? (
-                <Col xs={12} lg={5} className="align-self-center">
-                  <CurrentBid
-                    currentBid={new BigNumber(auction.amount.toString())}
-                    auctionEnded={auctionEnded}
-                    auction={auction}
-                  />
-                </Col>
-              ) : (
-                <Col xs={6} className="align-self-center">
-                  <PartyVault auction={auction} />
-                </Col>
-              )}
-
-              { /* TODO: Logic is duplicate of above? Huh? */}
-              {auctionEnded ? (
                 <Col xs={12} lg={7}>
                   <Winner winner={auction.bidder} auction={auction} />
                 </Col>
@@ -194,6 +179,20 @@ const VaultAuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActi
                     auctionEnded={auctionEnded}
                     auction={auction}
                   />
+                </Col>
+              )}
+
+              {auctionEnded ? (
+                <Col xs={12} lg={5} className="align-self-center">
+                  <CurrentBid
+                    currentBid={new BigNumber(auction.amount.toString())}
+                    auctionEnded={auctionEnded}
+                    auction={auction}
+                  />
+                </Col>
+              ) : (
+                <Col xs={6} className="align-self-center">
+                  <PartyVault auction={auction} />
                 </Col>
               )}
             </Row>
@@ -214,7 +213,7 @@ const VaultAuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActi
             </>
           )}
 
-          {fracVault && currentClaimsCount > 0 && (
+          {/* {fracVault && currentClaimsCount > 0 && (
             <>
               <Row>
                 <Col className={classes.fracVaultContainer}>
@@ -224,9 +223,9 @@ const VaultAuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActi
                 </Col>
               </Row>
             </>
-          )}
+          )} */}
 
-          {fracVault && (
+          {/* {fracVault && (
             <>
               <Row>
                 <Col className={classes.fracVaultContainer}>
@@ -243,7 +242,7 @@ const VaultAuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActi
                 </Col>
               </Row>
             </>
-          )}
+          )} */}
 
           {isLastAuction && (
             <>

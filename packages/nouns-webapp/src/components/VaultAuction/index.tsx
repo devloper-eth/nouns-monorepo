@@ -101,7 +101,7 @@ const VaultAuction: React.FC<{ auction: IAuction; bgColorHandler: (useGrey: bool
     return (
       <Container ref={confettiContainerRef} fluid>
         <Container fluid="lg" className={classes.pageContentWrapper}>
-          <UpdatedConfetti width={confettiSize.width} height={confettiSize.height} />
+          {/* <UpdatedConfetti width={confettiSize.width} height={confettiSize.height} /> */}
           <Row>
             <Col lg={{ span: 6 }} className={`align-self-end ${classes.noPaddingMargin}`}>
               {currentAuction ? nounContent : loadingNoun}

@@ -8,8 +8,10 @@
   height: 3rem;
   color: white;
   border: transparent;
-  background-color: var(--brand-black);
+  /* background-color: var(--brand-black); */
   font-weight: bold;
+  border-radius: 24px;
+  background: linear-gradient(90.72deg, #00ffa3 -33.78%, #57cdff 35.54%, #f68eff 118.48%);
 }
 
 .bidBtn:hover,
@@ -36,6 +38,8 @@
   font-weight: bold;
   outline: none !important;
   box-shadow: none !important;
+  text-align: center;
+  font-size: 1.3em;
 }
 .bidInput:focus {
   border: none !important;
@@ -43,8 +47,9 @@
 }
 .customPlaceholder {
   position: absolute;
-  top: 25%;
-  left: 85%;
+  top: 19%;
+  left: 38%;
+  font-size: 1.3em;
   font-weight: bold;
   color: #aaa;
   z-index: 3;

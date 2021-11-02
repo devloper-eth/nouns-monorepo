@@ -160,10 +160,10 @@ h4 {
   /* background: -webkit-linear-gradient(10deg, #00ffa3 -22%, #57cdff 45%, #f68eff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent; */
-  font-size: 3em;
+  font-size: 2.5em;
   padding: 0px;
   margin: 0px 0px 0px 0px;
-  white-space: nowrap;
+  /* white-space: nowrap; */
   color: #212529;
 }
 
@@ -234,6 +234,8 @@ h4 {
 
 .dateContainer {
   display: flex;
+  margin-top: 12px;
+  margin-left: -20px;
 }
 
 .noPaddingMargin {
@@ -242,8 +244,16 @@ h4 {
 }
 
 .auctionTimerContainer {
-  margin: 0px 10px 10px 10px;
-  padding-left: 15px;
+  margin: 0px 0px 10px -10px;
+  padding-left: 5px;
+}
+
+.auctionTimerContainer p {
+  font-size: 1.125rem !important;
+}
+
+.auctionTimerContainer h3 {
+  font-size: 2.25rem !important;
 }
 
 .currentAuctionActivityContainer {
@@ -298,4 +308,13 @@ h4 {
 
 .settleAuctionRow {
   margin: 0px 10px 0px 10px;
+}
+
+.bidContainer {
+  margin: 10px 20px;
+}
+
+
+.bidHistoryContainer {
+  margin: 30px 20px;
 }

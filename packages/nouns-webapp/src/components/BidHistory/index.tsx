@@ -51,21 +51,7 @@ const bidItem = (bid: Bid, index: number, classes: any) => {
 const BidHistory: React.FC<{ auctionId: string; max: number; classes?: any }> = props => {
   const { auctionId, max, classes = _classes } = props;
 
-  // // dummy bids for initial design placeholders
-  // const bids = Array(3).fill({
-  //   amount: new BigNumber(5).plus(97).minus(53).plus(434),
-  //   bidder: {
-  //     id: '0x969E52e0b130899ca2d601bd5366c33f1bf6e393',
-  //   },
-  //   blockNumber: 32734753,
-  //   blockTimestamp: 32734753,
-  //   id: '0x969E52e0b130899ca2d601bd5366c33f1bf6e393',
-  //   noun: {
-  //     id: 21,
-  //   },
-  // })
-
-  const bids = useAuctionBids(EthersBN.from(auctionId), 'noun');
+  const bids = useAuctionBids(EthersBN.from(auctionId), 'partynoun');
   const bidContent =
     bids &&
     bids
