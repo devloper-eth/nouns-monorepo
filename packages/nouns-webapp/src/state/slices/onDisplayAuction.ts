@@ -3,7 +3,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface OnDisplayAuctions {
    auctions: Map<string, OnDisplayAuctionState>;
-   partyAuctions: Map<string, OnDisplayAuctionState>;
 }
 
 interface OnDisplayAuctionState {
@@ -13,7 +12,6 @@ interface OnDisplayAuctionState {
 
 const initialState: OnDisplayAuctions = {
   auctions: new Map<string, OnDisplayAuctionState>(),
-  partyAuctions: new Map<string, OnDisplayAuctionState>()
 };
 
 export interface Keyed<T> {
@@ -22,8 +20,7 @@ export interface Keyed<T> {
 }
 
 export const upsertOnDisplayByKey = (state: OnDisplayAuctions, id: string): OnDisplayAuctionState => {
-  const st = id === "partynouns" ? state.partyAuctions : state.auctions;
-  let s = st.get(id)
+  let s = state.auctions.get(id)
   if(s) {
     return s
   }
@@ -31,13 +28,12 @@ export const upsertOnDisplayByKey = (state: OnDisplayAuctions, id: string): OnDi
     lastAuctionNounId: undefined,
     onDisplayAuctionNounId: undefined,
   }
-  st.set(id, j)
+  state.auctions.set(id, j)
   return j
 };
 
 export const getOnDisplayByKey = (state: OnDisplayAuctions, id: string): OnDisplayAuctionState | undefined => {
-  const st = id === "partynouns" ? state.partyAuctions : state.auctions;
-  return st.get(id)
+  return state.auctions.get(id)
 };
 
 const onDisplayAuctions = createSlice({

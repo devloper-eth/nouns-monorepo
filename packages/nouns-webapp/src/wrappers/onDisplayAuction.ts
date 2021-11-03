@@ -57,8 +57,6 @@ const useOnDisplayAuction = (id: string): Auction | undefined => {
     state => getPastAuctionsByKey(state.pastAuctions, id)?.pastAuctions
   );
 
-  console.log(onDisplayAuctionNounId)
-
   if (
     onDisplayAuctionNounId === undefined ||
     lastAuctionNounId === undefined ||

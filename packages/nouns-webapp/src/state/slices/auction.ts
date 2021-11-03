@@ -99,10 +99,8 @@ export const auctionsSlice = createSlice({
       let s = upsertAuctionStateByKey(state, action.payload.id)
       s.activeAuction = reduxSafeNewAuction(action.payload.value);
       s.bids = [];
-      console.log('processed auction create', action.payload.value);
     },
     setFullAuction: (state, action: PayloadAction<Keyed<IAuction>>) => {
-      console.log(`from set full auction: `, action.payload.value);
       let s = upsertAuctionStateByKey(state, action.payload.id)
       s.activeAuction = reduxSafeAuction(action.payload.value);
     },
@@ -115,7 +113,6 @@ export const auctionsSlice = createSlice({
       const maxBid_ = maxBid(s.bids);
       s.activeAuction.amount = BigNumber.from(maxBid_.value).toJSON();
       s.activeAuction.bidder = maxBid_.sender;
-      console.log('processed bid', action.payload.value);
     },
     setAuctionSettled: (state, action: PayloadAction<Keyed<AuctionSettledEvent>>) => {
       let s = upsertAuctionStateByKey(state, action.payload.id)
@@ -124,14 +121,12 @@ export const auctionsSlice = createSlice({
       s.activeAuction.settled = true;
       s.activeAuction.bidder = action.payload.value.winner;
       s.activeAuction.amount = BigNumber.from(action.payload.value.amount).toJSON();
-      console.log('processed auction settled', action.payload.value);
     },
     setAuctionExtended: (state, action: PayloadAction<Keyed<AuctionExtendedEvent>>) => {
       let s = upsertAuctionStateByKey(state, action.payload.id)
 
       if (!(s.activeAuction && auctionsEqual(s.activeAuction, action.payload.value))) return;
       s.activeAuction.endTime = BigNumber.from(action.payload.value.endTime).toJSON();
-      console.log('processed auction extended', action.payload.value);
     },
   },
 });

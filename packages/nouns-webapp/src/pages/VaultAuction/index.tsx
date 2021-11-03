@@ -30,8 +30,6 @@ const VaultAuctionPage: React.FC<AuctionPageProps> = props => {
   const onDisplayAuction = useOnDisplayAuction('noun');
   const lastAuctionNounId = useAppSelector(state => getOnDisplayByKey(state.onDisplayAuction, 'noun')?.lastAuctionNounId);
 
-  console.log(onDisplayAuction)
-
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (!lastAuctionNounId) return;
