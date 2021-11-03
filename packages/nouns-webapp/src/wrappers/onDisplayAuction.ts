@@ -17,8 +17,8 @@ const deserializeAuction = (reduxSafeAuction: Auction): Auction => {
     settled: false,
   };
 
-  if (reduxSafeAuction.partyNounId) {
-    out["partyNounId"] = BigNumber.from(reduxSafeAuction.partyNounId)
+  if (reduxSafeAuction.origNounId) {
+    out["origNounId"] = BigNumber.from(reduxSafeAuction.origNounId)
     out["tokenURI"] = reduxSafeAuction.tokenURI
   }
   return out

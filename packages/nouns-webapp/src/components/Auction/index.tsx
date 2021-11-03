@@ -27,7 +27,7 @@ const Auction: React.FC<{ auction: IAuction; auctionPath: String; bgColorHandler
     const { auction: currentAuction, auctionPath, bgColorHandler } = props;
     const history = useHistory();
     const dispatch = useAppDispatch();
-    const lastNounId = useAppSelector(state => getOnDisplayByKey(state.onDisplayAuction, 'partynoun')?.lastAuctionNounId); // TODO needs to return lastPartyNounId
+    const lastNounId = useAppSelector(state => getOnDisplayByKey(state.onDisplayAuction, 'partynoun')?.lastAuctionNounId);
     const [confettiSize, setConfettiSize] = useState({ height: 0, width: 0 });
     const confettiContainerRef = useRef<HTMLDivElement>(null);
     // const loadedNounHandler = (seed: INounSeed) => {
@@ -45,7 +45,7 @@ const Auction: React.FC<{ auction: IAuction; auctionPath: String; bgColorHandler
 
     const nounContent = (
       <div className={classes.nounWrapper}>
-        <StandalonePartyNoun partyNounId={currentAuction.partyNounId || BigNumber.from(0)} tokenURI={currentAuction.tokenURI || ""} />
+        <StandalonePartyNoun partyNounId={currentAuction.nounId} tokenURI={currentAuction.tokenURI || ""} />
       </div>
     )
 
@@ -58,8 +58,8 @@ const Auction: React.FC<{ auction: IAuction; auctionPath: String; bgColorHandler
     const currentAuctionActivityContent = (
       <AuctionActivity
         auction={currentAuction}
-        isFirstAuction={(currentAuction.partyNounId || BigNumber.from(0)).eq(0)} // TODO
-        isLastAuction={(currentAuction.partyNounId || BigNumber.from(0)).eq(lastNounId || 0)} // TODO lastNounId is wrong
+        isFirstAuction={(currentAuction.nounId).eq(0)} 
+        isLastAuction={(currentAuction.nounId).eq(lastNounId || 0)}
         onPrevAuctionClick={prevAuctionHandler}
         onNextAuctionClick={nextAuctionHandler}
         displayGraphDepComps={true}

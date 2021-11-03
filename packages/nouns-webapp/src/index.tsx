@@ -108,14 +108,14 @@ const Updaters = () => {
 
 const BLOCKS_PER_DAY = 6_500;
 
-const ChainSubscriber: React.FC<{id: string, address: string, abi: any}> = (props) => {
+const ChainSubscriber: React.FC<{ id: string, address: string, abi: any }> = (props) => {
   const { id: id, address: address, abi: abi } = props;
   const dispatch = useAppDispatch();
 
   const loadState = async () => {
     const wsProvider = new WebSocketProvider(config.wsRpcUri);
     const auctionContract = new Contract(
-      address, 
+      address,
       abi,
       wsProvider,
     );
@@ -124,6 +124,7 @@ const ChainSubscriber: React.FC<{id: string, address: string, abi: any}> = (prop
     const extendedFilter = auctionContract.filters.AuctionExtended();
     const createdFilter = auctionContract.filters.AuctionCreated();
     const settledFilter = auctionContract.filters.AuctionSettled();
+
     const processBidFilter = async (
       nounId: BigNumberish,
       sender: string,
@@ -134,21 +135,19 @@ const ChainSubscriber: React.FC<{id: string, address: string, abi: any}> = (prop
       const timestamp = (await event.getBlock()).timestamp;
       const transactionHash = event.transactionHash;
       dispatch(
-        appendBid({id: id, value: reduxSafeBid({ nounId, sender, value, extended, transactionHash, timestamp })}),
+        appendBid({ id: id, value: reduxSafeBid({ nounId, sender, value, extended, transactionHash, timestamp }) }),
       );
     };
+
     const processAuctionCreated = (
       nounId: BigNumberish,
       startTime: BigNumberish,
       endTime: BigNumberish,
     ) => {
-      if(id === "partynoun") {
-        console.log("PartyNoun Auction Created:", nounId) // TODO remove me
-      }
       dispatch(
-        setActiveAuction({id: id, value: reduxSafeNewAuction({ nounId, startTime, endTime, settled: false })}),
+        setActiveAuction({ id: id, value: reduxSafeNewAuction({ nounId, startTime, endTime, settled: false }) }),
       );
-      // TODO: Handle history
+
       const nounIdNumber = BigNumber.from(nounId).toNumber();
       dispatch(push(nounPath(nounIdNumber)));
 
@@ -160,23 +159,37 @@ const ChainSubscriber: React.FC<{id: string, address: string, abi: any}> = (prop
       dispatch(setOnDisplayAuctionNounId(k));
       dispatch(setLastAuctionNounId(k));
     };
+
     const processAuctionExtended = (nounId: BigNumberish, endTime: BigNumberish) => {
-      dispatch(setAuctionExtended({id: id, value: { nounId, endTime }}));
+      dispatch(setAuctionExtended({ id: id, value: { nounId, endTime } }));
     };
+
     const processAuctionSettled = (nounId: BigNumberish, winner: string, amount: BigNumberish) => {
-      dispatch(setAuctionSettled({id: id, value: { nounId, amount, winner }}));
+      dispatch(setAuctionSettled({ id: id, value: { nounId, amount, winner } }));
     };
 
     // Fetch the current auction
     const currentAuction: IAuction = await auctionContract.auction();
-    dispatch(setFullAuction({id: id, value: reduxSafeAuction(currentAuction)}));
+    const x = reduxSafeAuction(currentAuction)
+
+    // Translate between noun and partyNoun auctions
+    if (id === "partynoun") {
+      if (!x.partyNounId) {
+        console.error("missing partyNounId")
+        return
+      }
+      x.origNounId = x.nounId;
+      x.nounId = x.partyNounId;
+    }
+
+    dispatch(setFullAuction({ id: id, value: x }));
     let k: Keyed<number> = {
       id: id,
-      value: currentAuction.nounId.toNumber()
+      value: Number(x.nounId)
     };
     dispatch(setLastAuctionNounId(k));
 
-    // Fetch the previous 24hours of  bids
+    // Fetch the previous 24hours of bids
     const previousBids = await auctionContract.queryFilter(bidFilter, 0 - BLOCKS_PER_DAY);
     for (let event of previousBids) {
       if (event.args === undefined) return;
@@ -201,7 +214,7 @@ const PastAuctions: React.FC<{ id: string; }> = (props) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    data && dispatch(addPastAuctions({id: id, value: data}));
+    data && dispatch(addPastAuctions({ id: id, value: data }));
   }, [data, latestAuctionId, dispatch]);
 
   return <></>;
@@ -219,8 +232,8 @@ ReactDOM.render(
           }
         >
           <ApolloProvider client={client}>
-            <PastAuctions id='partynoun'/> 
-            <PastAuctions id='noun'/>
+            <PastAuctions id='partynoun' />
+            <PastAuctions id='noun' />
             <DAppProvider config={useDappConfig}>
               <App />
               <Updaters />
@@ -236,4 +249,4 @@ ReactDOM.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// reportWebVitals();

@@ -46,8 +46,6 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
   const [auctionTimer, setAuctionTimer] = useState(false);
   // const [showSettleAuctionModal, setShowSettleAuctionModal] = useState(false);
 
-  // const isPartyNounAuction = auction.partyNounId !== undefined;
-
   // // TODO: Rip out?
   // // Settle Auction Modal
   // const showSettleAuctionModalHandler = () => {
@@ -91,7 +89,7 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
           <Row style={{ marginTop: '-5px' }}>
             <Col md={10}>
               <div className={classes.nounIdContainer}>
-                <h1 className={classes.nounIdText}>{`Party Noun ${auction && auction.partyNounId}`}</h1>
+                <h1 className={classes.nounIdText}>{`Party Noun ${auction.nounId}`}</h1>
               </div>
             </Col>
             <Col md={2}>
@@ -155,10 +153,10 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
           )}
 
 
-          {displayGraphDepComps && auction.partyNounId && (
+          {displayGraphDepComps && (
             <div className={classes.bidHistoryContainer}>
               <BidHistory
-                auctionId={auction.partyNounId.toString()}
+                auctionId={auction.nounId.toString()}
                 max={3}
                 classes={bidHistoryClasses}
               />
