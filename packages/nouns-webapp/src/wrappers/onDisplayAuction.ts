@@ -65,6 +65,7 @@ const useOnDisplayAuction = (id: string): Auction | undefined => {
   )
     return undefined;
 
+
   // current auction
   if (BigNumber.from(onDisplayAuctionNounId).eq(lastAuctionNounId)) {
     return deserializeAuction(currentAuction);

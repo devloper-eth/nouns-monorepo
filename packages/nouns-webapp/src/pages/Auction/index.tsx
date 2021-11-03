@@ -11,9 +11,6 @@ import Documentation from '../../components/Documentation';
 import Banner from '../../components/Banner';
 import HistoryCollection from '../../components/HistoryCollection';
 import { BigNumber } from 'ethers';
-/* Currently unused packages flagged for removal */
-// import config from '../../config';
-// import { useAuction } from '../../wrappers/nounsAuction';
 
 interface AuctionPageProps {
   id?: string;
@@ -41,7 +38,6 @@ const AuctionPage: React.FC<AuctionPageProps> = props => {
           value: lastAuctionNounId
         }));
 
-        // TODO: Fix path
         dispatch(push(nounPath(lastAuctionNounId)));
       } else {
         if (onDisplayAuction === undefined) {

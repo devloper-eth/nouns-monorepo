@@ -35,11 +35,11 @@ const Auction: React.FC<{ auction: IAuction; auctionPath: String; bgColorHandler
     // };
 
     const prevAuctionHandler = () => {
-      dispatch(setPrevOnDisplayAuctionNounId('noun'));
+      dispatch(setPrevOnDisplayAuctionNounId('partynoun'));
       history.push(`/party-noun/${currentAuction.nounId.toNumber() - 1}`);
     };
     const nextAuctionHandler = () => {
-      dispatch(setNextOnDisplayAuctionNounId('noun'));
+      dispatch(setNextOnDisplayAuctionNounId('partynoun'));
       history.push(`/party-noun/${currentAuction.nounId.toNumber() + 1}`);
     };
 

@@ -211,7 +211,7 @@ const ChainSubscriber: React.FC<{ id: string, address: string, abi: any }> = (pr
 const PastAuctions: React.FC<{ id: string; }> = (props) => {
   const { id: id } = props
   const latestAuctionId = useAppSelector(state => getOnDisplayByKey(state.onDisplayAuction, id)?.lastAuctionNounId);
-  const { data } = useQuery(latestAuctionsQuery(latestAuctionId));
+  const { data } = useQuery(latestAuctionsQuery(latestAuctionId)); // TODO publish our own data to the graph
   const dispatch = useAppDispatch();
 
   useEffect(() => {
