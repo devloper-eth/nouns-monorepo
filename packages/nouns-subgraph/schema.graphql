@@ -29,9 +29,20 @@ type Noun @entity {
   owner: Account!
 }
 
+type PartyNoun @entity {
+  "ID"
+  id: ID!
+
+  "OWNER"
+  owner: Account!
+}
+
 type Bid @entity {
   "Bid transaction hash"
   id: ID!
+
+  "partynoun"
+  partyNoun: PartyNoun!
 
   "The Noun being bid on"
   noun: Noun!
@@ -61,6 +72,9 @@ type Auction @entity {
 
   "The Noun"
   noun: Noun!
+
+  "partynoun" 
+  partyNoun: PartyNoun!
 
   "The current highest bid amount"
   amount: BigInt!
