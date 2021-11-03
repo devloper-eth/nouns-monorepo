@@ -185,8 +185,9 @@ const ChainSubscriber: React.FC<{ id: string, address: string, abi: any }> = (pr
     dispatch(setFullAuction({ id: id, value: x }));
     let k: Keyed<number> = {
       id: id,
-      value: Number(x.nounId)
+      value: BigNumber.from(x.nounId).toNumber(),
     };
+
     dispatch(setLastAuctionNounId(k));
 
     // Fetch the previous 24hours of bids

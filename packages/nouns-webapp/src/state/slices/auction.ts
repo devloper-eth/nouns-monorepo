@@ -42,8 +42,8 @@ export const reduxSafeAuction = (auction: IAuction): IAuction => ({
   endTime: BigNumber.from(auction.endTime).toJSON(),
   nounId: BigNumber.from(auction.nounId).toJSON(),
   settled: auction.settled,
-  origNounId: auction.origNounId,
-  partyNounId: auction.partyNounId,
+  origNounId: BigNumber.from(auction.origNounId || BigNumber.from(0)).toJSON(),
+  partyNounId: BigNumber.from(auction.partyNounId || BigNumber.from(0)).toJSON(),
   tokenURI: auction.tokenURI,
 });
 
@@ -64,7 +64,7 @@ const maxBid = (bids: BidEvent[]): BidEvent => {
 
 export const upsertAuctionStateByKey = (state: Auctions, auctionType: string): AuctionState => {
   let s = state.auctions.get(auctionType)
-  if(s) {
+  if (s) {
     return s
   }
   var j = {
