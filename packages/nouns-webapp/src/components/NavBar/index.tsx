@@ -9,12 +9,11 @@ import { utils } from 'ethers';
 import { useAppSelector } from '../../hooks';
 import ShortAddress from '../ShortAddress';
 import { useState } from 'react';
-import { useEthers } from '@usedapp/core';
+import { useEtherBalance, useEthers } from '@usedapp/core';
 import WalletConnectModal from '../WalletConnectModal';
 import WithdrawModal from '../WithdrawModal';
 import ClaimTokensModal from '../ClaimTokensModal';
 import { buildEtherscanAddressLink } from '../../utils/etherscan';
-import { useNounsPartyClaimsCount } from '../../wrappers/nounsParty';
 
 const NavBar = () => {
   const activeAccount = useAppSelector(state => state.account.activeAccount);
@@ -24,11 +23,8 @@ const NavBar = () => {
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [showClaimTokensModal, setShowClaimTokensModal] = useState(false);
 
-  // TODO: Retrieve party vault size
-  const treasuryBalance = 100;
-  const daoEtherscanLink = buildEtherscanAddressLink(config.nounsDaoExecutorAddress);
-
-  const currentClaimsCount = useNounsPartyClaimsCount(activeAccount);
+  const treasuryBalance = useEtherBalance(config.nounsPartyAddress);
+  const daoEtherscanLink = buildEtherscanAddressLink(config.nounsPartyAddress);
 
   // Wallet Connect Modal
   const showModalHandler = () => {
@@ -38,22 +34,15 @@ const NavBar = () => {
     setShowConnectModal(false);
   };
 
-  // Withdraw Modal
-  const showWithdrawModalHandler = () => {
-    setShowWithdrawModal(true);
-  };
-  const hideWithdrawModalHandler = () => {
-    setShowWithdrawModal(false);
-  };
-
   // Claim Tokens Modal
-  const showClaimTokensModalHandler = () => {
-    setShowClaimTokensModal(true);
-  };
+  // TODO we might need this again
+  // const showClaimTokensModalHandler = () => {
+  //   setShowClaimTokensModal(true);
+  // };
 
-  const hideClaimTokensModalHandler = () => {
-    setShowClaimTokensModal(false);
-  };
+  // const hideClaimTokensModalHandler = () => {
+  //   setShowClaimTokensModal(false);
+  // };
 
   const connectedContent = (
     <>
@@ -96,15 +85,12 @@ const NavBar = () => {
       {showConnectModal && activeAccount === undefined && (
         <WalletConnectModal onDismiss={hideModalHandler} />
       )}
-      {showWithdrawModal && activeAccount && (
-        <WithdrawModal hideWithdrawModalHandler={hideWithdrawModalHandler} />
-      )}
-      {showClaimTokensModal && activeAccount && (
+      {/* {showClaimTokensModal && activeAccount && (
         <ClaimTokensModal
           hideClaimTokensModalHandler={hideClaimTokensModalHandler}
           activeAccount={activeAccount}
         />
-      )}
+      )} */}
       <Navbar expand="lg" className={classes.navBarContainer}>
         <Container>
           <Navbar.Brand as={Link} to="/" className={classes.navBarBrand}>

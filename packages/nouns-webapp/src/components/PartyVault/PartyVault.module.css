@@ -1,7 +1,6 @@
 .vaultText {
   font-weight: 700;
   font-size: 1.125rem;
-  text-align: center;
   color: #19eea1;
 }
 
@@ -21,7 +20,6 @@
   font-size: 2.25rem;
   font-weight: 700;
   color: #212529;
-  text-align: center;
 }
 
 @media (max-width: 992px) {

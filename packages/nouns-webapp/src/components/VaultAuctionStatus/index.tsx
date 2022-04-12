@@ -15,7 +15,7 @@ import { Col, Row } from 'react-bootstrap';
 import { useAppSelector } from '../../hooks';
 import { BigNumber } from 'ethers';
 
-const AuctionStatus: React.FC<{
+const VaultAuctionStatus: React.FC<{
   auction: Auction;
   noundersNoun: boolean;
 }> = props => {
@@ -64,11 +64,51 @@ const AuctionStatus: React.FC<{
   }
 
   if (currentAuction) {
-    statusTextTitle = 'Submit a bid to win a Party Noun!';
-    statusText = 'Auction proceeds go to the Party Vault.';
-  } else {
-    statusTextTitle = 'A new auction will start soon.';
-    statusText = `Please come back later.`;
+    let bidder = currentAuction.bidder;
+    if (!auctionEnded) {
+      if (bidder && bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
+        statusTextTitle = `We're winning the auction!`;
+        statusText = ' '; // whitespace needed
+      } else if (vaultSize.eq(0)) {
+        statusTextTitle = 'The vault needs more funds!';
+        statusText = 'Wait for more Party Noun Auctions to finish';
+      } else if (
+        bidAmount.gt(0) &&
+        (!bidder || bidder === '0x0000000000000000000000000000000000000000')
+      ) {
+        statusTextTitle = 'The vault has enough funds!';
+        statusText = 'Submit the very first bid!';
+      } else if (bidAmount.gt(0)) {
+        statusTextTitle = 'The party has been outbid!';
+        statusText = 'Submit a bid!';
+      } else if (
+        bidAmount.eq(0) &&
+        (!bidder || bidder === '0x0000000000000000000000000000000000000000')
+      ) {
+        statusTextTitle = 'The vault needs more funds!';
+        statusText = 'Wait for more Party Noun Auctions to finish';
+      } else {
+        statusTextTitle = 'The party has been outbid!';
+        statusText = 'Wait for more Party Noun Auctions to finish';
+      }
+      // }
+    } else {
+      if (bidder && bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
+        if(!nounStatus) {
+          statusTextTitle = " "; // `Six-Per-Em Space` character to prevent empty line from rendering
+          statusText = " "; // see above
+        } else if (nounStatus === 'won') {
+          statusTextTitle = 'The party won the auction!';
+          statusText = "Join Noun's #nouns-party discord for updates";
+        }
+      } else if (noundersNoun) {
+        statusTextTitle = 'The nounders were rewarded this noun.';
+        statusText = 'No auction occurred.';
+      } else {
+        statusTextTitle = 'The party lost the auction!';
+        statusText = `We'll get it next time.`;
+      }
+    }
   }
 
   return (
@@ -86,4 +126,4 @@ const AuctionStatus: React.FC<{
   );
 };
 
-export default AuctionStatus;
+export default VaultAuctionStatus;

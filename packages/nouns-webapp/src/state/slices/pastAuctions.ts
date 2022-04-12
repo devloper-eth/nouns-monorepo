@@ -37,7 +37,6 @@ export const getPastAuctionsByKey = (state: KeyedPastAuctionsState, id: string):
 };
 
 const reduxSafePastAuctions = (data: any): AuctionState[] => {
-  console.log("Data", data)
   const auctions = data.auctions as any[];
   if (auctions.length < 0) return [];
   const pastAuctions: AuctionState[] = auctions.map(auction => {

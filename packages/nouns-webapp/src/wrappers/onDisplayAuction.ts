@@ -8,7 +8,7 @@ import { getOnDisplayByKey } from '../state/slices/onDisplayAuction'
 import { getPastAuctionsByKey } from '../state/slices/pastAuctions';
 
 const deserializeAuction = (reduxSafeAuction: Auction): Auction => {
-  return {
+  const out:Auction = {
     amount: BigNumber.from(reduxSafeAuction.amount),
     bidder: reduxSafeAuction.bidder,
     startTime: BigNumber.from(reduxSafeAuction.startTime),
@@ -16,6 +16,12 @@ const deserializeAuction = (reduxSafeAuction: Auction): Auction => {
     nounId: BigNumber.from(reduxSafeAuction.nounId),
     settled: false,
   };
+
+  if (reduxSafeAuction.origNounId) {
+    out["origNounId"] = BigNumber.from(reduxSafeAuction.origNounId)
+    out["tokenURI"] = reduxSafeAuction.tokenURI
+  }
+  return out
 };
 
 const deserializeBid = (reduxSafeBid: BidEvent): Bid => {
@@ -58,6 +64,7 @@ const useOnDisplayAuction = (id: string): Auction | undefined => {
     !pastAuctions
   )
     return undefined;
+
 
   // current auction
   if (BigNumber.from(onDisplayAuctionNounId).eq(lastAuctionNounId)) {

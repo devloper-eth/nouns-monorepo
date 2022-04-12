@@ -20,8 +20,9 @@ export interface Auction {
   bidder: string;
   endTime: EthersBN;
   startTime: EthersBN;
-  nounId: EthersBN;
-  partyNounId?: EthersBN; // from PartyAuctionHouse
+  nounId: EthersBN; // can be either nouns' nounId or nounsparty's partyNounId
+  origNounId?: EthersBN; // if nounId is nounsparty's partyNounId, then origNounId will be nouns' nounId
+  partyNounId?: EthersBN; // only needed for interface
   settled: boolean;
   tokenURI?: string; // from PartyAuctionHouse
 }

@@ -11,9 +11,6 @@ import Documentation from '../../components/Documentation';
 import Banner from '../../components/Banner';
 import HistoryCollection from '../../components/HistoryCollection';
 import { BigNumber } from 'ethers';
-/* Currently unused packages flagged for removal */
-// import config from '../../config';
-// import { useAuction } from '../../wrappers/nounsAuction';
 
 interface AuctionPageProps {
   id?: string;
@@ -24,7 +21,7 @@ interface AuctionPageProps {
 // - Update to handle different states depending on the properties.
 // - Arguably this useEffect should live elsewhere in the page root?
 const AuctionPage: React.FC<AuctionPageProps> = props => {
-  const { id = "noun", initialAuctionId } = props; // defaults to noun
+  const { id = "partynoun", initialAuctionId } = props; 
 
   const onDisplayAuction = useOnDisplayAuction(id);
   const lastAuctionNounId = useAppSelector(state => getOnDisplayByKey(state.onDisplayAuction, id)?.lastAuctionNounId);
@@ -41,7 +38,6 @@ const AuctionPage: React.FC<AuctionPageProps> = props => {
           value: lastAuctionNounId
         }));
 
-        // TODO: Fix path
         dispatch(push(nounPath(lastAuctionNounId)));
       } else {
         if (onDisplayAuction === undefined) {
@@ -63,7 +59,6 @@ const AuctionPage: React.FC<AuctionPageProps> = props => {
     }
   }, [lastAuctionNounId, dispatch, initialAuctionId, onDisplayAuction]);
 
-  console.log(onDisplayAuction)
   return (
     <>
       <SocialCursorCollection />

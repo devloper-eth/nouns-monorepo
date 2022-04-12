@@ -5,6 +5,7 @@ import { useNounsPartyCurrentBidAmount, useNounsPartyCurrentNounId, useNounsPart
 import { formatEther } from '@ethersproject/units';
 import { BigNumber as EthersBN } from 'ethers';
 import config from '../../config';
+import { useEtherBalance } from '@usedapp/core';
 
 const PartyVault: React.FC<{ auction: Auction }> = props => {
   const { auction } = props;
@@ -14,7 +15,7 @@ const PartyVault: React.FC<{ auction: Auction }> = props => {
   const nounsPartyCurrentNounId = useNounsPartyCurrentNounId();
   const nounsPartyPreviousNounStatus = useNounsPartyNounStatus(EthersBN.from(nounsPartyCurrentNounId));
 
-  let vaultSize = depositBalance;
+  let vaultSize = useEtherBalance(config.nounsPartyAddress) || 0;
   if (auction.bidder.toLowerCase() === config.nounsPartyAddress.toLowerCase()) {
     vaultSize = depositBalance.sub(auctionBid);
   } else if (nounsPartyPreviousNounStatus === "won") {

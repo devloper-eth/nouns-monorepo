@@ -1,0 +1,82 @@
+.statusIndicator {
+  text-align: center;
+  background: white;
+  border-radius: 50px;
+  align-items: center;
+  font-size: 16px;
+  padding: 4px 20px;
+  display: inline-block;
+  color: #fd5858;
+  /* box-shadow: 0px 0px 4px rgb(150 150 150 / 60%); */
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+.failStatus {
+  color: #fd5858;
+}
+
+.successStatus {
+  background: -webkit-linear-gradient(10deg, #00ffa3 -22%, #57cdff 45%, #f68eff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-color: white;
+  font-weight: bold;
+}
+
+.statusText {
+  font-size: 1.125rem;
+  padding: 0px 0px 0px 10px;
+  color: #afb3b7;
+  font-weight: 500;
+  margin-bottom: 0px;
+  line-height: 22px;
+}
+
+.statusTextTitle {
+  font-size: 1.25rem;
+  padding: 0px 0px 0px 10px;
+  margin: 0px;
+  color: #212529;
+  font-weight: 700;
+  margin-bottom: 0px;
+  line-height: 22px;
+}
+
+.statusRow {
+  padding: 12px;
+  border-radius: 20px;
+  margin: 0px 0px 20px 0px;
+  background: #ffffff85;
+}
+
+.rectangle {
+  position: absolute;
+  width: 6px;
+  height: 100%;
+  top: 0px;
+  left: 5px;
+  background: linear-gradient(360deg, #00ffa3 0%, #57cdff 49.53%, #f68eff 100%);
+  border-radius: 4px;
+}
+
+@media (max-width: 993px) {
+  .statusText {
+    font-size: 1rem;
+    padding: 0px 0px 0px 10px;
+    color: #afb3b7;
+    font-weight: 500;
+    margin-bottom: 0px;
+    line-height: 22px;
+  }
+
+  .statusTextTitle {
+    font-size: 1.125rem;
+    padding: 0px 0px 0px 10px;
+    margin: 0px;
+    color: #212529;
+    font-weight: 700;
+    margin-bottom: 0px;
+    line-height: 22px;
+  }
+}

@@ -10,15 +10,17 @@ import AuctionNavigation from '../AuctionNavigation';
 import stampLogo from '../../assets/nouns_stamp.svg';
 import AuctionActivityDateHeadline from '../AuctionActivityDateHeadline';
 import AuctionStatus from '../AuctionStatus';
+import bidHistoryClasses from './BidHistory.module.css';
 import {
   useNounsPartyNounStatus,
 } from '../../wrappers/nounsParty';
-import { isNounderNoun } from '../../utils/nounderNoun';
-import SettleAuctionModal from '../SettleAuction';
-import ClaimTokensModal from '../ClaimTokensModal';
+// import { isNounderNoun } from '../../utils/nounderNoun';
+// import SettleAuctionModal from '../SettleAuction';
+// import ClaimTokensModal from '../ClaimTokensModal';
 
 import Bid from '../Bid';
 import { useAppSelector } from '../../hooks';
+import BidHistory from '../BidHistory';
 
 interface AuctionActivityProps {
   auction: Auction;
@@ -39,19 +41,19 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
     displayGraphDepComps,
   } = props;
 
-  const activeAccount = useAppSelector(state => state.account.activeAccount);
+  // const activeAccount = useAppSelector(state => state.account.activeAccount);
   const [auctionEnded, setAuctionEnded] = useState(false);
   const [auctionTimer, setAuctionTimer] = useState(false);
-  const [showSettleAuctionModal, setShowSettleAuctionModal] = useState(false);
+  // const [showSettleAuctionModal, setShowSettleAuctionModal] = useState(false);
 
-  // TODO: Rip out?
-  // Settle Auction Modal
-  const showSettleAuctionModalHandler = () => {
-    setShowSettleAuctionModal(true);
-  };
-  const hideSettleAuctionHandler = () => {
-    setShowSettleAuctionModal(false);
-  };
+  // // TODO: Rip out?
+  // // Settle Auction Modal
+  // const showSettleAuctionModalHandler = () => {
+  //   setShowSettleAuctionModal(true);
+  // };
+  // const hideSettleAuctionHandler = () => {
+  //   setShowSettleAuctionModal(false);
+  // };
 
   useEffect(() => {
     if (!auction) return;
@@ -73,29 +75,25 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
   }, [auctionTimer, auction]);
 
   // TODO: Rip out?
-  const nounStatus = useNounsPartyNounStatus(auction.nounId);
+  // const nounStatus = useNounsPartyNounStatus(auction.nounId);
 
   if (!auction) return null;
 
   return (
     <Col lg={{ span: 6 }} className={classes.currentAuctionActivityContainer}>
-
-      { /* TODO: Rip out? */ }
-      {showSettleAuctionModal && auction && (
-        <SettleAuctionModal
-          hideSettleAuctionHandler={hideSettleAuctionHandler}
-          auction={auction}
-        />
-      )}
-
+      <AuctionStatus auction={auction} noundersNoun={false} />
       <div className={classes.floatingPaper}>
         <div className={classes.paperWrapper}>
           <img src={stampLogo} className={classes.nounsPartyStamp} alt="Nouns party logo" />
 
-          <Row>
-            <Col xs={12} md={6}>
+          <Row style={{ marginTop: '-5px' }}>
+            <Col md={10}>
+              <div className={classes.nounIdContainer}>
+                <h1 className={classes.nounIdText}>{`Party Noun ${auction.nounId}`}</h1>
+              </div>
+            </Col>
+            <Col md={2}>
               <div className={classes.dateContainer}>
-                <AuctionActivityDateHeadline startTime={auction.startTime} />
                 {displayGraphDepComps && (
                   <AuctionNavigation
                     isFirstAuction={isFirstAuction}
@@ -106,22 +104,9 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
                 )}
               </div>
             </Col>
-            <Col xs={12} md={6} className="align-self-end"></Col>
-          </Row>
-          <Row style={{ marginTop: '-10px' }}>
-            <Col xs={12} md={6}>
-              <div className={classes.nounIdContainer}>
-                <h1 className={classes.nounIdText}>{`Noun ${auction && auction.nounId}`}</h1>
-              </div>
-            </Col>
-            <Col xs={12} md={6}>
-              <div className={classes.auctionTimerContainer}>
-                {!auctionEnded && <AuctionTimer auction={auction} auctionEnded={auctionEnded} />}
-              </div>
-            </Col>
           </Row>
 
-          {auction.nounId && isNounderNoun(auction.nounId) && (
+          {auctionEnded ? (
             <Row className={classes.auctionActivityContainer}>
               <Col lg={5}>
                 <Row>
@@ -138,69 +123,46 @@ const AuctionActivity: React.FC<AuctionActivityProps> = (props: AuctionActivityP
                 </Row>
               </Col>
               <Col lg={7}>
-                <Winner winner={'nounders.eth'} auction={auction} />
+                <Winner winner={auction.bidder} auction={auction} />
+              </Col>
+            </Row>
+          ) : (
+            <Row className={classes.auctionActivityContainer}>
+              <Col xs={12} md={6} className="">
+                <CurrentBid
+                  currentBid={new BigNumber(auction.amount.toString())}
+                  auctionEnded={auctionEnded}
+                  auction={auction}
+                />
+              </Col>
+              <Col xs={12} md={6}>
+                <div className={classes.auctionTimerContainer}>
+                  {!auctionEnded && <AuctionTimer auction={auction} auctionEnded={auctionEnded} />}
+                </div>
               </Col>
             </Row>
           )}
 
-          {!isNounderNoun(auction.nounId) && (
-            <Row className={`${classes.auctionActivityContainer} justify-content-center`}>
-              {auctionEnded ? (
-                <Col xs={12} lg={5} className="align-self-center">
-                  <CurrentBid
-                    currentBid={new BigNumber(auction.amount.toString())}
-                    auctionEnded={auctionEnded}
-                    auction={auction}
-                  />
-                </Col>
-              ) : (
-                <Col xs={6} className="align-self-center">
-                  {/* What scenario renders this */ }
-                </Col>
-              )}
-
-              { /* TODO: Logic is duplicate of above? Huh? */}
-              {auctionEnded ? (
-                <Col xs={12} lg={7}>
-                  <Winner winner={auction.bidder} auction={auction} />
-                </Col>
-              ) : (
-                <Col xs={6}>
-                  <CurrentBid
-                    currentBid={new BigNumber(auction.amount.toString())}
-                    auctionEnded={auctionEnded}
-                    auction={auction}
-                  />
-                </Col>
-              )}
-            </Row>
-          )}
-
-          {nounStatus === 'won' && (
-            <>
-              <Row className={`${classes.settleAuctionRow} justify-content-center`}>
-                <Col>
-                  <button
-                    onClick={() => showSettleAuctionModalHandler()}
-                    className={classes.settleAuctionButton}
-                  >
-                    Settle Auction
-                  </button>
-                </Col>
-              </Row>
-            </>
-          )}
-
-
-          {/* TODO: Re-add list of bidders */}
-          {isLastAuction && (
-            <>
+          {!auctionEnded && (
+            <div className={classes.bidContainer}>
               <Bid
                 auction={auction}
                 auctionEnded={auctionEnded}
               />
-            </>
+            </div>
           )}
+
+
+          {displayGraphDepComps && (
+            <div className={classes.bidHistoryContainer}>
+              <BidHistory
+                auctionId={auction.nounId.toString()}
+                max={3}
+                classes={bidHistoryClasses}
+              />
+            </div>
+          )}
+
         </div>
       </div>
     </Col>
